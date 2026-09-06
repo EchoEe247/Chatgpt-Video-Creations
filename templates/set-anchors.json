@@ -1,6 +1,15 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
+  "validation_status": "example_unvalidated",
   "set": "example-lab",
+  "canvas": {
+    "width": 1280,
+    "height": 720,
+    "origin": "top-left",
+    "x_axis": "right",
+    "y_axis": "down",
+    "units": "px"
+  },
   "floor_y": 438,
   "anchors": {
     "vex_start": {"x": 230, "floor_y": 438},
@@ -11,5 +20,6 @@
     "outer_radius": 120,
     "inner_radius": 94,
     "orientation_degrees": 0
-  }
+  },
+  "evidence": "Synthetic structural fixture only. Values are not a validated production layout."
 }

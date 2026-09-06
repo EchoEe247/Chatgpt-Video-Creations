@@ -8,7 +8,7 @@ For Angel-owned project communication, use `EchoEe247/Chatgpt-Angel-wording-refi
 
 Keep the boundary clear:
 
-- this repository defines what `Chatgpt-Video-Creations` is, how production works, its accepted baselines, creative rules, QA gates, and project state;
+- this repository defines what `Chatgpt-Video-Creations` is, how production works, its accepted capability baselines, validated baselines, creative rules, QA gates, and project state;
 - `Chatgpt-Angel-wording-refinement` defines how Angel-owned documentation, GitHub communication, marketing copy, captions, announcements, project explanations, and other project-facing wording should be refined.
 
 For routine work, load that repository's `prompts/SESSION_BOOTSTRAP.md`. For important or ambiguous wording, also use its full system spec, the relevant context profile, and meaning-preservation rules.
@@ -21,7 +21,44 @@ Project truth always outranks wording style.
 
 ## Existing production authority
 
-The main thing to understand first is that this repo already has accepted production baselines. Do not spend a new session proving that professional motion graphics, rigged 2D animation, or stylized real-3D animation are possible. That work has already been done. Start from the accepted baseline, use the relevant workflow, and improve it when the production actually benefits.
+This repo already has accepted production capability baselines. Do not spend a new session proving that professional motion graphics, rigged 2D animation, stylized real-3D animation, or independent-scene long-form assembly are possible. That work has already been done.
+
+At the same time, do not confuse those qualitative capability baselines with formal B-series validated baselines. A B-series baseline needs exact commit/artifact/conditions and evidence matching the claim. See `baselines/README.md`.
+
+## Maturity model
+
+Use the repository's operating progression:
+
+**experiment → understand → formalize → validate → baseline → operate**
+
+The corresponding work philosophy is:
+
+**think freely → clarify carefully → plan deliberately → build precisely → validate → establish a trusted baseline → automate what is understood → keep checking alignment**
+
+Read `docs/OPERATING_MODEL.md` before making a broad architectural or automation change.
+
+Do not formalize a coordinate, safe zone, scale, timing rule, camera preset, or other constraint merely because it would be convenient to have a number. Formalize what is understood and reusable. Leave unresolved visual/creative choices interactive until evidence is strong enough.
+
+## Agent autonomy
+
+Long local-agent loops are appropriate only when the repository is mature enough for the task.
+
+Before operating autonomously for an extended loop, confirm:
+
+- clear project goal and lane;
+- explicit task scope/non-goals;
+- established architecture for the affected area;
+- useful acceptance criteria;
+- validation that can catch the relevant failures;
+- known-good comparison point when regression risk matters;
+- clear change boundaries;
+- stop/escalation conditions.
+
+Within that scope, use:
+
+**inspect → implement → validate → diagnose → fix → revalidate → review → document receipt → continue**
+
+Stop and keep the work interactive if an unresolved product, architecture, visual, story, character, or marketing decision would otherwise have to be invented. Also stop if a known-good baseline regresses and the cause cannot be explained.
 
 ## What this repository is for
 
@@ -50,11 +87,11 @@ When the project belongs to the OSS Shipping System portfolio:
 
 Do not market a repository merely because it is public.
 
-See `docs/BUSINESS_RELEASE_MARKETING.md`.
+A product release number is not a B-series validated baseline identifier. See `docs/BUSINESS_RELEASE_MARKETING.md` and `baselines/README.md`.
 
 ## Original animation lane
 
-For a new show, do not jump directly into Episode 1. I want the season to have enough direction that the first episode already understands what future episodes may need from it.
+For a new show, do not jump directly into Episode 1. The season needs enough direction that the first episode already understands what later episodes may need from it.
 
 Establish first:
 
@@ -94,11 +131,11 @@ The set should define the geometry and anchors. Then:
 - held props inherit hand anchors;
 - screen content inherits screen bounds;
 - camera shots derive their transforms from the same set/world coordinates;
-- depth and layer order are explicit.
+- depth and layer order are explicit when the shot needs them.
 
 A character floating above the floor, or a portal effect visibly offset from its frame, is a production defect and should be fixed before acceptance.
 
-See `docs/VISUAL_QA_STANDARDS.md`.
+The current structural geometry contract is documented in `docs/SCENE_GEOMETRY.md`. Important: the example coordinates in `templates/set-anchors.json` are synthetic/unvalidated. Do not treat them as production truth just because the validator passes.
 
 ## MP4 QA
 
@@ -115,6 +152,16 @@ At minimum:
 7. fix important visible or audio defects before handoff when feasible.
 
 The final MP4 is the deliverable.
+
+A structural geometry test can prove that two elements share a transform. It cannot prove that the chosen floor or portal measurements are visually correct. Match the validation method to the claim.
+
+## Baseline promotion
+
+Do not create a new B-series baseline simply because a change merged or CI passed.
+
+For a visual baseline, require the exact representative artifact, technical validation, visual review, user review, render conditions, known limitations, and a receipt. Register it under `baselines/registry.json` only after those conditions are satisfied.
+
+When a newer candidate regresses behavior covered by an older baseline, compare against the older known-good state instead of rediscovering the problem from scratch.
 
 ## Originality
 

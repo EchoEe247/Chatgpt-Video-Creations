@@ -1,0 +1,30 @@
+name: Validate baselines
+
+on:
+  push:
+    paths:
+      - 'baselines/**'
+      - 'src/core/baseline_registry.py'
+      - 'scripts/validate-baselines.py'
+      - 'tests/test_baselines.py'
+      - '.github/workflows/validate-baselines.yml'
+  pull_request:
+    paths:
+      - 'baselines/**'
+      - 'src/core/baseline_registry.py'
+      - 'scripts/validate-baselines.py'
+      - 'tests/test_baselines.py'
+      - '.github/workflows/validate-baselines.yml'
+
+jobs:
+  baselines:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Run baseline registry tests
+        run: python -m unittest tests.test_baselines -v
+      - name: Validate baseline registry
+        run: python scripts/validate-baselines.py baselines/registry.json

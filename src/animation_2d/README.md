@@ -1,19 +1,17 @@
 # 2D Animation
 
-Reusable 2D production code is organized around shared scene geometry rather than guessed screen coordinates.
+Reusable 2D production code should be separated into:
 
-Current implementation includes:
+- rigs/character parts and pose logic;
+- sets/canonical floor + object anchors;
+- camera/shot transforms;
+- effects/portal, particles, overlays;
+- renderer/frame generation.
 
-- `src/core/geometry.py` — set geometry, floor anchors, portal geometry, camera transforms, and sprite placement by local anchors;
-- `src/animation_2d/layout.py` — character foot anchoring and portal frame/effect placement derived from one canonical set definition;
-- `tests/test_geometry.py` — regression coverage for floor anchoring, camera transforms, portal alignment, and invalid geometry.
+Hard relationship: character feet and physical-effect sources use shared set anchors. Long-form episodes render richer scenes independently and assemble afterward.
 
-The intended production boundaries remain:
+The current geometry/layout layer is structurally implemented and unit-tested. It now includes explicit canvas metadata, foot-anchor placement, shared camera transforms, and portal energy derived from the physical portal opening.
 
-- rigs / character parts and pose logic;
-- sets / canonical floor + object anchors;
-- camera / shot transforms;
-- effects / portal, particles, overlays;
-- renderer / frame generation.
+Do **not** treat `templates/set-anchors.json` as a validated production layout. Its numbers are synthetic fixtures. The next maturity step is to wire the actual renderer to this layer, measure/refine the real lab geometry from rendered output, and promote those values only after visual + user review.
 
-Hard requirement: character feet and physical-effect sources use shared set anchors. Long-form episodes render richer scenes independently and assemble afterward.
+See `docs/SCENE_GEOMETRY.md` and `docs/OPERATING_MODEL.md`.

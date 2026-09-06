@@ -1,13 +1,29 @@
 # Chatgpt-Video-Creations
 
-This repository is the production system I use for videos created through ChatGPT sessions. The main thing is that I do not want every video request to become another one-off experiment where the capability has to be rediscovered from scratch. Once a production method is proven and accepted, it becomes part of the baseline here and future work should build from it.
+This repository is the production system I use for videos created through ChatGPT sessions. I do not want every video request to become another one-off experiment where the capability has to be rediscovered from scratch. Once a production method is actually understood and accepted, future work should build from it instead of guessing again.
 
 There are two main lanes, and I want them kept separate because they have different goals:
 
 1. **Business / OSS release marketing** — videos that explain and market useful public projects based on the exact release being promoted.
 2. **Original animation production** — original scenes, shows, seasons, and episodes built as an actual production system rather than unrelated generated clips.
 
-The existing professional motion-graphics, 2D, and 3D baselines are the rendering engines underneath both lanes. They are starting points, not ceilings.
+The existing professional motion-graphics, 2D, and 3D capability baselines are the rendering engines underneath both lanes. They are starting points, not ceilings.
+
+## Operating philosophy
+
+The project now follows a maturity model designed to keep experimentation useful without forcing future agents to rediscover solved constraints:
+
+**think freely → clarify carefully → plan deliberately → build precisely → validate → establish a trusted baseline → automate what is understood → keep checking alignment**
+
+And, at the implementation level:
+
+**experiment → understand → formalize → validate → baseline → operate**
+
+The point is not to turn creative work into a rigid geometry exercise. Creative composition, storytelling, acting, hooks, and visual judgment stay flexible where they genuinely need judgment.
+
+What should become less flexible is repeated guesswork around relationships we already understand: release provenance, continuity, scene geometry, anchors, timing, render settings, and other reusable constraints.
+
+See [`docs/OPERATING_MODEL.md`](docs/OPERATING_MODEL.md).
 
 ## Cross-project wording authority
 
@@ -43,15 +59,19 @@ Episodes are produced one at a time. That keeps review focused and makes continu
 
 See [`docs/ANIMATION_SHOW_WORKFLOW.md`](docs/ANIMATION_SHOW_WORKFLOW.md) and [`docs/CONTINUITY_SYSTEM.md`](docs/CONTINUITY_SYSTEM.md).
 
-## Rendering baselines
+## Capability baselines and validated baselines
 
-| Engine | Default use | Baseline |
-| --- | --- | --- |
-| Professional motion graphics | OSS releases, product demos, explainers, ads, business/social content | Strong and practical |
-| 2D animation | Original rigged limited-animation scenes and long-form episodes | Preferred animation baseline |
-| 3D animation | Stylized real-3D scenes with geometry, perspective, lighting, and articulation | Valid, but more constrained than 2D |
+The repository now keeps these concepts separate.
 
-See [`docs/CAPABILITY_BASELINES.md`](docs/CAPABILITY_BASELINES.md).
+**Capability baselines** tell fresh sessions what production methods and quality levels have already been demonstrated well enough that they should not start from zero.
+
+**Validated B-series baselines** are stronger regression/recovery checkpoints tied to an exact commit, exact artifact, conditions, validation scope, and known limitations.
+
+The existing business, 2D, 3D, and long-form references remain capability baselines. They are not being retroactively labeled `B1` because the repository does not yet preserve enough exact artifact provenance for that stronger claim.
+
+The first B-series baseline should come from a newly validated state with durable evidence.
+
+See [`docs/CAPABILITY_BASELINES.md`](docs/CAPABILITY_BASELINES.md) and [`baselines/README.md`](baselines/README.md).
 
 ## Long-form production
 
@@ -76,21 +96,26 @@ Characters, props, effects, and cameras should derive from one shared scene/set 
 
 So if a character is visibly floating above the floor, or a green portal effect is offset from the gray/black portal frame it belongs to, that is not a small cosmetic issue. It is a QA failure that should be fixed before the video is treated as done.
 
-That rule now has reusable code behind it under `src/core/geometry.py` and `src/animation_2d/layout.py`, with regression tests under `tests/test_geometry.py`. The implementation keeps character foot placement and portal frame/effect placement tied to the same canonical set geometry through camera transforms.
+That relationship now has reusable code behind it under `src/core/geometry.py` and `src/animation_2d/layout.py`, with regression tests under `tests/test_geometry.py`.
 
-See [`docs/VISUAL_QA_STANDARDS.md`](docs/VISUAL_QA_STANDARDS.md).
+The important distinction is that the **relationship** is formalized, while the exact production lab measurements are still provisional until they pass an actual corrected render and review. The example numbers under `templates/set-anchors.json` are structural fixtures, not known-good production coordinates.
+
+See [`docs/SCENE_GEOMETRY.md`](docs/SCENE_GEOMETRY.md) and [`docs/VISUAL_QA_STANDARDS.md`](docs/VISUAL_QA_STANDARDS.md).
 
 ## Repository map
 
 - [`AGENTS.md`](AGENTS.md) — operating handoff for fresh ChatGPT/agent sessions.
 - [`docs/VISION.md`](docs/VISION.md) — what this repository is for and why the two production lanes stay separate.
+- [`docs/OPERATING_MODEL.md`](docs/OPERATING_MODEL.md) — discovery → formalization → validation → baseline → operation, including agent autonomy gates.
 - [`docs/PRODUCTION_WORKFLOW.md`](docs/PRODUCTION_WORKFLOW.md) — shared build, render, review, repair, and acceptance flow.
 - [`docs/BUSINESS_RELEASE_MARKETING.md`](docs/BUSINESS_RELEASE_MARKETING.md) — version-grounded OSS/business marketing.
 - [`docs/ANIMATION_SHOW_WORKFLOW.md`](docs/ANIMATION_SHOW_WORKFLOW.md) — show, season, and episode lifecycle.
 - [`docs/CONTINUITY_SYSTEM.md`](docs/CONTINUITY_SYSTEM.md) — accepted canon and episode-to-episode state.
 - [`docs/LONG_FORM_SCENE_ARCHITECTURE.md`](docs/LONG_FORM_SCENE_ARCHITECTURE.md) — independent scene rendering and assembly.
+- [`docs/SCENE_GEOMETRY.md`](docs/SCENE_GEOMETRY.md) — formalized 2D coordinate/anchor relationships and currently provisional measurements.
 - [`docs/VISUAL_QA_STANDARDS.md`](docs/VISUAL_QA_STANDARDS.md) — spatial alignment, composition, acting, and final visual gates.
-- [`docs/CAPABILITY_BASELINES.md`](docs/CAPABILITY_BASELINES.md) — current accepted rendering baselines and limits.
+- [`docs/CAPABILITY_BASELINES.md`](docs/CAPABILITY_BASELINES.md) — accepted production capability baselines and limits.
+- [`baselines/`](baselines/) — formal B-series known-good registry and promotion rules.
 - [`docs/REFERENCE_SAMPLES.md`](docs/REFERENCE_SAMPLES.md) — what earlier production tests proved, failed, or established.
 - [`templates/`](templates/) — business release, show, season, episode, and production starters.
 - [`productions/`](productions/) — expected layout for real production packages.
@@ -104,8 +129,10 @@ For me, the deliverable is the **finished MP4**, not the fact that a script ran 
 
 For serious work the standard is:
 
-**plan → build → render → inspect the actual MP4 → fix visible/audio defects → re-render → validate → user review**
+**inspect → understand → make the precise change → test/render → diagnose failures → fix → retest → review → establish the next trusted state**
 
-That distinction matters because code can succeed while the video is still visibly wrong. Technical success is useful evidence, but the final rendered result is what gets accepted.
+Technical success is useful evidence, but the final rendered result is what gets accepted.
 
 For episodic animation, the episode becomes `DONE ✅` only after both assistant QA and user acceptance pass.
+
+For a formal B-series visual baseline, acceptance goes one step further: preserve the exact artifact, conditions, limitations, and validation receipt so the state is usable later as a real regression reference.

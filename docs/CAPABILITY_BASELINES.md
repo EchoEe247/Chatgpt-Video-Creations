@@ -2,9 +2,21 @@
 
 This file records what the repository can already treat as established production capability.
 
-I keep these baselines so a fresh ChatGPT or agent session does not go backward and start proving the same basic things again. If the request is for a business video, 2D animation, 3D animation, or a longer episode, start from the relevant accepted baseline below and improve it where the real production benefits.
+I keep these baselines so a fresh ChatGPT or agent session does not go backward and start proving the same basic things again. If the request is for a business video, 2D animation, 3D animation, or a longer episode, start from the relevant accepted capability below and improve it where the real production benefits.
 
 These are minimum starting points, not permanent ceilings.
+
+## Capability baseline vs formal validated baseline
+
+The word **baseline** has two related but different uses in this repository.
+
+This document is the **capability baseline** layer: it records methods and quality levels that have already been demonstrated and accepted well enough to guide future work.
+
+The formal B-series registry under `baselines/` is stricter. `B1`, `B2`, and later identifiers require an exact repository commit, exact representative artifact, render/validation conditions, capability claim, known limitations, and validation evidence matching that claim.
+
+Do not retroactively call an older reference video `B1` only because it was useful. The older references predate the durable artifact/provenance capture required for that stronger claim.
+
+See `baselines/README.md`.
 
 ---
 
@@ -46,7 +58,7 @@ This lane was accepted as suitable for real professional work.
 
 The final should feel intentional, readable, and useful. It should not look like a debug visualization that happens to contain marketing text.
 
-For OSS/project marketing, the baseline is also **release/version grounded**. The video should visibly identify the exact release it describes and use verified facts from the project and business release workflow.
+For OSS/project marketing, the capability is also **release/version grounded**. The video should visibly identify the exact release it describes and use verified facts from the project and business release workflow.
 
 See `docs/BUSINESS_RELEASE_MARKETING.md`.
 
@@ -88,7 +100,7 @@ A character should not spend the whole scene as one static cutout being moved or
 
 A good rig is not enough if the character and effects do not belong to the same set.
 
-Hard requirements:
+Hard relationships:
 
 - standing character **feet anchor to the set floor plane**;
 - pose changes preserve that foot/floor anchor unless intentional movement occurs;
@@ -99,7 +111,9 @@ Hard requirements:
 
 Do not create separate guessed coordinate tables for a physical object and the effect that belongs to it.
 
-See `docs/VISUAL_QA_STANDARDS.md`.
+The relationship is established. The exact production measurements still need to be visually validated before being promoted as formal known-good geometry.
+
+See `docs/SCENE_GEOMETRY.md` and `docs/VISUAL_QA_STANDARDS.md`.
 
 ### Current limits
 
@@ -135,7 +149,7 @@ When practical:
 
 ### Quality interpretation
 
-The short 2D V2 remains the **visual and acting quality baseline** to match or exceed inside each scene.
+The short 2D V2 remains the **visual and acting capability baseline** to match or exceed inside each scene.
 
 The long-form two-minute tests established the **production architecture**. They are not permission to lower the animation baseline just because the final runtime is longer.
 
@@ -208,3 +222,5 @@ For every serious production, ask what would make the final MP4 visibly better:
 - Is the result appropriate for the target platform?
 
 Improve where the viewer gets real value from the change. Avoid complexity that only makes the implementation look more sophisticated.
+
+When an improvement reveals a reusable deterministic rule, formalize it after validation. When it is still a subjective visual choice, keep it flexible.

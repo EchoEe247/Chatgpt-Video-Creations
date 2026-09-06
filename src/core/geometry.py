@@ -3,7 +3,6 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Mapping
 
-
 Number = int | float
 
 
@@ -23,6 +22,28 @@ class Size:
 class Circle:
     center: Point
     radius: float
+
+
+@dataclass(frozen=True)
+class Canvas2D:
+    """Declared canvas/coordinate contract for the programmatic 2D lane."""
+
+    width: int
+    height: int
+    origin: str = "top-left"
+    x_axis: str = "right"
+    y_axis: str = "down"
+    units: str = "px"
+
+    def __post_init__(self) -> None:
+        if self.width <= 0 or self.height <= 0:
+            raise ValueError("canvas width/height must be positive")
+        if self.origin != "top-left":
+            raise ValueError("2D canvas origin must be top-left")
+        if self.x_axis != "right" or self.y_axis != "down":
+            raise ValueError("2D canvas axes must be x:right and y:down")
+        if self.units != "px":
+            raise ValueError("2D canvas units must be px")
 
 
 @dataclass(frozen=True)
@@ -94,12 +115,33 @@ class SetGeometry:
     floor_y: float
     anchors: Mapping[str, FloorAnchor]
     portal: PortalGeometry | None = None
+    canvas: Canvas2D | None = None
 
     @classmethod
     def from_mapping(cls, data: Mapping[str, Any]) -> "SetGeometry":
         floor = data.get("floor_y")
         if not isinstance(floor, (int, float)):
             raise ValueError("floor_y missing/non-numeric")
+
+        canvas = None
+        raw_canvas = data.get("canvas")
+        if raw_canvas is not None:
+            if not isinstance(raw_canvas, Mapping):
+                raise ValueError("canvas must be an object")
+            width = raw_canvas.get("width")
+            height = raw_canvas.get("height")
+            if not isinstance(width, int) or isinstance(width, bool):
+                raise ValueError("canvas.width must be an integer")
+            if not isinstance(height, int) or isinstance(height, bool):
+                raise ValueError("canvas.height must be an integer")
+            canvas = Canvas2D(
+                width=width,
+                height=height,
+                origin=str(raw_canvas.get("origin", "top-left")),
+                x_axis=str(raw_canvas.get("x_axis", "right")),
+                y_axis=str(raw_canvas.get("y_axis", "down")),
+                units=str(raw_canvas.get("units", "px")),
+            )
 
         anchors: dict[str, FloorAnchor] = {}
         raw_anchors = data.get("anchors", {})
@@ -143,6 +185,7 @@ class SetGeometry:
             floor_y=float(floor),
             anchors=anchors,
             portal=portal,
+            canvas=canvas,
         )
 
     def anchor(self, name: str) -> FloorAnchor:

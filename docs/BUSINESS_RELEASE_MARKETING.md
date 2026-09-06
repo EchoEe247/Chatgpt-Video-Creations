@@ -30,6 +30,16 @@ Minimum snapshot fields:
 
 This snapshot matters because the video may remain public after the project changes. We should always be able to reconstruct what release facts the marketing was based on.
 
+## Release version is not a validated baseline
+
+A product release such as `v0.1.2` identifies the version being marketed.
+
+A B-series validated baseline such as `B1` identifies an internal known-good production state for this video repository.
+
+They can point to the same production evidence, but they answer different questions. Do not substitute one identifier for the other.
+
+Formal baseline rules live in `baselines/README.md`.
+
 ## Eligibility gate
 
 Public does not automatically mean marketable.
@@ -44,7 +54,7 @@ Before producing release marketing, confirm that:
 - there is meaningful user value worth communicating;
 - known limitations are not being hidden to make the video look stronger.
 
-If those conditions are not there yet, the right move is to fix the product/release state first rather than manufacture marketing around it.
+If those conditions are not there yet, fix the product/release state first rather than manufacture marketing around it.
 
 ## What a release video should communicate
 
@@ -69,7 +79,7 @@ Example:
 
 `Hermes Commerce Control — v0.1.2`
 
-For me, this is important because an evergreen-looking video can become misleading when it demonstrates release-specific behavior without telling the viewer which release they are looking at.
+This matters because an evergreen-looking video can become misleading when it demonstrates release-specific behavior without telling the viewer which release they are looking at.
 
 ## New release workflow
 
@@ -82,6 +92,8 @@ Store the production under:
 `productions/business/<repo>/<release>/`
 
 Do not overwrite the old release package when a new version ships. The old package is historical marketing evidence for what we were showing at that time.
+
+If the production process itself establishes a reusable known-good state worth preserving, promote that separately through the B-series baseline process after the required validation passes.
 
 ## Recommended production package
 
