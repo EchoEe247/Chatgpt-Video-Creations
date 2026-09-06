@@ -1,0 +1,13 @@
+{
+  "schema_version": 2,
+  "validation_status": "candidate_visual_review",
+  "set": "lab-geometry-candidate-001",
+  "canvas": {"width": 1280, "height": 720, "origin": "top-left", "x_axis": "right", "y_axis": "down", "units": "px"},
+  "floor_y": 613,
+  "anchors": {
+    "vex_start": {"x": 338, "floor_y": 613},
+    "milo_start": {"x": 650, "floor_y": 613}
+  },
+  "portal": {"center": [1035, 340], "outer_radius": 165, "inner_radius": 132, "orientation_degrees": 0},
+  "evidence": "Candidate values measured/tuned from the corrected diagnostic composition. Not a validated production baseline until rendered output passes assistant and user review."
+}
