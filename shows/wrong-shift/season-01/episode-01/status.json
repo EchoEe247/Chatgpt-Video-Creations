@@ -8,12 +8,12 @@
   "continuity_updated": false,
   "final_mp4": null,
   "candidate_master": {
-    "filename": "wrong_shift_s01e01_floor_minus_zero.mp4",
-    "sha256": "412d08651a56dcfe72673879120ac7e6a3aeebe911ec4129b46ee5ba6dead17c",
+    "filename": "wrong_shift_s01e01_floor_minus_zero_audio_fixed.mp4",
+    "sha256": "d9a49d5fb1dcdd00565ed60cb2536d375baa5a0ed00efae3ded8cf5cc50329c2",
     "duration_seconds": 480.0,
     "resolution": "1280x720",
     "fps": 24,
-    "audio": "AAC stereo 48 kHz"
+    "audio": "AAC stereo 48 kHz; repaired two-bus long-form mix"
   },
-  "note": "Assistant technical, visual, audio, and continuity review passed. Candidate awaits user review before canon/DONE promotion."
+  "note": "User found repeated audio dropouts beginning around 3 minutes in the first candidate. The root cause was the long-form multi-input audio mix. Audio was rebuilt as separate speech and continuous-bed buses, full-timeline silence QA now passes, and the repaired candidate is back at USER_REVIEW."
 }
