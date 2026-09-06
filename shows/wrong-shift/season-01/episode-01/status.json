@@ -2,10 +2,18 @@
   "schema_version": 1,
   "episode": "S01E01",
   "title": "Floor -0",
-  "status": "IN_PRODUCTION",
-  "assistant_review": "PENDING",
+  "status": "USER_REVIEW",
+  "assistant_review": "PASS",
   "user_review": "PENDING",
   "continuity_updated": false,
   "final_mp4": null,
-  "note": "First candidate canon episode. Prototype scenes are non-canon production evidence."
+  "candidate_master": {
+    "filename": "wrong_shift_s01e01_floor_minus_zero.mp4",
+    "sha256": "412d08651a56dcfe72673879120ac7e6a3aeebe911ec4129b46ee5ba6dead17c",
+    "duration_seconds": 480.0,
+    "resolution": "1280x720",
+    "fps": 24,
+    "audio": "AAC stereo 48 kHz"
+  },
+  "note": "Assistant technical, visual, audio, and continuity review passed. Candidate awaits user review before canon/DONE promotion."
 }
