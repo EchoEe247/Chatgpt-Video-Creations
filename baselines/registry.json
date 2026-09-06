@@ -1,6 +1,57 @@
 {
   "schema_version": 1,
-  "next_id": "B1",
-  "validated_baselines": [],
-  "note": "No formal B-series baseline has been promoted yet. Existing capability references predate durable exact-artifact baseline capture."
+  "next_id": "B2",
+  "validated_baselines": [
+    {
+      "id": "B1",
+      "lane": "2d",
+      "scope": "Accepted 2D geometry/composition Candidate 002: grounded character foot anchors, portal frame/energy alignment, shared camera transforms, stable world-space board text during zoom/pan, and the accepted revised Vex hair silhouette for this reference candidate.",
+      "commit": "de7fe83c900491a84dc671a9e13f7fd186ea9371",
+      "artifacts": [
+        {
+          "ref": "gdrive:1twg27bMliRvF7VGShBvWRGwxo9MDzauP/B1_2d_geometry_candidate_002.mp4",
+          "sha256": "0ba84767a393d55b01717b4a65de0e0c567ec59b7e64a0db0866f6fbbb9f41cf"
+        },
+        {
+          "ref": "gdrive:1Sq8nvC4CZc7KqNr-OhqpwwPb7-5oVGU5/B1_2d_geometry_candidate_002_contact.jpg",
+          "sha256": "02e6cfcfb5d535f8b243f1bda20aaaf345f316feeacb2c9a0c63bd8ba0f088e1"
+        }
+      ],
+      "conditions": {
+        "canvas": "1280x720",
+        "fps": 24,
+        "duration_seconds": 8.0,
+        "video_codec": "H.264",
+        "pixel_format": "yuv420p",
+        "audio": "intentionally_none",
+        "floor_y": 613,
+        "vex_anchor": [338, 613],
+        "milo_anchor": [650, 613],
+        "portal_center": [1035, 340],
+        "portal_outer_radius": 165,
+        "portal_inner_radius": 132
+      },
+      "validated_capabilities": [
+        "Character rig-local foot anchors remain visually grounded on the shared set floor through the tested camera pan/zoom.",
+        "Portal energy remains concentric with and inherits the physical portal inner opening through the tested camera transforms.",
+        "World-space board wording remains visually attached to its board during camera zoom/pan by transforming the board and text as one rendered object.",
+        "The revised Vex hair silhouette was visually accepted for this reference candidate.",
+        "The candidate renders successfully as a 1280x720 24 FPS H.264/yuv420p MP4 under the stated conditions."
+      ],
+      "known_limitations": [
+        "The Vex hair design is accepted for this reference candidate only and is not a universal character-art rule for future shows.",
+        "B1 is an 8-second geometry/composition reference, not a full long-form animation-quality baseline."
+      ],
+      "not_validated": [
+        "Voice, dialogue timing, sound effects, music, and audio mixing; the candidate is intentionally silent.",
+        "Universal character scale ranges, action-safe margins, text-safe margins, full z-order rules, and reusable camera presets.",
+        "Business-video and 3D-animation behavior."
+      ],
+      "technical_validation": "PASS",
+      "visual_validation": "PASS",
+      "user_review": "PASS",
+      "receipt": "receipts/baselines/B1-2d-geometry.md"
+    }
+  ],
+  "note": "B1 is the first formal known-good baseline. It is intentionally scoped to the tested 2D geometry/composition behavior and does not imply that unrelated 2D, audio, business, or 3D capabilities are validated."
 }
