@@ -2,6 +2,25 @@
 
 This file is the operating handoff for fresh ChatGPT or agent sessions working in this repository.
 
+## Angel wording integration
+
+For Angel-owned project communication, use `EchoEe247/Chatgpt-Angel-wording-refinement` as the wording/refinement authority.
+
+Keep the boundary clear:
+
+- this repository defines what `Chatgpt-Video-Creations` is, how production works, its accepted baselines, creative rules, QA gates, and project state;
+- `Chatgpt-Angel-wording-refinement` defines how Angel-owned documentation, GitHub communication, marketing copy, captions, announcements, project explanations, and other project-facing wording should be refined.
+
+For routine work, load that repository's `prompts/SESSION_BOOTSTRAP.md`. For important or ambiguous wording, also use its full system spec, the relevant context profile, and meaning-preservation rules.
+
+Default to Angel-refined, with Angel-professional for serious technical/business material and Angel-direct for casual/social communication.
+
+Do not apply Angel's voice to fictional character dialogue by default. Characters follow their own show/character voice unless a character is intentionally designed around Angel's speaking style. The wording system governs the surrounding Angel-owned project communication.
+
+Project truth always outranks wording style.
+
+## Existing production authority
+
 The main thing to understand first is that this repo already has accepted production baselines. Do not spend a new session proving that professional motion graphics, rigged 2D animation, or stylized real-3D animation are possible. That work has already been done. Start from the accepted baseline, use the relevant workflow, and improve it when the production actually benefits.
 
 ## What this repository is for
