@@ -11,6 +11,7 @@ on:
     paths:
       - 'scripts/**'
       - 'templates/**'
+      - '.github/workflows/validate-production-templates.yml'
 
 jobs:
   validate:
