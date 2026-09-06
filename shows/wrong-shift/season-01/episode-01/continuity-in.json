@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "episode": "S01E01",
+  "accepted_prior_episode_canon": [],
+  "production_evidence_only": [
+    "Wrong Shift Prototype 001",
+    "Wrong Shift Prototype 002 and refinements"
+  ],
+  "starting_character_state": {
+    "Rae": "Veteran night-shift technician; containment-first; unexplained prior incident not yet revealed.",
+    "Owen": "Newer night-shift technician; curious, optimistic, competent; day-shift rejection not yet spoken onscreen."
+  },
+  "starting_mystery_state": "No accepted-canon proof yet that Rae and Owen have performed forgotten future/overwritten repairs."
+}
