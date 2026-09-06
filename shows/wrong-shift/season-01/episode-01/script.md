@@ -1,0 +1,127 @@
+# Wrong Shift S01E01 — Floor -0 — Script
+
+First candidate-canon episode script used for the rendered USER_REVIEW master.
+
+- `0000.9` **OWEN**: New ticket. Residential elevator keeps stopping at floor minus zero.
+- `0005.2` **RAE**: There is no minus zero.
+- `0008.1` **OWEN**: That's what the tenant wrote.
+- `0011.0` **RAE**: Then the tenant has excellent instincts.
+- `0015.0` **OWEN**: Severity says cosmetic.
+- `0018.0` **RAE**: Cosmetic means nobody important has vanished yet.
+- `0023.0` **OWEN**: Do elevators usually invent numbers?
+- `0027.0` **RAE**: Only when they remember something the building forgot.
+- `0033.0` **OWEN**: You say things like that way too casually.
+- `0037.0` **RAE**: Night differential.
+- `0041.0` **OWEN**: Orange tape?
+- `0043.5` **RAE**: Two rolls. Leave the red.
+- `0061.5` **HALE**: It opened at three seventeen. Same hallway, same carpet, no front door.
+- `0068.0` **OWEN**: Did you step out?
+- `0070.7` **HALE**: I'm seventy-two, not stupid.
+- `0074.5` **RAE**: Anything move on the other side?
+- `0078.0` **HALE**: The clock. Backward.
+- `0081.5` **OWEN**: That feels important.
+- `0084.0` **RAE**: Everything feels important before you know what kills you.
+- `0089.0` **HALE**: Property manager said reboot the elevator.
+- `0093.5` **RAE**: Of course they did.
+- `0096.0` **HALE**: I rebooted him.
+- `0100.0` **OWEN**: Can we put that in the ticket?
+- `0103.5` **RAE**: No.
+- `0108.0` **HALE**: If you find my grocery cart down there, bring it back.
+- `0113.0` **RAE**: No promises.
+- `0120.0` **OWEN**: Buttons are normal.
+- `0124.0` **RAE**: Look at the gaps.
+- `0128.0` **OWEN**: Between B and one?
+- `0131.5` **RAE**: Floor indicators are indexes. Something inserted itself between two valid states.
+- `0138.0` **OWEN**: So minus zero is a typo with gravity?
+- `0142.0` **RAE**: Close enough.
+- `0146.0` **OWEN**: There.
+- `0149.0` **RAE**: Don't press it.
+- `0152.0` **OWEN**: I didn't.
+- `0156.0` **OWEN**: It pressed us.
+- `0160.0` **RAE**: Stay behind the threshold.
+- `0164.0` **OWEN**: You first.
+- `0166.5` **RAE**: That was not permission.
+- `0171.5` **OWEN**: Same lobby.
+- `0176.0` **RAE**: Not same. No exit.
+- `0181.0` **OWEN**: Clock says three seventeen.
+- `0184.0` **RAE**: So did the tenant.
+- `0188.0` **OWEN**: Coffee machine says next refill: never.
+- `0192.0` **RAE**: Operationally honest.
+- `0196.0` **OWEN**: RealityCare.
+- `0199.0` **RAE**: That cabinet model was retired before I started.
+- `0204.0` **OWEN**: Then why is your tape on it?
+- `0208.5` **RAE**: Don't touch it.
+- `0212.0` **OWEN**: I wasn't.
+- `0214.5` **OWEN**: Okay. I was considering touching it.
+- `0219.0` **RAE**: Consider quieter.
+- `0224.0` **OWEN**: There's handwriting.
+- `0228.0` **RAE**: Read it from there.
+- `0234.0` **OWEN**: Do not close both doors.
+- `0238.0` **RAE**: That's not current wording.
+- `0242.0` **OWEN**: Techs: Rae and Owen.
+- `0245.5` **RAE**: Put the card down.
+- `0249.0` **OWEN**: Those are our names.
+- `0252.0` **RAE**: I know.
+- `0255.0` **OWEN**: Service date: March sixth. Next year.
+- `0260.0` **RAE**: Put it down, Owen.
+- `0264.0` **OWEN**: My employee number is on it.
+- `0268.0` **RAE**: Mine too.
+- `0272.0` **OWEN**: Have we been here?
+- `0276.0` **RAE**: Not in any version I remember.
+- `0280.5` **OWEN**: You could have led with version.
+- `0284.0` **RAE**: I was hoping not to need it.
+- `0288.0` **OWEN**: So what does don't close both doors mean?
+- `0290.5` **RAE**: Something we are about to learn.
+- `0295.0` **OWEN**: The elevator's closing.
+- `0298.0` **RAE**: Both of them.
+- `0301.0` **OWEN**: There are two elevators now.
+- `0304.0` **RAE**: Two boundaries. One registration.
+- `0308.0` **OWEN**: If they both close?
+- `0311.0` **RAE**: Building chooses which state survives.
+- `0315.0` **OWEN**: And the other one?
+- `0317.5` **RAE**: Stops being a customer.
+- `0321.0` **OWEN**: That's a terrible answer.
+- `0324.0` **RAE**: Hold that door.
+- `0327.0` **OWEN**: With what?
+- `0329.0` **RAE**: Your body is currently company equipment.
+- `0333.0` **OWEN**: Day shift gets wedges.
+- `0336.0` **RAE**: Day shift gets daylight.
+- `0341.0` **OWEN**: Rae!
+- `0343.0` **RAE**: Do not let it latch.
+- `0347.0` **OWEN**: I gathered that from the screaming geometry.
+- `0351.0` **RAE**: Good. Learning.
+- `0355.0` **RAE**: I need thirty seconds.
+- `0358.0` **OWEN**: I have maybe twelve.
+- `0361.0` **RAE**: Then be inspirational.
+- `0364.0` **OWEN**: I hate this job.
+- `0367.0` **RAE**: You applied twice.
+- `0370.0` **OWEN**: That was before floor arithmetic.
+- `0374.0` **RAE**: Orange tape reindexes the frame. I leave one corner open.
+- `0379.0` **OWEN**: The note said don't close both doors.
+- `0382.5` **RAE**: Exactly.
+- `0385.0` **OWEN**: We're following instructions from ourselves?
+- `0388.5` **RAE**: We're following evidence.
+- `0392.0` **OWEN**: That sounded less bad in your head?
+- `0395.0` **RAE**: No.
+- `0399.0` **OWEN**: Something's changing.
+- `0402.0` **RAE**: Let go on three.
+- `0405.0` **OWEN**: Actual three or RealityCare three?
+- `0408.0` **RAE**: One. Two. Three.
+- `0414.0` **HALE**: Did you fix it?
+- `0417.0` **RAE**: Elevator recognizes all legally existing floors.
+- `0421.0` **HALE**: That's not a yes.
+- `0424.0` **OWEN**: It's a very corporate yes.
+- `0428.0` **HALE**: My cart?
+- `0431.0` **OWEN**: No cart.
+- `0433.0` **HALE**: Then you didn't look hard enough.
+- `0438.0` **OWEN**: Rae.
+- `0441.0` **RAE**: What?
+- `0443.0` **OWEN**: Ticket says visit two of two.
+- `0446.5` **RAE**: Don't sync it.
+- `0449.0` **OWEN**: It already synced.
+- `0452.0` **RAE**: Of course it did.
+- `0456.0` **OWEN**: I'm getting coffee.
+- `0459.0` **RAE**: Not from the break room machine.
+- `0462.0` **OWEN**: I learned that one.
+- `0475.0` **OWEN**: Rae?
+- `0477.0` **RAE**: Nothing.
