@@ -9,6 +9,14 @@ There are two main lanes, and I want them kept separate because they have differ
 
 The existing professional motion-graphics, 2D, and 3D baselines are the rendering engines underneath both lanes. They are starting points, not ceilings.
 
+## Cross-project wording authority
+
+For Angel-owned project communication, this repository uses `EchoEe247/Chatgpt-Angel-wording-refinement` as the wording/refinement authority. It does not replace this repo's technical truth; it controls how Angel-owned documentation, marketing copy, captions, announcements, and public project communication are refined.
+
+Fresh ChatGPT sessions should load that repository's `prompts/SESSION_BOOTSTRAP.md` for routine wording work. Important or ambiguous public/technical/business wording should also use its full system spec, meaning-preservation rules, and the relevant profile.
+
+Fictional character dialogue is separate. Characters follow their own show/character voice unless a production intentionally defines otherwise.
+
 ## Business / OSS release marketing
 
 For business work, the point is not to make a generic promo for a repository just because it is public. I want the video tied to something users can actually use and to the exact version where the shown behavior exists.
@@ -68,6 +76,8 @@ Characters, props, effects, and cameras should derive from one shared scene/set 
 
 So if a character is visibly floating above the floor, or a green portal effect is offset from the gray/black portal frame it belongs to, that is not a small cosmetic issue. It is a QA failure that should be fixed before the video is treated as done.
 
+That rule now has reusable code behind it under `src/core/geometry.py` and `src/animation_2d/layout.py`, with regression tests under `tests/test_geometry.py`. The implementation keeps character foot placement and portal frame/effect placement tied to the same canonical set geometry through camera transforms.
+
 See [`docs/VISUAL_QA_STANDARDS.md`](docs/VISUAL_QA_STANDARDS.md).
 
 ## Repository map
@@ -86,6 +96,7 @@ See [`docs/VISUAL_QA_STANDARDS.md`](docs/VISUAL_QA_STANDARDS.md).
 - [`productions/`](productions/) — expected layout for real production packages.
 - [`scripts/`](scripts/) — lightweight validation and assembly helpers.
 - [`src/`](src/) and [`presets/`](presets/) — reusable rendering framework boundaries.
+- [`tests/`](tests/) — regression checks for reusable production primitives.
 
 ## What counts as done
 
