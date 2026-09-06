@@ -59,6 +59,18 @@ Favor clear coverage:
 - environmental/anomaly sound remains audible but ducks beneath speech;
 - target around -16 LUFS integrated and approximately -1 to -1.5 dBTP for web review masters.
 
+### Audio bus architecture
+Episode audio must not mix the continuous bed and every delayed dialogue clip in one large `amix` graph. S01E01 demonstrated that this can produce intermittent digital-zero gaps later in a long timeline even when the bed source itself is continuous.
+
+Use two stable stages instead:
+1. build a speech-only bus from the timed dialogue clips;
+2. keep the full-duration room/music/anomaly bed as its own bus;
+3. optionally duck the bed from the speech bus;
+4. combine only the stable bed and speech buses into the premaster;
+5. loudness-normalize after that two-bus mix.
+
+Long-form audio QA must scan the complete master timeline, not only representative moments. A Wrong Shift episode with a continuous room/anomaly bed must have zero unintended one-second digital-silence windows, including after scene boundaries and late in the episode.
+
 ## Production master
 Target for episodes:
 - 1280×720 minimum;
