@@ -46,6 +46,7 @@ Future sessions should rely on the documented characteristics here even when tho
 ## Documentation
 
 - [`docs/CAPABILITY_BASELINES.md`](docs/CAPABILITY_BASELINES.md) — what each lane means, what it can do, and the present limits.
+- [`docs/REFERENCE_SAMPLES.md`](docs/REFERENCE_SAMPLES.md) — accepted/rejected exploration samples and the lessons that define the baselines.
 - [`docs/PRODUCTION_WORKFLOW.md`](docs/PRODUCTION_WORKFLOW.md) — how to plan, build, render, review, and iterate a real video.
 - [`AGENTS.md`](AGENTS.md) — concise operating instructions for ChatGPT/agent sessions entering the repo.
 
