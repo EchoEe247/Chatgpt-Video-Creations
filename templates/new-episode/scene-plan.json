@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "episode": "S01E01",
+  "fps": 24,
+  "resolution": [1280, 720],
+  "scenes": [
+    {
+      "id": "scene-001",
+      "start": 0.0,
+      "duration": 8.0,
+      "location": "SET_ID",
+      "characters": [],
+      "purpose": "opening hook",
+      "render_status": "PLANNED",
+      "qa_status": "PENDING"
+    }
+  ]
+}

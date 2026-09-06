@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "production_type": "release-marketing",
+  "project": "owner/repo",
+  "release": "v0.0.1",
+  "previous_release": "v0.0.0",
+  "exact_tag": "v0.0.1",
+  "exact_commit": "REPLACE_WITH_SHA",
+  "package": null,
+  "live_url": null,
+  "source_verified_at": "YYYY-MM-DDTHH:MM:SSZ",
+  "platform_variants": ["16:9", "9:16"],
+  "status": "PLANNED"
+}
