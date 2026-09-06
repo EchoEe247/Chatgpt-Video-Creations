@@ -2,59 +2,59 @@
 
 ## Core rule
 
-A new show is planned at the show and season level before episode implementation begins.
+For a new show, I want the show and season to exist as a coherent idea before Episode 1 becomes a production commitment.
 
-Do not create Episode 1 in isolation and improvise later episodes around it.
+The point is not to over-plan every future detail. The point is to avoid making Episode 1 in isolation and then discovering afterward that the season has no direction, the characters do not have stable rules, or later episodes need setups that the first episode never knew about.
 
 ## Phase 1 — Research and creative exploration
 
-Research may cover storytelling structure, pacing, genre expectations, audience behavior, subject matter, science/history/folklore/technology, and other creative inputs relevant to the concept.
+Research can cover storytelling structure, pacing, genre expectations, audience behavior, subject matter, science, history, folklore, technology, or anything else that helps us understand the kind of show we are building.
 
-Research is for synthesis and understanding. The resulting show must have original characters, names, world rules, dialogue, visual identity and story logic.
+That research is input, not identity. The result should still have original characters, names, world rules, dialogue, visual identity, and story logic.
 
-## Phase 2 — Show foundation
+## Phase 2 — Build the show foundation
 
 Create and review:
 
-- `SHOW_BIBLE.md` — premise, identity, tone, format, rules;
-- `WORLD.md` — world mechanics, locations, boundaries;
-- `CHARACTERS.md` — recurring cast, motivations, flaws, relationships, voice patterns;
-- `STYLE_GUIDE.md` — 2D/3D approach, proportions, palette, camera/audio language;
-- long-term threads and forbidden contradictions.
+- `SHOW_BIBLE.md` — premise, identity, tone, format, and core rules;
+- `WORLD.md` — world mechanics, important locations, and boundaries;
+- `CHARACTERS.md` — recurring cast, motivations, flaws, relationships, and voice patterns;
+- `STYLE_GUIDE.md` — 2D/3D approach, proportions, palette, camera language, and audio identity;
+- long-term story threads and contradictions that are not allowed.
 
-No episode render starts until the foundation is coherent enough to support a season.
+Episode rendering should not start until this foundation is coherent enough to support a season. It does not need to be permanently frozen, but it should be strong enough that the production knows what it is trying to preserve.
 
-## Phase 3 — Season planning
+## Phase 3 — Plan the season
 
-Create:
+Establish:
 
-- season theme and dramatic/comedic engine;
+- the season theme and dramatic/comedic engine;
 - beginning state;
 - major turning points;
-- finale/end state;
+- finale and end state;
 - ordered episode map;
 - setup/payoff dependencies;
-- dialogue/story foundation for all planned episodes;
+- story/dialogue foundation for the planned episodes;
 - continuity expectations.
 
-The season plan can be refined, but Episode 1 should know what future episodes need from it.
+The season plan can still evolve. I just want Episode 1 to know what future episodes may need from it instead of treating every episode as a separate generation problem.
 
-## Phase 4 — One episode per production turn
+## Phase 4 — Produce one episode at a time
 
-Once the season is approved, implementation becomes intentionally narrow:
+Once the season foundation is approved, implementation becomes intentionally narrow:
 
 1. select the next episode;
-2. load current canon and unresolved threads;
-3. finalize episode script/dialogue;
-4. build detailed scene plan;
+2. load current accepted canon and unresolved threads;
+3. finalize that episode's script/dialogue;
+4. build the detailed scene plan;
 5. render scenes independently;
-6. assemble master;
-7. assistant reviews technical + visual + continuity quality;
-8. user reviews;
-9. if either review finds important defects, refine and re-render;
-10. only after both pass, mark episode `DONE ✅` and update canon.
+6. assemble the master;
+7. run assistant technical, visual, and continuity review;
+8. run user review;
+9. if either review finds an important defect, refine and rerender what needs fixing;
+10. only after both reviews pass, mark the episode `DONE ✅` and update canon.
 
-Do not start the next episode while the current episode remains `REFINEMENT_REQUIRED`.
+Do not start the next episode while the current one is still `REFINEMENT_REQUIRED`. Finishing one accepted episode is more useful than spreading unresolved defects across several unfinished episodes.
 
 ## Episode state model
 
@@ -77,6 +77,8 @@ Recommended statuses:
 }
 ```
 
+A successful render alone does not satisfy this state.
+
 ## Episode package
 
 ```text
@@ -97,8 +99,10 @@ episode-01/
 
 After the final episode passes:
 
-- reconcile the entire season canon;
-- verify episode ordering/titles/runtime metadata;
-- create season-level release/publishing package;
-- preserve unresolved threads intended for the next season;
-- do not silently retcon accepted episodes during packaging.
+- reconcile the full season canon;
+- verify episode order, titles, and runtime metadata;
+- build the season-level release/publishing package;
+- preserve unresolved threads that are intentionally continuing into the next season;
+- do not silently retcon accepted episodes while packaging the season.
+
+Accepted episodes are production history. If something needs to change later, treat that change deliberately instead of pretending the previous accepted state never existed.

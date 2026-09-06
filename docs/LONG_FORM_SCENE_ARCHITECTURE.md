@@ -2,63 +2,74 @@
 
 ## Principle
 
-Long-form animation is a master production assembled from independently rendered scenes.
+For long-form work, the final video is a master production assembled from independently rendered scenes.
 
-The goal is to preserve the richer short-scene quality baseline instead of simplifying animation solely to survive a long single render.
+I do not want to lower the whole animation quality just to make a two-minute or longer render fit through one giant scene. The better approach is to preserve the richer short-scene baseline, render manageable sections, fix them individually, and assemble the accepted pieces into the master.
 
-## Master timeline
+## Master timeline first
 
-Before rendering, define the whole episode/video:
+Before individual rendering starts, define the whole episode or video:
 
 - exact duration target;
 - scene order and time ranges;
-- dialogue/master audio positions;
-- music/ambience continuity;
-- character/set continuity state;
-- transitions and camera intent.
+- dialogue and master-audio positions;
+- music and ambience continuity;
+- character and set continuity state;
+- transitions;
+- camera intent.
 
-Each scene receives its timeline range and continuity input.
+Each scene then receives its own timeline range and continuity input. That keeps independently rendered scenes connected to one production rather than becoming unrelated clips that happen to be concatenated later.
 
-## Independent scene render
+## Independent scene rendering
 
-Recommended scene lengths:
+Typical working ranges:
 
 - 2D: commonly 5–15 seconds;
 - 3D: commonly 4–12 seconds;
-- business motion: may be longer when complexity is low.
+- business motion: can run longer when scene complexity is low.
 
-These are production guidance, not hard caps.
+These are production guidance, not hard caps. Use the duration that lets the scene keep the needed quality and remain practical to inspect and replace.
 
-Each scene should render with the appropriate quality FPS/resolution rather than inheriting a lower whole-video compromise.
+Each scene should render at the appropriate FPS and resolution instead of inheriting an unnecessary whole-video quality compromise.
 
-## Handles
+## Scene handles
 
-For transitions or continuous action, render extra handle frames when useful. Example:
+For transitions or continuous action, render extra handle frames when they help.
 
-- intended Scene A: 00:18–00:27;
-- render: 00:17.5–00:27.5;
+Example:
 
-Use the overlap to choose a clean cut or verify deterministic continuity.
+- intended Scene A: `00:18–00:27`;
+- render: `00:17.5–00:27.5`.
+
+The overlap gives us room to choose a cleaner cut and verify continuity without having to regenerate an entire sequence.
 
 ## Master audio
 
-Prefer one continuous master audio timeline for dialogue, ambience, music and cross-scene SFX. Individual visual scene files can then be replaced without restarting or drifting the audio bed.
+Prefer one continuous master audio timeline for dialogue, ambience, music, and cross-scene SFX.
 
-## Scene QA
+That separation is useful because a visual scene can be replaced without restarting or drifting the whole audio bed. Scene boundaries should serve production, not force audible boundaries into the final video.
 
-Before final assembly:
+## Scene QA before assembly
 
-- decode succeeds;
-- duration/FPS match scene spec;
-- starting/ending continuity states are correct;
-- no floor/effect anchor drift;
-- dialogue acting and subtitle timing are correct;
-- no clipped props/characters unless intentionally framed.
+Check each scene for:
+
+- successful decode;
+- correct duration and FPS;
+- correct starting and ending continuity state;
+- no floor-anchor or source/effect drift;
+- correct dialogue acting and subtitle timing;
+- no unintended clipped props or characters.
+
+A scene that fails should be repaired before it becomes part of the accepted master.
 
 ## Assembly
 
-Use exact scene ordering and avoid unnecessary re-encoding when formats match. After assembly, inspect all scene seams plus representative interior frames.
+Assemble in the exact planned order. Avoid unnecessary re-encoding when scene formats match.
 
-## Repair advantage
+After assembly, inspect the seams and representative interior frames. A set of individually valid scenes can still produce a bad master if a cut introduces a position jump, stale subtitle, audio discontinuity, or other continuity problem.
 
-If Scene 6 fails, replace Scene 6. Do not rerender Scenes 1–5 and 7–12 unless a shared asset/continuity change genuinely requires it.
+## Why this architecture matters
+
+If Scene 6 is wrong, I want to replace Scene 6.
+
+Do not rerender Scenes 1–5 and 7–12 unless a shared asset, timing, or continuity change genuinely requires it. Long-form production becomes much more practical when a local defect stays local.

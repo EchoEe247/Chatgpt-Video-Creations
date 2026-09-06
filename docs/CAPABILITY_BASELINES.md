@@ -1,8 +1,10 @@
 # Capability Baselines
 
-This document defines the current production baseline for the supported rendering lanes. It exists so a fresh ChatGPT/agent session can interpret requests such as `business video`, `2D animation`, `3D animation`, or a longer animated episode consistently.
+This file records what the repository can already treat as established production capability.
 
-These are **minimum expected starting points**, not permanent ceilings.
+I keep these baselines so a fresh ChatGPT or agent session does not go backward and start proving the same basic things again. If the request is for a business video, 2D animation, 3D animation, or a longer episode, start from the relevant accepted baseline below and improve it where the real production benefits.
+
+These are minimum starting points, not permanent ceilings.
 
 ---
 
@@ -10,17 +12,17 @@ These are **minimum expected starting points**, not permanent ceilings.
 
 ### Default interpretation
 
-A clean, polished motion-graphics video for real use cases such as:
+A clean, polished motion-graphics video for practical use such as:
 
 - OSS release marketing;
-- product ads/demos;
-- Shorts/Reels/TikTok promos;
+- product ads and demos;
+- Shorts, Reels, or TikTok promos;
 - software/dashboard explainers;
 - service advertisements;
 - feature launches;
-- data/metrics stories;
+- data and metrics stories;
 - screen-demo sequences;
-- animated titles/CTAs.
+- animated titles and CTAs.
 
 ### Accepted reference
 
@@ -34,17 +36,17 @@ Reference characteristics:
 - roughly 10 seconds;
 - animated typography;
 - UI/dashboard cards;
-- numerical/chart animation;
-- easing/transitions/effects;
+- numerical and chart animation;
+- easing, transitions, and effects;
 - direct MP4 output.
 
-The user accepted this lane as suitable for real professional work.
+This lane was accepted as suitable for real professional work.
 
 ### Business quality rule
 
-The final should look professional, intentional, readable and useful—not like debug visualization.
+The final should feel intentional, readable, and useful. It should not look like a debug visualization that happens to contain marketing text.
 
-For OSS/project marketing, the business lane is now also **release/version grounded**. The video should visibly identify the exact release it describes and use verified project/release facts from the business release workflow.
+For OSS/project marketing, the baseline is also **release/version grounded**. The video should visibly identify the exact release it describes and use verified facts from the project and business release workflow.
 
 See `docs/BUSINESS_RELEASE_MARKETING.md`.
 
@@ -54,7 +56,7 @@ See `docs/BUSINESS_RELEASE_MARKETING.md`.
 
 ### Default interpretation
 
-When the user asks for a **2D animation video**, start from the accepted rigged 2D baseline, not static-PNG transform animation.
+When the request is for a **2D animation video**, start from the accepted rigged 2D baseline rather than static-PNG transform animation.
 
 Accepted reference: `original_scifi_cartoon_scene_v2.mp4`.
 
@@ -67,33 +69,33 @@ Accepted reference: `original_scifi_cartoon_scene_v2.mp4`.
 - original cartoon characters;
 - independently animated body parts;
 - head movement;
-- eyes/pupils/gaze;
+- eyes, pupils, and gaze;
 - blinking;
 - multiple mouth states;
 - articulated arm gestures;
-- recoil/body acting;
-- animated portal/effects;
+- recoil and body acting;
+- animated portal and effects;
 - multiple camera shots;
-- dialogue/subtitles/audio.
+- dialogue, subtitles, and audio.
 
 ### Visual target
 
-The useful target is **limited 2D television/cartoon animation**: clear poses, readable acting, expressive timing, dialogue, cuts and effects.
+The practical target is **limited 2D television/cartoon animation**: clear poses, readable acting, expressive timing, dialogue, cuts, and effects.
 
-A scene should not rely only on a static cutout drifting/zooming. Use meaningful head/eye/arm/body/reaction changes.
+A character should not spend the whole scene as one static cutout being moved or zoomed. Use meaningful head, eye, arm, body, and reaction changes when the beat needs them.
 
 ### Spatial rule
 
-The rig is not enough by itself. Characters/effects must inhabit a coherent set.
+A good rig is not enough if the character and effects do not belong to the same set.
 
 Hard requirements:
 
 - standing character **feet anchor to the set floor plane**;
 - pose changes preserve that foot/floor anchor unless intentional movement occurs;
-- portal/glow/energy effects inherit the **physical portal frame center, inner radius and orientation**;
+- portal, glow, and energy effects inherit the **physical portal frame center, inner radius, and orientation**;
 - held props inherit hand anchors;
 - camera crops transform the same set/world anchors;
-- depth/layering is deliberate.
+- depth and layering are deliberate.
 
 Do not create separate guessed coordinate tables for a physical object and the effect that belongs to it.
 
@@ -101,7 +103,9 @@ See `docs/VISUAL_QA_STANDARDS.md`.
 
 ### Current limits
 
-The lightweight programmatic approach is suitable for stylized limited animation, but not equivalent to a full traditional animation studio pipeline. Harder areas include highly fluid frame-by-frame acting, complex deformable rigs, advanced phoneme lip sync, painterly frame-by-frame effects and premium voice acting without a stronger voice source.
+This lightweight programmatic approach is strong for stylized limited animation, but it is not the same thing as a full traditional animation-studio pipeline.
+
+Harder areas still include highly fluid frame-by-frame acting, complex deformable rigs, advanced phoneme lip sync, painterly frame-by-frame effects, and premium voice acting without a stronger voice source.
 
 ---
 
@@ -109,7 +113,7 @@ The lightweight programmatic approach is suitable for stylized limited animation
 
 ### Default architecture
 
-Long-form production does **not** use one giant simplified render.
+Long-form production does **not** mean one giant simplified render.
 
 Use:
 
@@ -123,17 +127,17 @@ When practical:
 
 - 24 FPS scene renders;
 - at least 1280×720 final landscape output for episodic work;
-- consistent rig/set versions across scenes;
+- consistent rig and set versions across scenes;
 - one continuous master audio timeline;
-- scene handles/overlap where continuous action needs them;
-- exact scene-duration/timeline specs;
+- scene handles or overlap where continuous action needs them;
+- exact scene-duration and timeline specs;
 - hard-cut editing unless the story calls for another transition.
 
 ### Quality interpretation
 
-The short 2D V2 remains the **visual/acting quality baseline** to match or exceed inside each scene.
+The short 2D V2 remains the **visual and acting quality baseline** to match or exceed inside each scene.
 
-The long-form two-minute tests are the **production architecture baseline**, not permission to lower animation quality.
+The long-form two-minute tests established the **production architecture**. They are not permission to lower the animation baseline just because the final runtime is longer.
 
 See `docs/LONG_FORM_SCENE_ARCHITECTURE.md` and `docs/REFERENCE_SAMPLES.md`.
 
@@ -143,7 +147,7 @@ See `docs/LONG_FORM_SCENE_ARCHITECTURE.md` and `docs/REFERENCE_SAMPLES.md`.
 
 ### Default interpretation
 
-When the user asks for a **3D animation video**, use the accepted V2 baseline: real 3D geometry, perspective, articulated characters, lighting, camera motion, effects and audio.
+When the request is for a **3D animation video**, use the accepted V2 baseline: real 3D geometry, perspective, articulated characters, lighting, camera motion, effects, and audio.
 
 Accepted reference: `programmatic_3d_scifi_scene_v2.mp4`.
 
@@ -154,15 +158,15 @@ Accepted reference: `programmatic_3d_scifi_scene_v2.mp4`.
 - H.264 + AAC;
 - roughly 14 seconds;
 - actual 3D geometry rendered with a 3D engine;
-- perspective/parallax;
+- perspective and parallax;
 - stylized/cel character treatment;
-- modeled environment/props;
-- articulated limbs/head/eyes/mouths;
+- modeled environment and props;
+- articulated limbs, head, eyes, and mouths;
 - multiple camera shots;
-- portal energy/lighting;
+- portal energy and lighting;
 - creature emergence;
 - contact-shadow treatment;
-- dialogue/subtitles/SFX.
+- dialogue, subtitles, and SFX.
 
 ### Visual target
 
@@ -170,9 +174,9 @@ A **stylized low-poly / cel-shaded indie cartoon or game-cinematic scene**.
 
 ### Current limits
 
-Without a full Blender/Maya-class character pipeline, difficult areas include advanced skeletal deformation/skinning, high-quality facial blendshapes, sophisticated walk/run cycles, cloth/hair physics, complex materials/global illumination and feature-film studio character animation.
+Without a full Blender/Maya-class character pipeline, difficult areas include advanced skeletal deformation and skinning, high-quality facial blendshapes, sophisticated walk/run cycles, cloth and hair physics, complex materials/global illumination, and feature-film studio character animation.
 
-For long-form 3D, use the same independent-scene principle with generally shorter scene chunks.
+For long-form 3D, use the same independent-scene principle, generally with shorter scene chunks when the render is heavier.
 
 ---
 
@@ -180,25 +184,27 @@ For long-form 3D, use the same independent-scene principle with generally shorte
 
 1. **Business/ad/explainer/product/social/OSS release** → professional programmatic video.
 2. **Narrative/cartoon/character animation** → 2D by default.
-3. **Long episode/season animation** → 2D independent-scene architecture unless 3D is explicitly required.
+3. **Long episode/season animation** → 2D independent-scene architecture unless 3D is explicitly needed.
 4. **Explicit 3D/depth/game-cinematic/low-poly/cel-3D request** → 3D animation.
 
-Lanes may be combined intentionally, such as 2D narrative hooks around a business demo or 3D product reveals with 2D UI/title overlays.
+The lanes can be combined intentionally. For example, a business demo can use a 2D narrative hook, or a 3D product reveal can use 2D UI/title overlays.
+
+The combination should serve the production rather than exist only to prove more techniques can be mixed together.
 
 ---
 
 ## 6. Improvement policy
 
-For every real production ask internally:
+For every serious production, ask what would make the final MP4 visibly better:
 
 - Can the hook be stronger?
-- Can acting/reactions be clearer?
+- Can acting and reactions read more clearly?
 - Are characters actually grounded on the set?
-- Are effects aligned with their physical source geometry?
-- Can scene composition be clearer?
-- Can audio/lip timing improve?
-- Can a defective scene be rerendered instead of degrading the full production?
-- Can real product/brand assets improve business truth/usefulness?
-- Is the output platform-appropriate?
+- Are effects aligned with the physical source geometry?
+- Is scene composition clear?
+- Can audio or lip timing improve?
+- Can a defective scene be rerendered instead of degrading the whole production?
+- Would real product or brand assets improve business truth and usefulness?
+- Is the result appropriate for the target platform?
 
-Improve where it produces visible value. Avoid complexity that does not improve the final MP4.
+Improve where the viewer gets real value from the change. Avoid complexity that only makes the implementation look more sophisticated.
