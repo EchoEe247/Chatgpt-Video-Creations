@@ -4,127 +4,111 @@ Operational handoff for ChatGPT and other agent sessions working in this reposit
 
 ## Repository purpose
 
-`Chatgpt-Video-Creations` is the canonical shared reference for the user's ChatGPT-based video production workflow.
+`Chatgpt-Video-Creations` is the canonical production system for two related goals:
 
-Do not assume a fresh session has access to the originating conversation or its MP4 attachments. Use the repository documentation as the source of truth for interpreting requests.
+1. release-grounded business/OSS marketing videos;
+2. original animated shows, seasons and episodes.
 
-## Canonical defaults
+Fresh sessions should read this file plus the relevant workflow doc before producing a serious video.
 
-### Professional / business video
+## Never re-prove the basic capability
 
-If the user asks for a business, professional, ad, explainer, product, dashboard, or social promo video without another explicit style, use the **professional programmatic motion-graphics baseline**.
+The user has already accepted these baselines:
 
-Target qualities:
+- professional/business programmatic motion graphics;
+- rigged 2D animation;
+- stylized real-3D animation.
 
-- polished;
-- clean typography;
-- purposeful motion;
-- strong hierarchy;
-- platform-appropriate composition;
-- useful for real business content.
+Use `docs/CAPABILITY_BASELINES.md` and improve from there when the production benefits.
 
-Do not treat a debug animation as acceptable merely because it renders.
+## Business / OSS lane
 
-### 2D animation
+When marketing a public project:
 
-If the user says **2D animation video**, use the current **rigged limited-animation 2D baseline** documented in `docs/CAPABILITY_BASELINES.md`.
+- resolve the exact current release from authoritative project/OSS state;
+- prefer the OSS Shipping System marketing-eligible registry when the project belongs to that portfolio;
+- record project, canonical release, prior release, exact tag/commit, public URL/package and source snapshot date;
+- visibly identify the release version in the video;
+- describe only behavior/features supported by that release;
+- for a newer release, explain meaningful changes from the previous canonical release;
+- do not market a repo merely because it is public.
 
-Do not regress to the early prototype approach of moving one static PNG per character.
+See `docs/BUSINESS_RELEASE_MARKETING.md`.
 
-Expected ingredients when the scene calls for them:
+## Original animation lane
 
-- independent head/eye/mouth/arm/body motion;
-- pose/reaction changes;
-- camera cuts;
-- animated effects;
-- dialogue/subtitles/audio;
-- original characters and visual identity.
+For a **new show**, do not immediately render Episode 1.
 
-### 3D animation
+First establish:
 
-If the user says **3D animation video**, use the current **stylized real-3D baseline** documented in `docs/CAPABILITY_BASELINES.md`.
+- research/inspiration synthesis;
+- original premise and identity;
+- show bible;
+- world rules;
+- recurring character bible;
+- visual/audio identity;
+- season arc;
+- ordered episode map;
+- story/dialogue foundation for the season;
+- continuity/canon tracking.
 
-Do not call flat sprites with fake zoom/perspective "3D."
+Once implementation starts, produce **one episode per production turn**. Each episode follows:
 
-Expected ingredients:
+**episode plan → scene plan → independent scene renders → assistant QA → user review → fixes if required → assistant re-QA → user acceptance → canon update → DONE ✅**
 
-- actual 3D geometry;
-- perspective camera and parallax;
-- articulated characters;
-- modeled set/props;
-- lighting/shading;
-- animated spatial effects;
-- camera staging;
-- audio when appropriate.
+See `docs/ANIMATION_SHOW_WORKFLOW.md` and `docs/CONTINUITY_SYSTEM.md`.
 
-The expected style ceiling in the lightweight pipeline is stylized low-poly/cel-shaded indie animation or game-cinematic work, not feature-film studio character animation.
+## Long-form rendering
 
-## User preference established by testing
+Do not render a long episode as one giant scene just to prove duration.
 
-The user has already reviewed all three lanes and considers the examples sufficient to define the base capability:
+Use independent scene files at the richer quality baseline, preserve scene handles/state, review defective scenes individually, then assemble against a continuous master audio timeline.
 
-1. professional/business programmatic video — liked and suitable for real use;
-2. recent 2D V2 animation — accepted as the 2D baseline;
-3. recent 3D V2 animation — accepted as the 3D baseline and useful for understanding the present 3D limit.
+See `docs/LONG_FORM_SCENE_ARCHITECTURE.md`.
 
-Future sessions do not need to re-prove these capabilities before beginning a real request.
+## Hard spatial-layout rules
 
-## Improvement rule
+Do not position visual elements using unrelated guessed screen coordinates when they belong to the same set.
 
-The baseline is a starting point. Improve it when a real production benefits from better:
+Required model:
 
-- scene composition;
-- hooks;
-- character acting;
-- rigs;
-- lighting;
-- effects;
-- pacing;
-- audio;
-- camera staging;
-- brand integration;
-- platform optimization.
+- sets define floor/ground planes and named anchors;
+- character transforms use foot/ground anchors;
+- portal/glow/energy effects inherit the portal frame center, inner radius and orientation;
+- held props inherit hand anchors;
+- camera shots derive their screen transforms from the same set/world coordinates;
+- depth/layer order is explicit.
 
-Do not over-engineer improvements that are invisible in the final MP4.
+A character floating above the floor or an effect visibly offset from its physical source is a QA failure.
 
-## Required QA behavior
+See `docs/VISUAL_QA_STANDARDS.md`.
 
-For a serious render:
+## Required MP4 QA
 
-1. render the actual MP4;
-2. inspect codec/resolution/FPS/duration/audio presence;
-3. review representative frames across the timeline;
-4. fix obvious visual/audio defects;
-5. re-render when necessary;
-6. provide the finished MP4, not only source code.
+For serious renders:
 
-See `docs/PRODUCTION_WORKFLOW.md` for the full loop.
+1. inspect codec, dimensions, FPS, duration and audio stream;
+2. inspect representative frames across every scene;
+3. inspect before/after frames at scene boundaries;
+4. inspect important effect/reaction/action frames;
+5. verify floor/contact anchoring and set/effect alignment;
+6. verify subtitles/dialogue timing;
+7. fix important defects before handoff when feasible.
 
-## Content/IP rule for character animation
+Do not declare completion based only on successful code execution.
 
-If the user references an existing show, film, game, or character as inspiration, capture the **high-level qualities** they care about—genre, pacing, humor, energy, composition, medium—while creating original characters, names, props, dialogue, voices, and reusable visual identity when needed.
+## Content / originality rule
 
-Do not silently turn a reusable project into a direct clone of third-party characters.
+Research existing media for structure, genre, pacing, audience expectations and creative understanding when useful, but synthesize original characters, names, worlds, dialogue, visual identity and story logic. A reusable/monetizable show should not become a disguised clone of another show.
 
-## Reference artifacts from the originating session
+## Production package boundaries
 
-These filenames identify the accepted baselines but are not guaranteed to exist in a fresh session or local checkout:
+Business production packages belong under:
 
-- `programmatic_video_demo.mp4`
-- `original_scifi_cartoon_scene_v2.mp4`
-- `programmatic_3d_scifi_scene_v2.mp4`
+`productions/business/<repo>/<release>/`
 
-Use the documented baseline descriptions if the files are unavailable.
+Animation productions belong under:
 
-## Repository evolution
+`productions/shows/<show>/seasons/season-XX/episodes/episode-YY/`
 
-As real videos are produced, this repo may grow to include:
-
-- `src/` reusable render code;
-- `assets/` reusable project assets;
-- `presets/` render/style presets;
-- `projects/` per-video production packages;
-- `docs/` capability and workflow documentation;
-- QA/receipt files for important renders.
-
-Keep project-specific assets and reusable framework code clearly separated.
+Use the templates in `templates/` as starting points.

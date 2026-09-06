@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "set": "example-lab",
+  "floor_y": 438,
+  "anchors": {
+    "vex_start": {"x": 230, "floor_y": 438},
+    "milo_start": {"x": 550, "floor_y": 438}
+  },
+  "portal": {
+    "center": [702, 220],
+    "outer_radius": 120,
+    "inner_radius": 94,
+    "orientation_degrees": 0
+  }
+}

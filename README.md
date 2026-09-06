@@ -1,59 +1,88 @@
 # Chatgpt-Video-Creations
 
-Shared reference and production repository for videos created through ChatGPT sessions.
+Production system for videos created through ChatGPT sessions.
 
-The purpose of this repository is to preserve the **known-good baseline** for three video lanes so future ChatGPT sessions do not need to rediscover what the user means by a business video, a 2D animation video, or a 3D animation video.
+This repository now has two primary operating lanes:
 
-## Canonical video lanes
+1. **Business / OSS release marketing** — explain, demonstrate, and market useful public projects by exact release version.
+2. **Original animation production** — develop original shows season-first, then produce and review episodes one at a time using scene-based 2D or 3D rendering.
 
-| Lane | Default interpretation | Current baseline |
+The existing business-motion, 2D, and 3D capability baselines remain the technical rendering engines underneath those production systems.
+
+## Operating model
+
+### Business / OSS
+
+A release video must be grounded in the exact project/release being promoted. The preferred source-of-truth flow is:
+
+**OSS Shipping System → marketing-eligible public product → exact release/tag/commit → release facts/changelog → video production snapshot → render → QA → distribution**
+
+Every release-marketing video should visibly identify the release version so viewers know which behavior and features the video describes. Newer releases should receive new/update marketing that explains what changed from the prior canonical release.
+
+See [`docs/BUSINESS_RELEASE_MARKETING.md`](docs/BUSINESS_RELEASE_MARKETING.md).
+
+### Original animation
+
+Do not start an original show by improvising Episode 1 and discovering the season afterward.
+
+Use:
+
+**show research/vision → show bible → season arc → season episode map → dialogue/story foundation → Episode 1 production → assistant QA → user review → fix if needed → accepted canon → Episode 2**
+
+Episodes are implemented one at a time. A completed episode is not canon until both the assistant review and user review pass.
+
+See [`docs/ANIMATION_SHOW_WORKFLOW.md`](docs/ANIMATION_SHOW_WORKFLOW.md) and [`docs/CONTINUITY_SYSTEM.md`](docs/CONTINUITY_SYSTEM.md).
+
+## Rendering baselines
+
+| Engine | Default use | Baseline |
 | --- | --- | --- |
-| Professional / business video | Clean programmatic motion graphics for ads, explainers, product demos, dashboards, social shorts, and business content | Strong and practical |
-| 2D animation | Original rigged limited-animation cartoon scene with character acting, dialogue, camera cuts, effects, and audio | Preferred animation baseline |
-| 3D animation | Original stylized cel/low-poly 3D scene with real geometry, articulated characters, lighting, camera motion, effects, and audio | Valid 3D baseline; more constrained than 2D |
+| Professional motion graphics | OSS releases, product demos, explainers, ads, business/social content | Strong and practical |
+| 2D animation | Original rigged limited-animation scenes and long-form episodes | Preferred animation baseline |
+| 3D animation | Stylized real-3D scenes with geometry, perspective, lighting and articulation | Valid but more constrained than 2D |
 
-See [`docs/CAPABILITY_BASELINES.md`](docs/CAPABILITY_BASELINES.md) for the exact definitions and quality expectations.
+See [`docs/CAPABILITY_BASELINES.md`](docs/CAPABILITY_BASELINES.md).
 
-## Default language for future requests
+## Long-form rule
 
-When the user says:
+Long videos are assembled from independently rendered scenes. Do not lower the entire production quality merely to force a two-minute or longer animation through one giant render.
 
-- **"business video"**, **"professional video"**, or asks for an ad/explainer/product video without specifying another style: use the professional programmatic-motion lane.
-- **"2D animation video"**: use the current rigged 2D cartoon baseline, not the early moving-PNG prototype.
-- **"3D animation video"**: use the current stylized real-3D baseline, not the primitive first 3D prototype.
+**master plan → scene renders → scene QA/fixes → continuity check → assembly → master audio → final QA**
 
-These are starting points, not permanent ceilings. A specific production can improve the scene design, character rigs, audio, transitions, pacing, lighting, and rendering when useful.
+See [`docs/LONG_FORM_SCENE_ARCHITECTURE.md`](docs/LONG_FORM_SCENE_ARCHITECTURE.md).
 
-## Repository role
+## Visual geometry rule
 
-This repo is intended to be used by:
+Characters, props, effects and cameras should share one scene/set coordinate system.
 
-- the primary ChatGPT session coordinating video work;
-- fresh ChatGPT sessions that need an immediate handoff;
-- other coding/agent sessions that implement or render a video pipeline;
-- future production work that needs reproducible scripts, assets, presets, and receipts.
+- character feet anchor to the floor plane;
+- portal energy inherits the physical portal frame center/radius;
+- held props inherit hand anchors;
+- camera crops transform the same world/set anchors rather than introducing unrelated screen coordinates.
 
-## Current reference samples
+This is now a hard QA requirement, not a cosmetic preference. See [`docs/VISUAL_QA_STANDARDS.md`](docs/VISUAL_QA_STANDARDS.md).
 
-The initial capability exploration produced three relevant reference artifacts in the originating ChatGPT conversation. They are **reference baselines, not yet committed media files in this repository**:
+## Repository map
 
-1. `programmatic_video_demo.mp4` — professional/business programmatic motion sample.
-2. `original_scifi_cartoon_scene_v2.mp4` — current 2D animation baseline.
-3. `programmatic_3d_scifi_scene_v2.mp4` — current 3D animation baseline.
+- [`AGENTS.md`](AGENTS.md) — operating handoff for fresh ChatGPT/agent sessions.
+- [`docs/VISION.md`](docs/VISION.md) — project mission and lane boundaries.
+- [`docs/PRODUCTION_WORKFLOW.md`](docs/PRODUCTION_WORKFLOW.md) — shared render/review workflow.
+- [`docs/BUSINESS_RELEASE_MARKETING.md`](docs/BUSINESS_RELEASE_MARKETING.md) — version-grounded OSS/business marketing.
+- [`docs/ANIMATION_SHOW_WORKFLOW.md`](docs/ANIMATION_SHOW_WORKFLOW.md) — show/season/episode lifecycle.
+- [`docs/CONTINUITY_SYSTEM.md`](docs/CONTINUITY_SYSTEM.md) — canon and episode-to-episode state.
+- [`docs/LONG_FORM_SCENE_ARCHITECTURE.md`](docs/LONG_FORM_SCENE_ARCHITECTURE.md) — independent scene rendering/assembly.
+- [`docs/VISUAL_QA_STANDARDS.md`](docs/VISUAL_QA_STANDARDS.md) — scene alignment and final visual gates.
+- [`templates/`](templates/) — business release, show, season and episode starters.
+- [`productions/`](productions/) — expected layout for real production packages.
+- [`scripts/`](scripts/) — lightweight validation/assembly helpers.
+- [`src/`](src/) and [`presets/`](presets/) — reusable render framework boundaries.
 
-Future sessions should rely on the documented characteristics here even when those conversation attachments are not available locally.
+## Acceptance rule
 
-## Documentation
+The deliverable is the **finished MP4**, not the fact that a script ran.
 
-- [`docs/CAPABILITY_BASELINES.md`](docs/CAPABILITY_BASELINES.md) — what each lane means, what it can do, and the present limits.
-- [`docs/REFERENCE_SAMPLES.md`](docs/REFERENCE_SAMPLES.md) — accepted/rejected exploration samples and the lessons that define the baselines.
-- [`docs/PRODUCTION_WORKFLOW.md`](docs/PRODUCTION_WORKFLOW.md) — how to plan, build, render, review, and iterate a real video.
-- [`AGENTS.md`](AGENTS.md) — concise operating instructions for ChatGPT/agent sessions entering the repo.
+For serious work:
 
-## Operating principle
+**plan → build → render → inspect actual MP4 → fix visible/audio defects → re-render → validate → user review**
 
-Do not treat the first render as automatically complete. For real work:
-
-**plan → build → render → review the actual MP4 → identify visible/audio defects → improve → re-render → validate**
-
-The objective is a usable finished video, not merely proof that a renderer executed.
+For episodic animation, the episode becomes `DONE ✅` only after both assistant QA and user acceptance pass.
