@@ -1,0 +1,30 @@
+name: Validate production templates
+
+on:
+  pull_request:
+    paths:
+      - 'scripts/**'
+      - 'templates/**'
+      - '.github/workflows/validate-production-templates.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/**'
+      - 'templates/**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate business production template
+        run: python3 scripts/validate-production.py templates/business-release/production.json
+      - name: Validate set anchor template
+        run: python3 scripts/validate-scene-alignment.py templates/set-anchors.json
+      - name: Validate episode state template
+        run: python3 scripts/validate-continuity.py templates/new-episode/status.json
+      - name: Compile helper scripts
+        run: python3 -m py_compile scripts/*.py
