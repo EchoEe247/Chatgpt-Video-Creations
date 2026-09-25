@@ -9,7 +9,9 @@
     "episode": "episode-01"
   },
   "render": {
-    "entrypoint": null,
+    "command": [],
+    "cwd": ".",
+    "output": null,
     "scene_plan": null,
     "scene_directory": null,
     "master_recipe": null
@@ -21,14 +23,38 @@
     "audio_required": true,
     "expected_duration_seconds": null,
     "duration_tolerance_seconds": 0.15,
-    "silence_threshold_db": -55.0,
+    "silence_threshold_db": -55,
     "silence_min_duration_seconds": 0.5,
     "max_unintended_silence_seconds": null
+  },
+  "workflow": {
+    "mode": "autonomous_until_final_review",
+    "user_review_policy": "final_candidate_only",
+    "max_autonomous_repair_cycles": 4,
+    "repair_cycle": 0,
+    "escalation_reason": null,
+    "last_action": null
   },
   "artifacts": {
     "candidate_master": null,
     "artifact_receipt": null,
-    "review_pack": null
+    "review_pack": null,
+    "baseline_master": null,
+    "baseline_comparison": null
+  },
+  "gates": {
+    "technical": {
+      "status": "PENDING",
+      "evidence": null
+    },
+    "assistant": {
+      "status": "PENDING",
+      "notes": null
+    },
+    "user": {
+      "status": "PENDING",
+      "notes": null
+    }
   },
   "review": {
     "assistant": "PENDING",

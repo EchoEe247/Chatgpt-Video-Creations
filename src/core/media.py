@@ -466,3 +466,87 @@ def artifact_receipt(
     else:
         receipt["audio"] = None
     return receipt
+
+
+def compare_video(
+    reference_path: str | Path,
+    candidate_path: str | Path,
+    *,
+    sample_fps: float = 6.0,
+    max_duration_seconds: float = 60.0,
+) -> dict[str, Any]:
+    """Return a bounded sampled SSIM regression signal for same-geometry videos."""
+    reference = Path(reference_path).expanduser().resolve()
+    candidate = Path(candidate_path).expanduser().resolve()
+    ref_info = probe_media(reference)
+    cand_info = probe_media(candidate)
+    ref_video = next((x for x in ref_info["streams"] if x.get("codec_type") == "video"), None)
+    cand_video = next((x for x in cand_info["streams"] if x.get("codec_type") == "video"), None)
+    if ref_video is None or cand_video is None:
+        raise MediaToolError("both media files must contain video")
+
+    structural = {
+        "width_match": ref_video.get("width") == cand_video.get("width"),
+        "height_match": ref_video.get("height") == cand_video.get("height"),
+        "fps_delta": abs(
+            float(ref_video.get("frame_rate") or 0.0)
+            - float(cand_video.get("frame_rate") or 0.0)
+        ),
+        "duration_delta_seconds": abs(
+            float(ref_info.get("duration_seconds") or 0.0)
+            - float(cand_info.get("duration_seconds") or 0.0)
+        ),
+    }
+    if not structural["width_match"] or not structural["height_match"]:
+        return {
+            "reference": str(reference),
+            "candidate": str(candidate),
+            "comparable": False,
+            "reason": "video dimensions differ",
+            "structural": structural,
+            "ssim_all": None,
+        }
+
+    fps = max(0.5, min(float(sample_fps), 30.0))
+    limit = max(1.0, min(float(max_duration_seconds), 300.0))
+    width = min(640, int(ref_video.get("width") or 640))
+    if width % 2:
+        width -= 1
+    graph = (
+        f"[0:v]fps={fps:.6f},scale={width}:-2[ref];"
+        f"[1:v]fps={fps:.6f},scale={width}:-2[cand];"
+        "[ref][cand]ssim"
+    )
+    proc = _run(
+        [
+            _binary("ffmpeg"),
+            "-nostats",
+            "-v",
+            "info",
+            "-i",
+            str(reference),
+            "-i",
+            str(candidate),
+            "-filter_complex",
+            graph,
+            "-t",
+            f"{limit:.6f}",
+            "-f",
+            "null",
+            "-",
+        ],
+        timeout=120,
+    )
+    text = proc.stderr or ""
+    matches = re.findall(r"SSIM .*?All:([0-9.]+)", text)
+    if proc.returncode != 0 or not matches:
+        raise MediaToolError((text[-16000:] or "SSIM comparison failed").strip())
+    return {
+        "reference": str(reference),
+        "candidate": str(candidate),
+        "comparable": True,
+        "sample_fps": fps,
+        "max_duration_seconds": limit,
+        "structural": structural,
+        "ssim_all": float(matches[-1]),
+    }

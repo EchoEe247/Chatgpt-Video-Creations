@@ -9,6 +9,7 @@ from src.core.media import (
     analyze_audio,
     artifact_receipt,
     build_contact_sheet,
+    compare_video,
     decode_check,
     extract_frame,
     probe_media,
@@ -84,6 +85,16 @@ class MediaRuntimeTests(unittest.TestCase):
         self.assertTrue(sheet.is_file())
         self.assertTrue(frame.read_bytes().startswith(b"\x89PNG"))
         self.assertTrue(sheet.read_bytes().startswith(b"\x89PNG"))
+
+    def test_compare_identical_video(self):
+        result = compare_video(
+            self.video,
+            self.video,
+            sample_fps=4,
+            max_duration_seconds=2,
+        )
+        self.assertTrue(result["comparable"])
+        self.assertAlmostEqual(result["ssim_all"], 1.0, places=6)
 
     def test_master_qa_and_receipt(self):
         qa = validate_master(

@@ -46,13 +46,16 @@ Once the season foundation is approved, implementation becomes intentionally nar
 1. select the next episode;
 2. load current accepted canon and unresolved threads;
 3. finalize that episode's script/dialogue;
-4. build the detailed scene plan;
+4. build and validate the detailed scene plan, including important review points;
 5. render scenes independently;
 6. assemble the master;
-7. run assistant technical, visual, and continuity review;
-8. run user review;
-9. if either review finds an important defect, refine and rerender what needs fixing;
-10. only after both reviews pass, mark the episode `DONE ✅` and update canon.
+7. run deterministic technical/audio QA and build the review pack;
+8. run assistant visual, acting, continuity, scene-boundary, and story review;
+9. when assistant review finds a defect, repair and re-QA internally without handing that intermediate candidate to the user;
+10. repeat within the configured autonomous repair budget until the assistant gate passes;
+11. present the final candidate for user acceptance;
+12. if the user requests refinement, return to the autonomous repair/re-QA loop;
+13. only after technical, assistant, and user gates pass, mark the episode `DONE ✅` and update canon.
 
 Do not start the next episode while the current one is still `REFINEMENT_REQUIRED`. Finishing one accepted episode is more useful than spreading unresolved defects across several unfinished episodes.
 
@@ -61,11 +64,15 @@ Do not start the next episode while the current one is still `REFINEMENT_REQUIRE
 Recommended statuses:
 
 - `PLANNED`
-- `IN_PRODUCTION`
+- `RENDERING`
+- `CANDIDATE`
 - `ASSISTANT_REVIEW`
-- `USER_REVIEW`
 - `REFINEMENT_REQUIRED`
+- `USER_REVIEW`
+- `BLOCKED`
 - `DONE`
+
+Use `scripts/productionctl.py` as the state authority for new production packages. `USER_REVIEW` is reachable only after technical and assistant gates pass.
 
 `DONE` requires:
 

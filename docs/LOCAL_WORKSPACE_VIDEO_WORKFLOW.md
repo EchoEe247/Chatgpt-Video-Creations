@@ -1,134 +1,250 @@
 # Local Workspace Video Workflow
 
-This repository originally predated the Local Workspace MCP/plugin runtime. The current operating model should therefore use Local Workspace as the default execution and verification surface instead of treating ChatGPT as a text-only planner that hands off opaque shell work.
+This repository predates the Local Workspace plugin. The old workflow assumed ChatGPT could plan and generate files but could not reliably inspect the local runtime, manage long jobs, interact with provider websites, or review rendered media directly.
 
-The repository remains the source of production truth. Local Workspace is the execution and inspection layer.
+That limitation no longer defines the production model.
 
-## Current execution model
+The repository is the source of production truth. Local Workspace is the execution, inspection, browser, media-QA, and job-control layer.
 
-Use this sequence for serious video work:
+## Default production contract
 
-goal → inspect authoritative project state → create/update production package → render scenes → assemble master → technical QA → visual/audio QA → repair → re-QA → create receipt/review pack → user review → accepted baseline/canon → clean commit
+For serious work, use:
 
-Do not skip from "render command exited 0" to "done".
+**goal → inspect → validate plan → render → deterministic QA → assistant visual/audio review → repair internally → revalidate → final candidate → one user acceptance review → DONE**
 
-## Local Workspace capabilities to use
+The user is not the normal debugging loop.
 
-### Repository and runtime control
+Do not hand over a candidate merely because rendering succeeded. Do not ask the user to repeatedly find technical defects that Local Workspace, media inspection, scene-boundary review, or assistant visual review can detect first.
 
-Use typed workspace, Git, command, process, and log tools for inspecting repository state, editing files, running short checks, starting long renders as persisted jobs, polling them, reading bounded logs, and committing only after the requested result has been verified.
+Intermediate user review is appropriate only when a genuinely subjective creative/product decision blocks further work or when the configured autonomous repair budget has been exhausted.
 
-Renders that can exceed the synchronous command ceiling should use the persisted background-job path.
+## Production controller
 
-### Media-native inspection
+New productions use `templates/production-v2.json` plus `scripts/productionctl.py`.
 
-The Local Workspace bridge now has a media inspection layer designed for this repository:
+The manifest tracks:
 
-- media_probe — normalized FFprobe metadata.
-- media_decode_check — full decode verification.
-- media_frame — inspect a specific timestamp as a native PNG.
-- media_contact_sheet — inspect representative frames across a complete video.
-- media_audio_analyze — integrated loudness, true peak, loudness range, and silence intervals.
+- source provenance;
+- render argv/cwd/output;
+- delivery requirements;
+- candidate, receipt, review-pack, baseline-comparison artifacts;
+- technical, assistant, and user gates;
+- autonomous repair-cycle budget;
+- blocker/escalation reason;
+- exact next action.
 
-These are read-only tools. They do not rewrite media.
+Inspect state with:
 
-The repository also has the same operations through scripts/videoctl.py, so QA remains reproducible outside ChatGPT and in CI.
+    python scripts/productionctl.py status path/to/production.json
 
-## Repository-native media commands
+The controller returns a machine-readable `next_action`, such as:
 
-Check the local runtime:
+- `render`
+- `wait_for_render`
+- `record_candidate`
+- `technical_qa`
+- `build_review_evidence`
+- `assistant_review`
+- `repair`
+- `user_final_review`
+- `finalize`
+- `human_decision`
+
+This prevents a resumed session from guessing where production stopped.
+
+## Autonomous repair policy
+
+The default manifest policy is:
+
+- mode: `autonomous_until_final_review`;
+- user review: `final_candidate_only`;
+- autonomous repair budget: 4 cycles.
+
+When technical or assistant QA fails, record the failure and repair it without asking the user to review that candidate.
+
+Before each repair cycle, the controller archives the current artifact/gate state into manifest history. A replacement candidate resets technical and assistant gates and is evaluated again.
+
+Escalate only when:
+
+- an unresolved creative/product decision genuinely requires user taste;
+- required source material or credentials are unavailable;
+- the production contract is contradictory;
+- a required tool/runtime cannot be repaired;
+- the autonomous repair budget is exhausted.
+
+Use:
+
+    python scripts/productionctl.py assistant-fail production.json --notes "..."
+    python scripts/productionctl.py repair-start production.json --reason "..."
+    python scripts/productionctl.py block production.json --reason "..."
+
+## Long renders
+
+Render commands are stored as argv arrays in the production manifest.
+
+Retrieve the exact render specification with:
+
+    python scripts/productionctl.py render-spec production.json
+
+Run potentially long renders with Local Workspace `command_start`, not a long synchronous request. Poll the persisted job until completion.
+
+Record the resulting artifact with:
+
+    python scripts/productionctl.py candidate production.json path/to/candidate.mp4
+
+This makes interruption/restart recovery explicit.
+
+## Deterministic QA
+
+The repository-native media CLI is `scripts/videoctl.py`.
+
+Useful commands:
 
     python scripts/videoctl.py doctor
+    python scripts/videoctl.py probe candidate.mp4
+    python scripts/videoctl.py decode candidate.mp4
+    python scripts/videoctl.py audio candidate.mp4
+    python scripts/videoctl.py compare baseline.mp4 candidate.mp4
+    python scripts/videoctl.py qa candidate.mp4 --width 1280 --height 720 --fps 24
+    python scripts/videoctl.py review-pack candidate.mp4 qa/review --scene-plan scene-plan.json
 
-Inspect a master:
+The Local Workspace bridge exposes matching read-only operations:
 
-    python scripts/videoctl.py probe output/master.mp4
-    python scripts/videoctl.py decode output/master.mp4
-    python scripts/videoctl.py audio output/master.mp4
+- `media_probe`
+- `media_decode_check`
+- `media_frame`
+- `media_contact_sheet`
+- `media_audio_analyze`
+- `media_compare`
 
-Apply delivery gates:
+`media_compare`/the CLI comparison provide a bounded sampled SSIM regression signal. It is evidence of pixel-level change, not a creative-quality score.
 
-    python scripts/videoctl.py qa output/master.mp4 --width 1280 --height 720 --fps 24 --duration 480 --max-silence-seconds 1.0
+## Prepare assistant review
 
-Create a review packet:
+Once a candidate exists:
 
-    python scripts/videoctl.py review-pack output/master.mp4 review-packs/s01e01 --scene-plan shows/wrong-shift/season-01/episode-01/scene-plan.json
+    python scripts/productionctl.py prepare-review production.json
 
-A review pack contains the exact artifact receipt and SHA-256, technical stream/decode/audio evidence, a timestamped whole-video contact sheet, optional before/after frames for each planned scene boundary, and a machine-readable manifest.
+That command:
 
-The review pack is evidence for review. It does not replace watching or visually inspecting important beats.
+1. applies the manifest's codec/dimensions/FPS/duration/audio gates;
+2. writes `qa/technical-qa.json`;
+3. compares against a configured baseline when available;
+4. generates the exact artifact receipt and SHA-256;
+5. generates a whole-video contact sheet;
+6. extracts before/after frames around every scene boundary;
+7. extracts explicit scene `review_points`;
+8. moves the production to `ASSISTANT_REVIEW` only if deterministic QA passes.
 
-## Production package v2
+A technical failure goes directly to `REFINEMENT_REQUIRED`, not to the user.
 
-New serious productions should start from templates/production-v2.json.
+## Scene plans
 
-The v2 package records lane and production identity, authoritative source provenance, render entrypoint and scene plan, expected delivery properties, candidate-master path, receipt/review-pack paths, and assistant/user review state.
+New episode scene plans use schema version 2 and should include deliberate review points for important beats.
 
-Validate it with:
+Validate before rendering:
 
-    python scripts/validate-production-v2.py path/to/production.json
+    python scripts/validate-scene-plan.py path/to/scene-plan.json
 
-A production cannot be marked DONE under the v2 contract unless both assistant and user review are PASS and the master, artifact receipt, and review pack are recorded.
+The validator rejects invalid FPS/resolution, duplicate scene IDs, overlaps, non-positive durations, and review points outside their scene.
 
-## Long-form rendering
+A typical scene has:
 
-Keep the independent-scene architecture.
+    {
+      "id": "scene-004",
+      "start": 42.0,
+      "duration": 9.0,
+      "purpose": "reveal",
+      "review_points": [
+        {"at_seconds": 0.5, "label": "entry continuity"},
+        {"at_seconds": 4.0, "label": "reveal composition"},
+        {"at_seconds": 8.5, "label": "exit state"}
+      ]
+    }
 
-Use command_start for long scene renders. Each scene should be independently inspectable and replaceable. Before stream-copy assembly, scripts/assemble-scenes.py now verifies that scene video/audio stream signatures are compatible. The final assembled master is decode-checked automatically.
+## Assistant review
 
-If scene formats differ, do not force concat-copy. Normalize the incompatible scene deliberately, then rerun assembly.
+After `prepare-review`, inspect:
 
-## Visual QA with Local Workspace
+- the contact sheet;
+- important review-point frames;
+- scene-boundary before/after pairs;
+- exact frames for suspicious moments;
+- audio analysis;
+- baseline comparison when relevant;
+- continuity and story/marketing truth.
 
-The fastest useful loop is:
+If a defect is visible:
 
-1. media_probe and media_decode_check.
-2. media_audio_analyze.
-3. media_contact_sheet.
-4. Inspect exact timestamps with media_frame.
-5. Inspect frames immediately before/after every scene boundary.
-6. Fix the smallest responsible scene or audio bus.
-7. Repeat the same evidence checks.
-8. Create the artifact receipt/review pack.
+    python scripts/productionctl.py assistant-fail production.json --notes "..."
+    python scripts/productionctl.py repair-start production.json --reason "..."
 
-For animation, structural geometry tests still matter, but they do not replace frame-level visual inspection.
+Then make the narrowest repair, rerender only what is affected, record the replacement candidate, and repeat QA.
 
-## Web-based video generation providers
+If the candidate passes:
 
-Local Workspace now has a dedicated browser runtime with structured snapshots, screenshots, clicks, typing, tabs, and a user-visible viewer. That is the preferred automation path for a provider that only exposes a web UI.
+    python scripts/productionctl.py assistant-pass production.json --notes "..."
 
-Do not add provider-specific browser automation to the core bridge merely because one provider is being tested. Keep provider workflows in this repository until they are stable and clearly reusable.
+Only then does the state become `USER_REVIEW`.
 
-A provider-specific typed plugin tool is justified only when the provider is expected to remain part of the production stack, authentication can be handled safely, job submission/status/download semantics are understood, the wrapper reduces repeated brittle browser automation, and there is a real validation path for returned media.
+## Final user review
 
-Until those conditions exist, use browser automation plus repository-side import and QA.
+The default user-facing handoff is a final candidate that already passed technical and assistant gates.
 
-## Generated-asset ingestion
+The user then accepts:
 
-Any externally generated clip should enter the same local QA pipeline before use:
+    python scripts/productionctl.py user-accept production.json
 
-provider output → save under production package → media probe → decode → visual frame/contact-sheet review → audio review when applicable → scene compatibility check → production use
+or requests a refinement:
 
-Do not trust a provider success message as proof that the returned clip matches requested duration, frame rate, resolution, audio, or visual content.
+    python scripts/productionctl.py user-reject production.json --notes "..."
 
-## Pixel / Android boundary
+A rejection returns the production to the autonomous repair loop. It does not justify handing every subsequent intermediate attempt back to the user.
 
-Video production normally does not need Android Display 0 control.
+## Provider/browser workflow
 
-If an Android/device-level playback check is useful, use the safe isolated-display tools. Do not inject touches into the user's primary display as part of ordinary video QA.
+For web-only generation providers, use the dedicated Local Workspace browser runtime for structured navigation, screenshots, clicks, typing, and downloads.
 
-## Artifact policy
+Provider output is never trusted merely because the provider reports success. Imported media enters the same local QA path:
 
-Candidate artifacts can be large. Do not blindly commit every render.
+**provider output → local artifact → probe/decode → audio QA → contact sheet/review points → baseline/continuity comparison → production use**
 
-For normal candidates preserve deterministic render source/recipe when available, exact filename, SHA-256, media receipt, review pack, and relevant QA notes.
+Provider-specific core plugin tools should be added only after a provider workflow is stable, reusable, and safely authenticated.
 
-A formal B-series baseline should additionally preserve the exact representative artifact or another durable, unambiguous artifact location as required by the baseline policy.
+## Long-form scene architecture
 
-## Finish-line evidence
+Keep independent scene rendering.
 
-A video task is complete only when the requested deliverable exists and the evidence matches the claim.
+Each scene should be replaceable without rerendering unrelated scenes. `scripts/assemble-scenes.py` verifies stream compatibility before concat-copy and decode-checks the assembled master.
 
-For a normal finished MP4 that means, at minimum, expected codec/container/dimensions/FPS/duration, clean decode, expected audio with no unexplained silence/dropouts, representative visual inspection across the full runtime, scene-boundary inspection for assembled long-form work, exact artifact hash, assistant review, and user review when the production contract requires it.
+Master audio should remain continuous where possible so visual scene replacement does not recreate the type of long-form audio dropout previously found in S01E01.
 
-That is the standard the Local Workspace-era repository should enforce.
+## Baselines and regression evidence
+
+When a validated baseline exists, record it as `artifacts.baseline_master` in the production manifest.
+
+`prepare-review` then writes a baseline-comparison receipt automatically. Use it to detect unexplained regression; do not interpret SSIM as a creative ranking.
+
+Formal B-series promotion still requires the exact evidence defined by `baselines/README.md`.
+
+## Finish line
+
+A production is not DONE because a command returned zero.
+
+The normal finish line is:
+
+- source/scene plan valid;
+- requested master exists;
+- delivery properties pass;
+- decode passes;
+- audio checks pass where required;
+- representative frames and important beats reviewed;
+- scene seams reviewed for long-form work;
+- baseline regression understood when applicable;
+- exact artifact receipt preserved;
+- assistant gate PASS;
+- final user acceptance PASS;
+- production package/history updated;
+- clean verified commit.
+
+This is the Local Workspace-era production workflow.

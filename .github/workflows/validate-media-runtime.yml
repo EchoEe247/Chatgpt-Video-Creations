@@ -6,13 +6,21 @@ on:
       - 'src/core/media.py'
       - 'src/core/fonts.py'
       - 'src/core/production_manifest.py'
+      - 'src/core/production_runtime.py'
+      - 'src/core/review_pack.py'
+      - 'src/core/scene_plan.py'
       - 'scripts/videoctl.py'
+      - 'scripts/productionctl.py'
+      - 'scripts/validate-scene-plan.py'
       - 'scripts/assemble-scenes.py'
       - 'scripts/render-2d-geometry-candidate*.py'
       - 'scripts/validate-production-v2.py'
       - 'tests/test_media.py'
       - 'tests/test_production_manifest.py'
+      - 'tests/test_production_runtime.py'
+      - 'tests/test_scene_plan.py'
       - 'templates/production-v2.json'
+      - 'templates/new-episode/scene-plan.json'
       - 'docs/LOCAL_WORKSPACE_VIDEO_WORKFLOW.md'
       - '.github/workflows/validate-media-runtime.yml'
   pull_request:
@@ -20,13 +28,21 @@ on:
       - 'src/core/media.py'
       - 'src/core/fonts.py'
       - 'src/core/production_manifest.py'
+      - 'src/core/production_runtime.py'
+      - 'src/core/review_pack.py'
+      - 'src/core/scene_plan.py'
       - 'scripts/videoctl.py'
+      - 'scripts/productionctl.py'
+      - 'scripts/validate-scene-plan.py'
       - 'scripts/assemble-scenes.py'
       - 'scripts/render-2d-geometry-candidate*.py'
       - 'scripts/validate-production-v2.py'
       - 'tests/test_media.py'
       - 'tests/test_production_manifest.py'
+      - 'tests/test_production_runtime.py'
+      - 'tests/test_scene_plan.py'
       - 'templates/production-v2.json'
+      - 'templates/new-episode/scene-plan.json'
       - 'docs/LOCAL_WORKSPACE_VIDEO_WORKFLOW.md'
       - '.github/workflows/validate-media-runtime.yml'
 
@@ -47,6 +63,10 @@ jobs:
         run: python -m unittest discover -s tests -v
       - name: Validate production v2 template
         run: python scripts/validate-production-v2.py templates/production-v2.json
+      - name: Validate episode scene-plan template
+        run: python scripts/validate-scene-plan.py templates/new-episode/scene-plan.json
+      - name: Check production controller state
+        run: python scripts/productionctl.py status templates/production-v2.json
       - name: Render current 2D geometry baseline candidate
         run: python scripts/render-2d-geometry-candidate-002.py /tmp/geometry-candidate.mp4
       - name: QA rendered candidate

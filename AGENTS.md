@@ -6,7 +6,7 @@ This file is the operating handoff for fresh ChatGPT or agent sessions working i
 
 This repository predates Local Workspace, but current sessions should not operate as if the old limitation still exists.
 
-Use Local Workspace directly for repository inspection, edits, Git, processes, logs, browser automation, and long-running render jobs. For media QA prefer the typed `media_probe`, `media_decode_check`, `media_frame`, `media_contact_sheet`, and `media_audio_analyze` tools. Use `scripts/videoctl.py` as the repository-native equivalent and CI fallback.
+Use Local Workspace directly for repository inspection, edits, Git, processes, logs, browser automation, and long-running render jobs. For media QA prefer the typed `media_probe`, `media_decode_check`, `media_frame`, `media_contact_sheet`, `media_audio_analyze`, and `media_compare` tools. Use `scripts/videoctl.py` as the repository-native equivalent and CI fallback. Use `scripts/productionctl.py` for production state, gates, repair cycles, and restart-safe next-action recovery.
 
 For web-only video generation providers, use the dedicated Local Workspace browser runtime first. Do not add provider-specific core bridge tools until the provider workflow is stable, reusable, and safe to authenticate.
 
@@ -66,9 +66,11 @@ Before operating autonomously for an extended loop, confirm:
 
 Within that scope, use:
 
-**inspect → implement → validate → diagnose → fix → revalidate → review → document receipt → continue**
+**inspect → implement → validate → diagnose → fix → revalidate → assistant review → document receipt → continue**
 
-Stop and keep the work interactive if an unresolved product, architecture, visual, story, character, or marketing decision would otherwise have to be invented. Also stop if a known-good baseline regresses and the cause cannot be explained.
+Keep iterating internally while the next step is objectively diagnosable. Do not use the user as a substitute for media inspection, technical QA, scene-boundary checks, baseline comparison, or ordinary defect diagnosis.
+
+Escalate only if an unresolved product/creative decision genuinely requires user taste, required evidence or access is unavailable, the production contract conflicts with itself, a required runtime cannot be repaired, or the configured repair budget is exhausted.
 
 ## What this repository is for
 
@@ -116,7 +118,9 @@ Establish first:
 
 After the season foundation is ready, production narrows to one episode at a time:
 
-**episode plan → scene plan → independent scene renders → assistant QA → user review → fixes when needed → assistant re-QA → user acceptance → canon update → DONE ✅**
+**episode plan → validated scene plan → independent scene renders → deterministic QA → assistant visual/audio/continuity review → autonomous repair/re-QA loop → final user review → canon update → DONE ✅**
+
+The user is the final acceptance gate, not the normal debugging loop. Do not hand the user intermediate candidates containing defects that can be diagnosed and repaired through Local Workspace. Ask for an intermediate decision only when a genuinely subjective creative choice blocks progress or the autonomous repair budget is exhausted.
 
 Do not start the next episode while the current one still needs refinement.
 

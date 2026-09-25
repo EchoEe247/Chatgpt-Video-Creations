@@ -15,11 +15,13 @@ from src.core.media import (
     analyze_audio,
     artifact_receipt,
     build_contact_sheet,
+    compare_video,
     decode_check,
     extract_frame,
     probe_media,
     validate_master,
 )
+from src.core.review_pack import build_review_pack
 
 
 def _dump(data, output: str | None = None) -> None:
@@ -105,6 +107,17 @@ def contact_sheet(args) -> int:
     return 0
 
 
+def compare(args) -> int:
+    data = compare_video(
+        args.reference,
+        args.candidate,
+        sample_fps=args.sample_fps,
+        max_duration_seconds=args.max_duration_seconds,
+    )
+    _dump(data, args.output)
+    return 0 if data.get("comparable") else 1
+
+
 def receipt(args) -> int:
     data = artifact_receipt(
         args.path,
@@ -134,65 +147,20 @@ def qa(args) -> int:
 
 
 def review_pack(args) -> int:
-    video = Path(args.path).expanduser().resolve()
-    out_dir = Path(args.output_dir).expanduser().resolve()
-    out_dir.mkdir(parents=True, exist_ok=True)
-
-    receipt_path = out_dir / "artifact-receipt.json"
-    sheet_path = out_dir / "contact-sheet.png"
-    receipt_data = artifact_receipt(
-        video,
-        silence_threshold_db=args.silence_threshold_db,
-        silence_min_duration=args.silence_min_duration,
-    )
-    receipt_path.write_text(json.dumps(receipt_data, indent=2, sort_keys=True) + "\n")
-    build_contact_sheet(
-        video,
-        sheet_path,
+    result = build_review_pack(
+        args.path,
+        args.output_dir,
+        scene_plan=args.scene_plan,
         count=args.count,
         columns=args.columns,
         cell_width=args.cell_width,
+        frame_width=args.frame_width,
+        boundary_offset=args.boundary_offset,
+        silence_threshold_db=args.silence_threshold_db,
+        silence_min_duration=args.silence_min_duration,
     )
-
-    boundary_records = []
-    if args.scene_plan:
-        scene_plan_path = Path(args.scene_plan).expanduser().resolve()
-        plan = json.loads(scene_plan_path.read_text(encoding="utf-8"))
-        scenes = plan.get("scenes") or []
-        boundary_dir = out_dir / "boundaries"
-        boundary_dir.mkdir(exist_ok=True)
-        for scene in scenes[1:]:
-            start = float(scene["start_seconds"])
-            number = int(scene.get("scene", len(boundary_records) + 2))
-            before_at = max(0.0, start - args.boundary_offset)
-            after_at = start + args.boundary_offset
-            before = boundary_dir / f"scene_{number:02d}_before.png"
-            after = boundary_dir / f"scene_{number:02d}_after.png"
-            extract_frame(video, before, time_seconds=before_at, max_width=args.frame_width)
-            extract_frame(video, after, time_seconds=after_at, max_width=args.frame_width)
-            boundary_records.append(
-                {
-                    "scene": number,
-                    "boundary_seconds": start,
-                    "before_seconds": before_at,
-                    "before": str(before.relative_to(out_dir)),
-                    "after_seconds": after_at,
-                    "after": str(after.relative_to(out_dir)),
-                }
-            )
-
-    manifest = {
-        "video": str(video),
-        "receipt": receipt_path.name,
-        "contact_sheet": sheet_path.name,
-        "scene_plan": str(Path(args.scene_plan).expanduser().resolve()) if args.scene_plan else None,
-        "boundaries": boundary_records,
-    }
-    manifest_path = out_dir / "review-pack.json"
-    manifest_path.write_text(json.dumps(manifest, indent=2, sort_keys=True) + "\n")
-    print(manifest_path)
+    print(result["manifest_path"])
     return 0
-
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
@@ -234,6 +202,14 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--columns", type=int, default=4)
     p.add_argument("--cell-width", type=int, default=320)
     p.set_defaults(func=contact_sheet)
+
+    p = sub.add_parser("compare", help="Compare candidate video pixels against a reference baseline.")
+    p.add_argument("reference")
+    p.add_argument("candidate")
+    p.add_argument("--sample-fps", type=float, default=6.0)
+    p.add_argument("--max-duration-seconds", type=float, default=60.0)
+    p.add_argument("--output")
+    p.set_defaults(func=compare)
 
     p = sub.add_parser("receipt", help="Create an exact artifact QA receipt.")
     p.add_argument("path")

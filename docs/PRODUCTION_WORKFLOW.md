@@ -8,9 +8,9 @@ The broader operating model is documented in `docs/OPERATING_MODEL.md`.
 
 ## Local Workspace-era verification
 
-Current ChatGPT sessions should use the Local Workspace media tools during the render/review loop rather than waiting until the end to discover media defects. Probe and decode-check each important candidate, inspect audio continuity, generate a whole-video contact sheet, then inspect exact timestamps and scene seams.
+Current ChatGPT sessions should use Local Workspace during the entire render/review loop rather than waiting for the user to discover media defects. Probe and decode-check each candidate, inspect audio continuity, compare against a known-good baseline when available, generate a whole-video contact sheet, inspect declared review points, and inspect exact scene seams.
 
-The same operations are available through `scripts/videoctl.py`. For long-form work, a review pack can preserve the artifact hash, technical evidence, contact sheet, and scene-boundary frames in one reproducible package.
+The same operations are available through `scripts/videoctl.py`. `scripts/productionctl.py` owns production state, deterministic gates, repair history, and the final-user-review transition.
 
 See `docs/LOCAL_WORKSPACE_VIDEO_WORKFLOW.md`.
 
@@ -151,9 +151,13 @@ When a validated baseline covers the broken behavior, compare the candidate agai
 
 ## 10. Acceptance
 
-For business and one-off work: assistant QA pass + user acceptance.
+The default review policy is `final_candidate_only`.
 
-For episode work: assistant QA and user review both have to pass before the episode becomes `DONE ✅` and continuity-out/canon is updated.
+Technical failures and assistant-detected visual/audio/continuity defects return to an internal repair loop. Do not ask the user to review those intermediate candidates merely to discover whether the repair worked.
+
+For business, one-off, and episode work, the normal user-facing handoff happens after deterministic QA and assistant review pass. User acceptance is the final gate.
+
+For episode work, technical, assistant, and user gates all have to pass before the episode becomes `DONE ✅` and continuity-out/canon is updated.
 
 A script completing successfully is not an acceptance state.
 

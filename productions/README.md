@@ -31,3 +31,11 @@ Recommended structure:
 ```
 
 Use `templates/` when starting a production.
+
+## Local Workspace-era production package
+
+New serious productions should include a `production.json` created from `templates/production-v2.json`. That manifest is the restart-safe state authority for render configuration, QA gates, artifacts, repair history, blockers, and final acceptance.
+
+For episode packages, keep `production.json` beside the episode plan/scene plan and store generated QA evidence under `qa/`.
+
+Use `scripts/productionctl.py status <production.json>` after any interruption instead of reconstructing state from chat history.

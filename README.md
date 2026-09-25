@@ -27,9 +27,9 @@ See [`docs/OPERATING_MODEL.md`](docs/OPERATING_MODEL.md).
 
 ## Local Workspace runtime
 
-This repository now assumes the Local Workspace plugin is available for normal ChatGPT production work. Long renders should use persisted background jobs, and finished/candidate media should be inspected through the media-native probe, decode, frame, contact-sheet, and audio-analysis tools instead of relying only on shell logs.
+This repository now assumes the Local Workspace plugin is available for normal ChatGPT production work. Long renders use persisted background jobs; candidate media is inspected through native probe/decode/frame/contact-sheet/audio/baseline-comparison tools rather than relying on shell logs or repeated user review.
 
-The repository mirrors those checks in `scripts/videoctl.py` so the workflow is reproducible in CI and outside ChatGPT. New serious productions should use the v2 production package contract in `templates/production-v2.json`.
+The repository mirrors those checks in `scripts/videoctl.py` and tracks autonomous production state with `scripts/productionctl.py`. The default policy is internal technical/assistant QA and repair until a final candidate is ready, followed by one user acceptance review. New serious productions use the v2 production package contract in `templates/production-v2.json`.
 
 See `docs/LOCAL_WORKSPACE_VIDEO_WORKFLOW.md`.
 
@@ -129,7 +129,8 @@ See [`docs/SCENE_GEOMETRY.md`](docs/SCENE_GEOMETRY.md) and [`docs/VISUAL_QA_STAN
 - [`templates/`](templates/) — business release, show, season, episode, and production starters.
 - [`productions/`](productions/) — expected layout for real production packages.
 - [`scripts/`](scripts/) — lightweight validation and assembly helpers.
-- `scripts/videoctl.py` — reproducible probe, decode, audio, frame, contact-sheet, QA, receipt, and review-pack CLI.
+- `scripts/videoctl.py` — reproducible probe, decode, audio, frame, contact-sheet, baseline comparison, QA, receipt, and review-pack CLI.
+- `scripts/productionctl.py` — restart-safe production state, QA gates, repair-cycle history, escalation, and final-review control.
 - [`src/`](src/) and [`presets/`](presets/) — reusable rendering framework boundaries.
 - [`tests/`](tests/) — regression checks for reusable production primitives.
 

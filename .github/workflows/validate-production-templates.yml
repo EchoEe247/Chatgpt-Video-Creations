@@ -27,5 +27,11 @@ jobs:
         run: python3 scripts/validate-scene-alignment.py templates/set-anchors.json
       - name: Validate episode state template
         run: python3 scripts/validate-continuity.py templates/new-episode/status.json
+      - name: Validate production v2 template
+        run: python3 scripts/validate-production-v2.py templates/production-v2.json
+      - name: Validate scene-plan template
+        run: python3 scripts/validate-scene-plan.py templates/new-episode/scene-plan.json
+      - name: Validate production controller state
+        run: python3 scripts/productionctl.py status templates/production-v2.json
       - name: Compile helper scripts
         run: python3 -m py_compile scripts/*.py
