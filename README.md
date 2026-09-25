@@ -25,6 +25,14 @@ What should become less flexible is repeated guesswork around relationships we a
 
 See [`docs/OPERATING_MODEL.md`](docs/OPERATING_MODEL.md).
 
+## Local Workspace runtime
+
+This repository now assumes the Local Workspace plugin is available for normal ChatGPT production work. Long renders should use persisted background jobs, and finished/candidate media should be inspected through the media-native probe, decode, frame, contact-sheet, and audio-analysis tools instead of relying only on shell logs.
+
+The repository mirrors those checks in `scripts/videoctl.py` so the workflow is reproducible in CI and outside ChatGPT. New serious productions should use the v2 production package contract in `templates/production-v2.json`.
+
+See `docs/LOCAL_WORKSPACE_VIDEO_WORKFLOW.md`.
+
 ## Cross-project wording authority
 
 For Angel-owned project communication, this repository uses `EchoEe247/Chatgpt-Angel-wording-refinement` as the wording/refinement authority. It does not replace this repo's technical truth; it controls how Angel-owned documentation, marketing copy, captions, announcements, and public project communication are refined.
@@ -117,9 +125,11 @@ See [`docs/SCENE_GEOMETRY.md`](docs/SCENE_GEOMETRY.md) and [`docs/VISUAL_QA_STAN
 - [`docs/CAPABILITY_BASELINES.md`](docs/CAPABILITY_BASELINES.md) — accepted production capability baselines and limits.
 - [`baselines/`](baselines/) — formal B-series known-good registry and promotion rules.
 - [`docs/REFERENCE_SAMPLES.md`](docs/REFERENCE_SAMPLES.md) — what earlier production tests proved, failed, or established.
+- [`docs/LOCAL_WORKSPACE_VIDEO_WORKFLOW.md`](docs/LOCAL_WORKSPACE_VIDEO_WORKFLOW.md) — Local Workspace execution, media QA, provider automation, and artifact-review workflow.
 - [`templates/`](templates/) — business release, show, season, episode, and production starters.
 - [`productions/`](productions/) — expected layout for real production packages.
 - [`scripts/`](scripts/) — lightweight validation and assembly helpers.
+- `scripts/videoctl.py` — reproducible probe, decode, audio, frame, contact-sheet, QA, receipt, and review-pack CLI.
 - [`src/`](src/) and [`presets/`](presets/) — reusable rendering framework boundaries.
 - [`tests/`](tests/) — regression checks for reusable production primitives.
 

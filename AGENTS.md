@@ -2,6 +2,16 @@
 
 This file is the operating handoff for fresh ChatGPT or agent sessions working in this repository.
 
+## Local Workspace is the default execution layer
+
+This repository predates Local Workspace, but current sessions should not operate as if the old limitation still exists.
+
+Use Local Workspace directly for repository inspection, edits, Git, processes, logs, browser automation, and long-running render jobs. For media QA prefer the typed `media_probe`, `media_decode_check`, `media_frame`, `media_contact_sheet`, and `media_audio_analyze` tools. Use `scripts/videoctl.py` as the repository-native equivalent and CI fallback.
+
+For web-only video generation providers, use the dedicated Local Workspace browser runtime first. Do not add provider-specific core bridge tools until the provider workflow is stable, reusable, and safe to authenticate.
+
+Read `docs/LOCAL_WORKSPACE_VIDEO_WORKFLOW.md` before broad production-runtime changes.
+
 ## Angel wording integration
 
 For Angel-owned project communication, use `EchoEe247/Chatgpt-Angel-wording-refinement` as the wording/refinement authority.

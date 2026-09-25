@@ -1,0 +1,53 @@
+name: Validate media runtime
+
+on:
+  push:
+    paths:
+      - 'src/core/media.py'
+      - 'src/core/fonts.py'
+      - 'src/core/production_manifest.py'
+      - 'scripts/videoctl.py'
+      - 'scripts/assemble-scenes.py'
+      - 'scripts/render-2d-geometry-candidate*.py'
+      - 'scripts/validate-production-v2.py'
+      - 'tests/test_media.py'
+      - 'tests/test_production_manifest.py'
+      - 'templates/production-v2.json'
+      - 'docs/LOCAL_WORKSPACE_VIDEO_WORKFLOW.md'
+      - '.github/workflows/validate-media-runtime.yml'
+  pull_request:
+    paths:
+      - 'src/core/media.py'
+      - 'src/core/fonts.py'
+      - 'src/core/production_manifest.py'
+      - 'scripts/videoctl.py'
+      - 'scripts/assemble-scenes.py'
+      - 'scripts/render-2d-geometry-candidate*.py'
+      - 'scripts/validate-production-v2.py'
+      - 'tests/test_media.py'
+      - 'tests/test_production_manifest.py'
+      - 'templates/production-v2.json'
+      - 'docs/LOCAL_WORKSPACE_VIDEO_WORKFLOW.md'
+      - '.github/workflows/validate-media-runtime.yml'
+
+jobs:
+  media-runtime:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+      - name: Install media runtime
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
+          python -m pip install pillow
+      - name: Run regression tests
+        run: python -m unittest discover -s tests -v
+      - name: Validate production v2 template
+        run: python scripts/validate-production-v2.py templates/production-v2.json
+      - name: Render current 2D geometry baseline candidate
+        run: python scripts/render-2d-geometry-candidate-002.py /tmp/geometry-candidate.mp4
+      - name: QA rendered candidate
+        run: python scripts/videoctl.py qa /tmp/geometry-candidate.mp4 --width 1280 --height 720 --fps 24 --duration 8 --no-require-audio

@@ -6,6 +6,14 @@ The workflow therefore continues through actual MP4 review and repair instead of
 
 The broader operating model is documented in `docs/OPERATING_MODEL.md`.
 
+## Local Workspace-era verification
+
+Current ChatGPT sessions should use the Local Workspace media tools during the render/review loop rather than waiting until the end to discover media defects. Probe and decode-check each important candidate, inspect audio continuity, generate a whole-video contact sheet, then inspect exact timestamps and scene seams.
+
+The same operations are available through `scripts/videoctl.py`. For long-form work, a review pack can preserve the artifact hash, technical evidence, contact sheet, and scene-boundary frames in one reproducible package.
+
+See `docs/LOCAL_WORKSPACE_VIDEO_WORKFLOW.md`.
+
 ## 0. Determine the maturity state
 
 Before changing an area, decide whether it is still being discovered or is mature enough to operate from established rules.

@@ -13,13 +13,15 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from src.core.geometry import Camera2D, Point, SetGeometry
+from src.core.fonts import find_dejavu_sans
 from src.animation_2d.layout import CharacterRigLayout, place_character, place_portal
 
 W, H, FPS, DUR = 1280, 720, 24, 8.0
 N = int(FPS * DUR)
 OUT = Path(sys.argv[1]) if len(sys.argv) > 1 else ROOT / "2d_geometry_candidate_002.mp4"
-FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
-FONT_B = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
+OUT.parent.mkdir(parents=True, exist_ok=True)
+FONT = find_dejavu_sans()
+FONT_B = find_dejavu_sans(bold=True)
 
 
 def font(size: int, bold: bool = False):
