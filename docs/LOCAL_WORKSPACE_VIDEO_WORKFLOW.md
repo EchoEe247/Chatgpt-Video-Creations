@@ -103,9 +103,11 @@ Before assistant PASS, final user acceptance, or a trusted DONE status, the cont
 - candidate bytes still match the recorded SHA-256;
 - artifact receipt exists and contains the same SHA-256;
 - technical QA evidence exists, passes, and is bound to the same SHA-256;
-- review-pack manifest exists and points at the current candidate.
+- review-pack manifest exists, carries the same candidate SHA-256, and points at the current candidate;
+- contact sheet, scene-boundary frames, and review-point still/clip evidence referenced by the pack still exist;
+- configured baseline-comparison evidence exists and is bound to the same candidate when applicable.
 
-If the candidate disappears or changes after review, acceptance fails closed.
+If the candidate or required review evidence disappears or changes after review, acceptance fails closed.
 
 ## Delivery profiles
 

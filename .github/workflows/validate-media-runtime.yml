@@ -24,6 +24,7 @@ on:
       - 'templates/production-v2.json'
       - 'templates/scene-assembly.json'
       - 'shows/wrong-shift/season-01/episode-01/production-v2.json'
+      - 'shows/wrong-shift/season-01/episode-01/scene-plan.json'
       - 'templates/new-episode/scene-plan.json'
       - 'docs/LOCAL_WORKSPACE_VIDEO_WORKFLOW.md'
       - '.github/workflows/validate-media-runtime.yml'
@@ -50,6 +51,7 @@ on:
       - 'templates/production-v2.json'
       - 'templates/scene-assembly.json'
       - 'shows/wrong-shift/season-01/episode-01/production-v2.json'
+      - 'shows/wrong-shift/season-01/episode-01/scene-plan.json'
       - 'templates/new-episode/scene-plan.json'
       - 'docs/LOCAL_WORKSPACE_VIDEO_WORKFLOW.md'
       - '.github/workflows/validate-media-runtime.yml'
@@ -77,6 +79,8 @@ jobs:
         run: python scripts/productionctl.py status templates/production-v2.json
       - name: Validate Wrong Shift legacy migration record
         run: python scripts/validate-production-v2.py shows/wrong-shift/season-01/episode-01/production-v2.json
+      - name: Validate Wrong Shift scene plan
+        run: python scripts/validate-scene-plan.py shows/wrong-shift/season-01/episode-01/scene-plan.json
       - name: Render current 2D geometry baseline candidate
         run: python scripts/render-2d-geometry-candidate-002.py /tmp/geometry-candidate.mp4
       - name: QA rendered candidate

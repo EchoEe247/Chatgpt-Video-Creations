@@ -1,17 +1,142 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "episode": "S01E01",
-  "duration_seconds": 480.0,
+  "duration_seconds": 480,
   "scenes": [
-    {"scene":1,"name":"scene_01_office","start_seconds":0.0,"duration_seconds":48.0},
-    {"scene":2,"name":"scene_02_title","start_seconds":48.0,"duration_seconds":12.0},
-    {"scene":3,"name":"scene_03_lobby","start_seconds":60.0,"duration_seconds":58.0},
-    {"scene":4,"name":"scene_04_elevator","start_seconds":118.0,"duration_seconds":52.0},
-    {"scene":5,"name":"scene_05_floor_minus_zero","start_seconds":170.0,"duration_seconds":62.0},
-    {"scene":6,"name":"scene_06_service_alcove","start_seconds":232.0,"duration_seconds":60.0},
-    {"scene":7,"name":"scene_07_boundary_sync","start_seconds":292.0,"duration_seconds":62.0},
-    {"scene":8,"name":"scene_08_repair","start_seconds":354.0,"duration_seconds":58.0},
-    {"scene":9,"name":"scene_09_aftermath","start_seconds":412.0,"duration_seconds":42.0},
-    {"scene":10,"name":"scene_10_tag","start_seconds":454.0,"duration_seconds":26.0}
+    {
+      "scene": 1,
+      "name": "scene_01_office",
+      "start_seconds": 0,
+      "duration_seconds": 48,
+      "review_points": [
+        {
+          "at_seconds": 24,
+          "label": "scene_01_office interior motion/audio",
+          "clip_duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene": 2,
+      "name": "scene_02_title",
+      "start_seconds": 48,
+      "duration_seconds": 12,
+      "review_points": [
+        {
+          "at_seconds": 6,
+          "label": "scene_02_title interior motion/audio",
+          "clip_duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene": 3,
+      "name": "scene_03_lobby",
+      "start_seconds": 60,
+      "duration_seconds": 58,
+      "review_points": [
+        {
+          "at_seconds": 29,
+          "label": "scene_03_lobby interior motion/audio",
+          "clip_duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene": 4,
+      "name": "scene_04_elevator",
+      "start_seconds": 118,
+      "duration_seconds": 52,
+      "review_points": [
+        {
+          "at_seconds": 26,
+          "label": "scene_04_elevator interior motion/audio",
+          "clip_duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene": 5,
+      "name": "scene_05_floor_minus_zero",
+      "start_seconds": 170,
+      "duration_seconds": 62,
+      "review_points": [
+        {
+          "at_seconds": 31,
+          "label": "scene_05_floor_minus_zero interior motion/audio",
+          "clip_duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene": 6,
+      "name": "scene_06_service_alcove",
+      "start_seconds": 232,
+      "duration_seconds": 60,
+      "review_points": [
+        {
+          "at_seconds": 30,
+          "label": "scene_06_service_alcove interior motion/audio",
+          "clip_duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene": 7,
+      "name": "scene_07_boundary_sync",
+      "start_seconds": 292,
+      "duration_seconds": 62,
+      "review_points": [
+        {
+          "at_seconds": 31,
+          "label": "scene_07_boundary_sync interior motion/audio",
+          "clip_duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene": 8,
+      "name": "scene_08_repair",
+      "start_seconds": 354,
+      "duration_seconds": 58,
+      "review_points": [
+        {
+          "at_seconds": 29,
+          "label": "scene_08_repair interior motion/audio",
+          "clip_duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene": 9,
+      "name": "scene_09_aftermath",
+      "start_seconds": 412,
+      "duration_seconds": 42,
+      "review_points": [
+        {
+          "at_seconds": 21,
+          "label": "scene_09_aftermath interior motion/audio",
+          "clip_duration_seconds": 3
+        }
+      ]
+    },
+    {
+      "scene": 10,
+      "name": "scene_10_tag",
+      "start_seconds": 454,
+      "duration_seconds": 26,
+      "review_points": [
+        {
+          "at_seconds": 13,
+          "label": "scene_10_tag interior motion/audio",
+          "clip_duration_seconds": 3
+        }
+      ]
+    }
+  ],
+  "fps": 24,
+  "resolution": [
+    1280,
+    720
   ]
 }

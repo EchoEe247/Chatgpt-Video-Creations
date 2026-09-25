@@ -30,9 +30,9 @@ DEFAULT_WORKFLOW = {
 }
 
 DEFAULT_GATES = {
-    "technical": {"status": PENDING, "evidence": None},
-    "assistant": {"status": PENDING, "notes": None},
-    "user": {"status": PENDING, "notes": None},
+    "technical": {"status": PENDING, "evidence": None, "candidate_sha256": None},
+    "assistant": {"status": PENDING, "notes": None, "candidate_sha256": None},
+    "user": {"status": PENDING, "notes": None, "candidate_sha256": None},
 }
 
 

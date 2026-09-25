@@ -127,10 +127,8 @@ Its numbers exist so tests and validators can exercise the contract.
 
 Passing `scripts/validate-scene-alignment.py` proves that the file is internally coherent. It does not prove that those coordinates look correct in an actual rendered scene.
 
-## Next promotion step
+## Current validated state
 
-The next relevant production step is:
+The corrected Candidate 002 geometry/composition reference has already been promoted as **B1**. The exact scope and evidence live in `baselines/registry.json` and `receipts/baselines/B1-2d-geometry.md`.
 
-**connect renderer → use shared geometry → render corrected reference scene → inspect floor/portal alignment → refine measurements → user review → preserve accepted measurements → consider B1**
-
-Until that visual loop passes, do not call the current geometry values a validated baseline.
+Do not generalize B1 into a universal layout rule. `templates/set-anchors.json` remains a synthetic structural fixture; future production sets still require measured/rendered validation before their coordinates become trusted production geometry.

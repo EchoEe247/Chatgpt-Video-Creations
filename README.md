@@ -61,9 +61,9 @@ For original animation, I do not want to improvise Episode 1 first and only afte
 
 The working flow is:
 
-**research/vision → show bible → season arc → episode map → story/dialogue foundation → Episode 1 production → assistant QA → user review → fixes when needed → accepted canon → Episode 2**
+**research/vision → show bible → season arc → episode map → story/dialogue foundation → Episode 1 production → deterministic QA → assistant review → autonomous repair/re-QA → final user acceptance → accepted canon → Episode 2**
 
-Episodes are produced one at a time. That keeps review focused and makes continuity easier to control. An episode is not accepted canon just because the MP4 rendered successfully; assistant review and user review both have to pass first.
+Episodes are produced one at a time. The user is the final acceptance gate, not the normal defect-finding loop. An episode is not accepted canon just because the MP4 rendered successfully; deterministic QA, assistant review, and final user acceptance all have to pass first.
 
 See [`docs/ANIMATION_SHOW_WORKFLOW.md`](docs/ANIMATION_SHOW_WORKFLOW.md) and [`docs/CONTINUITY_SYSTEM.md`](docs/CONTINUITY_SYSTEM.md).
 

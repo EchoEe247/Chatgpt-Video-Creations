@@ -63,15 +63,18 @@
   "gates": {
     "technical": {
       "status": "PENDING",
-      "evidence": null
+      "evidence": null,
+      "candidate_sha256": null
     },
     "assistant": {
       "status": "PENDING",
-      "notes": null
+      "notes": null,
+      "candidate_sha256": null
     },
     "user": {
       "status": "PENDING",
-      "notes": null
+      "notes": null,
+      "candidate_sha256": null
     }
   },
   "review": {

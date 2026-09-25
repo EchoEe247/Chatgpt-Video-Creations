@@ -188,6 +188,10 @@ def validate_production_v2(data: Mapping[str, Any]) -> list[str]:
         ):
             errors.append(f"gates.{gate_name}.candidate_sha256 must be a lowercase SHA-256 or null")
 
+    if status in {"ASSISTANT_REVIEW", "USER_REVIEW", "DONE"}:
+        technical_sha = gates["technical"].get("candidate_sha256")
+        if technical_sha != candidate_sha:
+            errors.append(f"{status} requires technical gate bound to artifacts.candidate_sha256")
     if status in {"USER_REVIEW", "DONE"}:
         assistant_sha = gates["assistant"].get("candidate_sha256")
         if assistant_sha != candidate_sha:

@@ -469,6 +469,7 @@ def command_prepare_review(args) -> int:
     data["gates"]["technical"] = {
         "status": PASS if qa["pass"] else FAIL,
         "evidence": _relative(manifest, technical_path),
+        "candidate_sha256": digest,
     }
 
     artifacts["baseline_comparison"] = None
