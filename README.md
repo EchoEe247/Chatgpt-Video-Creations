@@ -27,9 +27,9 @@ See [`docs/OPERATING_MODEL.md`](docs/OPERATING_MODEL.md).
 
 ## Local Workspace runtime
 
-This repository now assumes the Local Workspace plugin is available for normal ChatGPT production work. Long renders use persisted background jobs; candidate media is inspected through native probe/decode/frame/contact-sheet/audio/baseline-comparison tools rather than relying on shell logs or repeated user review.
+This repository now assumes the Local Workspace plugin is available for normal ChatGPT production work. Long renders use persisted background jobs whose IDs are recorded in the production manifest and reconciled after interruption. Candidate media is copied into immutable iteration directories and bound to SHA-256 before QA.
 
-The repository mirrors those checks in `scripts/videoctl.py` and tracks autonomous production state with `scripts/productionctl.py`. The default policy is internal technical/assistant QA and repair until a final candidate is ready, followed by one user acceptance review. New serious productions use the v2 production package contract in `templates/production-v2.json`.
+The repository mirrors native media checks in `scripts/videoctl.py` and tracks autonomous production state with `scripts/productionctl.py`. The default policy is internal technical/assistant QA and repair until a final candidate is ready, followed by one user acceptance review. Acceptance fails closed if the candidate/evidence files are missing or no longer match the reviewed hash. New serious productions use the v2 contract in `templates/production-v2.json`.
 
 See `docs/LOCAL_WORKSPACE_VIDEO_WORKFLOW.md`.
 
@@ -75,9 +75,9 @@ The repository now keeps these concepts separate.
 
 **Validated B-series baselines** are stronger regression/recovery checkpoints tied to an exact commit, exact artifact, conditions, validation scope, and known limitations.
 
-The existing business, 2D, 3D, and long-form references remain capability baselines. They are not being retroactively labeled `B1` because the repository does not yet preserve enough exact artifact provenance for that stronger claim.
+The older business, 3D, and long-form references remain capability baselines unless a formal registry entry says otherwise.
 
-The first B-series baseline should come from a newly validated state with durable evidence.
+The repository now has **B1**, a narrowly scoped validated 2D geometry/composition baseline with exact commit, artifacts, hashes, conditions, technical validation, visual validation, user acceptance, and a durable receipt. Do not generalize B1 beyond the behaviors named in `baselines/registry.json`.
 
 See [`docs/CAPABILITY_BASELINES.md`](docs/CAPABILITY_BASELINES.md) and [`baselines/README.md`](baselines/README.md).
 
@@ -85,7 +85,7 @@ See [`docs/CAPABILITY_BASELINES.md`](docs/CAPABILITY_BASELINES.md) and [`baselin
 
 Long-form work should not become lower-quality animation just because the final runtime is longer. The better approach is to keep the richer scene-level quality and assemble the final video from independently rendered scenes.
 
-**master plan → scene renders → scene QA/fixes → continuity check → assembly → master audio → final QA**
+**master plan → scene renders → scene QA/fixes → continuity check → explicit ordered assembly manifest → assembly → master audio → final QA**
 
 That also means a bad Scene 6 can normally be replaced without rerendering Scenes 1–5 and 7–12 unless a shared asset or continuity change genuinely affects them.
 
@@ -130,7 +130,8 @@ See [`docs/SCENE_GEOMETRY.md`](docs/SCENE_GEOMETRY.md) and [`docs/VISUAL_QA_STAN
 - [`productions/`](productions/) — expected layout for real production packages.
 - [`scripts/`](scripts/) — lightweight validation and assembly helpers.
 - `scripts/videoctl.py` — reproducible probe, decode, audio, frame, contact-sheet, baseline comparison, QA, receipt, and review-pack CLI.
-- `scripts/productionctl.py` — restart-safe production state, QA gates, repair-cycle history, escalation, and final-review control.
+- `scripts/productionctl.py` — restart-safe production state, persisted render jobs, immutable iterations, hash-bound QA gates, repair history, escalation, and final-review control.
+- `templates/scene-assembly.json` — explicit ordered long-form assembly input; the assembler never sweeps a directory for arbitrary MP4s.
 - [`src/`](src/) and [`presets/`](presets/) — reusable rendering framework boundaries.
 - [`tests/`](tests/) — regression checks for reusable production primitives.
 

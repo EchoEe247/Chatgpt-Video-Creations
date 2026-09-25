@@ -62,6 +62,18 @@ def validate_scene_plan(data: Mapping[str, Any]) -> list[str]:
                 errors.append(f"scene {index} review point {point_index} needs numeric at_seconds")
             elif float(value) < 0 or float(value) > duration:
                 errors.append(f"scene {index} review point {point_index} is outside scene duration")
+            if isinstance(point, Mapping) and "clip_duration_seconds" in point:
+                clip_duration = point.get("clip_duration_seconds")
+                if (
+                    not isinstance(clip_duration, (int, float))
+                    or isinstance(clip_duration, bool)
+                    or clip_duration <= 0
+                    or clip_duration > 10
+                ):
+                    errors.append(
+                        f"scene {index} review point {point_index} clip_duration_seconds "
+                        "must be > 0 and <= 10"
+                    )
 
     declared = data.get("duration_seconds")
     if declared is not None and isinstance(declared, (int, float)) and not isinstance(declared, bool):

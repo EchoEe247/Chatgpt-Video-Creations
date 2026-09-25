@@ -8,6 +8,17 @@ FAIL = "FAIL"
 PENDING = "PENDING"
 GATE_STATES = {PASS, FAIL, PENDING}
 
+DEFAULT_RENDER_JOB = {
+    "job_id": None,
+    "state": "NONE",
+    "command": None,
+    "cwd": None,
+    "output": None,
+    "started_at": None,
+    "completed_at": None,
+    "exit_code": None,
+}
+
 DEFAULT_WORKFLOW = {
     "mode": "autonomous_until_final_review",
     "user_review_policy": "final_candidate_only",
@@ -15,6 +26,7 @@ DEFAULT_WORKFLOW = {
     "repair_cycle": 0,
     "escalation_reason": None,
     "last_action": None,
+    "render_job": deepcopy(DEFAULT_RENDER_JOB),
 }
 
 DEFAULT_GATES = {
@@ -29,7 +41,11 @@ def normalized_runtime(data: Mapping[str, Any]) -> dict[str, Any]:
     workflow = deepcopy(DEFAULT_WORKFLOW)
     raw_workflow = data.get("workflow")
     if isinstance(raw_workflow, Mapping):
-        workflow.update(raw_workflow)
+        for key, value in raw_workflow.items():
+            if key == "render_job" and isinstance(value, Mapping):
+                workflow["render_job"].update(value)
+            else:
+                workflow[key] = value
 
     gates = deepcopy(DEFAULT_GATES)
     raw_gates = data.get("gates")
@@ -40,9 +56,9 @@ def normalized_runtime(data: Mapping[str, Any]) -> dict[str, Any]:
             if isinstance(raw_gate, Mapping):
                 gates[name].update(raw_gate)
 
-    # Backward-compatibility with the first v2 template. Once explicit gates
-    # exist they are authoritative; the legacy review aliases must never
-    # resurrect an old FAIL/PASS state after a gate is intentionally reset.
+    # Backward compatibility with the earliest v2 shape. Once explicit gates
+    # exist they are authoritative; legacy aliases must never resurrect a
+    # previous PASS/FAIL after a gate was intentionally reset.
     review = data.get("review")
     if isinstance(review, Mapping) and not explicit_gates:
         assistant = review.get("assistant")
@@ -92,7 +108,7 @@ def artifact_evidence_complete(data: Mapping[str, Any]) -> bool:
         return False
     return all(
         artifacts.get(key)
-        for key in ("candidate_master", "artifact_receipt", "review_pack")
+        for key in ("candidate_master", "candidate_sha256", "artifact_receipt", "review_pack")
     )
 
 
@@ -129,11 +145,25 @@ def next_action(data: Mapping[str, Any]) -> str:
     if status == "PLANNED":
         return "render"
     if status == "RENDERING":
-        return "wait_for_render"
+        render_job = runtime["workflow"].get("render_job") or {}
+        state = str(render_job.get("state") or "NONE").upper()
+        if not render_job.get("job_id"):
+            return "start_render_job"
+        if state in {"NONE", "RUNNING", "UNKNOWN"}:
+            return "reconcile_render_job"
+        if state == "COMPLETED":
+            return "record_candidate"
+        if state in {"FAILED", "MISSING"}:
+            return "repair" if repair_budget_remaining(data) > 0 else "human_decision"
+        return "reconcile_render_job"
+    if status == "REFINEMENT_REQUIRED" and not artifacts.get("candidate_master"):
+        return "repair" if repair_budget_remaining(data) > 0 else "human_decision"
     if not artifacts.get("candidate_master"):
         return "record_candidate"
-    if gates["technical"]["status"] != PASS:
+    if gates["technical"]["status"] == PENDING:
         return "technical_qa"
+    if gates["technical"]["status"] == FAIL:
+        return "repair" if repair_budget_remaining(data) > 0 else "human_decision"
     if not artifacts.get("artifact_receipt") or not artifacts.get("review_pack"):
         return "build_review_evidence"
     if gates["assistant"]["status"] == PENDING:

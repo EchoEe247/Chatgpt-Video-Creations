@@ -16,10 +16,14 @@ on:
       - 'scripts/render-2d-geometry-candidate*.py'
       - 'scripts/validate-production-v2.py'
       - 'tests/test_media.py'
+      - 'tests/test_assembly.py'
+      - 'tests/test_production_controller.py'
       - 'tests/test_production_manifest.py'
       - 'tests/test_production_runtime.py'
       - 'tests/test_scene_plan.py'
       - 'templates/production-v2.json'
+      - 'templates/scene-assembly.json'
+      - 'shows/wrong-shift/season-01/episode-01/production-v2.json'
       - 'templates/new-episode/scene-plan.json'
       - 'docs/LOCAL_WORKSPACE_VIDEO_WORKFLOW.md'
       - '.github/workflows/validate-media-runtime.yml'
@@ -38,10 +42,14 @@ on:
       - 'scripts/render-2d-geometry-candidate*.py'
       - 'scripts/validate-production-v2.py'
       - 'tests/test_media.py'
+      - 'tests/test_assembly.py'
+      - 'tests/test_production_controller.py'
       - 'tests/test_production_manifest.py'
       - 'tests/test_production_runtime.py'
       - 'tests/test_scene_plan.py'
       - 'templates/production-v2.json'
+      - 'templates/scene-assembly.json'
+      - 'shows/wrong-shift/season-01/episode-01/production-v2.json'
       - 'templates/new-episode/scene-plan.json'
       - 'docs/LOCAL_WORKSPACE_VIDEO_WORKFLOW.md'
       - '.github/workflows/validate-media-runtime.yml'
@@ -67,7 +75,9 @@ jobs:
         run: python scripts/validate-scene-plan.py templates/new-episode/scene-plan.json
       - name: Check production controller state
         run: python scripts/productionctl.py status templates/production-v2.json
+      - name: Validate Wrong Shift legacy migration record
+        run: python scripts/validate-production-v2.py shows/wrong-shift/season-01/episode-01/production-v2.json
       - name: Render current 2D geometry baseline candidate
         run: python scripts/render-2d-geometry-candidate-002.py /tmp/geometry-candidate.mp4
       - name: QA rendered candidate
-        run: python scripts/videoctl.py qa /tmp/geometry-candidate.mp4 --width 1280 --height 720 --fps 24 --duration 8 --no-require-audio
+        run: python scripts/videoctl.py qa /tmp/geometry-candidate.mp4 --width 1280 --height 720 --fps 24 --duration 8 --video-codec h264 --pixel-format yuv420p --no-require-audio

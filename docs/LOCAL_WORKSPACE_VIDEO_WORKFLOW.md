@@ -1,8 +1,8 @@
 # Local Workspace Video Workflow
 
-This repository predates the Local Workspace plugin. The old workflow assumed ChatGPT could plan and generate files but could not reliably inspect the local runtime, manage long jobs, interact with provider websites, or review rendered media directly.
+This repository predates the Local Workspace plugin. The old workflow assumed ChatGPT could plan and create files but could not reliably inspect the local runtime, persist long jobs, drive provider websites, or inspect rendered media directly.
 
-That limitation no longer defines the production model.
+That limitation no longer defines production.
 
 The repository is the source of production truth. Local Workspace is the execution, inspection, browser, media-QA, and job-control layer.
 
@@ -10,24 +10,29 @@ The repository is the source of production truth. Local Workspace is the executi
 
 For serious work, use:
 
-**goal → inspect → validate plan → render → deterministic QA → assistant visual/audio review → repair internally → revalidate → final candidate → one user acceptance review → DONE**
+**goal → inspect → validate plan → start tracked render job → reconcile job → preserve candidate immutably → deterministic QA → assistant visual/audio review → repair internally → revalidate → final candidate → one user acceptance review → DONE**
 
 The user is not the normal debugging loop.
 
-Do not hand over a candidate merely because rendering succeeded. Do not ask the user to repeatedly find technical defects that Local Workspace, media inspection, scene-boundary review, or assistant visual review can detect first.
+Do not hand over a candidate merely because rendering succeeded. Technical defects, media corruption, wrong delivery properties, scene-boundary problems, regressions, ordinary visual defects, and repair verification should be handled before user review.
 
-Intermediate user review is appropriate only when a genuinely subjective creative/product decision blocks further work or when the configured autonomous repair budget has been exhausted.
+Intermediate user input is appropriate only when a genuinely subjective product/creative decision blocks progress, required evidence/access is unavailable, or the autonomous repair budget is exhausted.
 
 ## Production controller
 
 New productions use `templates/production-v2.json` plus `scripts/productionctl.py`.
 
-The manifest tracks:
+The manifest records:
 
 - source provenance;
 - render argv/cwd/output;
-- delivery requirements;
-- candidate, receipt, review-pack, baseline-comparison artifacts;
+- explicit delivery profile and limits;
+- persisted Local Workspace render-job identity/state;
+- immutable candidate iteration directory;
+- candidate SHA-256;
+- technical QA evidence;
+- review pack and artifact receipt;
+- baseline comparison;
 - technical, assistant, and user gates;
 - autonomous repair-cycle budget;
 - blocker/escalation reason;
@@ -37,10 +42,11 @@ Inspect state with:
 
     python scripts/productionctl.py status path/to/production.json
 
-The controller returns a machine-readable `next_action`, such as:
+Typical `next_action` values are:
 
 - `render`
-- `wait_for_render`
+- `start_render_job`
+- `reconcile_render_job`
 - `record_candidate`
 - `technical_qa`
 - `build_review_evidence`
@@ -50,65 +56,98 @@ The controller returns a machine-readable `next_action`, such as:
 - `finalize`
 - `human_decision`
 
-This prevents a resumed session from guessing where production stopped.
+A resumed session should use this state instead of reconstructing progress from chat history.
 
-## Autonomous repair policy
+## Render-job persistence and recovery
 
-The default manifest policy is:
-
-- mode: `autonomous_until_final_review`;
-- user review: `final_candidate_only`;
-- autonomous repair budget: 4 cycles.
-
-When technical or assistant QA fails, record the failure and repair it without asking the user to review that candidate.
-
-Before each repair cycle, the controller archives the current artifact/gate state into manifest history. A replacement candidate resets technical and assistant gates and is evaluated again.
-
-Escalate only when:
-
-- an unresolved creative/product decision genuinely requires user taste;
-- required source material or credentials are unavailable;
-- the production contract is contradictory;
-- a required tool/runtime cannot be repaired;
-- the autonomous repair budget is exhausted.
-
-Use:
-
-    python scripts/productionctl.py assistant-fail production.json --notes "..."
-    python scripts/productionctl.py repair-start production.json --reason "..."
-    python scripts/productionctl.py block production.json --reason "..."
-
-## Long renders
-
-Render commands are stored as argv arrays in the production manifest.
-
-Retrieve the exact render specification with:
+Before rendering:
 
     python scripts/productionctl.py render-spec production.json
 
-Run potentially long renders with Local Workspace `command_start`, not a long synchronous request. Poll the persisted job until completion.
+That command refuses to return a runnable spec unless the production has an explicit output, expected duration, and—when audio is required—an unintended-silence limit.
 
-Record the resulting artifact with:
+Start long work through Local Workspace `command_start`. Persist the returned job ID immediately:
 
-    python scripts/productionctl.py candidate production.json path/to/candidate.mp4
+    python scripts/productionctl.py rendering production.json --job-id job-...
 
-This makes interruption/restart recovery explicit.
+While the production is `RENDERING`, `status` returns `reconcile_render_job`. Poll the Local Workspace job and reconcile the result:
 
-## Deterministic QA
+    python scripts/productionctl.py reconcile-render production.json --state running
+    python scripts/productionctl.py reconcile-render production.json --state completed --exit-code 0
+    python scripts/productionctl.py reconcile-render production.json --state failed --exit-code 1
+    python scripts/productionctl.py reconcile-render production.json --state missing
 
-The repository-native media CLI is `scripts/videoctl.py`.
+A successful completed render is copied into the current immutable iteration and becomes the candidate. A failed or missing job routes to repair or, when the repair budget is exhausted, to a human decision.
 
-Useful commands:
+Do not leave a production in a vague `RENDERING` state with no job identifier.
+
+## Immutable candidate iterations
+
+Every recorded candidate is copied into:
+
+    iterations/iteration-XX/candidate.<ext>
+
+The SHA-256 is recorded in `artifacts.candidate_sha256`.
+
+Technical QA, baseline comparison, receipt, contact sheet, scene-boundary frames, and review-point frames are written under that same iteration directory. When repair begins, the manifest snapshots those paths and gates into history, then opens a new iteration.
+
+Do not overwrite evidence from a previous candidate.
+
+## Artifact integrity gates
+
+A path string is not evidence.
+
+Before assistant PASS, final user acceptance, or a trusted DONE status, the controller verifies:
+
+- candidate file exists;
+- candidate bytes still match the recorded SHA-256;
+- artifact receipt exists and contains the same SHA-256;
+- technical QA evidence exists, passes, and is bound to the same SHA-256;
+- review-pack manifest exists and points at the current candidate.
+
+If the candidate disappears or changes after review, acceptance fails closed.
+
+## Delivery profiles
+
+The v2 template uses an explicit `h264_web` profile. Serious productions should define at least:
+
+- width/height;
+- FPS;
+- video codec;
+- pixel format;
+- expected duration and tolerance;
+- whether audio is required;
+- audio codec when required;
+- silence threshold/minimum duration;
+- maximum unintended silence;
+- intentional silence intervals;
+- baseline-comparison sample rate.
+
+The default template expects H.264/yuv420p and AAC when audio is enabled.
+
+A production may use `custom`, but the concrete codec/pixel/audio fields still have to be stated.
+
+## Deterministic media QA
+
+The repository-native CLI is `scripts/videoctl.py`:
 
     python scripts/videoctl.py doctor
     python scripts/videoctl.py probe candidate.mp4
     python scripts/videoctl.py decode candidate.mp4
     python scripts/videoctl.py audio candidate.mp4
     python scripts/videoctl.py compare baseline.mp4 candidate.mp4
-    python scripts/videoctl.py qa candidate.mp4 --width 1280 --height 720 --fps 24
+    python scripts/videoctl.py qa candidate.mp4 \
+      --width 1280 --height 720 --fps 24 \
+      --video-codec h264 --pixel-format yuv420p \
+      --audio-codec aac --duration 480 \
+      --max-silence-seconds 1.0
     python scripts/videoctl.py review-pack candidate.mp4 qa/review --scene-plan scene-plan.json
 
-The Local Workspace bridge exposes matching read-only operations:
+Use repeatable `--intentional-silence START:END` arguments when planned silence would otherwise exceed the limit.
+
+Decode PASS requires both a zero FFmpeg exit code and no FFmpeg error-level output. Audio analysis fails if FFmpeg fails or does not produce valid loudness measurements; an analysis failure must not be interpreted as “zero silence.”
+
+The Local Workspace bridge exposes the same read-only inspection surface:
 
 - `media_probe`
 - `media_decode_check`
@@ -117,7 +156,7 @@ The Local Workspace bridge exposes matching read-only operations:
 - `media_audio_analyze`
 - `media_compare`
 
-`media_compare`/the CLI comparison provide a bounded sampled SSIM regression signal. It is evidence of pixel-level change, not a creative-quality score.
+Baseline comparison samples across the full common runtime by default. It is a regression signal, not a creative-quality score.
 
 ## Prepare assistant review
 
@@ -125,22 +164,24 @@ Once a candidate exists:
 
     python scripts/productionctl.py prepare-review production.json
 
-That command:
+The command:
 
-1. applies the manifest's codec/dimensions/FPS/duration/audio gates;
-2. writes `qa/technical-qa.json`;
-3. compares against a configured baseline when available;
-4. generates the exact artifact receipt and SHA-256;
-5. generates a whole-video contact sheet;
-6. extracts before/after frames around every scene boundary;
-7. extracts explicit scene `review_points`;
-8. moves the production to `ASSISTANT_REVIEW` only if deterministic QA passes.
+1. verifies the candidate SHA-256;
+2. fails closed if a configured scene plan or baseline is missing;
+3. checks dimensions/FPS/codec/pixel format/duration/audio;
+4. runs strict decode and audio analysis;
+5. applies the unintended-silence policy;
+6. writes technical QA bound to the candidate hash;
+7. compares the full candidate to the configured baseline when present;
+8. reuses the already-computed probe/decode/audio results when building the receipt;
+9. creates contact-sheet, scene-boundary, and declared review-point evidence, including short H.264/AAC motion/audio clips around important beats;
+10. moves to `ASSISTANT_REVIEW` only when deterministic QA passes.
 
-A technical failure goes directly to `REFINEMENT_REQUIRED`, not to the user.
+A technical FAIL routes to `repair`; when the autonomous budget is exhausted it routes to `human_decision`. It does not loop forever on `technical_qa`.
 
-## Scene plans
+## Scene plans and review points
 
-New episode scene plans use schema version 2 and should include deliberate review points for important beats.
+New episode scene plans use schema version 2.
 
 Validate before rendering:
 
@@ -148,103 +189,109 @@ Validate before rendering:
 
 The validator rejects invalid FPS/resolution, duplicate scene IDs, overlaps, non-positive durations, and review points outside their scene.
 
-A typical scene has:
+Important acting/effect/dialogue beats should have explicit `review_points`. Each review point produces both a still frame and a short motion/audio clip; `clip_duration_seconds` may override the 2-second default up to 10 seconds. Use those clips for acting, timing, lip/subtitle synchronization, and audio-transition review instead of inferring motion from stills.
+
+## Long-form assembly
+
+Never assemble every MP4 found in a directory.
+
+Use an explicit ordered assembly manifest, based on `templates/scene-assembly.json`:
 
     {
-      "id": "scene-004",
-      "start": 42.0,
-      "duration": 9.0,
-      "purpose": "reveal",
-      "review_points": [
-        {"at_seconds": 0.5, "label": "entry continuity"},
-        {"at_seconds": 4.0, "label": "reveal composition"},
-        {"at_seconds": 8.5, "label": "exit state"}
+      "schema_version": 1,
+      "scenes": [
+        {
+          "id": "scene-001",
+          "path": "renders/scenes/scene-001.mp4",
+          "expected_duration_seconds": 8.0,
+          "duration_tolerance_seconds": 0.15,
+          "sha256": null
+        }
       ]
     }
 
-## Assistant review
+Then run:
+
+    python scripts/assemble-scenes.py scene-assembly.json final/master.mp4
+
+The assembler uses only the listed scenes, in the listed order. It rejects duplicate scene IDs/files, missing files, output-as-input collisions, incompatible stream signatures, bad optional hashes, and duration mismatches, then decode-checks the master.
+
+Stale candidates or an old master sitting beside scene files cannot silently enter the assembly.
+
+## Assistant review and repair loop
 
 After `prepare-review`, inspect:
 
-- the contact sheet;
-- important review-point frames;
-- scene-boundary before/after pairs;
-- exact frames for suspicious moments;
-- audio analysis;
+- whole-video contact sheet;
+- scene-boundary before/after frames;
+- important review-point frames and their short motion/audio clips;
+- exact suspicious timestamps;
+- audio analysis and intentional-silence policy;
 - baseline comparison when relevant;
 - continuity and story/marketing truth.
 
-If a defect is visible:
+If a defect is found:
 
     python scripts/productionctl.py assistant-fail production.json --notes "..."
     python scripts/productionctl.py repair-start production.json --reason "..."
 
-Then make the narrowest repair, rerender only what is affected, record the replacement candidate, and repeat QA.
+`repair-start` archives the current iteration and returns the production to `PLANNED` for a fresh tracked render job.
 
-If the candidate passes:
-
-    python scripts/productionctl.py assistant-pass production.json --notes "..."
-
-Only then does the state become `USER_REVIEW`.
+Keep iterating internally while the next step is objectively diagnosable.
 
 ## Final user review
 
-The default user-facing handoff is a final candidate that already passed technical and assistant gates.
+The normal user-facing handoff is a candidate that already passed deterministic and assistant review.
 
-The user then accepts:
+Accept:
 
     python scripts/productionctl.py user-accept production.json
 
-or requests a refinement:
+Request refinement:
 
     python scripts/productionctl.py user-reject production.json --notes "..."
 
-A rejection returns the production to the autonomous repair loop. It does not justify handing every subsequent intermediate attempt back to the user.
+Acceptance re-verifies the candidate/evidence hashes before marking `DONE`. A user rejection returns to the autonomous repair loop; it does not make every subsequent intermediate attempt a user-review event.
 
-## Provider/browser workflow
+## Web-provider workflow
 
-For web-only generation providers, use the dedicated Local Workspace browser runtime for structured navigation, screenshots, clicks, typing, and downloads.
+For web-only generation providers, use the dedicated Local Workspace browser runtime for navigation, screenshots, clicks, typing, and downloads.
 
-Provider output is never trusted merely because the provider reports success. Imported media enters the same local QA path:
+Provider output enters the same local chain:
 
-**provider output → local artifact → probe/decode → audio QA → contact sheet/review points → baseline/continuity comparison → production use**
+**provider output → immutable local candidate → probe/decode → delivery/audio QA → visual review evidence → baseline/continuity comparison → production use**
 
-Provider-specific core plugin tools should be added only after a provider workflow is stable, reusable, and safely authenticated.
+Do not add provider-specific bridge tools until the provider workflow is stable, reusable, safely authenticated, and has clear job/download semantics.
 
-## Long-form scene architecture
+## Wrong Shift S01E01 legacy migration
 
-Keep independent scene rendering.
+S01E01 predates this contract. Historical records show the repaired candidate at `USER_REVIEW`, assistant PASS, user PENDING, with SHA-256 `d9a49d5f...`.
 
-Each scene should be replaceable without rerendering unrelated scenes. `scripts/assemble-scenes.py` verifies stream compatibility before concat-copy and decode-checks the assembled master.
+The exact repaired MP4 is not present in the repository/local workspace and an exact-name Drive search did not locate it. The complete renderer is also not preserved.
 
-Master audio should remain continuous where possible so visual scene replacement does not recreate the type of long-form audio dropout previously found in S01E01.
+`shows/wrong-shift/season-01/episode-01/production-v2.json` therefore records a **BLOCKED migration**, while preserving the historical review state in `legacy_import`. New v2 gates remain PENDING until the exact candidate or a reproducible replacement exists and is revalidated.
 
-## Baselines and regression evidence
-
-When a validated baseline exists, record it as `artifacts.baseline_master` in the production manifest.
-
-`prepare-review` then writes a baseline-comparison receipt automatically. Use it to detect unexplained regression; do not interpret SSIM as a creative ranking.
-
-Formal B-series promotion still requires the exact evidence defined by `baselines/README.md`.
+Do not convert historical text evidence into a fake v2 PASS.
 
 ## Finish line
 
-A production is not DONE because a command returned zero.
+A production is DONE only when:
 
-The normal finish line is:
-
-- source/scene plan valid;
-- requested master exists;
-- delivery properties pass;
-- decode passes;
-- audio checks pass where required;
-- representative frames and important beats reviewed;
-- scene seams reviewed for long-form work;
-- baseline regression understood when applicable;
-- exact artifact receipt preserved;
-- assistant gate PASS;
+- plan/source state is valid;
+- render job/result is reconciled;
+- immutable candidate exists;
+- candidate SHA-256 matches;
+- expected dimensions/FPS/codec/pixel format/duration pass;
+- decode and required audio analysis pass;
+- unintended silence policy passes;
+- configured scene plan/baseline evidence is available;
+- representative and important visual beats are reviewed;
+- long-form seams are reviewed;
+- baseline regression is understood where applicable;
+- receipt and QA evidence are bound to the candidate hash;
+- assistant review PASS;
 - final user acceptance PASS;
-- production package/history updated;
-- clean verified commit.
+- manifest/history are updated;
+- repository state is clean and verified.
 
-This is the Local Workspace-era production workflow.
+That is the Local Workspace-era production workflow.

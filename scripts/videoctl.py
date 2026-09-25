@@ -12,6 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from src.core.media import (
+    MediaToolError,
     analyze_audio,
     artifact_receipt,
     build_contact_sheet,
@@ -33,6 +34,20 @@ def _dump(data, output: str | None = None) -> None:
         print(out)
     else:
         print(text)
+
+
+def _parse_intervals(values: list[str] | None) -> list[list[float]]:
+    intervals: list[list[float]] = []
+    for raw in values or []:
+        try:
+            left, right = raw.split(":", 1)
+            start, end = float(left), float(right)
+        except (ValueError, TypeError) as exc:
+            raise ValueError(f"invalid silence interval {raw!r}; expected START:END") from exc
+        if start < 0 or end <= start:
+            raise ValueError(f"invalid silence interval {raw!r}; require 0 <= START < END")
+        intervals.append([start, end])
+    return intervals
 
 
 def _version(binary: str) -> str | None:
@@ -138,9 +153,13 @@ def qa(args) -> int:
         duration_seconds=args.duration,
         duration_tolerance=args.duration_tolerance,
         audio_required=not args.no_require_audio,
+        video_codec=args.video_codec,
+        pixel_format=args.pixel_format,
+        audio_codec=args.audio_codec,
         silence_threshold_db=args.silence_threshold_db,
         silence_min_duration=args.silence_min_duration,
         max_silence_seconds=args.max_silence_seconds,
+        intentional_silence_intervals=_parse_intervals(args.intentional_silence),
     )
     _dump(data, args.output)
     return 0 if data["pass"] else 1
@@ -206,8 +225,13 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("compare", help="Compare candidate video pixels against a reference baseline.")
     p.add_argument("reference")
     p.add_argument("candidate")
-    p.add_argument("--sample-fps", type=float, default=6.0)
-    p.add_argument("--max-duration-seconds", type=float, default=60.0)
+    p.add_argument("--sample-fps", type=float, default=2.0)
+    p.add_argument(
+        "--max-duration-seconds",
+        type=float,
+        default=None,
+        help="Optional cap; omitted means compare across the full common runtime.",
+    )
     p.add_argument("--output")
     p.set_defaults(func=compare)
 
@@ -227,9 +251,19 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("--duration", type=float)
     p.add_argument("--duration-tolerance", type=float, default=0.15)
     p.add_argument("--no-require-audio", action="store_true")
+    p.add_argument("--video-codec")
+    p.add_argument("--pixel-format")
+    p.add_argument("--audio-codec")
     p.add_argument("--silence-threshold-db", type=float, default=-55.0)
     p.add_argument("--silence-min-duration", type=float, default=0.5)
     p.add_argument("--max-silence-seconds", type=float)
+    p.add_argument(
+        "--intentional-silence",
+        action="append",
+        default=[],
+        metavar="START:END",
+        help="Repeatable interval excluded from the unintended-silence limit.",
+    )
     p.add_argument("--output")
     p.set_defaults(func=qa)
 
@@ -255,7 +289,11 @@ def build_parser() -> argparse.ArgumentParser:
 def main() -> int:
     parser = build_parser()
     args = parser.parse_args()
-    return int(args.func(args))
+    try:
+        return int(args.func(args))
+    except (OSError, ValueError, MediaToolError) as exc:
+        print(f"FAIL {exc}", file=sys.stderr)
+        return 2
 
 
 if __name__ == "__main__":

@@ -17,15 +17,18 @@
       "review_points": [
         {
           "at_seconds": 0.5,
-          "label": "opening composition"
+          "label": "opening composition",
+          "clip_duration_seconds": 2
         },
         {
           "at_seconds": 4,
-          "label": "primary action"
+          "label": "primary action",
+          "clip_duration_seconds": 2
         },
         {
           "at_seconds": 7.5,
-          "label": "scene exit state"
+          "label": "scene exit state",
+          "clip_duration_seconds": 2
         }
       ],
       "render_status": "PLANNED",

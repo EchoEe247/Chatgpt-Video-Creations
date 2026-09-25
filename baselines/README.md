@@ -72,8 +72,10 @@ The old baseline remains historical evidence after a newer baseline exists.
 
 ## Current state
 
-`registry.json` is intentionally empty.
+`registry.json` currently contains **B1**.
 
-The shared 2D geometry relationships are structurally tested, but the corrected renderer has not yet produced and passed the visual reference needed to establish the first formal visual baseline.
+B1 is the accepted 8-second 2D geometry/composition Candidate 002 reference. Its scope is deliberately narrow: shared floor/contact anchors, portal geometry alignment, camera-transform relationships, board-text attachment, and the accepted Vex hair silhouette under the recorded conditions.
 
-The first B-series baseline should be created from an actually accepted production state rather than assigned retroactively.
+B1 does **not** validate long-form animation, audio, business-video behavior, or 3D production. The registry's `next_id` is `B2`.
+
+Future baselines should still be promoted only from an actually validated/accepted state with durable evidence; do not retroactively relabel older capability references merely to fill the sequence.

@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "scenes": [
+    {
+      "id": "scene-001",
+      "path": "renders/scenes/scene-001.mp4",
+      "expected_duration_seconds": 8,
+      "duration_tolerance_seconds": 0.15,
+      "sha256": null
+    }
+  ]
+}

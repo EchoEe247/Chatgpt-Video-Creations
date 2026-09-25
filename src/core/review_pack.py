@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from src.core.media import artifact_receipt, build_contact_sheet, extract_frame
+from src.core.media import artifact_receipt, build_contact_sheet, extract_frame, extract_review_clip
 
 
 def _scene_start(scene: dict[str, Any]) -> float:
@@ -33,8 +33,10 @@ def build_review_pack(
     cell_width: int = 320,
     frame_width: int = 960,
     boundary_offset: float = 0.15,
+    review_clip_duration: float = 2.0,
     silence_threshold_db: float = -55.0,
     silence_min_duration: float = 0.5,
+    receipt_data: dict[str, Any] | None = None,
 ) -> dict[str, Any]:
     video = Path(video_path).expanduser().resolve()
     out_dir = Path(output_dir).expanduser().resolve()
@@ -42,11 +44,12 @@ def build_review_pack(
 
     receipt_path = out_dir / "artifact-receipt.json"
     sheet_path = out_dir / "contact-sheet.png"
-    receipt_data = artifact_receipt(
-        video,
-        silence_threshold_db=silence_threshold_db,
-        silence_min_duration=silence_min_duration,
-    )
+    if receipt_data is None:
+        receipt_data = artifact_receipt(
+            video,
+            silence_threshold_db=silence_threshold_db,
+            silence_min_duration=silence_min_duration,
+        )
     receipt_path.write_text(json.dumps(receipt_data, indent=2, sort_keys=True) + "\n")
     build_contact_sheet(
         video,
@@ -106,18 +109,34 @@ def build_review_pack(
                     for ch in label.lower()
                 ).strip("-") or f"point-{point_index}"
                 output = review_dir / f"scene_{scene_number:02d}_{safe_label}.png"
+                clip_output = review_dir / f"scene_{scene_number:02d}_{safe_label}.mp4"
+                clip_duration = (
+                    float(point.get("clip_duration_seconds", review_clip_duration))
+                    if isinstance(point, dict)
+                    else float(review_clip_duration)
+                )
                 extract_frame(video, output, time_seconds=at, max_width=frame_width)
+                extract_review_clip(
+                    video,
+                    clip_output,
+                    center_seconds=at,
+                    duration_seconds=clip_duration,
+                    max_width=frame_width,
+                )
                 review_point_records.append(
                     {
                         "scene": scene_number,
                         "label": label,
                         "time_seconds": at,
                         "frame": str(output.relative_to(out_dir)),
+                        "clip": str(clip_output.relative_to(out_dir)),
+                        "clip_duration_seconds": clip_duration,
                     }
                 )
 
     manifest = {
         "video": str(video),
+        "candidate_sha256": receipt_data.get("sha256"),
         "receipt": receipt_path.name,
         "contact_sheet": sheet_path.name,
         "scene_plan": str(scene_plan_path) if scene_plan_path else None,

@@ -31,6 +31,7 @@ class ProductionRuntimeTests(unittest.TestCase):
         data["status"] = "USER_REVIEW"
         data["artifacts"] = {
             "candidate_master": "final/master.mp4",
+            "candidate_sha256": "a" * 64,
             "artifact_receipt": "qa/review/artifact-receipt.json",
             "review_pack": "qa/review/review-pack.json",
         }
@@ -51,6 +52,23 @@ class ProductionRuntimeTests(unittest.TestCase):
         data["artifacts"]["artifact_receipt"] = "receipt.json"
         data["artifacts"]["review_pack"] = "review.json"
         self.assertEqual(next_action(data), "repair")
+
+    def test_technical_fail_routes_to_repair_or_human(self):
+        data = self.make()
+        data["status"] = "REFINEMENT_REQUIRED"
+        data["artifacts"]["candidate_master"] = "candidate.mp4"
+        data["artifacts"]["candidate_sha256"] = "b" * 64
+        data["gates"]["technical"]["status"] = "FAIL"
+        self.assertEqual(next_action(data), "repair")
+        data["workflow"]["repair_cycle"] = data["workflow"]["max_autonomous_repair_cycles"]
+        self.assertEqual(next_action(data), "human_decision")
+
+    def test_rendering_reconciles_persisted_job(self):
+        data = self.make()
+        data["status"] = "RENDERING"
+        data["workflow"]["render_job"]["job_id"] = "job-123"
+        data["workflow"]["render_job"]["state"] = "RUNNING"
+        self.assertEqual(next_action(data), "reconcile_render_job")
 
     def test_explicit_gate_reset_beats_legacy_alias(self):
         data = self.make()

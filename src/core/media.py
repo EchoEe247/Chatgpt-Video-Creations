@@ -153,11 +153,12 @@ def decode_check(path: str | Path) -> dict[str, Any]:
         ],
         timeout=180,
     )
+    errors = (proc.stderr or "").strip()[-16000:]
     return {
         "path": str(p),
-        "success": proc.returncode == 0,
+        "success": proc.returncode == 0 and not errors,
         "exit_code": proc.returncode,
-        "errors": (proc.stderr or "").strip()[-16000:],
+        "errors": errors,
     }
 
 
@@ -209,7 +210,13 @@ def analyze_audio(
         ],
         timeout=180,
     )
+    if loud.returncode != 0:
+        raise MediaToolError(
+            (loud.stderr or loud.stdout or "loudness analysis failed").strip()
+        )
     result = _loudnorm_json(loud.stderr or "")
+    if result.get("integrated_lufs") is None or result.get("true_peak_dbfs") is None:
+        raise MediaToolError("loudness analysis produced no valid measurements")
 
     silence = _run(
         [
@@ -229,6 +236,11 @@ def analyze_audio(
         ],
         timeout=180,
     )
+    if silence.returncode != 0:
+        raise MediaToolError(
+            (silence.stderr or silence.stdout or "silence analysis failed").strip()
+        )
+
     segments: list[dict[str, float]] = []
     active_start: float | None = None
     for line in (silence.stderr or "").splitlines():
@@ -306,6 +318,70 @@ def extract_frame(
     return out
 
 
+def extract_review_clip(
+    path: str | Path,
+    output: str | Path,
+    *,
+    center_seconds: float,
+    duration_seconds: float = 2.0,
+    max_width: int = 960,
+) -> Path:
+    """Create a short H.264/AAC review clip centered on an important beat."""
+    p = Path(path).expanduser().resolve()
+    out = Path(output).expanduser().resolve()
+    out.parent.mkdir(parents=True, exist_ok=True)
+    duration = max(0.5, min(float(duration_seconds), 10.0))
+    start = max(0.0, float(center_seconds) - duration / 2.0)
+    width = max(160, min(int(max_width), 1920))
+    proc = _run(
+        [
+            _binary("ffmpeg"),
+            "-y",
+            "-v",
+            "error",
+            "-ss",
+            f"{start:.6f}",
+            "-i",
+            str(p),
+            "-t",
+            f"{duration:.6f}",
+            "-map",
+            "0:v:0",
+            "-map",
+            "0:a:0?",
+            "-vf",
+            f"scale='min({width},iw)':-2",
+            "-c:v",
+            "libx264",
+            "-preset",
+            "veryfast",
+            "-crf",
+            "24",
+            "-pix_fmt",
+            "yuv420p",
+            "-c:a",
+            "aac",
+            "-b:a",
+            "128k",
+            "-movflags",
+            "+faststart",
+            str(out),
+        ],
+        timeout=120,
+    )
+    if proc.returncode != 0 or not out.is_file():
+        raise MediaToolError(
+            (proc.stderr or proc.stdout or "review clip extraction failed").strip()
+        )
+    decoded = decode_check(out)
+    if not decoded["success"]:
+        out.unlink(missing_ok=True)
+        raise MediaToolError(
+            f"review clip decode failed: {decoded['errors'] or 'unknown decode error'}"
+        )
+    return out
+
+
 def build_contact_sheet(
     path: str | Path,
     output: str | Path,
@@ -367,14 +443,19 @@ def validate_master(
     duration_seconds: float | None = None,
     duration_tolerance: float = 0.15,
     audio_required: bool = True,
+    video_codec: str | None = None,
+    pixel_format: str | None = None,
+    audio_codec: str | None = None,
     silence_threshold_db: float = -55.0,
     silence_min_duration: float = 0.5,
     max_silence_seconds: float | None = None,
+    intentional_silence_intervals: list[list[float]] | None = None,
 ) -> dict[str, Any]:
     p = Path(path).expanduser().resolve()
     probe = probe_media(p)
     decode = decode_check(p)
     video = next((x for x in probe["streams"] if x.get("codec_type") == "video"), None)
+    audio_stream = next((x for x in probe["streams"] if x.get("codec_type") == "audio"), None)
 
     checks: list[dict[str, Any]] = []
 
@@ -404,6 +485,10 @@ def validate_master(
                 actual_fps,
                 fps,
             )
+        if video_codec is not None:
+            add("video_codec", video.get("codec_name") == video_codec, video.get("codec_name"), video_codec)
+        if pixel_format is not None:
+            add("pixel_format", video.get("pixel_format") == pixel_format, video.get("pixel_format"), pixel_format)
 
     if duration_seconds is not None:
         actual_duration = _float(probe.get("duration_seconds"))
@@ -418,17 +503,50 @@ def validate_master(
     audio: dict[str, Any] | None = None
     if audio_required:
         add("audio_stream", probe["audio_streams"] > 0, probe["audio_streams"], ">=1")
+    if audio_stream is not None and audio_codec is not None:
+        add("audio_codec", audio_stream.get("codec_name") == audio_codec, audio_stream.get("codec_name"), audio_codec)
     if probe["audio_streams"]:
-        audio = analyze_audio(
-            p,
-            silence_threshold_db=silence_threshold_db,
-            silence_min_duration=silence_min_duration,
-        )
-        if max_silence_seconds is not None:
+        try:
+            audio = analyze_audio(
+                p,
+                silence_threshold_db=silence_threshold_db,
+                silence_min_duration=silence_min_duration,
+            )
+            add("audio_analysis", True, "valid measurements", "valid measurements")
+        except MediaToolError as exc:
+            audio = {"path": str(p), "analysis_error": str(exc)}
+            add("audio_analysis", False, str(exc), "valid measurements")
+        if max_silence_seconds is not None and "silence_segments" in audio:
+            allowed = intentional_silence_intervals or []
+
+            def uncovered_duration(segment: dict[str, Any]) -> float:
+                remaining = [(float(segment["start_seconds"]), float(segment["end_seconds"]))]
+                for interval in allowed:
+                    if not isinstance(interval, (list, tuple)) or len(interval) != 2:
+                        continue
+                    left, right = float(interval[0]), float(interval[1])
+                    next_remaining: list[tuple[float, float]] = []
+                    for start, end in remaining:
+                        if right <= start or left >= end:
+                            next_remaining.append((start, end))
+                            continue
+                        if left > start:
+                            next_remaining.append((start, min(left, end)))
+                        if right < end:
+                            next_remaining.append((max(right, start), end))
+                    remaining = next_remaining
+                return max((end - start for start, end in remaining), default=0.0)
+
+            longest_unintended = max(
+                (uncovered_duration(segment) for segment in audio["silence_segments"]),
+                default=0.0,
+            )
+            audio["longest_unintended_silence_seconds"] = round(longest_unintended, 6)
+            audio["intentional_silence_intervals"] = allowed
             add(
-                "max_silence",
-                float(audio["longest_silence_seconds"]) <= max_silence_seconds,
-                audio["longest_silence_seconds"],
+                "max_unintended_silence",
+                longest_unintended <= max_silence_seconds,
+                round(longest_unintended, 6),
                 f"<= {max_silence_seconds}",
             )
 
@@ -473,7 +591,7 @@ def compare_video(
     candidate_path: str | Path,
     *,
     sample_fps: float = 6.0,
-    max_duration_seconds: float = 60.0,
+    max_duration_seconds: float | None = None,
 ) -> dict[str, Any]:
     """Return a bounded sampled SSIM regression signal for same-geometry videos."""
     reference = Path(reference_path).expanduser().resolve()
@@ -508,7 +626,12 @@ def compare_video(
         }
 
     fps = max(0.5, min(float(sample_fps), 30.0))
-    limit = max(1.0, min(float(max_duration_seconds), 300.0))
+    common_duration = min(
+        float(ref_info.get("duration_seconds") or 0.0),
+        float(cand_info.get("duration_seconds") or 0.0),
+    )
+    requested_limit = common_duration if max_duration_seconds is None else float(max_duration_seconds)
+    limit = max(1.0, min(requested_limit, common_duration if common_duration > 0 else requested_limit))
     width = min(640, int(ref_video.get("width") or 640))
     if width % 2:
         width -= 1

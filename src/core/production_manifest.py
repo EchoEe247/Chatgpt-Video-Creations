@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import re
 from typing import Any, Mapping
 
 from src.core.production_runtime import GATE_STATES, normalized_runtime
@@ -18,6 +19,13 @@ STATUSES = {
 REVIEWS = {"PENDING", "PASS", "FAIL"}
 WORKFLOW_MODES = {"autonomous_until_final_review"}
 USER_REVIEW_POLICIES = {"final_candidate_only"}
+DELIVERY_PROFILES = {"h264_web", "custom"}
+RENDER_JOB_STATES = {"NONE", "RUNNING", "COMPLETED", "FAILED", "MISSING", "UNKNOWN"}
+SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
+
+
+def _positive_number(value: Any) -> bool:
+    return isinstance(value, (int, float)) and not isinstance(value, bool) and value > 0
 
 
 def validate_production_v2(data: Mapping[str, Any]) -> list[str]:
@@ -61,25 +69,79 @@ def validate_production_v2(data: Mapping[str, Any]) -> list[str]:
         isinstance(command, list) and all(isinstance(item, str) and item for item in command)
     ):
         errors.append("render.command must be an argv string array")
+    for key in ("cwd", "output", "scene_plan", "scene_directory", "master_recipe"):
+        value = render.get(key)
+        if value is not None and not isinstance(value, str):
+            errors.append(f"render.{key} must be a string or null")
 
     delivery = data.get("delivery")
     if not isinstance(delivery, Mapping):
         errors.append("delivery must be an object")
         delivery = {}
+
+    if delivery.get("profile") not in DELIVERY_PROFILES:
+        errors.append("delivery.profile must be h264_web or custom")
     for key in ("width", "height"):
         value = delivery.get(key)
         if not isinstance(value, int) or isinstance(value, bool) or value <= 0:
             errors.append(f"delivery.{key} must be a positive integer")
-    fps = delivery.get("fps")
-    if not isinstance(fps, (int, float)) or isinstance(fps, bool) or fps <= 0:
+    if not _positive_number(delivery.get("fps")):
         errors.append("delivery.fps must be positive")
     if not isinstance(delivery.get("audio_required"), bool):
         errors.append("delivery.audio_required must be boolean")
+
+    for key in ("video_codec", "pixel_format"):
+        value = delivery.get(key)
+        if not isinstance(value, str) or not value:
+            errors.append(f"delivery.{key} must be a non-empty string")
+    if delivery.get("audio_required"):
+        value = delivery.get("audio_codec")
+        if not isinstance(value, str) or not value:
+            errors.append("delivery.audio_codec is required when audio_required is true")
+        silence_limit = delivery.get("max_unintended_silence_seconds")
+        if not isinstance(silence_limit, (int, float)) or isinstance(silence_limit, bool) or silence_limit < 0:
+            errors.append("delivery.max_unintended_silence_seconds must be >= 0 when audio is required")
+
+    expected_duration = delivery.get("expected_duration_seconds")
+    if expected_duration is not None and not _positive_number(expected_duration):
+        errors.append("delivery.expected_duration_seconds must be positive or null")
+    if status not in {"PLANNED", "BLOCKED"} and not _positive_number(expected_duration):
+        errors.append("non-PLANNED production states require delivery.expected_duration_seconds")
+
+    tolerance = delivery.get("duration_tolerance_seconds")
+    if not _positive_number(tolerance):
+        errors.append("delivery.duration_tolerance_seconds must be positive")
+
+    compare_fps = delivery.get("baseline_compare_fps")
+    if not _positive_number(compare_fps):
+        errors.append("delivery.baseline_compare_fps must be positive")
+
+    intervals = delivery.get("intentional_silence_intervals")
+    if not isinstance(intervals, list):
+        errors.append("delivery.intentional_silence_intervals must be an array")
+    else:
+        for index, interval in enumerate(intervals):
+            if not (
+                isinstance(interval, list)
+                and len(interval) == 2
+                and all(isinstance(x, (int, float)) and not isinstance(x, bool) for x in interval)
+                and 0 <= float(interval[0]) < float(interval[1])
+            ):
+                errors.append(
+                    f"delivery.intentional_silence_intervals[{index}] must be [start,end] with 0 <= start < end"
+                )
 
     artifacts = data.get("artifacts")
     if not isinstance(artifacts, Mapping):
         errors.append("artifacts must be an object")
         artifacts = {}
+    candidate_path = artifacts.get("candidate_master")
+    candidate_sha = artifacts.get("candidate_sha256")
+    if candidate_path:
+        if not isinstance(candidate_sha, str) or not SHA256_RE.fullmatch(candidate_sha):
+            errors.append("artifacts.candidate_sha256 must be a lowercase SHA-256 when candidate_master is set")
+    elif candidate_sha is not None:
+        errors.append("artifacts.candidate_sha256 requires artifacts.candidate_master")
 
     runtime = normalized_runtime(data)
     workflow = runtime["workflow"]
@@ -102,9 +164,38 @@ def validate_production_v2(data: Mapping[str, Any]) -> list[str]:
     ):
         errors.append("workflow.repair_cycle cannot exceed max_autonomous_repair_cycles")
 
+    render_job = workflow.get("render_job")
+    if not isinstance(render_job, Mapping):
+        errors.append("workflow.render_job must be an object")
+        render_job = {}
+    render_state = str(render_job.get("state") or "NONE").upper()
+    if render_state not in RENDER_JOB_STATES:
+        errors.append("workflow.render_job.state is invalid")
+    if status == "RENDERING":
+        if not render_job.get("job_id"):
+            errors.append("RENDERING requires workflow.render_job.job_id")
+        if render_state not in {"RUNNING", "UNKNOWN"}:
+            errors.append("RENDERING requires render job state RUNNING or UNKNOWN")
+        if not render.get("output"):
+            errors.append("RENDERING requires render.output")
+
     for gate_name in ("technical", "assistant", "user"):
         if gates[gate_name]["status"] not in GATE_STATES:
             errors.append(f"gates.{gate_name}.status must be PENDING, PASS, or FAIL")
+        bound_sha = gates[gate_name].get("candidate_sha256")
+        if bound_sha is not None and (
+            not isinstance(bound_sha, str) or not SHA256_RE.fullmatch(bound_sha)
+        ):
+            errors.append(f"gates.{gate_name}.candidate_sha256 must be a lowercase SHA-256 or null")
+
+    if status in {"USER_REVIEW", "DONE"}:
+        assistant_sha = gates["assistant"].get("candidate_sha256")
+        if assistant_sha != candidate_sha:
+            errors.append(f"{status} requires assistant gate bound to artifacts.candidate_sha256")
+    if status == "DONE":
+        user_sha = gates["user"].get("candidate_sha256")
+        if user_sha != candidate_sha:
+            errors.append("DONE requires user gate bound to artifacts.candidate_sha256")
 
     review = data.get("review")
     if not isinstance(review, Mapping):
@@ -116,12 +207,17 @@ def validate_production_v2(data: Mapping[str, Any]) -> list[str]:
         elif review.get(key) != gates[key]["status"]:
             errors.append(f"review.{key} must mirror gates.{key}.status")
 
+    if status in {"CANDIDATE", "ASSISTANT_REVIEW", "USER_REVIEW", "DONE"}:
+        for key in ("candidate_master", "candidate_sha256", "iteration_dir"):
+            if not artifacts.get(key):
+                errors.append(f"{status} requires artifacts.{key}")
+
     if status == "USER_REVIEW":
         if gates["technical"]["status"] != "PASS":
             errors.append("USER_REVIEW requires technical gate PASS")
         if gates["assistant"]["status"] != "PASS":
             errors.append("USER_REVIEW requires assistant gate PASS")
-        for key in ("candidate_master", "artifact_receipt", "review_pack"):
+        for key in ("artifact_receipt", "review_pack"):
             if not artifacts.get(key):
                 errors.append(f"USER_REVIEW requires artifacts.{key}")
 
@@ -130,7 +226,7 @@ def validate_production_v2(data: Mapping[str, Any]) -> list[str]:
             errors.append("DONE requires technical gate PASS")
         if gates["assistant"]["status"] != "PASS" or gates["user"]["status"] != "PASS":
             errors.append("DONE requires assistant and user review PASS")
-        for key in ("candidate_master", "artifact_receipt", "review_pack"):
+        for key in ("artifact_receipt", "review_pack"):
             if not artifacts.get(key):
                 errors.append(f"DONE requires artifacts.{key}")
 

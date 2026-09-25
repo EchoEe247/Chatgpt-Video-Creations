@@ -1,10 +1,10 @@
 {
   "schema_version": 2,
-  "production_id": "replace-me",
+  "production_id": "wrong-shift-s01e01-v2-migration",
   "lane": "animation",
-  "status": "PLANNED",
+  "status": "BLOCKED",
   "source": {
-    "show": "replace-me",
+    "show": "wrong-shift",
     "season": "season-01",
     "episode": "episode-01"
   },
@@ -12,7 +12,7 @@
     "command": [],
     "cwd": ".",
     "output": null,
-    "scene_plan": null,
+    "scene_plan": "scene-plan.json",
     "scene_directory": null,
     "master_recipe": null
   },
@@ -25,7 +25,7 @@
     "pixel_format": "yuv420p",
     "audio_required": true,
     "audio_codec": "aac",
-    "expected_duration_seconds": null,
+    "expected_duration_seconds": 480,
     "duration_tolerance_seconds": 0.15,
     "silence_threshold_db": -55,
     "silence_min_duration_seconds": 0.5,
@@ -38,8 +38,12 @@
     "user_review_policy": "final_candidate_only",
     "max_autonomous_repair_cycles": 4,
     "repair_cycle": 0,
-    "escalation_reason": null,
-    "last_action": null,
+    "escalation_reason": "legacy_candidate_and_complete_renderer_unavailable",
+    "last_action": {
+      "action": "legacy_migration_blocked",
+      "at": "2026-09-25T20:31:00+00:00",
+      "reason": "The repaired 480-second candidate and complete renderer were not preserved in the repository or found by exact-name Drive search."
+    },
     "render_job": {
       "job_id": null,
       "state": "NONE",
@@ -77,5 +81,26 @@
   "review": {
     "assistant": "PENDING",
     "user": "PENDING"
+  },
+  "legacy_import": {
+    "original_status": "USER_REVIEW",
+    "assistant_review": "PASS",
+    "user_review": "PENDING",
+    "repaired_candidate": {
+      "filename": "wrong_shift_s01e01_floor_minus_zero_audio_fixed.mp4",
+      "sha256": "d9a49d5fb1dcdd00565ed60cb2536d375baa5a0ed00efae3ded8cf5cc50329c2",
+      "duration_seconds": 480,
+      "resolution": "1280x720",
+      "fps": 24,
+      "video": "H.264/yuv420p",
+      "audio": "AAC stereo 48 kHz; repaired two-bus long-form mix"
+    },
+    "evidence": [
+      "status.json",
+      "qa/assistant-review.md",
+      "qa/audio-dropout-repair.md",
+      "scene-plan.json"
+    ],
+    "migration_note": "Historical PASS/PENDING review state is preserved here, but v2 gates remain PENDING until the exact candidate or a reproducible replacement is available and revalidated."
   }
 }

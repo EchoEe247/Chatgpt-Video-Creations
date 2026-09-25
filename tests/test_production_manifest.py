@@ -33,6 +33,38 @@ class ProductionManifestTests(unittest.TestCase):
         self.assertTrue(any("review PASS" in error for error in errors))
         self.assertTrue(any("candidate_master" in error for error in errors))
 
+    def test_rendering_requires_persisted_job_identity(self):
+        data = copy.deepcopy(TEMPLATE)
+        data["production_id"] = "rendering-test"
+        data["source"]["show"] = "test-show"
+        data["status"] = "RENDERING"
+        data["delivery"]["expected_duration_seconds"] = 8.0
+        data["render"]["output"] = "render.mp4"
+        errors = validate_production_v2(data)
+        self.assertIn("RENDERING requires workflow.render_job.job_id", errors)
+
+    def test_candidate_requires_sha256_binding(self):
+        data = copy.deepcopy(TEMPLATE)
+        data["production_id"] = "candidate-test"
+        data["source"]["show"] = "test-show"
+        data["status"] = "CANDIDATE"
+        data["delivery"]["expected_duration_seconds"] = 8.0
+        data["artifacts"]["candidate_master"] = "iterations/iteration-00/candidate.mp4"
+        data["artifacts"]["iteration_dir"] = "iterations/iteration-00"
+        errors = validate_production_v2(data)
+        self.assertTrue(any("candidate_sha256" in error for error in errors))
+
+    def test_audio_delivery_requires_explicit_silence_limit(self):
+        data = copy.deepcopy(TEMPLATE)
+        data["production_id"] = "audio-profile-test"
+        data["source"]["show"] = "test-show"
+        data["delivery"]["max_unintended_silence_seconds"] = None
+        errors = validate_production_v2(data)
+        self.assertIn(
+            "delivery.max_unintended_silence_seconds must be >= 0 when audio is required",
+            errors,
+        )
+
     def test_business_source_requires_release_provenance(self):
         data = copy.deepcopy(TEMPLATE)
         data["production_id"] = "business-test"

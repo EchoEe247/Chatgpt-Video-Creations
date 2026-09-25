@@ -6,7 +6,7 @@ This file is the operating handoff for fresh ChatGPT or agent sessions working i
 
 This repository predates Local Workspace, but current sessions should not operate as if the old limitation still exists.
 
-Use Local Workspace directly for repository inspection, edits, Git, processes, logs, browser automation, and long-running render jobs. For media QA prefer the typed `media_probe`, `media_decode_check`, `media_frame`, `media_contact_sheet`, `media_audio_analyze`, and `media_compare` tools. Use `scripts/videoctl.py` as the repository-native equivalent and CI fallback. Use `scripts/productionctl.py` for production state, gates, repair cycles, and restart-safe next-action recovery.
+Use Local Workspace directly for repository inspection, edits, Git, processes, logs, browser automation, and long-running render jobs. For media QA prefer the typed `media_probe`, `media_decode_check`, `media_frame`, `media_contact_sheet`, `media_audio_analyze`, and `media_compare` tools. Use `scripts/videoctl.py` as the repository-native equivalent and CI fallback. Use `scripts/productionctl.py` for production state, persisted render-job identity, immutable candidate iterations, hash-bound gates, repair cycles, and restart-safe next-action recovery.
 
 For web-only video generation providers, use the dedicated Local Workspace browser runtime first. Do not add provider-specific core bridge tools until the provider workflow is stable, reusable, and safe to authenticate.
 
@@ -70,6 +70,10 @@ Within that scope, use:
 
 Keep iterating internally while the next step is objectively diagnosable. Do not use the user as a substitute for media inspection, technical QA, scene-boundary checks, baseline comparison, or ordinary defect diagnosis.
 
+State must be evidence-bound. Do not mark assistant PASS, USER_REVIEW, or DONE merely because artifact paths are populated. Verify the candidate exists, matches its recorded SHA-256, and that the technical receipt/review evidence is bound to that same hash. A changed or missing candidate invalidates acceptance.
+
+Persist Local Workspace render job IDs immediately. A fresh session seeing `RENDERING` must reconcile that exact job rather than starting another render or waiting generically.
+
 Escalate only if an unresolved product/creative decision genuinely requires user taste, required evidence or access is unavailable, the production contract conflicts with itself, a required runtime cannot be repaired, or the configured repair budget is exhausted.
 
 ## What this repository is for
@@ -130,7 +134,7 @@ See `docs/ANIMATION_SHOW_WORKFLOW.md` and `docs/CONTINUITY_SYSTEM.md`.
 
 A long runtime is not a reason to lower the entire animation baseline.
 
-Use independently rendered scenes, preserve scene handles and continuity state, inspect and replace defective scenes individually, then assemble them against a continuous master timeline. If one scene fails, fix that scene unless a shared asset or continuity change genuinely affects the others.
+Use independently rendered scenes, preserve scene handles and continuity state, inspect and replace defective scenes individually, then assemble them against a continuous master timeline. Assembly must use an explicit ordered scene manifest; never concatenate every MP4 found in a directory. If one scene fails, fix that scene unless a shared asset or continuity change genuinely affects the others.
 
 See `docs/LONG_FORM_SCENE_ARCHITECTURE.md`.
 
@@ -157,10 +161,10 @@ For serious renders, do not stop at successful code execution.
 
 At minimum:
 
-1. verify codec, dimensions, FPS, duration, and audio stream;
+1. verify codec, pixel format, dimensions, FPS, duration, audio codec/stream, strict decode, and configured silence policy;
 2. inspect representative frames throughout every scene;
 3. inspect frames immediately before and after scene boundaries;
-4. inspect important effects, actions, and reactions;
+4. inspect important effects, actions, reactions, and short motion/audio review clips for dialogue/acting beats;
 5. verify floor/contact anchoring and source/effect alignment;
 6. verify subtitle and dialogue timing;
 7. fix important visible or audio defects before handoff when feasible.

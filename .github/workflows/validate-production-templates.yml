@@ -5,12 +5,14 @@ on:
     paths:
       - 'scripts/**'
       - 'templates/**'
+      - 'shows/wrong-shift/season-01/episode-01/production-v2.json'
       - '.github/workflows/validate-production-templates.yml'
   push:
     branches: [main]
     paths:
       - 'scripts/**'
       - 'templates/**'
+      - 'shows/wrong-shift/season-01/episode-01/production-v2.json'
       - '.github/workflows/validate-production-templates.yml'
 
 jobs:
@@ -33,5 +35,7 @@ jobs:
         run: python3 scripts/validate-scene-plan.py templates/new-episode/scene-plan.json
       - name: Validate production controller state
         run: python3 scripts/productionctl.py status templates/production-v2.json
+      - name: Validate Wrong Shift legacy migration record
+        run: python3 scripts/validate-production-v2.py shows/wrong-shift/season-01/episode-01/production-v2.json
       - name: Compile helper scripts
         run: python3 -m py_compile scripts/*.py

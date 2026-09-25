@@ -21,6 +21,13 @@ class ScenePlanTests(unittest.TestCase):
         data["scenes"].append(second)
         self.assertTrue(any("overlaps" in error for error in validate_scene_plan(data)))
 
+    def test_review_clip_duration_is_bounded(self):
+        data = copy.deepcopy(TEMPLATE)
+        data["scenes"][0]["review_points"][0]["clip_duration_seconds"] = 11.0
+        self.assertTrue(
+            any("clip_duration_seconds" in error for error in validate_scene_plan(data))
+        )
+
     def test_review_point_must_be_inside_scene(self):
         data = copy.deepcopy(TEMPLATE)
         data["scenes"][0]["review_points"][0]["at_seconds"] = 9.0

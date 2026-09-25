@@ -64,7 +64,17 @@ A scene that fails should be repaired before it becomes part of the accepted mas
 
 ## Assembly
 
-Assemble in the exact planned order. Avoid unnecessary re-encoding when scene formats match.
+Assembly order must be explicit, not inferred from whatever MP4 files happen to be present in a directory.
+
+Create an ordered manifest based on `templates/scene-assembly.json`, listing each scene ID and path and, when useful, its expected duration and SHA-256. Run:
+
+```text
+python scripts/assemble-scenes.py scene-assembly.json final/master.mp4
+```
+
+The assembler uses only those listed inputs, rejects missing/duplicate scenes and output-as-input collisions, verifies compatible stream signatures and optional duration/hash constraints, and decode-checks the master after concat-copy.
+
+Avoid unnecessary re-encoding when scene formats match.
 
 After assembly, inspect the seams and representative interior frames. A set of individually valid scenes can still produce a bad master if a cut introduces a position jump, stale subtitle, audio discontinuity, or other continuity problem.
 

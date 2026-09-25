@@ -34,8 +34,8 @@ Use `templates/` when starting a production.
 
 ## Local Workspace-era production package
 
-New serious productions should include a `production.json` created from `templates/production-v2.json`. That manifest is the restart-safe state authority for render configuration, QA gates, artifacts, repair history, blockers, and final acceptance.
+New serious productions should include a `production.json` created from `templates/production-v2.json`. That manifest is the restart-safe state authority for render configuration, persisted Local Workspace job identity, immutable candidate iterations, hash-bound QA gates, repair history, blockers, and final acceptance.
 
-For episode packages, keep `production.json` beside the episode plan/scene plan and store generated QA evidence under `qa/`.
+For episode packages, keep `production.json` beside the episode plan/scene plan. Generated candidate and QA evidence belongs under `iterations/iteration-XX/`; do not overwrite evidence from earlier repair cycles.
 
 Use `scripts/productionctl.py status <production.json>` after any interruption instead of reconstructing state from chat history.

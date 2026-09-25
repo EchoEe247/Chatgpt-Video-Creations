@@ -10,7 +10,7 @@ The broader operating model is documented in `docs/OPERATING_MODEL.md`.
 
 Current ChatGPT sessions should use Local Workspace during the entire render/review loop rather than waiting for the user to discover media defects. Probe and decode-check each candidate, inspect audio continuity, compare against a known-good baseline when available, generate a whole-video contact sheet, inspect declared review points, and inspect exact scene seams.
 
-The same operations are available through `scripts/videoctl.py`. `scripts/productionctl.py` owns production state, deterministic gates, repair history, and the final-user-review transition.
+The same operations are available through `scripts/videoctl.py`. `scripts/productionctl.py` owns production state, persisted render-job identity, immutable candidate iterations, deterministic gates bound to candidate SHA-256, repair history, and the final-user-review transition.
 
 See `docs/LOCAL_WORKSPACE_VIDEO_WORKFLOW.md`.
 
@@ -113,14 +113,15 @@ Timing becomes a reusable rule only after the timing relationship is understood 
 
 Validate:
 
-- codec;
+- video codec and pixel format;
 - dimensions;
 - FPS;
-- pixel format;
-- duration;
-- audio presence;
+- expected duration/tolerance;
+- audio presence and codec when required;
+- loudness-analysis validity;
+- maximum unintended silence, excluding explicitly declared intentional-silence intervals;
 - plausible file size;
-- successful decode.
+- strict decode: zero FFmpeg exit code and no error-level decode output.
 
 These checks tell us the file is technically viable. They do not replace visual review.
 
@@ -145,7 +146,7 @@ When a visual failure repeats, ask whether it reveals an underlying reusable rel
 
 Fix important visible, audio, or continuity defects before final handoff when feasible.
 
-For long-form work, rerender only the defective scene unless a shared state change requires a wider pass. The point of the scene architecture is to make targeted repair practical.
+For long-form work, rerender only the defective scene unless a shared state change requires a wider pass. Preserve each candidate/QA iteration immutably so repair history does not point at overwritten files. The point of the scene architecture is to make targeted repair practical.
 
 When a validated baseline covers the broken behavior, compare the candidate against that baseline before making broad changes.
 
@@ -155,7 +156,7 @@ The default review policy is `final_candidate_only`.
 
 Technical failures and assistant-detected visual/audio/continuity defects return to an internal repair loop. Do not ask the user to review those intermediate candidates merely to discover whether the repair worked.
 
-For business, one-off, and episode work, the normal user-facing handoff happens after deterministic QA and assistant review pass. User acceptance is the final gate.
+For business, one-off, and episode work, the normal user-facing handoff happens after deterministic QA and assistant review pass. User acceptance is the final gate. Immediately before assistant PASS and user acceptance, verify that the candidate still exists, its SHA-256 still matches, and the technical/review evidence is bound to that same candidate.
 
 For episode work, technical, assistant, and user gates all have to pass before the episode becomes `DONE ✅` and continuity-out/canon is updated.
 
