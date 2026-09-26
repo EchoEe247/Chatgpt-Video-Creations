@@ -52,16 +52,52 @@ def load_spec(path):
             raise ValueError('source_offset_seconds must be finite and nonnegative')
         if not shot.get('intent') or not shot.get('criteria') or len(set(shot['criteria'])) != len(shot['criteria']):
             raise ValueError('each shot needs intent and unique visual review criteria')
-        if not shot.get('sources') or not isinstance(shot.get('renderer'), list):
-            raise ValueError('sources and renderer argv are required')
-        if '{request}' not in shot['renderer']:
-            raise ValueError('renderer must consume an exact {request} argv token')
-        for source in shot['sources']:
-            if not (path.parent / source).resolve().is_file():
-                raise ValueError(f'missing source: {source}')
+        modes = shot.get('visual_modes')
+        if modes is not None:
+            if not isinstance(modes, list) or not modes:
+                raise ValueError('visual_modes must be a non-empty ordered list')
+            mode_ids = set()
+            for mode in modes:
+                mid = mode.get('id')
+                if not isinstance(mid, str) or not re.fullmatch(r'[a-zA-Z0-9_-]+', mid) or mid in mode_ids:
+                    raise ValueError('visual mode ids must be unique safe names')
+                mode_ids.add(mid)
+                if not mode.get('sources') or not isinstance(mode.get('renderer'), list):
+                    raise ValueError(f'visual mode {mid} needs sources and renderer argv')
+                if '{request}' not in mode['renderer']:
+                    raise ValueError(f'visual mode {mid} renderer must consume an exact {{request}} argv token')
+        else:
+            if not shot.get('sources') or not isinstance(shot.get('renderer'), list):
+                raise ValueError('sources and renderer argv are required')
+            if '{request}' not in shot['renderer']:
+                raise ValueError('renderer must consume an exact {request} argv token')
+            for source in shot['sources']:
+                if not (path.parent / source).resolve().is_file():
+                    raise ValueError(f'missing source: {source}')
     if not ids:
         raise ValueError('at least one shot is required')
     return path, spec
+
+
+def resolve_visual_mode(path, shot):
+    """Resolve the highest-priority locally usable visual source/renderer mode.
+
+    visual_modes is an ordered degradation ladder. A mode is usable only when
+    every declared source is already present locally. This lets a workflow prefer
+    fresh generated art when available, then fall back to cached art or a local
+    renderer without blocking the shot runner.
+    """
+    modes = shot.get('visual_modes')
+    if not modes:
+        return {'id': 'default', 'sources': shot['sources'], 'renderer': shot['renderer']}
+    missing_by_mode = {}
+    for mode in modes:
+        missing = [source for source in mode['sources'] if not (path.parent / source).resolve().is_file()]
+        if not missing:
+            return {'id': mode['id'], 'sources': list(mode['sources']), 'renderer': list(mode['renderer'])}
+        missing_by_mode[mode['id']] = missing
+    details = '; '.join(f"{mid}: {', '.join(paths)}" for mid, paths in missing_by_mode.items())
+    raise ValueError(f'no visual mode is currently available; missing sources by mode: {details}')
 
 
 def context(path, sid):
@@ -69,6 +105,8 @@ def context(path, sid):
     shot = next((s for s in spec['shots'] if s['id'] == sid), None)
     if shot is None:
         raise ValueError(f'unknown shot {sid}')
+    mode = resolve_visual_mode(path, shot)
+    shot = {**shot, 'sources': mode['sources'], 'renderer': mode['renderer'], 'selected_visual_mode': mode['id']}
     sources = [(str((path.parent / p).resolve()), sha256_file(path.parent / p)) for p in shot['sources']]
     # Runner revisions also invalidate evidence/cache. Adapter code belongs in sources.
     fingerprint = hashlib.sha256(json.dumps({'shot': shot, 'sources': sources,
@@ -174,7 +212,8 @@ def render(path, sid, stage, timeout=300):
         started = time.monotonic()
         request = {'schema_version': 1, 'shot': shot, 'frames': missing,
             'source_paths': [str((path.parent / p).resolve()) for p in shot['sources']],
-            'output_dir': str(frame_dir), 'spec_dir': str(path.parent), 'fingerprint': fingerprint}
+            'output_dir': str(frame_dir), 'spec_dir': str(path.parent), 'fingerprint': fingerprint,
+            'selected_visual_mode': shot.get('selected_visual_mode', 'default')}
         write_json(stage_dir / 'request.json', request)
         error = None
         if missing:
@@ -250,6 +289,7 @@ def render(path, sid, stage, timeout=300):
         elapsed = time.monotonic() - started
         evidence = {'fingerprint': fingerprint, 'stage': stage, 'intent': shot['intent'], 'criteria': criteria_for(shot, stage),
             'files': files, 'frames': frames, 'native_fps': shot['fps'], 'interpolation': False,
+            'selected_visual_mode': shot.get('selected_visual_mode', 'default'),
             'rendered_frames': len(missing), 'reused_frames': len(frames) - len(missing), 'elapsed_seconds': round(elapsed, 3),
             'estimated_full_render_seconds': round(elapsed / len(missing) * round(shot['fps'] * shot['duration_seconds']), 1) if missing else None,
             'estimate_note': 'Measured preview throughput; full render timing can differ. Not a quality rating.'}

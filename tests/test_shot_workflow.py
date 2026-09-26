@@ -138,6 +138,49 @@ for i in r['frames']:
         result = render(self.spec, 'test', 'motion')
         self.assertEqual(result['rendered_frames'], 7)
 
+    def test_visual_mode_falls_back_then_promotes_when_primary_arrives(self):
+        generated = self.root / 'generated-keyframe.png'
+        fallback = self.root / 'cached-keyframe.png'
+        fallback.write_bytes(b'cached')
+        shot = self.data['shots'][0]
+        shot.pop('sources')
+        shot.pop('renderer')
+        shot['visual_modes'] = [
+            {'id': 'generated', 'sources': ['generated-keyframe.png', 'adapter.py'],
+             'renderer': [sys.executable, str(self.adapter), '{request}']},
+            {'id': 'cached', 'sources': ['cached-keyframe.png', 'adapter.py'],
+             'renderer': [sys.executable, str(self.adapter), '{request}']},
+            {'id': 'local-blockout', 'sources': ['adapter.py'],
+             'renderer': [sys.executable, str(self.adapter), '{request}']},
+        ]
+        write_json(self.spec, self.data)
+
+        _, _, effective, before, _ = context(self.spec, 'test')
+        self.assertEqual(effective['selected_visual_mode'], 'cached')
+        first = render(self.spec, 'test', 'preview')
+        self.assertEqual(first['selected_visual_mode'], 'cached')
+
+        generated.write_bytes(b'generated')
+        _, _, effective, after, _ = context(self.spec, 'test')
+        self.assertEqual(effective['selected_visual_mode'], 'generated')
+        self.assertNotEqual(before, after)
+
+    def test_visual_mode_uses_local_blockout_when_art_is_unavailable(self):
+        shot = self.data['shots'][0]
+        shot.pop('sources')
+        shot.pop('renderer')
+        shot['visual_modes'] = [
+            {'id': 'generated', 'sources': ['missing-generated.png', 'adapter.py'],
+             'renderer': [sys.executable, str(self.adapter), '{request}']},
+            {'id': 'cached', 'sources': ['missing-cache.png', 'adapter.py'],
+             'renderer': [sys.executable, str(self.adapter), '{request}']},
+            {'id': 'local-blockout', 'sources': ['adapter.py'],
+             'renderer': [sys.executable, str(self.adapter), '{request}']},
+        ]
+        write_json(self.spec, self.data)
+        _, _, effective, _, _ = context(self.spec, 'test')
+        self.assertEqual(effective['selected_visual_mode'], 'local-blockout')
+
 
 if __name__ == '__main__':
     unittest.main()

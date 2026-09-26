@@ -256,6 +256,21 @@ After `prepare-review`, inspect:
 - baseline comparison when relevant;
 - continuity and story/marketing truth.
 
+### Dedicated browser playback gate
+
+When the Local Workspace browser runtime is available, sampled frames are not the
+last assistant review step. Generate a review page with
+`scripts/make_browser_review.py`, open the final candidate in the dedicated browser,
+play it from the start at normal speed through the end, and inspect the actual
+browser viewport. Revisit suspicious motion at 0.5x and at explicit timestamps.
+
+Record the browser playback state (duration, ended event, decoded/dropped frames)
+and the visual observations from the viewport separately. Decode counters prove
+that playback happened; they do not prove that the movement, acting, composition,
+or cuts are good. A contact sheet does not substitute for continuous playback
+when this browser is available. The browser connector does not establish audible
+sound, so audio listening must not be claimed from browser playback alone.
+
 If a defect is found:
 
     python scripts/productionctl.py assistant-fail production.json --notes "..."
@@ -312,6 +327,7 @@ A production is DONE only when:
 - unintended silence policy passes;
 - configured scene plan/baseline evidence is available;
 - representative and important visual beats are reviewed;
+- dedicated-browser playback is reviewed when that runtime is available;
 - long-form seams are reviewed;
 - baseline regression is understood where applicable;
 - receipt and QA evidence are bound to the candidate hash;
@@ -324,3 +340,17 @@ That is the Local Workspace-era production workflow.
 ## Local shot development before delivery
 
 Use [the ChatGPT shot workflow](CHATGPT_SHOT_WORKFLOW.md) for renderer-independent preview, inspection, targeted revision, native-frame rendering, and recovery. The executable entry point is `scripts/shotctl.py`; it hands reviewed shots to the existing production controller. No generation API or new service is required.
+
+## Generated-image availability is never a production blocker
+
+Built-in or web image generation is an optional visual-quality tier, not a
+single point of failure. For shot development, encode the ordered degradation
+path with `visual_modes` in the shot workflow. Prefer fresh generated assets
+when they have actually been materialized locally, then accepted cached assets,
+then a deterministic local render, then an intentional storyboard/animatic
+fallback when appropriate.
+
+Do not poll a rate-limited generator in a long loop. Missing generated assets
+are treated as unavailable input and the shot runner selects the next complete
+mode. The selected mode is hash-bound into shot evidence so a later return to a
+higher-quality source cannot silently reuse an older review.

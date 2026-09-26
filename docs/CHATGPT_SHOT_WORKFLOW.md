@@ -48,9 +48,13 @@ The output includes `contact-sheet.png`, exact PNG frames, `evidence.json`, and
 `review-template.json`. Use `media_frame` with the contact-sheet PNG to bring it
 into ChatGPT's visual context, then inspect detailed frames where needed. The
 motion stage produces `candidate.mp4` and technical QA. Use native media tools
-for motion analysis and targeted frame sequences/preview clips. If audiovisual
-playback is unavailable, say what was actually inspected; do not claim listening
-or continuous playback from stills and statistics.
+for motion analysis and targeted frame sequences/preview clips. If the dedicated
+Local Workspace browser is available, generate a local review page with
+`scripts/make_browser_review.py`, play the motion candidate at 1x through the end,
+inspect the live viewport, and revisit suspicious beats at 0.5x. Only then make a
+continuous-motion judgment. If audiovisual playback is unavailable, say what was
+actually inspected; do not claim listening or continuous playback from stills and
+statistics.
 
 Copy the review template to a separate review file and record each judgment,
 specific observations, and the evidence filenames actually inspected. Failed
@@ -111,3 +115,29 @@ claim of finished character design, convincing acting, or film-level rendering.
 No new B-series visual baseline is promoted without user acceptance.
 
 The scripts/image_sequence_shot_adapter.py adapter reuses local PNG frames in the declared source order. It validates dimensions and image integrity, requires one PNG per output frame, and copies exact bytes without interpolation. This supports inexpensive editorial corrections after a costly render; record intentional cuts explicitly in the shot intent and review points.
+
+## Visual-source fallback ladder
+
+A shot may define an ordered `visual_modes` list instead of one top-level
+`sources` / `renderer` pair. The runner selects the first mode whose declared
+source files are present locally and records `selected_visual_mode` in the
+render request and evidence.
+
+Use the order as a graceful-degradation contract, for example:
+
+1. `generated` — fresh ChatGPT/provider keyframes already materialized into the production;
+2. `cached` — previously accepted generated assets for the same character/set/look;
+3. `local-blockout` — deterministic Blender/2D local render;
+4. `storyboard` — intentionally simplified local animatic assets.
+
+Generation availability is not guessed by the runner. A generation mode becomes
+available only when its expected assets actually exist. If generation is
+rate-limited or unavailable, the workflow therefore moves immediately to the
+next complete local mode instead of waiting, retrying indefinitely, or failing
+the whole production. When a higher-priority asset later appears, the selected
+mode changes and the shot fingerprint changes, invalidating stale review/cache
+evidence automatically.
+
+Each mode must declare all files that materially affect its output. Do not label
+an interpolated/cached fallback as native generated output; the evidence must
+state the selected mode.
