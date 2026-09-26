@@ -7,8 +7,20 @@ review-packs/
 *.tmp
 *.log
 
-# Local render/candidate workspaces. Durable source belongs in canonical
-# templates/scripts/productions paths; add a specific file with -f only when a
-# local experiment is deliberately promoted.
+# Local experimental fan-video workspace remains local-only.
 candidates/mandalorian-personal-fan-test/
-productions/standalone/
+
+# Standalone productions: keep bulky/generated work local, but allow a small
+# durable source/provenance surface to be tracked per production.
+productions/standalone/*
+!productions/standalone/*/
+productions/standalone/*/*
+!productions/standalone/*/README.md
+!productions/standalone/*/production.json
+!productions/standalone/*/provenance.json
+!productions/standalone/*/source/
+!productions/standalone/*/source/**
+
+# Downloaded third-party asset payloads stay local. Track provenance/manifests,
+# not redistributed bulk, unless a specific production deliberately vendors one.
+external-assets/

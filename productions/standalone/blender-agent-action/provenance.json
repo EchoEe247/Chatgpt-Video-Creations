@@ -1,0 +1,56 @@
+{
+  "production": "blender-agent-action",
+  "retrieved_at": "2026-09-26",
+  "policy": "Third-party payloads remain local under external-assets/; this file records the reproducible source and license metadata.",
+  "assets": [
+    {
+      "title": "Modular Sci-Fi MegaKit - Standard",
+      "creator": "Quaternius",
+      "source": "https://opengameart.org/content/modular-sci-fi-megakit",
+      "download": "https://opengameart.org/sites/default/files/modular_scifi_megakitstandard.zip",
+      "license": "CC0 1.0 Universal / Public Domain Dedication",
+      "sha256": "4ca9acbc7a13e7baa48e24c4853b779889b7ab21587004c36668826e705c8a10",
+      "local_archive": "external-assets/quaternius/modular_scifi_megakitstandard.zip",
+      "usage": [
+        "corridor walls",
+        "floor modules",
+        "door",
+        "lights",
+        "pipes",
+        "terminal",
+        "crates"
+      ],
+      "modifications": [
+        "source/prepare_external_assets.py creates relative links from glTF model folders to the archive's shared texture directory"
+      ]
+    },
+    {
+      "title": "Universal Animation Library - Standard",
+      "creator": "Quaternius",
+      "source": "https://quaternius.com/packs/universalanimationlibrary.html",
+      "download": "https://opengameart.org/sites/default/files/universal_animation_librarystandard.zip",
+      "license": "CC0 1.0 Universal / Public Domain Dedication",
+      "sha256": "18ff1a7215f4852b320203e8aaf02a1578b5c8eef9027fbaedfcedc7b85a3ac2",
+      "local_archive": "external-assets/quaternius/universal_animation_librarystandard.zip",
+      "usage": [
+        "retargetable animation library for future shots; V5 comparison uses the astronaut asset's native actions instead"
+      ]
+    },
+    {
+      "title": "Ultimate Space Kit",
+      "creator": "Quaternius",
+      "source": "https://opengameart.org/content/ultimate-space-kit",
+      "download": "https://opengameart.org/sites/default/files/ultimate_space_kit-glb.zip",
+      "license": "CC0 1.0 Universal / Public Domain Dedication",
+      "sha256": "61ee5a5199d1abe419bb15ca580ab047449c3c4500b73962d4be01faa11bf8a0",
+      "local_archive": "external-assets/quaternius/ultimate_space_kit-glb.zip",
+      "usage": [
+        "Astronaut hero",
+        "Enemy Flying target"
+      ],
+      "modifications": [
+        "scaled, staged, lit, camera-directed, and combined with repository-authored effects/timing"
+      ]
+    }
+  ]
+}
