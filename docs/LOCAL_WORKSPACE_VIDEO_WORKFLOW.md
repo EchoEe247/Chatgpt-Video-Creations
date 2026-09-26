@@ -321,3 +321,6 @@ A production is DONE only when:
 - repository state is clean and verified.
 
 That is the Local Workspace-era production workflow.
+## Local shot development before delivery
+
+Use [the ChatGPT shot workflow](CHATGPT_SHOT_WORKFLOW.md) for renderer-independent preview, inspection, targeted revision, native-frame rendering, and recovery. The executable entry point is `scripts/shotctl.py`; it hands reviewed shots to the existing production controller. No generation API or new service is required.

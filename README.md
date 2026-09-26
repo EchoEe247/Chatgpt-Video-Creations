@@ -148,3 +148,6 @@ Technical success is useful evidence, but the final rendered result is what gets
 For episodic animation, the episode becomes `DONE ✅` only after both assistant QA and user acceptance pass.
 
 For a formal B-series visual baseline, acceptance goes one step further: preserve the exact artifact, conditions, limitations, and validation receipt so the state is usable later as a real regression reference.
+## Local shot development before delivery
+
+Use [the ChatGPT shot workflow](docs/CHATGPT_SHOT_WORKFLOW.md) for renderer-independent preview, inspection, targeted revision, native-frame rendering, and recovery. The executable entry point is `scripts/shotctl.py`; it hands reviewed shots to the existing production controller. No generation API or new service is required.

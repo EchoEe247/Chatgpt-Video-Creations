@@ -1,0 +1,376 @@
+{
+  "date_utc": "2026-09-26T19:28:55.549760+00:00",
+  "base_commit": "5650a3f",
+  "scope": "ChatGPT local preview/inspect/revise/reuse workflow; limited framing/native-motion regression proof",
+  "suite": "59 tests passed; image-sequence adapter additionally verified on device with all 54 exact source PNG hashes",
+  "http": {
+    "http://127.0.0.1:8878/final/workflow-review.html": {
+      "status": 200,
+      "bytes": 2653,
+      "sha256": "8da73950b61a56d336c6a84f612f6b8b3186878ab6828ad4d4b2025318d261bd"
+    },
+    "http://127.0.0.1:8878/final/workflow-before.mp4": {
+      "status": 200,
+      "bytes": 108765,
+      "sha256": "7457eb86df4cbf6e8455f912a9ce8e8d798d9659ef630cc1653ee04bf68990b2"
+    },
+    "http://127.0.0.1:8878/final/workflow-after.mp4": {
+      "status": 200,
+      "bytes": 188248,
+      "sha256": "a1e726c1e11095a7520f772392b0e613d9fef9ecfc4639d509571038bdc0f05b"
+    }
+  },
+  "final_audio": {
+    "integrated_lufs": -26.51,
+    "true_peak_dbfs": -9.94,
+    "loudness_range_lu": 0.0,
+    "threshold_lufs": -36.51,
+    "path": "/data/data/com.termux/files/home/MainWorkspace/Chatgpt-Video-Creations/productions/standalone/blender-agent-action/final/workflow-after.mp4",
+    "duration_seconds": 2.25,
+    "silence_threshold_db": -55.0,
+    "silence_min_duration": 0.5,
+    "silence_segments": [],
+    "silence_segment_count": 0,
+    "total_silence_seconds": 0,
+    "silence_ratio": 0.0,
+    "longest_silence_seconds": 0.0
+  },
+  "final_qa": {
+    "path": "/data/data/com.termux/files/home/MainWorkspace/Chatgpt-Video-Creations/productions/standalone/blender-agent-action/final/workflow-after.mp4",
+    "pass": true,
+    "checks": [
+      {
+        "name": "decode",
+        "pass": true,
+        "actual": "",
+        "expected": "no decode errors"
+      },
+      {
+        "name": "video_stream",
+        "pass": true,
+        "actual": 1,
+        "expected": ">=1"
+      },
+      {
+        "name": "width",
+        "pass": true,
+        "actual": 640,
+        "expected": 640
+      },
+      {
+        "name": "height",
+        "pass": true,
+        "actual": 360,
+        "expected": 360
+      },
+      {
+        "name": "fps",
+        "pass": true,
+        "actual": 24.0,
+        "expected": 24
+      },
+      {
+        "name": "video_codec",
+        "pass": true,
+        "actual": "h264",
+        "expected": "h264"
+      },
+      {
+        "name": "pixel_format",
+        "pass": true,
+        "actual": "yuv420p",
+        "expected": "yuv420p"
+      },
+      {
+        "name": "duration",
+        "pass": true,
+        "actual": 2.25,
+        "expected": "2.25 \u00b1 0.15"
+      },
+      {
+        "name": "audio_stream",
+        "pass": true,
+        "actual": 1,
+        "expected": ">=1"
+      },
+      {
+        "name": "audio_codec",
+        "pass": true,
+        "actual": "aac",
+        "expected": "aac"
+      },
+      {
+        "name": "audio_analysis",
+        "pass": true,
+        "actual": "valid measurements",
+        "expected": "valid measurements"
+      },
+      {
+        "name": "max_unintended_silence",
+        "pass": true,
+        "actual": 0.0,
+        "expected": "<= 0.3"
+      }
+    ],
+    "probe": {
+      "path": "/data/data/com.termux/files/home/MainWorkspace/Chatgpt-Video-Creations/productions/standalone/blender-agent-action/final/workflow-after.mp4",
+      "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+      "format_long_name": "QuickTime / MOV",
+      "duration_seconds": 2.25,
+      "size_bytes": 188248,
+      "bit_rate": 669326,
+      "streams": [
+        {
+          "index": 0,
+          "codec_type": "video",
+          "codec_name": "h264",
+          "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+          "duration_seconds": 2.25,
+          "bit_rate": 495566,
+          "width": 640,
+          "height": 360,
+          "pixel_format": "yuv420p",
+          "frame_rate": 24.0,
+          "frame_count": 54
+        },
+        {
+          "index": 1,
+          "codec_type": "audio",
+          "codec_name": "aac",
+          "codec_long_name": "AAC (Advanced Audio Coding)",
+          "duration_seconds": 2.25,
+          "bit_rate": 161543,
+          "sample_rate": 48000,
+          "channels": 2,
+          "channel_layout": "stereo",
+          "sample_format": "fltp"
+        }
+      ],
+      "video_streams": 1,
+      "audio_streams": 1
+    },
+    "decode": {
+      "path": "/data/data/com.termux/files/home/MainWorkspace/Chatgpt-Video-Creations/productions/standalone/blender-agent-action/final/workflow-after.mp4",
+      "success": true,
+      "exit_code": 0,
+      "errors": ""
+    },
+    "audio": {
+      "integrated_lufs": -26.51,
+      "true_peak_dbfs": -9.94,
+      "loudness_range_lu": 0.0,
+      "threshold_lufs": -36.51,
+      "path": "/data/data/com.termux/files/home/MainWorkspace/Chatgpt-Video-Creations/productions/standalone/blender-agent-action/final/workflow-after.mp4",
+      "duration_seconds": 2.25,
+      "silence_threshold_db": -55.0,
+      "silence_min_duration": 0.5,
+      "silence_segments": [],
+      "silence_segment_count": 0,
+      "total_silence_seconds": 0,
+      "silence_ratio": 0.0,
+      "longest_silence_seconds": 0.0,
+      "longest_unintended_silence_seconds": 0.0,
+      "intentional_silence_intervals": []
+    }
+  },
+  "original_take_status": [
+    {
+      "shot": "corridor",
+      "fingerprint": "1183d8f423546c12496fde352f953414c0dfc84e1ef89cb5501345a05714921b",
+      "output": "/data/data/com.termux/files/home/MainWorkspace/Chatgpt-Video-Creations/productions/standalone/workflow-upgrade/shot-work/corridor/1183d8f423546c12496fde352f953414c0dfc84e1ef89cb5501345a05714921b",
+      "next_action": "repair_source",
+      "next_change": "Edit to three inspected unobstructed ranges: native frames 0-17, 27-56, 66-71. Preserve explicit cuts at .75s and 2.0s. Keep the full take unapproved.",
+      "defects": [
+        "Foreground architecture occludes character between preview samples."
+      ]
+    }
+  ],
+  "edited_shot_status": [
+    {
+      "shot": "corridor-edit",
+      "fingerprint": "c311e5319d070464792079297677d751a6e68acfb75a9f53b98732fc25f4e585",
+      "output": "/data/data/com.termux/files/home/MainWorkspace/Chatgpt-Video-Creations/productions/standalone/workflow-upgrade/shot-work/corridor-edit/c311e5319d070464792079297677d751a6e68acfb75a9f53b98732fc25f4e585",
+      "next_action": "productionctl_handoff",
+      "next_change": "",
+      "defects": []
+    }
+  ],
+  "source_selection": {
+    "source_selection": "native frames 0-17, 27-56, 66-71; camera-obstructed passages removed by explicit editorial cuts"
+  },
+  "native_render_resume": {
+    "fingerprint": "1183d8f423546c12496fde352f953414c0dfc84e1ef89cb5501345a05714921b",
+    "stage": "motion",
+    "intent": "Keep the entire moving character readable throughout the shot, with clean native motion.",
+    "criteria": [
+      "framing",
+      "silhouette",
+      "temporal_integrity"
+    ],
+    "files": {
+      "contact-sheet.png": "616024e688ffa55b58101bb4c95e4b7af5ca8d5f72aae644374da2021254ade6",
+      "../frames/000000.png": "54b5c98b5904256c7501662ffad560f466138d793e94e62756a7bc8bca15b6f4",
+      "../frames/000001.png": "2529acf7b327b001cd6514ef76d57d0a5269bc71b5922246a400ce1ae5da1b2b",
+      "../frames/000002.png": "d4e6cc035d0fb01d2a04ffa8856e985313a4786d21a50f171c34aa9c584c5c10",
+      "../frames/000003.png": "bf0a543be3120df4250ee28bf668d508505323e147b3939094f3c301df33c178",
+      "../frames/000004.png": "ac2662dcc4551b41d681c4961ed07e4c61ffc199eb10da1d12cca8fe98b0d993",
+      "../frames/000005.png": "274f285ba60e0c9d4f5534cda0243860f3b8a072fa705862954a43164556364d",
+      "../frames/000006.png": "44a3e47f45d0fb206632e95c79005fafa690da8c4ed1c1ab3e49df814998030d",
+      "../frames/000007.png": "25b4dfc68bb51ca1b086d3737f936cfd4a21e43662694926468d83b38659ef64",
+      "../frames/000008.png": "9e7c6b2c5a33ab31184f81f498d0fd23861c58558111c86ba8f41327fa60adb8",
+      "../frames/000009.png": "09656036d556d20fc668daa48bb60360782ab9ffbb98746426258f359a8c10d7",
+      "../frames/000010.png": "effbd326e02b5b9dc2e0e7f25fa1de6691d3760cc0251ba6df78e70f4ec30aaa",
+      "../frames/000011.png": "c8838bf2e9cbf0b23ce022179af872df037e1fb423e78999d479b04bc15bfdb8",
+      "../frames/000012.png": "31c51209236ecdf56b053631c16346e97a39db541c0af283d5ca61b3bdb65907",
+      "../frames/000013.png": "0e51d018dd1884fb6badccca8f152aa61903c503d76df5b5419b2050d97a2ae8",
+      "../frames/000014.png": "5df750d97b91426303fe3a58df964ecb8637e4b43f7ab363d61aced0498771a1",
+      "../frames/000015.png": "ac59627b32fac0c61e286bf883f044de841cf9a134d30470aaa3556d53817fe9",
+      "../frames/000016.png": "2e20f0fbcdcea37b9e88def76cea0ebdb562135fb905b3bf288b02d8f9db4504",
+      "../frames/000017.png": "e8070f20427f54a5e85f4e7f9ca64de44721816c39cbf7a9e4dc74d983cab735",
+      "../frames/000018.png": "edb83ddc05fd1e875837421494ccb51a8db2cb5bcca7861c1301660735adb3f3",
+      "../frames/000019.png": "cffe6fff9390618b8f062a7ee0056d455977c3410e504415376cc9ca82981195",
+      "../frames/000020.png": "4af0dfc4a5072ae3014981181a8f226130e21bc4c8a985fb6563c9ace98d5129",
+      "../frames/000021.png": "78a641c80731b5f72b0942db2f412bb1608593c2653b29b4d2a771ad5ea6aca2",
+      "../frames/000022.png": "8430ded9bdf032fbf4b76170fd2701042113334f955fe49781d0f5b7de089c7d",
+      "../frames/000023.png": "eb1f76a31e91bb9c60238bada6a9fd3bb747af2aea01af7a929488f7b2981537",
+      "../frames/000024.png": "6c73d897d1912ab8cd306239eb39b0edaa4013d3e4cfd370daa1b8961a619912",
+      "../frames/000025.png": "a3c2509c59a45480036d90574bd5b3058999fa3c9aa6860dfab91079b541b0db",
+      "../frames/000026.png": "da47efc7c1a36670f3f387a0e4c332ff9cf438f76f06189872db6a263e131fdf",
+      "../frames/000027.png": "a81d0a23367e6516c479648a5cc8788b838462fb48b6745d354bc068281a4c4e",
+      "../frames/000028.png": "c7c4cfe4d17a02b20ea63733bf72119f247139eca229bcd33ed5a479a7c17956",
+      "../frames/000029.png": "4492a65d3fb522ecd59b3871e6e261da080c8a441a52540bf95cbc052b56591e",
+      "../frames/000030.png": "cac4f3743aa105d942865e3e63ffba2b0033985cdde91956bd213c508d7a7699",
+      "../frames/000031.png": "2b267072e228a50c9081f60cec4704534e81d9071e6b7ae1e3e7b276e11dbff7",
+      "../frames/000032.png": "65f675b7d7c20eed931b9747580732a98a0b68021a88d20dad9da042d0fe07b4",
+      "../frames/000033.png": "fb4c4bb9bdddc47577d035a7ff96837c6f7a555e7ca663f7f3105fa13594bdf1",
+      "../frames/000034.png": "4b6c578183867a5131e63391b5a3fe15a9b5df8b188bc7b5e26aa64372aeb972",
+      "../frames/000035.png": "10a369083985c55df80360d9b5bb555b8b402db001c7b4a1e3be908080f5c147",
+      "../frames/000036.png": "115713d101d2f2c87cbe1f6ffc034f4287d8bbacad796cf996ed56030bd6e815",
+      "../frames/000037.png": "70902edf5d9eb6894a69b20eb2ab72c8bf932f42a2e7d8caabf4fd904e4ce7cd",
+      "../frames/000038.png": "a3c8b06121eb3489a779b7877f06060e045cb86ce21dd7f1c3d24e4e608bd64f",
+      "../frames/000039.png": "7766c76ab5dd8344e356685bd259a41d3a8930bec25a33ee967b391ab8f98457",
+      "../frames/000040.png": "c6ea4ac4aeca5fc0bbd1bc408a6de00d27cbbb2f76b252f697eed81eab063a74",
+      "../frames/000041.png": "42d8e717abd67b0db2d4025aa9363eaf3c7f85a2cf810d42b9a2f88df43cd23c",
+      "../frames/000042.png": "813ea5d8b0f33e085f17783d37a9efa93cee8bc7e48f564ecfcf699ffd193104",
+      "../frames/000043.png": "798e2e22e8ae8a93528bf9b2d2ec06beb9db6be117a9c480fa11d48bc5f1da34",
+      "../frames/000044.png": "cbb2e7284e9e250dcc16591934b2ad34b8bac3621405663f3224b050e9acb379",
+      "../frames/000045.png": "349627aaa672e85c0f9067cabbe82f26628576349fddd80dd6f8e043f4d5c57b",
+      "../frames/000046.png": "972f7db1fce42241cd1a7ff2224dc8b97d8d7eb53f8d46092df8061d600988d6",
+      "../frames/000047.png": "07cb326c4c4d26c938cd1739b4b7d771711774612285fb44eac7167ad204a8c5",
+      "../frames/000048.png": "8761025c11c931769f0367d657f1ea1c6f7060de2ff693480cdca6a5876ec9f8",
+      "../frames/000049.png": "e9d8780f6728648b02bb3099945b97d5e8c67d80e89f13bc4a3450304a7f7658",
+      "../frames/000050.png": "5c3258e6a263dec61ce2fcbdd2efed1a62ecfefc84d584b9f4ecc1d08b0dc614",
+      "../frames/000051.png": "9b7e95995cfeabea9063d3ab3affd08749f037ecbc7c304abe24615b30965bbf",
+      "../frames/000052.png": "f2a748eca395a32a8acc131045499afd8a7373da05a5b80df26ccbca23e9c7ac",
+      "../frames/000053.png": "22b90b00775040919d79c533d1623e9e7cf1864b3e347e9e7dd84231523f9724",
+      "../frames/000054.png": "4327a9ef02a3a86481a623283ac9a0cfb2e10ecc8599779b9c21cd10ca6544fe",
+      "../frames/000055.png": "357b7ebc8dc06ea1de6b270c4f1b51d79db6ce3539ce47b620b2868eb0db4e15",
+      "../frames/000056.png": "080e17f4813f64a59c020e58bf1caa964baf8477a3458c6088c157d9c307b011",
+      "../frames/000057.png": "a95dd8f801ae49324e2954511f65ef433f38069271806fd2ed769e06073410f9",
+      "../frames/000058.png": "e44347999b64e340c25cf577ba4cd660865b0e39db31f60d517a5f7a7247063f",
+      "../frames/000059.png": "04dc1a9f5885e00dff5210cbbf368bb6cbb739f91246435cff4ff2d0d7312957",
+      "../frames/000060.png": "9135eb8765e5001738f93bcef68ae480e70fd1bd221e95b83c093b9abb436b93",
+      "../frames/000061.png": "a366ede4323fd2b8b0239f346b222b580d1accc9f31403ccaff748f5a3c692d5",
+      "../frames/000062.png": "22b6032a6e7806628c7525900c1770097943de243b774ef253bb14ae5a039754",
+      "../frames/000063.png": "ee18c4fe1cffc9b76a7aa10f3bfbed2c6e953e8d0110cfef14809ea01e5c6f25",
+      "../frames/000064.png": "1d20d07e0ee773ba9ad5acf473fbf5ace48d032b166a175c9c672d92c2df7743",
+      "../frames/000065.png": "2d8ba8f2b2c76eccf977a36d62d1bbb161096040881e6ba9376e122891dd4217",
+      "../frames/000066.png": "faf4c0d8b879d8f4b20ead6f69e3401e14c21668e3ec5528dc261d3d379efd62",
+      "../frames/000067.png": "3a90b3a3b89cb8063eac2e30faffe3fde4a2733605b09be837ec473126877a05",
+      "../frames/000068.png": "1832e95c6562179760c101bbf0ce56258aa96fe912782abdf5d7d4cf2100b184",
+      "../frames/000069.png": "c3da12ba8f4872228a8bb1a228ffeb93b42f398e4a5507daf482bc38fce52e8e",
+      "../frames/000070.png": "822b85c71b1af402c22c937d49e9ac0a429a49fd59fd38f279c3547373ef94fc",
+      "../frames/000071.png": "1f353d8371d128d884de222df69098af685cb3b5f6903b70ca2b9040dc56aa15",
+      "candidate.mp4": "469298394cc94a812e21a2cb4bb1e8969e9436f99b0b54f32e2ab55a2aa883cd",
+      "technical-qa.json": "a1df80cfb7f99fb5c3d3f89aeb08ef24c79d685462e403827f2583dc46de9dd7"
+    },
+    "frames": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19,
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71
+    ],
+    "native_fps": 24,
+    "interpolation": false,
+    "rendered_frames": 27,
+    "reused_frames": 45,
+    "elapsed_seconds": 145.709,
+    "estimated_full_render_seconds": 388.6,
+    "estimate_note": "Measured preview throughput; full render timing can differ. Not a quality rating."
+  },
+  "limitations": [
+    "Blockout character and stiff acting, not finished cinematic quality.",
+    "Native Blender/proot can crash; one-frame process profile completed the recovered render.",
+    "Full original take remains failed for pillar occlusions; comparison uses explicit editorial cuts.",
+    "Assistant inspected frames, hashes and audio measurements, not continuous audiovisual playback.",
+    "No new API, no cloud rendering, no model running in background."
+  ]
+}

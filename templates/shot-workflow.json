@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "work_dir": "shot-work",
+  "shots": [
+    {
+      "id": "shot-01",
+      "intent": "Describe the visible action and purpose of this shot.",
+      "criteria": [
+        "composition",
+        "silhouette",
+        "contact_and_prop_alignment"
+      ],
+      "motion_criteria": [
+        "acting_and_timing",
+        "temporal_integrity"
+      ],
+      "sources": [
+        "scene.blend",
+        "blender_shot_adapter.py"
+      ],
+      "renderer": [
+        "proot-distro",
+        "login",
+        "hermes-ubuntu",
+        "--",
+        "blender",
+        "--background",
+        "--python-exit-code",
+        "1",
+        "--python",
+        "/absolute/path/to/blender_shot_adapter.py",
+        "--",
+        "{request}"
+      ],
+      "width": 640,
+      "height": 360,
+      "fps": 24,
+      "duration_seconds": 3,
+      "source_offset_seconds": 0,
+      "review_seconds": [
+        1.5
+      ],
+      "settings": {
+        "engine": "BLENDER_WORKBENCH",
+        "runtime_tag": "set-to-installed-blender-version"
+      }
+    }
+  ],
+  "batch_size": 1
+}

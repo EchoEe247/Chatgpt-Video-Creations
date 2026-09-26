@@ -12,6 +12,17 @@ For web-only video generation providers, use the dedicated Local Workspace brows
 
 Read `docs/LOCAL_WORKSPACE_VIDEO_WORKFLOW.md` before broad production-runtime changes.
 
+## Preview-driven shot development
+
+For local video quality improvements, read `docs/CHATGPT_SHOT_WORKFLOW.md`.
+Use `scripts/shotctl.py` and `templates/shot-workflow.json` for reusable shot
+previews, source-bound frame caching, explicit assistant visual findings, and
+native motion before handing a finished shot to `productionctl`. Choose the
+renderer from the desired look; do not equate a blockout or playable MP4 with
+finished visual quality. Preview review is performed by ChatGPT, not a request
+for user permission. Preserve observed limitations and verify the actual repair.
+This workflow adds no generation API and uses the existing device runtimes.
+
 ## Angel wording integration
 
 For Angel-owned project communication, use `EchoEe247/Chatgpt-Angel-wording-refinement` as the wording/refinement authority.
