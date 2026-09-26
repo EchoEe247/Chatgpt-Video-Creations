@@ -165,6 +165,23 @@ Use `media_motion_analyze` before assistant review when movement quality matters
 
 Baseline comparison samples across the full common runtime by default. It is a regression signal, not a creative-quality score.
 
+## Agent-controlled Blender animation
+
+Character animation must not depend on Angel recording motion or manually operating Blender.
+
+The local Blender path is agent-first:
+
+1. check `blender_status`;
+2. write a bounded production script under this repository;
+3. start it with `blender_script_start` and persist the returned job ID;
+4. poll with `command_poll`;
+5. inspect the generated `.blend`, preview frames, and rendered clips through the normal media QA surface;
+6. use `blender_render_start` for exact still-render jobs when a scene is already authored.
+
+Prefer free/reliable primitives first: Blender armatures, Rigify when available, NLA tracks, IK/constraints, procedural keyframes, physics, and freely licensed animation/assets. Human mocap/video capture is optional input, never a required production step.
+
+The repository includes `scripts/blender_agent_smoke.py` as a deterministic device/runtime proof. It creates an articulated proxy character, drives one arm with IK, places body motion on an NLA track, saves a blend file, and renders a preview frame. Keep this as a smoke test; production characters should use proper imported meshes/rigs and reusable action libraries rather than the proxy geometry.
+
 ## Prepare assistant review
 
 Once a candidate exists:
