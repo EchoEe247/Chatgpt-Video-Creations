@@ -56,6 +56,18 @@ For release marketing, also record exact release/version provenance.
 
 For episodic work, load the accepted continuity input.
 
+## 2.5. Source before rebuilding
+
+Before creating significant visual/audio assets from scratch, inspect the existing production library and search for legitimately reusable free resources that materially help the goal.
+
+Check license/usage terms and keep provenance for assets that enter reusable or public work. Adapt resources to the production rather than treating downloaded content as finished direction.
+
+Do not substitute an external online video generator for the production itself. Reliable audio/image services can be used when their free capacity is practically useful and the workflow remains restart-safe when they are unavailable.
+
+If implementation is stuck on a production technique, research established practitioner methods and documentation before continuing repeated blind experiments.
+
+See `docs/RESOURCE_SOURCING.md`.
+
 ## 3. Plan the master before individual scenes
 
 Define scene timestamp ranges, camera/framing, action, dialogue or on-screen text, audio cues, transitions, continuity state, and the purpose of each scene.

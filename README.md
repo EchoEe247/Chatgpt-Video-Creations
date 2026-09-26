@@ -25,6 +25,20 @@ What should become less flexible is repeated guesswork around relationships we a
 
 See [`docs/OPERATING_MODEL.md`](docs/OPERATING_MODEL.md).
 
+## Resource-first production
+
+The production system is not limited to what can be modeled, animated, textured, or recorded from scratch on the phone. Before rebuilding a useful asset, check whether a legitimately reusable free resource already solves part of the goal.
+
+The default order is:
+
+**goal → existing/local assets → free external resources → license/provenance verification → adaptation/refinement → create only what is missing → local assembly/animation → QA**
+
+External assets can include rigs, animation clips, environments, props, textures/materials, HDRIs, VFX, SFX/music, fonts, LUTs, and other reusable production pieces.
+
+External online video-generation models do **not** replace the repository's production workflow. Reliable external audio/image resources are acceptable when their free usage is genuinely useful and the workflow still owns the production. When a technique is weak, research practitioner workflows and tutorials rather than brute-forcing the same failed approach.
+
+See [`docs/RESOURCE_SOURCING.md`](docs/RESOURCE_SOURCING.md).
+
 ## Local Workspace runtime
 
 This repository now assumes the Local Workspace plugin is available for normal ChatGPT production work. Long renders use persisted background jobs whose IDs are recorded in the production manifest and reconciled after interruption. Candidate media is copied into immutable iteration directories and bound to SHA-256 before QA.
@@ -126,6 +140,7 @@ See [`docs/SCENE_GEOMETRY.md`](docs/SCENE_GEOMETRY.md) and [`docs/VISUAL_QA_STAN
 - [`baselines/`](baselines/) — formal B-series known-good registry and promotion rules.
 - [`docs/REFERENCE_SAMPLES.md`](docs/REFERENCE_SAMPLES.md) — what earlier production tests proved, failed, or established.
 - [`docs/LOCAL_WORKSPACE_VIDEO_WORKFLOW.md`](docs/LOCAL_WORKSPACE_VIDEO_WORKFLOW.md) — Local Workspace execution, media QA, provider automation, and artifact-review workflow.
+- [`docs/RESOURCE_SOURCING.md`](docs/RESOURCE_SOURCING.md) — free-asset sourcing, licensing/provenance, external-service reliability, and learn-before-brute-forcing policy.
 - [`templates/`](templates/) — business release, show, season, episode, and production starters.
 - [`productions/`](productions/) — expected layout for real production packages.
 - [`scripts/`](scripts/) — lightweight validation and assembly helpers.
@@ -150,4 +165,4 @@ For episodic animation, the episode becomes `DONE ✅` only after both assistant
 For a formal B-series visual baseline, acceptance goes one step further: preserve the exact artifact, conditions, limitations, and validation receipt so the state is usable later as a real regression reference.
 ## Local shot development before delivery
 
-Use [the ChatGPT shot workflow](docs/CHATGPT_SHOT_WORKFLOW.md) for renderer-independent preview, inspection, targeted revision, native-frame rendering, and recovery. The executable entry point is `scripts/shotctl.py`; it hands reviewed shots to the existing production controller. No generation API or new service is required.
+Use [the ChatGPT shot workflow](docs/CHATGPT_SHOT_WORKFLOW.md) for renderer-independent preview, inspection, targeted revision, native-frame rendering, and recovery. The executable entry point is `scripts/shotctl.py`; it hands reviewed shots to the existing production controller. The core path works without an external generation service, while optional reliable resources can augment it through explicit fallbacks.

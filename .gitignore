@@ -6,3 +6,9 @@ review-packs/
 .audit_*
 *.tmp
 *.log
+
+# Local render/candidate workspaces. Durable source belongs in canonical
+# templates/scripts/productions paths; add a specific file with -f only when a
+# local experiment is deliberately promoted.
+candidates/mandalorian-personal-fan-test/
+productions/standalone/

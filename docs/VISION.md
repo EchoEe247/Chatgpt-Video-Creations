@@ -41,6 +41,9 @@ Across both lanes, the same practical rules apply:
 - continuity and shared scene geometry matter more than approximate placement;
 - release truth and accepted canon outrank stale chat memory;
 - research can inform the work, but original productions should be original rather than disguised copies;
+- use legitimately reusable free assets/resources when they save time or materially improve quality; adapt them to the production instead of rebuilding everything by default;
+- external online video generators do not replace the repository's own production workflow;
+- when a technique is weak, learn established practitioner methods before spending long cycles on blind experimentation;
 - complexity should be added when it improves the visible result, not just because more complexity is possible.
 
 The main direction is simple: keep what has already been proven, improve what users can actually see or use, and make every serious production easier to continue than the one before it.

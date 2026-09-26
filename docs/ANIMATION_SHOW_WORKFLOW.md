@@ -8,9 +8,13 @@ The point is not to over-plan every future detail. The point is to avoid making 
 
 ## Phase 1 — Research and creative exploration
 
-Research can cover storytelling structure, pacing, genre expectations, audience behavior, subject matter, science, history, folklore, technology, or anything else that helps us understand the kind of show we are building.
+Research can cover storytelling structure, pacing, genre expectations, audience behavior, subject matter, science, history, folklore, technology, production techniques, and reusable asset options that help us understand how to build the show efficiently.
 
-That research is input, not identity. The result should still have original characters, names, world rules, dialogue, visual identity, and story logic.
+For production technique, use practitioner tutorials/transcripts, official documentation, breakdowns, and open-source examples when they can prevent repeated blind experimentation. For assets, prefer legitimately reusable free resources and record provenance/usage terms when they enter the production.
+
+That research is input, not identity. The result should still have original characters, names, world rules, dialogue, visual identity, and story logic. External online video generators are not the default episode renderer.
+
+See `docs/RESOURCE_SOURCING.md`.
 
 ## Phase 2 — Build the show foundation
 

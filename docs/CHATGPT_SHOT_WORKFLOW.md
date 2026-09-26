@@ -14,6 +14,8 @@ the requested result: edited local footage, 2D animation, motion graphics, or 3D
 Do not select Blender just because it is available. A blockout is useful for
 testing movement and composition; it is not a finished visual style by default.
 
+Before authoring missing art/geometry, follow `docs/RESOURCE_SOURCING.md`: reuse suitable local or legitimately free external assets when they materially help the shot, adapt them, and declare every dependency in `sources`. Scratch-building remains the fallback, not the default proof exercise.
+
 For each shot, define a short intent and concrete criteria such as readable
 silhouette, complete subject framing, grounded feet, a clearly visible reaction,
 or a prop attached to the correct hand. Add motion-only criteria separately.
@@ -101,11 +103,12 @@ user acceptance. `productionctl_handoff` means the shot has passed its specified
 assistant criteria; it does not mean the finished production is DONE.
 
 Shot motion files are intentionally silent. Keep dialogue, music, and effects
-as separate local stems in the master edit so a loud or resonant sound can be
-isolated without recreating voices or visuals. Reuse the existing audio service
-only when requested/appropriate; this workflow adds no API and consumes no audio
-credits. Final master audio still requires the existing loudness/silence checks,
-targeted audio forensics, and honest listening limits.
+as separate stems in the master edit so a loud or resonant sound can be isolated
+without recreating voices or visuals. The shot runner itself does not call an
+audio API. The master production may use a configured reliable audio/voice
+service when its free capacity is practically useful, following
+`docs/RESOURCE_SOURCING.md`. Final master audio still requires the existing
+loudness/silence checks, targeted audio forensics, and honest listening limits.
 
 ## Scope of the initial validation
 

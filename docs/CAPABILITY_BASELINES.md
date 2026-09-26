@@ -119,7 +119,7 @@ See `docs/SCENE_GEOMETRY.md` and `docs/VISUAL_QA_STANDARDS.md`.
 
 This lightweight programmatic approach is strong for stylized limited animation, but it is not the same thing as a full traditional animation-studio pipeline.
 
-Harder areas still include highly fluid frame-by-frame acting, complex deformable rigs, advanced phoneme lip sync, painterly frame-by-frame effects, and premium voice acting without a stronger voice source.
+Harder areas still include highly fluid frame-by-frame acting, complex deformable rigs, advanced phoneme lip sync, painterly frame-by-frame effects, and high-end voice performance. Reliable external voice/audio services may be used when configured and their free capacity is practically useful; they are production inputs, not a reason to make the core workflow dependent on a fragile quota.
 
 ---
 
@@ -188,7 +188,7 @@ A **stylized low-poly / cel-shaded indie cartoon or game-cinematic scene**.
 
 ### Current limits
 
-Without a full Blender/Maya-class character pipeline, difficult areas include advanced skeletal deformation and skinning, high-quality facial blendshapes, sophisticated walk/run cycles, cloth and hair physics, complex materials/global illumination, and feature-film studio character animation.
+The Local Workspace runtime now includes headless Blender and Rigify, so the repository does have a real Blender-class path for agent-controlled 3D work. The practical limits are device/runtime cost and production maturity: advanced deformation/skinning, high-quality facial rigs, polished locomotion libraries, cloth/hair simulation, heavy materials/global illumination, and feature-film character animation remain expensive and require stronger assets/rigs than the lightweight blockout demos. Prefer suitable free rigs, animation libraries, environments, and materials when their licenses fit rather than rebuilding them by default.
 
 For long-form 3D, use the same independent-scene principle, generally with shorter scene chunks when the render is heavier.
 

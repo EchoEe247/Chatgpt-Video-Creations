@@ -165,6 +165,18 @@ Use `media_motion_analyze` before assistant review when movement quality matters
 
 Baseline comparison samples across the full common runtime by default. It is a regression signal, not a creative-quality score.
 
+## Resource sourcing before local construction
+
+Local capability tests prove what the device can do independently; they do not define the maximum quality of a real production.
+
+Before building a significant asset from scratch, check for existing local material and legitimately reusable free online resources. Verify licensing/provenance, adapt the asset to the production, and create only the missing parts.
+
+Use reliable external audio/image services only when their free capacity is substantial enough for normal work. Never store credentials in the repository.
+
+Do not use an online video-generation model as a silent replacement for the repository's renderer/editing workflow. When a production technique is not converging, research established practitioner tutorials/transcripts and documentation, then implement the learned technique locally.
+
+See `docs/RESOURCE_SOURCING.md`.
+
 ## Agent-controlled Blender animation
 
 Character animation must not depend on Angel recording motion or manually operating Blender.
@@ -182,7 +194,7 @@ Prefer free/reliable primitives first: Blender armatures, Rigify when available,
 
 The repository includes `scripts/blender_agent_smoke.py` as a deterministic device/runtime proof. It creates an articulated proxy character, drives one arm with IK, places body motion on an NLA track, saves a blend file, and renders a preview frame. Keep this as a smoke test; production characters should use proper imported meshes/rigs and reusable action libraries rather than the proxy geometry.
 
-On the Pixel/PRoot path, do not rely on one long headless Workbench render process: repeated frames can terminate Blender with SIGSEGV even when individual frames are valid. Build/save the scene once, then use `scripts/render_missing_blender_frames.py` to render missing odd frames in isolated Blender processes with retries and output verification before FFmpeg assembly.
+On the Pixel/PRoot path, do not rely on one long headless Workbench render process: repeated frames can terminate Blender with SIGSEGV even when individual frames are valid. Build/save the scene once, then use `scripts/render_missing_blender_frames.py` to render only the required missing frames or bounded frame ranges in isolated Blender processes with retries and output verification before FFmpeg assembly.
 
 ## Prepare assistant review
 
@@ -339,7 +351,7 @@ A production is DONE only when:
 That is the Local Workspace-era production workflow.
 ## Local shot development before delivery
 
-Use [the ChatGPT shot workflow](CHATGPT_SHOT_WORKFLOW.md) for renderer-independent preview, inspection, targeted revision, native-frame rendering, and recovery. The executable entry point is `scripts/shotctl.py`; it hands reviewed shots to the existing production controller. No generation API or new service is required.
+Use [the ChatGPT shot workflow](CHATGPT_SHOT_WORKFLOW.md) for renderer-independent preview, inspection, targeted revision, native-frame rendering, and recovery. The executable entry point is `scripts/shotctl.py`; it hands reviewed shots to the existing production controller. The core path remains fully usable without an external generation service; reliable optional resources may augment it and must degrade cleanly when unavailable.
 
 ## Generated-image availability is never a production blocker
 

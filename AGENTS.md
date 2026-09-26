@@ -8,9 +8,25 @@ This repository predates Local Workspace, but current sessions should not operat
 
 Use Local Workspace directly for repository inspection, edits, Git, processes, logs, browser automation, and long-running render jobs. For 3D character/environment work prefer the typed `blender_status`, `blender_script_start`, and `blender_render_start` path; agent-authored animation must not require Angel to perform or record motion. For media QA prefer the typed `media_probe`, `media_decode_check`, `media_frame`, `media_contact_sheet`, `media_audio_analyze`, `media_motion_analyze`, `media_audio_forensics`, `media_preview_range`, and `media_compare` tools. Use `scripts/videoctl.py` as the repository-native equivalent and CI fallback. Use `scripts/productionctl.py` for production state, persisted render-job identity, immutable candidate iterations, hash-bound gates, repair cycles, and restart-safe next-action recovery.
 
-For web-only video generation providers, use the dedicated Local Workspace browser runtime first. Do not add provider-specific core bridge tools until the provider workflow is stable, reusable, and safe to authenticate.
+For web resource acquisition or approved external services, use the dedicated Local Workspace browser runtime when appropriate. Do not add provider-specific core bridge tools until the workflow is stable, reusable, safely authenticated, and materially useful.
 
 Read `docs/LOCAL_WORKSPACE_VIDEO_WORKFLOW.md` before broad production-runtime changes.
+
+## Resource-first production
+
+Do not default to rebuilding useful assets from scratch. For each serious video goal, first check whether existing local assets or legitimately reusable free resources can solve part of the problem faster or at higher quality.
+
+Use:
+
+**goal → local asset check → free-resource search → license/provenance check → adapt/refine → create missing pieces → assemble/animate locally → QA**
+
+This includes meshes/rigs, animation libraries, environments, props, textures/materials, HDRIs, VFX, SFX/music, fonts/LUTs, and other reusable production material.
+
+External online video-generation models are not a replacement for this workflow. Do not outsource the requested video to one and call the result a repository improvement. Reliable external audio/image resources may be used when their free capacity is practically useful and the production remains controlled here.
+
+If a technique is weak or repeated local experiments are not converging, research practitioner workflows (including YouTube transcripts/tutorials, official docs, and production breakdowns), extract the method, and implement it cleanly rather than continuing a blind loop.
+
+Read `docs/RESOURCE_SOURCING.md` before substantial asset acquisition or external-service integration.
 
 ## Preview-driven shot development
 
@@ -21,7 +37,7 @@ native motion before handing a finished shot to `productionctl`. Choose the
 renderer from the desired look; do not equate a blockout or playable MP4 with
 finished visual quality. Preview review is performed by ChatGPT, not a request
 for user permission. Preserve observed limitations and verify the actual repair.
-This workflow adds no generation API and uses the existing device runtimes.
+The core shot workflow remains usable without any generation API. Optional reliable resources may augment it, but unavailable services must fall back cleanly to cached or local rendering.
 
 ## Angel wording integration
 
