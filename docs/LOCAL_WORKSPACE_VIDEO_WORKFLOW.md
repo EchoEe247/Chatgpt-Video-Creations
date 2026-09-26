@@ -182,6 +182,8 @@ Prefer free/reliable primitives first: Blender armatures, Rigify when available,
 
 The repository includes `scripts/blender_agent_smoke.py` as a deterministic device/runtime proof. It creates an articulated proxy character, drives one arm with IK, places body motion on an NLA track, saves a blend file, and renders a preview frame. Keep this as a smoke test; production characters should use proper imported meshes/rigs and reusable action libraries rather than the proxy geometry.
 
+On the Pixel/PRoot path, do not rely on one long headless Workbench render process: repeated frames can terminate Blender with SIGSEGV even when individual frames are valid. Build/save the scene once, then use `scripts/render_missing_blender_frames.py` to render missing odd frames in isolated Blender processes with retries and output verification before FFmpeg assembly.
+
 ## Prepare assistant review
 
 Once a candidate exists:
