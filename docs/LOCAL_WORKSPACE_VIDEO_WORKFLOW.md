@@ -156,7 +156,12 @@ The Local Workspace bridge exposes the same read-only inspection surface:
 - `media_frame`
 - `media_contact_sheet`
 - `media_audio_analyze`
+- `media_motion_analyze` — find freeze spans, black spans, scene-cut candidates, and aggregate blur using local FFmpeg
+- `media_audio_forensics` — inspect loud windows, clipping, DC offset, and coarse frequency-band energy without a cloud service
+- `media_preview_range` — render a small bounded MP4 around a suspicious beat for fast motion/audio review
 - `media_compare`
+
+Use `media_motion_analyze` before assistant review when movement quality matters, then create targeted clips with `media_preview_range` around suspicious timestamps instead of judging motion from still frames. Use `media_audio_forensics` for localized loudness/noise investigations before creating production-specific diagnostic scripts. These tools are local and require no paid service.
 
 Baseline comparison samples across the full common runtime by default. It is a regression signal, not a creative-quality score.
 

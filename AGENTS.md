@@ -6,7 +6,7 @@ This file is the operating handoff for fresh ChatGPT or agent sessions working i
 
 This repository predates Local Workspace, but current sessions should not operate as if the old limitation still exists.
 
-Use Local Workspace directly for repository inspection, edits, Git, processes, logs, browser automation, and long-running render jobs. For media QA prefer the typed `media_probe`, `media_decode_check`, `media_frame`, `media_contact_sheet`, `media_audio_analyze`, and `media_compare` tools. Use `scripts/videoctl.py` as the repository-native equivalent and CI fallback. Use `scripts/productionctl.py` for production state, persisted render-job identity, immutable candidate iterations, hash-bound gates, repair cycles, and restart-safe next-action recovery.
+Use Local Workspace directly for repository inspection, edits, Git, processes, logs, browser automation, and long-running render jobs. For media QA prefer the typed `media_probe`, `media_decode_check`, `media_frame`, `media_contact_sheet`, `media_audio_analyze`, `media_motion_analyze`, `media_audio_forensics`, `media_preview_range`, and `media_compare` tools. Use `scripts/videoctl.py` as the repository-native equivalent and CI fallback. Use `scripts/productionctl.py` for production state, persisted render-job identity, immutable candidate iterations, hash-bound gates, repair cycles, and restart-safe next-action recovery.
 
 For web-only video generation providers, use the dedicated Local Workspace browser runtime first. Do not add provider-specific core bridge tools until the provider workflow is stable, reusable, and safe to authenticate.
 
