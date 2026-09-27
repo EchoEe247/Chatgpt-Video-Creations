@@ -1,100 +1,102 @@
 {
-  "schema_version": 2,
-  "production_id": "second-earth-benchmark-20260927",
-  "lane": "animation",
-  "status": "PLANNED",
-  "source": {
-    "show": "SECOND EARTH",
-    "season": "standalone",
-    "episode": "benchmark-01",
-    "kind": "speculative AI short",
-    "provenance": "source/asset-plan.json"
-  },
-  "render": {
-    "command": [
-      "python",
-      "render_benchmark.py"
-    ],
-    "cwd": "/data/data/com.termux/files/home/MainWorkspace/Chatgpt-Video-Creations/productions/standalone/second-earth-benchmark",
-    "output": "final/second-earth.mp4",
-    "scene_plan": null,
-    "scene_directory": "renders",
-    "master_recipe": "source/av-timeline.json"
+  "artifacts": {
+    "artifact_receipt": null,
+    "baseline_comparison": null,
+    "baseline_master": null,
+    "candidate_master": "iterations/iteration-00/candidate.mp4",
+    "candidate_sha256": "185f2eb4d6b10145c8610e4a1602845baf441a03dac674f92e0cd5d93992a732",
+    "creative_qa": null,
+    "creative_review": null,
+    "iteration_dir": "iterations/iteration-00",
+    "review_pack": null
   },
   "delivery": {
-    "profile": "h264_web",
-    "width": 1280,
-    "height": 720,
-    "fps": 24,
-    "video_codec": "h264",
-    "pixel_format": "yuv420p",
-    "audio_required": true,
     "audio_codec": "aac",
-    "expected_duration_seconds": 150,
+    "audio_required": true,
+    "baseline_compare_fps": 2,
     "duration_tolerance_seconds": 0.15,
-    "silence_threshold_db": -55,
-    "silence_min_duration_seconds": 0.5,
-    "max_unintended_silence_seconds": 1.5,
+    "expected_duration_seconds": 150,
+    "fps": 24,
+    "height": 720,
     "intentional_silence_intervals": [
       [
         149.3,
         150
       ]
     ],
-    "baseline_compare_fps": 2
-  },
-  "workflow": {
-    "mode": "autonomous_until_final_review",
-    "user_review_policy": "final_candidate_only",
-    "max_autonomous_repair_cycles": 4,
-    "creative_qa_required": true,
-    "repair_cycle": 0,
-    "escalation_reason": null,
-    "last_action": {
-      "action": "phase_7a_planned",
-      "at": "2026-09-27T00:00:00Z"
-    },
-    "render_job": {
-      "job_id": null,
-      "state": "NONE",
-      "command": null,
-      "cwd": null,
-      "output": null,
-      "started_at": null,
-      "completed_at": null,
-      "exit_code": null
-    }
-  },
-  "artifacts": {
-    "candidate_master": null,
-    "candidate_sha256": null,
-    "iteration_dir": null,
-    "artifact_receipt": null,
-    "review_pack": null,
-    "baseline_master": null,
-    "baseline_comparison": null,
-    "creative_qa": null,
-    "creative_review": null
+    "max_unintended_silence_seconds": 1.5,
+    "pixel_format": "yuv420p",
+    "profile": "h264_web",
+    "silence_min_duration_seconds": 0.5,
+    "silence_threshold_db": -55,
+    "video_codec": "h264",
+    "width": 1280
   },
   "gates": {
-    "technical": {
-      "status": "PENDING",
-      "evidence": null,
-      "candidate_sha256": null
-    },
     "assistant": {
-      "status": "PENDING",
+      "candidate_sha256": null,
       "notes": null,
-      "candidate_sha256": null
+      "status": "PENDING"
+    },
+    "technical": {
+      "candidate_sha256": null,
+      "evidence": null,
+      "status": "PENDING"
     },
     "user": {
-      "status": "PENDING",
+      "candidate_sha256": null,
       "notes": null,
-      "candidate_sha256": null
+      "status": "PENDING"
     }
+  },
+  "lane": "animation",
+  "production_id": "second-earth-benchmark-20260927",
+  "render": {
+    "command": [
+      "python",
+      "render_benchmark.py"
+    ],
+    "cwd": "/data/data/com.termux/files/home/MainWorkspace/Chatgpt-Video-Creations/productions/standalone/second-earth-benchmark",
+    "master_recipe": "source/av-timeline.json",
+    "output": "final/second-earth.mp4",
+    "scene_directory": "renders",
+    "scene_plan": null
   },
   "review": {
     "assistant": "PENDING",
     "user": "PENDING"
+  },
+  "schema_version": 2,
+  "source": {
+    "episode": "benchmark-01",
+    "kind": "speculative AI short",
+    "provenance": "source/asset-plan.json",
+    "season": "standalone",
+    "show": "SECOND EARTH"
+  },
+  "status": "CANDIDATE",
+  "workflow": {
+    "creative_qa_required": true,
+    "escalation_reason": null,
+    "last_action": {
+      "action": "candidate_recorded",
+      "artifact": "iterations/iteration-00/candidate.mp4",
+      "at": "2026-09-27T09:45:43+00:00",
+      "sha256": "185f2eb4d6b10145c8610e4a1602845baf441a03dac674f92e0cd5d93992a732"
+    },
+    "max_autonomous_repair_cycles": 4,
+    "mode": "autonomous_until_final_review",
+    "render_job": {
+      "command": null,
+      "completed_at": null,
+      "cwd": null,
+      "exit_code": null,
+      "job_id": null,
+      "output": null,
+      "started_at": null,
+      "state": "NONE"
+    },
+    "repair_cycle": 0,
+    "user_review_policy": "final_candidate_only"
   }
 }

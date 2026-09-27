@@ -39,7 +39,7 @@ def test_second_earth_uses_no_online_video_generation_and_requires_creative_qa()
     acceptance=load("benchmark-acceptance.json")
     assert acceptance["required_before_render"]["online_video_generation"] is False
     assert production["workflow"]["creative_qa_required"] is True
-    assert production["status"]=="PLANNED"
+    assert production["status"] in {"PLANNED","CANDIDATE","TECHNICAL_QA","ASSISTANT_REVIEW","USER_REVIEW","DONE"}
 
 
 def test_second_earth_local_asset_resolution_has_no_blockers():
@@ -67,3 +67,19 @@ def test_second_earth_implementation_map_covers_every_shot_once():
     assert sorted(covered)==sorted(expected)
     assert len(covered)==len(set(covered))
     assert impl["render_order"][-1]=="master_assembly"
+
+def test_second_earth_implementation_sources_are_present():
+    impl=load("implementation-map.json")
+    expected={
+        "render_benchmark.py",
+        "audio/build_audio.py",
+        "renderers/python_frames.py",
+        "renderers/canvas_world.html",
+        "renderers/render_canvas_shots.mjs",
+        "renderers/build_blender_physical.py",
+        "renderers/build_blender_probe.py",
+    }
+    for rel in expected:
+        assert (P/rel).is_file(), rel
+    assert impl["groups"][0]["source"]=="renderers/python_frames.py"
+    assert impl["groups"][-1]["source"]=="render_benchmark.py"
