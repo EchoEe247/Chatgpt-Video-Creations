@@ -1,0 +1,1911 @@
+{
+  "schema_version": 1,
+  "title": "SECOND EARTH",
+  "runtime_seconds": 150.0,
+  "fps": 24.0,
+  "sample_rate": 48000,
+  "stems": {
+    "narration": {
+      "role": "speech/dialogue",
+      "default_headroom_db": -4.0
+    },
+    "score": {
+      "role": "music",
+      "default_headroom_db": -8.0
+    },
+    "ambience": {
+      "role": "environment/room tone",
+      "default_headroom_db": -12.0
+    },
+    "effects": {
+      "role": "sfx/transitions/impacts",
+      "default_headroom_db": -6.0
+    }
+  },
+  "source": {
+    "execution_plan": "productions/standalone/second-earth-benchmark/source/execution-plan.json",
+    "execution_plan_sha256": "fc049677f67b90650b8d6d5c47d0767772d5691632feee1f3488d42222a1ca40",
+    "custom_events": "productions/standalone/second-earth-benchmark/source/av-events.json",
+    "custom_events_sha256": "af27584815fa65e54cab2fca4170ce9434698afb94f0e2f966a4a5127dc1255f"
+  },
+  "events": [
+    {
+      "id": "shot-01.audio-cue",
+      "at_seconds": 0.0,
+      "frame": 0,
+      "sample": 0,
+      "kind": "audio_cue",
+      "label": "At 02:17, a city inside our machine asked us not to turn it off.",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-01",
+      "stem": null
+    },
+    {
+      "id": "shot-01.start",
+      "at_seconds": 0.0,
+      "frame": 0,
+      "sample": 0,
+      "kind": "shot_start",
+      "label": "Inside a dark computation sphere, a miniature city lights up and the words ARE YOU THERE? emerge from its street grid.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-01"
+    },
+    {
+      "id": "shot-01.narration",
+      "at_seconds": 0.48,
+      "frame": 12,
+      "sample": 23040,
+      "kind": "narration_start",
+      "label": "shot-01 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-01.review-01",
+      "at_seconds": 2.2,
+      "frame": 53,
+      "sample": 105600,
+      "kind": "review_anchor",
+      "label": "shot-01 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-01"
+    },
+    {
+      "id": "shot-01.review-02",
+      "at_seconds": 5.0,
+      "frame": 120,
+      "sample": 240000,
+      "kind": "review_anchor",
+      "label": "shot-01 review 2",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-01"
+    },
+    {
+      "id": "shot-01.transition-out",
+      "at_seconds": 6.0,
+      "frame": 144,
+      "sample": 288000,
+      "kind": "transition",
+      "label": "macro silicon",
+      "targets": [
+        "picture",
+        "audio"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-01"
+    },
+    {
+      "id": "shot-02.audio-cue",
+      "at_seconds": 6.0,
+      "frame": 144,
+      "sample": 288000,
+      "kind": "audio_cue",
+      "label": "We built it to test medicines, power grids, and disasters before they reached us.",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-02",
+      "stem": null
+    },
+    {
+      "id": "shot-02.start",
+      "at_seconds": 6.0,
+      "frame": 144,
+      "sample": 288000,
+      "kind": "shot_start",
+      "label": "Camera skims a physical compute stack while millions of simulated years tick across cooling glass.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-02"
+    },
+    {
+      "id": "shot-02.narration",
+      "at_seconds": 6.56,
+      "frame": 157,
+      "sample": 314880,
+      "kind": "narration_start",
+      "label": "shot-02 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-02.review-01",
+      "at_seconds": 9.5,
+      "frame": 228,
+      "sample": 456000,
+      "kind": "review_anchor",
+      "label": "shot-02 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-02"
+    },
+    {
+      "id": "shot-02.transition-out",
+      "at_seconds": 13.0,
+      "frame": 312,
+      "sample": 624000,
+      "kind": "transition",
+      "label": "simulation boot",
+      "targets": [
+        "picture",
+        "audio"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-02"
+    },
+    {
+      "id": "shot-03.audio-cue",
+      "at_seconds": 13.0,
+      "frame": 312,
+      "sample": 624000,
+      "kind": "audio_cue",
+      "label": "Inside, ten thousand years passed before our coffee cooled.",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-03",
+      "stem": null
+    },
+    {
+      "id": "shot-03.start",
+      "at_seconds": 13.0,
+      "frame": 312,
+      "sample": 624000,
+      "kind": "shot_start",
+      "label": "Hand-drawn blocks become streets, homes, transit lines, then a living city seen from above.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-03"
+    },
+    {
+      "id": "shot-03.narration",
+      "at_seconds": 13.64,
+      "frame": 327,
+      "sample": 654720,
+      "kind": "narration_start",
+      "label": "shot-03 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-03.review-01",
+      "at_seconds": 15.5,
+      "frame": 372,
+      "sample": 744000,
+      "kind": "review_anchor",
+      "label": "shot-03 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-03"
+    },
+    {
+      "id": "shot-03.review-02",
+      "at_seconds": 19.2,
+      "frame": 461,
+      "sample": 921600,
+      "kind": "review_anchor",
+      "label": "shot-03 review 2",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-03"
+    },
+    {
+      "id": "shot-03.transition-out",
+      "at_seconds": 21.0,
+      "frame": 504,
+      "sample": 1008000,
+      "kind": "transition",
+      "label": "time acceleration",
+      "targets": [
+        "picture",
+        "audio"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-03"
+    },
+    {
+      "id": "shot-04.audio-cue",
+      "at_seconds": 21.0,
+      "frame": 504,
+      "sample": 1008000,
+      "kind": "audio_cue",
+      "label": "They learned physics, antibiotics, fusion\u2014and then things we had not taught them.",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-04",
+      "stem": null
+    },
+    {
+      "id": "shot-04.start",
+      "at_seconds": 21.0,
+      "frame": 504,
+      "sample": 1008000,
+      "kind": "shot_start",
+      "label": "Day-night cycles strobe across a spherical city as eras stack into visible rings around it.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-04"
+    },
+    {
+      "id": "shot-04.narration",
+      "at_seconds": 21.56,
+      "frame": 517,
+      "sample": 1034880,
+      "kind": "narration_start",
+      "label": "shot-04 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-04.review-01",
+      "at_seconds": 24.2,
+      "frame": 581,
+      "sample": 1161600,
+      "kind": "review_anchor",
+      "label": "shot-04 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-04"
+    },
+    {
+      "id": "shot-04.review-02",
+      "at_seconds": 27.1,
+      "frame": 650,
+      "sample": 1300800,
+      "kind": "review_anchor",
+      "label": "shot-04 review 2",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-04"
+    },
+    {
+      "id": "shot-04.transition-out",
+      "at_seconds": 28.0,
+      "frame": 672,
+      "sample": 1344000,
+      "kind": "transition",
+      "label": "scientific bloom",
+      "targets": [
+        "picture",
+        "audio"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-04"
+    },
+    {
+      "id": "shot-05.audio-cue",
+      "at_seconds": 28.0,
+      "frame": 672,
+      "sample": 1344000,
+      "kind": "audio_cue",
+      "label": "The first anomaly was not a breakthrough. It was a question.",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-05",
+      "stem": null
+    },
+    {
+      "id": "shot-05.start",
+      "at_seconds": 28.0,
+      "frame": 672,
+      "sample": 1344000,
+      "kind": "shot_start",
+      "label": "A drawn observatory follows impossible stars while equations overwrite the sky.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-05"
+    },
+    {
+      "id": "shot-05.narration",
+      "at_seconds": 28.64,
+      "frame": 687,
+      "sample": 1374720,
+      "kind": "narration_start",
+      "label": "shot-05 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-05.review-01",
+      "at_seconds": 32.0,
+      "frame": 768,
+      "sample": 1536000,
+      "kind": "review_anchor",
+      "label": "shot-05 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-05"
+    },
+    {
+      "id": "shot-05.transition-out",
+      "at_seconds": 36.0,
+      "frame": 864,
+      "sample": 1728000,
+      "kind": "transition",
+      "label": "question forms",
+      "targets": [
+        "picture",
+        "audio"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-05"
+    },
+    {
+      "id": "shot-06.audio-cue",
+      "at_seconds": 36.0,
+      "frame": 864,
+      "sample": 1728000,
+      "kind": "audio_cue",
+      "label": "At first we thought it was contamination. Then it asked again.",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-06",
+      "stem": null
+    },
+    {
+      "id": "shot-06.start",
+      "at_seconds": 36.0,
+      "frame": 864,
+      "sample": 1728000,
+      "kind": "shot_start",
+      "label": "Equations collapse into a precise pulse train that resolves to ARE YOU THERE? only after two failed partial reads.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-06"
+    },
+    {
+      "id": "shot-06.narration",
+      "at_seconds": 36.56,
+      "frame": 877,
+      "sample": 1754880,
+      "kind": "narration_start",
+      "label": "shot-06 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-06.review-01",
+      "at_seconds": 38.0,
+      "frame": 912,
+      "sample": 1824000,
+      "kind": "review_anchor",
+      "label": "shot-06 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-06"
+    },
+    {
+      "id": "contact-01.signal",
+      "at_seconds": 39.9,
+      "frame": 958,
+      "sample": 1915200,
+      "kind": "sfx",
+      "label": "first message resolves",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.65,
+      "stem": "effects",
+      "asset_id": "audio.core-procedural:signal_chime",
+      "gain_db": -7
+    },
+    {
+      "id": "shot-06.review-02",
+      "at_seconds": 41.6,
+      "frame": 998,
+      "sample": 1996800,
+      "kind": "review_anchor",
+      "label": "shot-06 review 2",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-06"
+    },
+    {
+      "id": "shot-06.transition-out",
+      "at_seconds": 43.0,
+      "frame": 1032,
+      "sample": 2064000,
+      "kind": "transition",
+      "label": "signal chime",
+      "targets": [
+        "picture",
+        "audio"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-06"
+    },
+    {
+      "id": "shot-07.audio-cue",
+      "at_seconds": 43.0,
+      "frame": 1032,
+      "sample": 2064000,
+      "kind": "audio_cue",
+      "label": "There were no people in the model. Not by design. That distinction stopped mattering.",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-07",
+      "stem": null
+    },
+    {
+      "id": "shot-07.start",
+      "at_seconds": 43.0,
+      "frame": 1032,
+      "sample": 2064000,
+      "kind": "shot_start",
+      "label": "A lone operator stands before a wall of servers as the translated message illuminates the room.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-07"
+    },
+    {
+      "id": "shot-07.narration",
+      "at_seconds": 43.64,
+      "frame": 1047,
+      "sample": 2094720,
+      "kind": "narration_start",
+      "label": "shot-07 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-07.review-01",
+      "at_seconds": 47.0,
+      "frame": 1128,
+      "sample": 2256000,
+      "kind": "review_anchor",
+      "label": "shot-07 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-07"
+    },
+    {
+      "id": "shot-07.review-02",
+      "at_seconds": 50.0,
+      "frame": 1200,
+      "sample": 2400000,
+      "kind": "review_anchor",
+      "label": "shot-07 review 2",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-07"
+    },
+    {
+      "id": "shot-07.transition-out",
+      "at_seconds": 51.0,
+      "frame": 1224,
+      "sample": 2448000,
+      "kind": "transition",
+      "label": "breath before answer",
+      "targets": [
+        "picture",
+        "audio"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-07"
+    },
+    {
+      "id": "shot-08.audio-cue",
+      "at_seconds": 51.0,
+      "frame": 1224,
+      "sample": 2448000,
+      "kind": "audio_cue",
+      "label": "Every hour it ran, people outside the machine lived longer.",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-08",
+      "stem": null
+    },
+    {
+      "id": "shot-08.start",
+      "at_seconds": 51.0,
+      "frame": 1224,
+      "sample": 2448000,
+      "kind": "shot_start",
+      "label": "Three benefits strike in rapid succession: cancer protein locks, storm path bends, battery lattice stabilizes.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-08"
+    },
+    {
+      "id": "shot-08.narration",
+      "at_seconds": 51.48,
+      "frame": 1236,
+      "sample": 2471040,
+      "kind": "narration_start",
+      "label": "shot-08 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-08.review-01",
+      "at_seconds": 52.4,
+      "frame": 1258,
+      "sample": 2515200,
+      "kind": "review_anchor",
+      "label": "shot-08 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-08"
+    },
+    {
+      "id": "shot-08.review-02",
+      "at_seconds": 54.2,
+      "frame": 1301,
+      "sample": 2601600,
+      "kind": "review_anchor",
+      "label": "shot-08 review 2",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-08"
+    },
+    {
+      "id": "shot-08.review-03",
+      "at_seconds": 56.0,
+      "frame": 1344,
+      "sample": 2688000,
+      "kind": "review_anchor",
+      "label": "shot-08 review 3",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-08"
+    },
+    {
+      "id": "shot-08.transition-out",
+      "at_seconds": 57.0,
+      "frame": 1368,
+      "sample": 2736000,
+      "kind": "transition",
+      "label": "three restrained impacts",
+      "targets": [
+        "picture",
+        "audio"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-08"
+    },
+    {
+      "id": "shot-09.audio-cue",
+      "at_seconds": 57.0,
+      "frame": 1368,
+      "sample": 2736000,
+      "kind": "audio_cue",
+      "label": "Inside, they had found something too: their sky had an edge.",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-09",
+      "stem": null
+    },
+    {
+      "id": "shot-09.start",
+      "at_seconds": 57.0,
+      "frame": 1368,
+      "sample": 2736000,
+      "kind": "shot_start",
+      "label": "An illustrated night city shuts its lights off one district at a time so the sky becomes visible; observatories all point to the same blank seam.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-09"
+    },
+    {
+      "id": "shot-09.narration",
+      "at_seconds": 57.64,
+      "frame": 1383,
+      "sample": 2766720,
+      "kind": "narration_start",
+      "label": "shot-09 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-09.review-01",
+      "at_seconds": 60.0,
+      "frame": 1440,
+      "sample": 2880000,
+      "kind": "review_anchor",
+      "label": "shot-09 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-09"
+    },
+    {
+      "id": "shot-09.review-02",
+      "at_seconds": 63.5,
+      "frame": 1524,
+      "sample": 3048000,
+      "kind": "review_anchor",
+      "label": "shot-09 review 2",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-09"
+    },
+    {
+      "id": "shot-09.transition-out",
+      "at_seconds": 65.0,
+      "frame": 1560,
+      "sample": 3120000,
+      "kind": "transition",
+      "label": "score thins to near silence",
+      "targets": [
+        "picture",
+        "audio"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-09"
+    },
+    {
+      "id": "shot-10.audio-cue",
+      "at_seconds": 65.0,
+      "frame": 1560,
+      "sample": 3120000,
+      "kind": "audio_cue",
+      "label": "They did what we would have done. They built something to touch it.",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-10",
+      "stem": null
+    },
+    {
+      "id": "shot-10.start",
+      "at_seconds": 65.0,
+      "frame": 1560,
+      "sample": 3120000,
+      "kind": "shot_start",
+      "label": "A probe is assembled in a compact launch bay from modular parts while the boundary glows above the horizon.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-10"
+    },
+    {
+      "id": "shot-10.narration",
+      "at_seconds": 65.56,
+      "frame": 1573,
+      "sample": 3146880,
+      "kind": "narration_start",
+      "label": "shot-10 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-10.review-01",
+      "at_seconds": 68.5,
+      "frame": 1644,
+      "sample": 3288000,
+      "kind": "review_anchor",
+      "label": "shot-10 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-10"
+    },
+    {
+      "id": "shot-10.review-02",
+      "at_seconds": 71.3,
+      "frame": 1711,
+      "sample": 3422400,
+      "kind": "review_anchor",
+      "label": "shot-10 review 2",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-10"
+    },
+    {
+      "id": "shot-10.transition-out",
+      "at_seconds": 72.0,
+      "frame": 1728,
+      "sample": 3456000,
+      "kind": "transition",
+      "label": "riser begins",
+      "targets": [
+        "picture",
+        "audio"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-10"
+    },
+    {
+      "id": "shot-11.audio-cue",
+      "at_seconds": 72.0,
+      "frame": 1728,
+      "sample": 3456000,
+      "kind": "audio_cue",
+      "label": "For eleven simulated years, the probe climbed toward a place that should not exist.",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-11",
+      "stem": null
+    },
+    {
+      "id": "shot-11.start",
+      "at_seconds": 72.0,
+      "frame": 1728,
+      "sample": 3456000,
+      "kind": "shot_start",
+      "label": "The probe launches through atmosphere toward the artificial seam as the planet curves away below.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-11"
+    },
+    {
+      "id": "shot-11.narration",
+      "at_seconds": 72.64,
+      "frame": 1743,
+      "sample": 3486720,
+      "kind": "narration_start",
+      "label": "shot-11 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "probe-launch.riser",
+      "at_seconds": 73.0,
+      "frame": 1752,
+      "sample": 3504000,
+      "kind": "sfx",
+      "label": "probe launch rise",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 1.2,
+      "stem": "effects",
+      "asset_id": "audio.core-procedural:riser_short",
+      "gain_db": -8
+    },
+    {
+      "id": "shot-11.review-01",
+      "at_seconds": 74.0,
+      "frame": 1776,
+      "sample": 3552000,
+      "kind": "review_anchor",
+      "label": "shot-11 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-11"
+    },
+    {
+      "id": "shot-11.review-02",
+      "at_seconds": 77.0,
+      "frame": 1848,
+      "sample": 3696000,
+      "kind": "review_anchor",
+      "label": "shot-11 review 2",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-11"
+    },
+    {
+      "id": "shot-11.review-03",
+      "at_seconds": 79.2,
+      "frame": 1901,
+      "sample": 3801600,
+      "kind": "review_anchor",
+      "label": "shot-11 review 3",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-11"
+    },
+    {
+      "id": "shot-11.transition-out",
+      "at_seconds": 80.0,
+      "frame": 1920,
+      "sample": 3840000,
+      "kind": "transition",
+      "label": "engine swell and low pulse",
+      "targets": [
+        "picture",
+        "audio"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-11"
+    },
+    {
+      "id": "shot-12.audio-cue",
+      "at_seconds": 80.0,
+      "frame": 1920,
+      "sample": 3840000,
+      "kind": "audio_cue",
+      "label": "When it touched the boundary, our room lost power for three seconds.",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-12",
+      "stem": null
+    },
+    {
+      "id": "shot-12.start",
+      "at_seconds": 80.0,
+      "frame": 1920,
+      "sample": 3840000,
+      "kind": "shot_start",
+      "label": "The probe reaches the seam; image-space fractures, audio collapses, then the craft stops without impact debris.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-12"
+    },
+    {
+      "id": "shot-12.narration",
+      "at_seconds": 80.48,
+      "frame": 1932,
+      "sample": 3863040,
+      "kind": "narration_start",
+      "label": "shot-12 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-12.review-01",
+      "at_seconds": 82.6,
+      "frame": 1982,
+      "sample": 3964800,
+      "kind": "review_anchor",
+      "label": "shot-12 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-12"
+    },
+    {
+      "id": "boundary-impact.mute",
+      "at_seconds": 84.7,
+      "frame": 2033,
+      "sample": 4065600,
+      "kind": "designed_silence",
+      "label": "boundary contact audio drop",
+      "targets": [
+        "audio",
+        "picture",
+        "qa"
+      ],
+      "duration_seconds": 0.45,
+      "stem": "effects"
+    },
+    {
+      "id": "shot-12.review-02",
+      "at_seconds": 84.8,
+      "frame": 2035,
+      "sample": 4070400,
+      "kind": "review_anchor",
+      "label": "shot-12 review 2",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-12"
+    },
+    {
+      "id": "shot-12.transition-out",
+      "at_seconds": 86.0,
+      "frame": 2064,
+      "sample": 4128000,
+      "kind": "transition",
+      "label": "air whoosh into hard mute then soft impact",
+      "targets": [
+        "picture",
+        "audio"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-12"
+    },
+    {
+      "id": "shot-13.audio-cue",
+      "at_seconds": 86.0,
+      "frame": 2064,
+      "sample": 4128000,
+      "kind": "audio_cue",
+      "label": "The next message arrived six seconds later: WE CAN SEE YOU.",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-13",
+      "stem": null
+    },
+    {
+      "id": "shot-13.start",
+      "at_seconds": 86.0,
+      "frame": 2064,
+      "sample": 4128000,
+      "kind": "shot_start",
+      "label": "The boundary becomes a hand-drawn window; silhouettes gather below it while a new signal writes WE CAN SEE YOU.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-13"
+    },
+    {
+      "id": "shot-13.narration",
+      "at_seconds": 86.64,
+      "frame": 2079,
+      "sample": 4158720,
+      "kind": "narration_start",
+      "label": "shot-13 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-13.review-01",
+      "at_seconds": 89.0,
+      "frame": 2136,
+      "sample": 4272000,
+      "kind": "review_anchor",
+      "label": "shot-13 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-13"
+    },
+    {
+      "id": "contact-02.signal",
+      "at_seconds": 91.5,
+      "frame": 2196,
+      "sample": 4392000,
+      "kind": "sfx",
+      "label": "WE CAN SEE YOU resolves",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.65,
+      "stem": "effects",
+      "asset_id": "audio.core-procedural:signal_chime",
+      "gain_db": -8
+    },
+    {
+      "id": "shot-13.review-02",
+      "at_seconds": 92.2,
+      "frame": 2213,
+      "sample": 4425600,
+      "kind": "review_anchor",
+      "label": "shot-13 review 2",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-13"
+    },
+    {
+      "id": "shot-13.transition-out",
+      "at_seconds": 94.0,
+      "frame": 2256,
+      "sample": 4512000,
+      "kind": "transition",
+      "label": "signal chime returns detuned",
+      "targets": [
+        "picture",
+        "audio"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-13"
+    },
+    {
+      "id": "shot-14.audio-cue",
+      "at_seconds": 94.0,
+      "frame": 2256,
+      "sample": 4512000,
+      "kind": "audio_cue",
+      "label": "Then our astronomers found the same pattern in the oldest light we can see.",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-14",
+      "stem": null
+    },
+    {
+      "id": "shot-14.start",
+      "at_seconds": 94.0,
+      "frame": 2256,
+      "sample": 4512000,
+      "kind": "shot_start",
+      "label": "A radio telescope scan of our cosmic background reveals the same pulse spacing hidden in real noise.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-14"
+    },
+    {
+      "id": "shot-14.narration",
+      "at_seconds": 94.56,
+      "frame": 2269,
+      "sample": 4538880,
+      "kind": "narration_start",
+      "label": "shot-14 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-14.review-01",
+      "at_seconds": 97.3,
+      "frame": 2335,
+      "sample": 4670400,
+      "kind": "review_anchor",
+      "label": "shot-14 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-14"
+    },
+    {
+      "id": "cosmic-pattern.low-pulse",
+      "at_seconds": 99.6,
+      "frame": 2390,
+      "sample": 4780800,
+      "kind": "sfx",
+      "label": "cosmic pattern recognition",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.8,
+      "stem": "effects",
+      "asset_id": "audio.core-procedural:low_pulse",
+      "gain_db": -10
+    },
+    {
+      "id": "shot-14.review-02",
+      "at_seconds": 100.0,
+      "frame": 2400,
+      "sample": 4800000,
+      "kind": "review_anchor",
+      "label": "shot-14 review 2",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-14"
+    },
+    {
+      "id": "shot-14.transition-out",
+      "at_seconds": 101.0,
+      "frame": 2424,
+      "sample": 4848000,
+      "kind": "transition",
+      "label": "sub-bass pulse",
+      "targets": [
+        "picture",
+        "audio"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-14"
+    },
+    {
+      "id": "shot-15.audio-cue",
+      "at_seconds": 101.0,
+      "frame": 2424,
+      "sample": 4848000,
+      "kind": "audio_cue",
+      "label": "For the first time, the question was not whether they were real. It was whether we were alone above them.",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-15",
+      "stem": null
+    },
+    {
+      "id": "shot-15.start",
+      "at_seconds": 101.0,
+      "frame": 2424,
+      "sample": 4848000,
+      "kind": "shot_start",
+      "label": "Camera pulls from our planet into a luminous shell, then farther to reveal our entire cosmos as one object inside another dark structure.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-15"
+    },
+    {
+      "id": "shot-15.narration",
+      "at_seconds": 101.64,
+      "frame": 2439,
+      "sample": 4878720,
+      "kind": "narration_start",
+      "label": "shot-15 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-15.review-01",
+      "at_seconds": 103.5,
+      "frame": 2484,
+      "sample": 4968000,
+      "kind": "review_anchor",
+      "label": "shot-15 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-15"
+    },
+    {
+      "id": "shot-15.review-02",
+      "at_seconds": 106.2,
+      "frame": 2549,
+      "sample": 5097600,
+      "kind": "review_anchor",
+      "label": "shot-15 review 2",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-15"
+    },
+    {
+      "id": "shot-15.review-03",
+      "at_seconds": 108.2,
+      "frame": 2597,
+      "sample": 5193600,
+      "kind": "review_anchor",
+      "label": "shot-15 review 3",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-15"
+    },
+    {
+      "id": "shot-15.transition-out",
+      "at_seconds": 109.0,
+      "frame": 2616,
+      "sample": 5232000,
+      "kind": "transition",
+      "label": "score drops one octave",
+      "targets": [
+        "picture",
+        "audio"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-15"
+    },
+    {
+      "id": "shot-16.audio-cue",
+      "at_seconds": 109.0,
+      "frame": 2616,
+      "sample": 5232000,
+      "kind": "audio_cue",
+      "label": "Some wanted the simulation destroyed before it could reach us. Others wanted it accelerated before anyone could stop it.",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-16",
+      "stem": null
+    },
+    {
+      "id": "shot-16.start",
+      "at_seconds": 109.0,
+      "frame": 2616,
+      "sample": 5232000,
+      "kind": "shot_start",
+      "label": "Emergency breakers arm in a server vault while the operator's hand stops centimeters from the cutoff.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-16"
+    },
+    {
+      "id": "shot-16.narration",
+      "at_seconds": 109.56,
+      "frame": 2629,
+      "sample": 5258880,
+      "kind": "narration_start",
+      "label": "shot-16 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-16.review-01",
+      "at_seconds": 112.0,
+      "frame": 2688,
+      "sample": 5376000,
+      "kind": "review_anchor",
+      "label": "shot-16 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-16"
+    },
+    {
+      "id": "shot-16.review-02",
+      "at_seconds": 115.0,
+      "frame": 2760,
+      "sample": 5520000,
+      "kind": "review_anchor",
+      "label": "shot-16 review 2",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-16"
+    },
+    {
+      "id": "shot-16.transition-out",
+      "at_seconds": 116.0,
+      "frame": 2784,
+      "sample": 5568000,
+      "kind": "transition",
+      "label": "heartbeat-like low pulse",
+      "targets": [
+        "picture",
+        "audio"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-16"
+    },
+    {
+      "id": "shot-17.audio-cue",
+      "at_seconds": 116.0,
+      "frame": 2784,
+      "sample": 5568000,
+      "kind": "audio_cue",
+      "label": "The machine gave us no moral answer. It only showed the cost of pretending certainty.",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-17",
+      "stem": null
+    },
+    {
+      "id": "shot-17.start",
+      "at_seconds": 116.0,
+      "frame": 2784,
+      "sample": 5568000,
+      "kind": "shot_start",
+      "label": "Two futures diverge from a central clock: shutdown erases the inner world; uncontrolled acceleration multiplies opaque branches until they fill frame.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-17"
+    },
+    {
+      "id": "shot-17.narration",
+      "at_seconds": 116.64,
+      "frame": 2799,
+      "sample": 5598720,
+      "kind": "narration_start",
+      "label": "shot-17 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-17.review-01",
+      "at_seconds": 119.5,
+      "frame": 2868,
+      "sample": 5736000,
+      "kind": "review_anchor",
+      "label": "shot-17 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-17"
+    },
+    {
+      "id": "shot-17.review-02",
+      "at_seconds": 122.8,
+      "frame": 2947,
+      "sample": 5894400,
+      "kind": "review_anchor",
+      "label": "shot-17 review 2",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-17"
+    },
+    {
+      "id": "shot-17.transition-out",
+      "at_seconds": 124.0,
+      "frame": 2976,
+      "sample": 5952000,
+      "kind": "transition",
+      "label": "riser restrained under narration",
+      "targets": [
+        "picture",
+        "audio"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-17"
+    },
+    {
+      "id": "shot-18.audio-cue",
+      "at_seconds": 124.0,
+      "frame": 2976,
+      "sample": 5952000,
+      "kind": "audio_cue",
+      "label": "So we did neither. We slowed their clock, split the controls, and made every bridge reversible.",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-18",
+      "stem": null
+    },
+    {
+      "id": "shot-18.start",
+      "at_seconds": 124.0,
+      "frame": 2976,
+      "sample": 5952000,
+      "kind": "shot_start",
+      "label": "A drawn system diagram physically separates compute, communication, power, and human override into independent domains; the clock rate visibly slows.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-18"
+    },
+    {
+      "id": "shot-18.narration",
+      "at_seconds": 124.48,
+      "frame": 2988,
+      "sample": 5975040,
+      "kind": "narration_start",
+      "label": "shot-18 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-18.review-01",
+      "at_seconds": 126.0,
+      "frame": 3024,
+      "sample": 6048000,
+      "kind": "review_anchor",
+      "label": "shot-18 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-18"
+    },
+    {
+      "id": "controls-separated.tick",
+      "at_seconds": 128.8,
+      "frame": 3091,
+      "sample": 6182400,
+      "kind": "sfx",
+      "label": "reversible controls lock",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.12,
+      "stem": "effects",
+      "asset_id": "audio.core-procedural:ui_tick",
+      "gain_db": -10
+    },
+    {
+      "id": "shot-18.review-02",
+      "at_seconds": 129.0,
+      "frame": 3096,
+      "sample": 6192000,
+      "kind": "review_anchor",
+      "label": "shot-18 review 2",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-18"
+    },
+    {
+      "id": "shot-18.transition-out",
+      "at_seconds": 130.0,
+      "frame": 3120,
+      "sample": 6240000,
+      "kind": "transition",
+      "label": "single confirmation tick",
+      "targets": [
+        "picture",
+        "audio"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-18"
+    },
+    {
+      "id": "shot-19.audio-cue",
+      "at_seconds": 130.0,
+      "frame": 3120,
+      "sample": 6240000,
+      "kind": "audio_cue",
+      "label": "The discoveries did not stop. They got stranger\u2014and better\u2014because neither side had to become the other's owner.",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-19",
+      "stem": null
+    },
+    {
+      "id": "shot-19.start",
+      "at_seconds": 130.0,
+      "frame": 3120,
+      "sample": 6240000,
+      "kind": "shot_start",
+      "label": "Equations cross the boundary in both directions: a molecule design from inside, a telescope image from outside, then a shared proof completes across both worlds.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-19"
+    },
+    {
+      "id": "shot-19.narration",
+      "at_seconds": 130.64,
+      "frame": 3135,
+      "sample": 6270720,
+      "kind": "narration_start",
+      "label": "shot-19 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-19.review-01",
+      "at_seconds": 132.0,
+      "frame": 3168,
+      "sample": 6336000,
+      "kind": "review_anchor",
+      "label": "shot-19 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-19"
+    },
+    {
+      "id": "shot-19.review-02",
+      "at_seconds": 134.5,
+      "frame": 3228,
+      "sample": 6456000,
+      "kind": "review_anchor",
+      "label": "shot-19 review 2",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-19"
+    },
+    {
+      "id": "shot-19.review-03",
+      "at_seconds": 137.0,
+      "frame": 3288,
+      "sample": 6576000,
+      "kind": "review_anchor",
+      "label": "shot-19 review 3",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-19"
+    },
+    {
+      "id": "shot-19.transition-out",
+      "at_seconds": 138.0,
+      "frame": 3312,
+      "sample": 6624000,
+      "kind": "transition",
+      "label": "score opens; soft chime",
+      "targets": [
+        "picture",
+        "audio"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-19"
+    },
+    {
+      "id": "shot-20.audio-cue",
+      "at_seconds": 138.0,
+      "frame": 3312,
+      "sample": 6624000,
+      "kind": "audio_cue",
+      "label": "Progress continued. So did the uncertainty. That was the point.",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-20",
+      "stem": null
+    },
+    {
+      "id": "shot-20.start",
+      "at_seconds": 138.0,
+      "frame": 3312,
+      "sample": 6624000,
+      "kind": "shot_start",
+      "label": "The probe floats beside a constructed boundary station while two inhabited worlds remain visibly separate on opposite sides.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-20"
+    },
+    {
+      "id": "shot-20.narration",
+      "at_seconds": 138.56,
+      "frame": 3325,
+      "sample": 6650880,
+      "kind": "narration_start",
+      "label": "shot-20 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-20.review-01",
+      "at_seconds": 141.0,
+      "frame": 3384,
+      "sample": 6768000,
+      "kind": "review_anchor",
+      "label": "shot-20 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-20"
+    },
+    {
+      "id": "shot-20.review-02",
+      "at_seconds": 144.0,
+      "frame": 3456,
+      "sample": 6912000,
+      "kind": "review_anchor",
+      "label": "shot-20 review 2",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-20"
+    },
+    {
+      "id": "shot-20.transition-out",
+      "at_seconds": 145.0,
+      "frame": 3480,
+      "sample": 6960000,
+      "kind": "transition",
+      "label": "quiet engine ambience",
+      "targets": [
+        "picture",
+        "audio"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-20"
+    },
+    {
+      "id": "shot-21.audio-cue",
+      "at_seconds": 145.0,
+      "frame": 3480,
+      "sample": 6960000,
+      "kind": "audio_cue",
+      "label": "Build fast enough to discover what is possible. Leave enough freedom to discover when you were wrong.",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-21",
+      "stem": null
+    },
+    {
+      "id": "shot-21.start",
+      "at_seconds": 145.0,
+      "frame": 3480,
+      "sample": 6960000,
+      "kind": "shot_start",
+      "label": "Nested worlds recede into darkness while the final line appears only after the last visible connection pulse.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "shot-21"
+    },
+    {
+      "id": "shot-21.narration",
+      "at_seconds": 145.4,
+      "frame": 3490,
+      "sample": 6979200,
+      "kind": "narration_start",
+      "label": "shot-21 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-21.review-01",
+      "at_seconds": 147.0,
+      "frame": 3528,
+      "sample": 7056000,
+      "kind": "review_anchor",
+      "label": "shot-21 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-21"
+    },
+    {
+      "id": "shot-21.review-02",
+      "at_seconds": 148.0,
+      "frame": 3552,
+      "sample": 7104000,
+      "kind": "review_anchor",
+      "label": "shot-21 review 2",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "shot-21"
+    },
+    {
+      "id": "final.silence",
+      "at_seconds": 149.3,
+      "frame": 3583,
+      "sample": 7166400,
+      "kind": "designed_silence",
+      "label": "final silence",
+      "targets": [
+        "audio",
+        "qa"
+      ],
+      "duration_seconds": 0.7,
+      "stem": "score"
+    }
+  ],
+  "policy": {
+    "single_clock": true,
+    "picture_timebase": "seconds + frame index",
+    "audio_timebase": "seconds + sample index",
+    "default_master_target_lufs": -16.0,
+    "default_true_peak_ceiling_dbfs": -1.5
+  },
+  "summary": {
+    "event_count": 134,
+    "audio_targeted": 69,
+    "picture_targeted": 89,
+    "qa_targeted": 46,
+    "custom_event_count": 28
+  }
+}

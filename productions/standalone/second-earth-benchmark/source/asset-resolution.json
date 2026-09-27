@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "required_new_downloads": 0,
+  "local_ready": [
+    {
+      "asset_id": "code.alesha-hand-drawn-canvas",
+      "path": "src/renderers/canvas_handdrawn",
+      "status": "verified_directory"
+    },
+    {
+      "asset_id": "model.quaternius-ultimate-space-spaceship",
+      "path": "external-assets/quaternius/ultimate_space_kit/Spaceship.glb",
+      "sha256": "64f59395ab292026f1c16ce42a0546a41cbcc6c194555d68f10836f7f4e12cc0",
+      "status": "verified_file"
+    },
+    {
+      "asset_id": "audio.core-procedural",
+      "path": "assets/audio-commons.json",
+      "sha256": "a29a242c6ff7cb3b8a6a0823f9b09236088e000c06c40956ea5c326d0a32e663",
+      "status": "verified_manifest"
+    },
+    {
+      "asset_id": "audio.core-procedural:signal_chime",
+      "path": "assets/core/payload/audio-procedural/signal_chime.wav",
+      "sha256": "524d7f31f707ca32305c95ba519403eba4ee06189df89fa9d628e21d3aa089d4",
+      "status": "verified_file"
+    }
+  ],
+  "optional_not_blocking": [
+    "One CC0 Poly Haven low-resolution industrial/studio HDRI if Blender preview shows a real lighting gain.",
+    "One CC0 ambientCG lightweight material only if procedural metal is visibly inadequate."
+  ],
+  "blocked": []
+}

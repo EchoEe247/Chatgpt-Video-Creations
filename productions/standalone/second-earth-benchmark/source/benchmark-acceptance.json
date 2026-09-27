@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "benchmark_against": "The Mercy Engine capability reference",
+  "required_before_render": {
+    "runtime_seconds": 150,
+    "min_shots": 20,
+    "max_default_shot_seconds": 8,
+    "required_renderer_lanes": [
+      "python",
+      "canvas_handdrawn",
+      "blender",
+      "ffmpeg"
+    ],
+    "min_hero_shots": 6,
+    "unresolved_assets": 0,
+    "blocked_shots": 0,
+    "director_warnings": 0,
+    "creative_qa_required": true,
+    "online_video_generation": false
+  },
+  "required_final_candidate": {
+    "width": 1280,
+    "height": 720,
+    "fps": 24,
+    "video_codec": "h264",
+    "pixel_format": "yuv420p",
+    "audio_codec": "aac",
+    "max_freeze_spans": 0,
+    "max_weak_motion_shots": 0,
+    "max_unintended_silence_seconds": 1.5,
+    "assistant_creative_review": "PASS",
+    "user_review": "PENDING until Angel explicitly reviews"
+  },
+  "qualitative_review": [
+    "At least four visibly distinct scales: silicon/room, city, planet/orbit, cosmos/meta-space.",
+    "Renderer changes must feel like a coherent visual grammar rather than a demo reel.",
+    "Message typography must emerge from scene events and remain readable at 360px.",
+    "Probe launch/contact must read as real travel and consequence at normal speed.",
+    "No consecutive camera family repetition unless explicitly justified in assistant review.",
+    "Ending must resolve the story before presenting the thesis."
+  ]
+}

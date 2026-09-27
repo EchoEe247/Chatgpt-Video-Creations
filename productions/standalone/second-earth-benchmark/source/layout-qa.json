@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "safe_margin_ratio": 0.04,
+  "text_items": [
+    {
+      "id": "shot-01-hook",
+      "start_seconds": 3.3,
+      "end_seconds": 5.8,
+      "bbox_norm": [
+        0.12,
+        0.4,
+        0.76,
+        0.15
+      ],
+      "font_px": 82
+    },
+    {
+      "id": "shot-06-message",
+      "start_seconds": 36.2,
+      "end_seconds": 42.5,
+      "bbox_norm": [
+        0.14,
+        0.42,
+        0.72,
+        0.14
+      ],
+      "font_px": 88
+    },
+    {
+      "id": "shot-13-message",
+      "start_seconds": 88.8,
+      "end_seconds": 93.8,
+      "bbox_norm": [
+        0.12,
+        0.42,
+        0.76,
+        0.14
+      ],
+      "font_px": 84
+    },
+    {
+      "id": "shot-21-thesis-1",
+      "start_seconds": 147,
+      "end_seconds": 149.3,
+      "bbox_norm": [
+        0.09,
+        0.36,
+        0.82,
+        0.1
+      ],
+      "font_px": 58
+    },
+    {
+      "id": "shot-21-thesis-2",
+      "start_seconds": 147.4,
+      "end_seconds": 149.3,
+      "bbox_norm": [
+        0.09,
+        0.5,
+        0.82,
+        0.1
+      ],
+      "font_px": 58
+    }
+  ]
+}

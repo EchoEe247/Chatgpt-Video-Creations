@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "production": "SECOND EARTH",
+  "policy": {
+    "local_first": true,
+    "online_video_generation": false,
+    "new_downloads_required_for_first_pass": false,
+    "optional_goal_specific_downloads": "Only verified free/CC0 assets that materially improve a named shot after preview comparison."
+  },
+  "resolved": [
+    {
+      "asset_id": "code.alesha-hand-drawn-canvas",
+      "role": "Inner-world illustrated civilization language",
+      "shots": [
+        "shot-03",
+        "shot-05",
+        "shot-06",
+        "shot-09",
+        "shot-13",
+        "shot-18"
+      ],
+      "status": "local_ready"
+    },
+    {
+      "asset_id": "model.quaternius-ultimate-space-spaceship",
+      "role": "Boundary probe / later bridge-station probe",
+      "shots": [
+        "shot-10",
+        "shot-11",
+        "shot-20"
+      ],
+      "status": "local_ready"
+    },
+    {
+      "asset_id": "audio.core-procedural",
+      "role": "Sparse impacts, risers, pulses, UI confirmation and signal chimes",
+      "shots": [
+        "shot-06",
+        "shot-08",
+        "shot-10",
+        "shot-11",
+        "shot-12",
+        "shot-13",
+        "shot-14",
+        "shot-16",
+        "shot-17",
+        "shot-18",
+        "shot-19",
+        "shot-21"
+      ],
+      "status": "local_ready"
+    }
+  ],
+  "procedural": [
+    {
+      "role": "compute lab/server vault",
+      "renderer": "Blender",
+      "shots": [
+        "shot-02",
+        "shot-07",
+        "shot-16"
+      ],
+      "reason": "Geometry is simple, production-specific and faster/more coherent to author procedurally than to source."
+    },
+    {
+      "role": "simulation/cosmic/nested-world systems",
+      "renderer": "Python/Pillow/NumPy",
+      "shots": [
+        "shot-01",
+        "shot-04",
+        "shot-08",
+        "shot-14",
+        "shot-15",
+        "shot-17",
+        "shot-19"
+      ],
+      "reason": "Procedural geometry gives exact timing and scale transitions."
+    },
+    {
+      "role": "boundary contact/final editorial composites",
+      "renderer": "FFmpeg",
+      "shots": [
+        "shot-12",
+        "shot-21"
+      ],
+      "reason": "Use exact local precomps from adjacent renderer lanes; no stock footage required."
+    }
+  ],
+  "optional_goal_pack_candidates": [
+    {
+      "provider": "Poly Haven",
+      "license": "CC0-1.0",
+      "candidate": "one low-resolution studio/industrial HDRI",
+      "shots": [
+        "shot-02",
+        "shot-07",
+        "shot-16"
+      ],
+      "acquire_only_if": "preview shows a meaningful lighting/reflection improvement over procedural lighting within render budget"
+    },
+    {
+      "provider": "ambientCG",
+      "license": "CC0-1.0",
+      "candidate": "one lightweight metal/rubber PBR material",
+      "shots": [
+        "shot-02",
+        "shot-10",
+        "shot-16"
+      ],
+      "acquire_only_if": "procedural material looks visibly flat at 720p"
+    }
+  ],
+  "blocked": [],
+  "provenance_rule": "Every newly acquired file gets exact source URL, creator, license, local path and hash before production use."
+}

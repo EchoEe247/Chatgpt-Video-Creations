@@ -1,0 +1,100 @@
+{
+  "schema_version": 2,
+  "production_id": "second-earth-benchmark-20260927",
+  "lane": "animation",
+  "status": "PLANNED",
+  "source": {
+    "show": "SECOND EARTH",
+    "season": "standalone",
+    "episode": "benchmark-01",
+    "kind": "speculative AI short",
+    "provenance": "source/asset-plan.json"
+  },
+  "render": {
+    "command": [
+      "python",
+      "render_benchmark.py"
+    ],
+    "cwd": "/data/data/com.termux/files/home/MainWorkspace/Chatgpt-Video-Creations/productions/standalone/second-earth-benchmark",
+    "output": "final/second-earth.mp4",
+    "scene_plan": null,
+    "scene_directory": "renders",
+    "master_recipe": "source/av-timeline.json"
+  },
+  "delivery": {
+    "profile": "h264_web",
+    "width": 1280,
+    "height": 720,
+    "fps": 24,
+    "video_codec": "h264",
+    "pixel_format": "yuv420p",
+    "audio_required": true,
+    "audio_codec": "aac",
+    "expected_duration_seconds": 150,
+    "duration_tolerance_seconds": 0.15,
+    "silence_threshold_db": -55,
+    "silence_min_duration_seconds": 0.5,
+    "max_unintended_silence_seconds": 1.5,
+    "intentional_silence_intervals": [
+      [
+        149.3,
+        150
+      ]
+    ],
+    "baseline_compare_fps": 2
+  },
+  "workflow": {
+    "mode": "autonomous_until_final_review",
+    "user_review_policy": "final_candidate_only",
+    "max_autonomous_repair_cycles": 4,
+    "creative_qa_required": true,
+    "repair_cycle": 0,
+    "escalation_reason": null,
+    "last_action": {
+      "action": "phase_7a_planned",
+      "at": "2026-09-27T00:00:00Z"
+    },
+    "render_job": {
+      "job_id": null,
+      "state": "NONE",
+      "command": null,
+      "cwd": null,
+      "output": null,
+      "started_at": null,
+      "completed_at": null,
+      "exit_code": null
+    }
+  },
+  "artifacts": {
+    "candidate_master": null,
+    "candidate_sha256": null,
+    "iteration_dir": null,
+    "artifact_receipt": null,
+    "review_pack": null,
+    "baseline_master": null,
+    "baseline_comparison": null,
+    "creative_qa": null,
+    "creative_review": null
+  },
+  "gates": {
+    "technical": {
+      "status": "PENDING",
+      "evidence": null,
+      "candidate_sha256": null
+    },
+    "assistant": {
+      "status": "PENDING",
+      "notes": null,
+      "candidate_sha256": null
+    },
+    "user": {
+      "status": "PENDING",
+      "notes": null,
+      "candidate_sha256": null
+    }
+  },
+  "review": {
+    "assistant": "PENDING",
+    "user": "PENDING"
+  }
+}

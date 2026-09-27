@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "production": "SECOND EARTH",
+  "render_order": [
+    "python_shared",
+    "canvas_shared",
+    "blender_physical",
+    "blender_probe",
+    "ffmpeg_editorial",
+    "audio_mix",
+    "master_assembly"
+  ],
+  "groups": [
+    {
+      "id": "python_shared",
+      "lane": "python",
+      "shots": [
+        "shot-01",
+        "shot-04",
+        "shot-08",
+        "shot-14",
+        "shot-15",
+        "shot-17",
+        "shot-19"
+      ],
+      "source": "renderers/python_frames.py",
+      "contract": "render_frame(shot, frame_index, output_path, request)",
+      "preview_strategy": "Render review frames for all seven shots before any full sequences. Fix composition/motion in shared primitives first.",
+      "reusable_primitives": [
+        "projected city/core",
+        "molecule/graph",
+        "planet/cosmos shells",
+        "timeline branches",
+        "two-way data exchange"
+      ]
+    },
+    {
+      "id": "canvas_shared",
+      "lane": "canvas_handdrawn",
+      "shots": [
+        "shot-03",
+        "shot-05",
+        "shot-06",
+        "shot-09",
+        "shot-13",
+        "shot-18"
+      ],
+      "source": "renderers/canvas_world.html",
+      "contract": "window.renderFrameAt(seconds, frameIndex, shot)",
+      "preview_strategy": "One HTML renderer keyed by shot.id. Use the integrated hand-drawn runtime, then preview all message/text shots at 360px.",
+      "reusable_primitives": [
+        "paper city growth",
+        "observatory/equations",
+        "signal lettering",
+        "night blackout/seam",
+        "crowd/window",
+        "separated control diagram"
+      ]
+    },
+    {
+      "id": "blender_physical",
+      "lane": "blender",
+      "shots": [
+        "shot-02",
+        "shot-07",
+        "shot-16"
+      ],
+      "source": "renderers/build_blender_physical.py",
+      "scene_outputs": [
+        "scenes/physical-lab.blend"
+      ],
+      "preview_strategy": "One modular server-vault scene with three distinct cameras/lighting states. Render keyframes only before full frames.",
+      "reusable_assets": [
+        "procedural server racks",
+        "operator silhouette",
+        "breaker wall"
+      ]
+    },
+    {
+      "id": "blender_probe",
+      "lane": "blender",
+      "shots": [
+        "shot-10",
+        "shot-11",
+        "shot-20"
+      ],
+      "source": "renderers/build_blender_probe.py",
+      "scene_outputs": [
+        "scenes/probe-world.blend"
+      ],
+      "preview_strategy": "Reuse one authored world/ship asset scene but change camera grammar: lateral reveal, launch chase, vertical station rise.",
+      "reusable_assets": [
+        "model.quaternius-ultimate-space-spaceship",
+        "procedural launch bay",
+        "procedural planet limb",
+        "boundary station"
+      ]
+    },
+    {
+      "id": "ffmpeg_editorial",
+      "lane": "ffmpeg",
+      "shots": [
+        "shot-12",
+        "shot-21"
+      ],
+      "source": "renderers/build_editorial.py",
+      "dependencies": {
+        "shot-12": [
+          "shot-11 final frames/precomp"
+        ],
+        "shot-21": [
+          "shot-20 final frames/precomp"
+        ]
+      },
+      "preview_strategy": "Build exact short editorial shots only after upstream visual sources exist. Boundary stop must be visually intentional, not a dropped-frame artifact."
+    },
+    {
+      "id": "audio_mix",
+      "lane": "audio",
+      "source": "audio/build_audio.py",
+      "dependencies": [
+        "source/av-timeline.json",
+        "assets/audio-commons.json"
+      ],
+      "stems": [
+        "narration",
+        "score",
+        "ambience",
+        "effects"
+      ],
+      "preview_strategy": "Synthesize/mix by timeline events; leave designed silences explicit and verify narration/message timing before master."
+    },
+    {
+      "id": "master_assembly",
+      "lane": "ffmpeg",
+      "source": "render_benchmark.py",
+      "dependencies": [
+        "all rendered shot masters",
+        "all audio stems",
+        "source/av-timeline.json"
+      ],
+      "output": "final/second-earth.mp4",
+      "preview_strategy": "Assemble once all shot masters pass per-shot review; do not hide failed shots with editorial effects."
+    }
+  ],
+  "restart_rules": [
+    "Each renderer group writes independently restartable shot outputs.",
+    "Do not rerender accepted shots because another renderer group changes.",
+    "Blender scenes are shared only inside their group; physical-room and probe-world scenes remain separate.",
+    "FFmpeg editorial shots consume local precomps and never call an online generator.",
+    "If a group cannot meet its shot intent, revise the director brief/execution plan before silently changing lane."
+  ]
+}

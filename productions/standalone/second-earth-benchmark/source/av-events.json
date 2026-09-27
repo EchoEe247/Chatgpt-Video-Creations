@@ -1,0 +1,373 @@
+{
+  "schema_version": 1,
+  "events": [
+    {
+      "id": "shot-01.narration",
+      "at_seconds": 0.48,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "shot-01 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-02.narration",
+      "at_seconds": 6.56,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "shot-02 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-03.narration",
+      "at_seconds": 13.64,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "shot-03 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-04.narration",
+      "at_seconds": 21.56,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "shot-04 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-05.narration",
+      "at_seconds": 28.64,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "shot-05 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-06.narration",
+      "at_seconds": 36.56,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "shot-06 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-07.narration",
+      "at_seconds": 43.64,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "shot-07 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-08.narration",
+      "at_seconds": 51.48,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "shot-08 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-09.narration",
+      "at_seconds": 57.64,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "shot-09 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-10.narration",
+      "at_seconds": 65.56,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "shot-10 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-11.narration",
+      "at_seconds": 72.64,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "shot-11 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-12.narration",
+      "at_seconds": 80.48,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "shot-12 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-13.narration",
+      "at_seconds": 86.64,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "shot-13 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-14.narration",
+      "at_seconds": 94.56,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "shot-14 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-15.narration",
+      "at_seconds": 101.64,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "shot-15 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-16.narration",
+      "at_seconds": 109.56,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "shot-16 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-17.narration",
+      "at_seconds": 116.64,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "shot-17 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-18.narration",
+      "at_seconds": 124.48,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "shot-18 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-19.narration",
+      "at_seconds": 130.64,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "shot-19 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-20.narration",
+      "at_seconds": 138.56,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "shot-20 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "shot-21.narration",
+      "at_seconds": 145.4,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "shot-21 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "clause_entry"
+    },
+    {
+      "id": "contact-01.signal",
+      "at_seconds": 39.9,
+      "duration_seconds": 0.65,
+      "kind": "sfx",
+      "label": "first message resolves",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "effects",
+      "asset_id": "audio.core-procedural:signal_chime",
+      "gain_db": -7
+    },
+    {
+      "id": "probe-launch.riser",
+      "at_seconds": 73,
+      "duration_seconds": 1.2,
+      "kind": "sfx",
+      "label": "probe launch rise",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "effects",
+      "asset_id": "audio.core-procedural:riser_short",
+      "gain_db": -8
+    },
+    {
+      "id": "boundary-impact.mute",
+      "at_seconds": 84.7,
+      "duration_seconds": 0.45,
+      "kind": "designed_silence",
+      "label": "boundary contact audio drop",
+      "targets": [
+        "audio",
+        "picture",
+        "qa"
+      ],
+      "stem": "effects"
+    },
+    {
+      "id": "contact-02.signal",
+      "at_seconds": 91.5,
+      "duration_seconds": 0.65,
+      "kind": "sfx",
+      "label": "WE CAN SEE YOU resolves",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "effects",
+      "asset_id": "audio.core-procedural:signal_chime",
+      "gain_db": -8
+    },
+    {
+      "id": "cosmic-pattern.low-pulse",
+      "at_seconds": 99.6,
+      "duration_seconds": 0.8,
+      "kind": "sfx",
+      "label": "cosmic pattern recognition",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "effects",
+      "asset_id": "audio.core-procedural:low_pulse",
+      "gain_db": -10
+    },
+    {
+      "id": "controls-separated.tick",
+      "at_seconds": 128.8,
+      "duration_seconds": 0.12,
+      "kind": "sfx",
+      "label": "reversible controls lock",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "effects",
+      "asset_id": "audio.core-procedural:ui_tick",
+      "gain_db": -10
+    },
+    {
+      "id": "final.silence",
+      "at_seconds": 149.3,
+      "duration_seconds": 0.7,
+      "kind": "designed_silence",
+      "label": "final silence",
+      "targets": [
+        "audio",
+        "qa"
+      ],
+      "stem": "score"
+    }
+  ]
+}

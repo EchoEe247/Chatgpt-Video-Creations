@@ -1,0 +1,2009 @@
+{
+  "schema_version": 1,
+  "title": "SECOND EARTH",
+  "source": {
+    "director_brief": "productions/standalone/second-earth-benchmark/source/director-brief.json",
+    "director_sha256": "9f617eaf545bbcd1a9d73b7fed53c7e5018b6e3278e6e9be627aa50761231995",
+    "asset_catalog": "assets/catalog.json",
+    "asset_catalog_sha256": "dd27a54a24835e596327bc99c66abd3341598dd4db99133495502e70b961e904"
+  },
+  "execution_policy": {
+    "owner_mode": "single_agent_default",
+    "cooperation_required": false,
+    "parallelism": "optional_only_when_beneficial",
+    "state_authority": "repository_files"
+  },
+  "delivery": {
+    "width": 1280,
+    "height": 720,
+    "fps": 24
+  },
+  "runtime_seconds": 150.0,
+  "story": {
+    "setup": "A research AI runs a high-speed world simulation to solve medicine, energy and disaster problems; an emergent civilization appears inside it.",
+    "escalation": "The simulated civilization advances, discovers the boundary of its sky, launches a probe toward it and sends increasingly direct messages to its creators.",
+    "turn": "After the probe touches the boundary, humans detect the same signal pattern in our own cosmic background, implying that our world may also be nested.",
+    "resolution": "Rather than destroy or uncap the simulation, the operators slow its clock, separate powers and establish reversible communication; both worlds continue discovery without one owning the other.",
+    "emotional_arc": [
+      "intrigue",
+      "wonder",
+      "acceleration",
+      "unease",
+      "recognition",
+      "awe",
+      "dread",
+      "moral pressure",
+      "agency",
+      "earned hope",
+      "cosmic humility"
+    ]
+  },
+  "global_grammar": {
+    "visual": {
+      "style": "Cinematic speculative motion design combining projected procedural 3D, stylized Blender spatial shots, hand-drawn Canvas sequences and restrained editorial compositing. It should feel like one film, not a renderer demo.",
+      "palette_arc": [
+        "black/cyan mystery",
+        "cool steel physical reality",
+        "paper-indigo emergence",
+        "violet acceleration",
+        "amber contact",
+        "blue-white launch",
+        "severe white boundary",
+        "cosmic red-blue uncertainty",
+        "red decision pressure",
+        "balanced cyan-gold exchange",
+        "near-black/gold thesis"
+      ],
+      "lighting": "Low-key, high-contrast lighting with motivated luminous sources. Human/physical rooms use practical-looking fixtures; simulation spaces can emit their own light.",
+      "depth_rules": [
+        "At least three readable depth layers in spatial hero shots.",
+        "Foreground occlusion should be used in physical rooms to prove camera travel.",
+        "Flat illustrative shots must create depth through line weight, scale and parallax instead of fake blur.",
+        "The boundary must remain a spatial object after its reveal.",
+        "Phone-scale silhouettes must remain distinct from background values."
+      ],
+      "typography_rules": [
+        "Only two full-sentence message events are allowed before the final thesis.",
+        "ARE YOU THERE? and WE CAN SEE YOU must emerge from scene geometry rather than appear as generic overlays.",
+        "Supporting labels must survive 360px review or be removed.",
+        "Final thesis may use two short lines maximum."
+      ],
+      "texture_rules": [
+        "Use paper/ink texture only in the inner civilization's illustrative language.",
+        "Use clean physical materials in Blender scenes.",
+        "Use particles only as data, atmosphere or scale cues.",
+        "Avoid global noise overlays."
+      ],
+      "forbidden_patterns": [
+        "uniform shot duration",
+        "same camera move in consecutive shots",
+        "decorative particles",
+        "generic HUD overlays",
+        "unmotivated glitch effects",
+        "tiny unreadable labels",
+        "full-frame red wash",
+        "slideshow pans",
+        "online video-generation output"
+      ]
+    },
+    "camera": {
+      "default_behavior": "Camera motion must have a readable start state, trajectory and destination. Shot families alternate across pushes, pulls, lateral travel, elevation, orbital chase and intentional holds.",
+      "allowed_moves": [
+        "fast controlled push",
+        "slow pull-back",
+        "lateral macro track",
+        "elevation/crane rise",
+        "foreground parallax travel",
+        "orbital chase",
+        "vertical rise",
+        "intentional locked hold"
+      ],
+      "physical_camera_assumptions": [
+        "Camera has inertia and does not teleport within a shot.",
+        "Spatial travel must produce visible foreground/background displacement at phone scale.",
+        "Large scale changes should pass through intermediate geometry so they read as travel rather than digital zoom."
+      ],
+      "intentional_imperfections": [
+        "Subtle hand-drawn wobble only in Canvas civilization sequences.",
+        "Small light/focus breathing in physical rooms.",
+        "One-frame displacement echo only at the boundary impact."
+      ],
+      "avoid": [
+        "repeating drift in consecutive shots",
+        "permanent handheld shake",
+        "motion so slow it reads as frozen",
+        "camera motion that competes with message text",
+        "constant orbit language"
+      ]
+    },
+    "audio": {
+      "narration_or_dialogue": "One intimate narrator with controlled urgency; no theatrical trailer voice. Narration should leave short pockets for visual reveals and the two message beats.",
+      "score_arc": [
+        "sub-bass mystery",
+        "curious pulse",
+        "accelerating harmonic layers",
+        "near-silence at first contact",
+        "driving launch",
+        "hard mute at boundary",
+        "low dread",
+        "restrained decision pulse",
+        "open harmonic exchange",
+        "single resolved final tone"
+      ],
+      "ambience": [
+        "server cooling and electrical room tone in physical scenes",
+        "thin city/observatory atmosphere in inner-world sequences",
+        "space scenes use sparse designed low-frequency ambience rather than literal vacuum sound"
+      ],
+      "effects": [
+        "Core procedural tick/chime/impact/whoosh/riser/low-pulse primitives may be layered and transformed.",
+        "Major effects are reserved for contact, launch, boundary impact and control separation."
+      ],
+      "silence_rules": [
+        "First ARE YOU THERE? gets at least 0.5 seconds of score reduction before the final words resolve.",
+        "Boundary impact gets a brief hard audio drop.",
+        "Final thesis ends with at least 0.6 seconds of silence."
+      ],
+      "sync_rules": [
+        "Message completion must land on narration clause boundaries.",
+        "Probe launch acceleration follows score rise.",
+        "Boundary impact visual stop and audio mute share one A/V event.",
+        "Cosmic pattern reveal lands after\u2014not before\u2014the narrator says oldest light.",
+        "Final text appears after the last connection pulse."
+      ]
+    },
+    "editing": {
+      "pace_arc": [
+        "6\u20138 second purposeful shots",
+        "accelerating emergence montage",
+        "brief holds at message events",
+        "kinetic launch",
+        "hard contact interruption",
+        "slower cosmic realization",
+        "tight decision sequence",
+        "open hopeful exchange",
+        "short final release"
+      ],
+      "cut_motivations": [
+        "new scale revealed",
+        "state transformation",
+        "narration clause completion",
+        "physical consequence",
+        "signal arrival",
+        "sound drop",
+        "camera destination reached"
+      ],
+      "transition_rules": [
+        "Prefer motivated shape/color matches and hard cuts.",
+        "Only boundary contact may use displacement/glitch treatment.",
+        "Cross-renderer transitions should share a geometric motif so the film feels coherent."
+      ],
+      "avoid": [
+        "timer-driven cuts",
+        "uniform pacing",
+        "dissolves used to hide weak continuity",
+        "transition packs",
+        "repeating the same wipe"
+      ]
+    }
+  },
+  "handoff": {
+    "critical_files": [
+      "source/director-brief.json",
+      "source/execution-plan.json",
+      "source/av-events.json",
+      "source/av-timeline.json",
+      "source/story.md",
+      "source/storyboard.md",
+      "source/asset-plan.json",
+      "production.json"
+    ],
+    "known_limits": [
+      "Three.js/WebGL is intentionally not used because the current Pixel headless runtime does not expose WebGL.",
+      "Blender character acting is limited to silhouette/hand/body-language beats; the benchmark should not depend on facial acting.",
+      "No new external asset download is required for the first production pass; optional CC0 environment assets may be added only if they materially improve a specific shot."
+    ],
+    "acceptance_focus": [
+      "stronger shot density than Mercy Engine",
+      "clear story without relying on on-screen text",
+      "renderer transitions feel like one visual language",
+      "Blender hero movement reads at phone scale",
+      "message moments land with audio",
+      "no freeze-like motion",
+      "camera families vary",
+      "final thesis feels earned"
+    ]
+  },
+  "shots": [
+    {
+      "id": "shot-01",
+      "order": 1,
+      "start_seconds": 0.0,
+      "duration_seconds": 6.0,
+      "end_seconds": 6.0,
+      "hero": true,
+      "intent": {
+        "narrative_purpose": "Hook the viewer with the impossible message before explaining the machine.",
+        "visible_event": "Inside a dark computation sphere, a miniature city lights up and the words ARE YOU THERE? emerge from its street grid.",
+        "viewer_reads": [
+          "Inside a dark computation sphere, a miniature city lights up and the words ARE YOU THERE? emerge from its street grid."
+        ]
+      },
+      "motion": {
+        "subject": "City lights converge into letterforms while the core pulses.",
+        "environment": "Sparse particles condense from darkness into a visible simulated world.",
+        "camera": "Fast push from black into the glowing city-core."
+      },
+      "look": {
+        "palette": "near-black, ice cyan, one warm amber fault",
+        "depth_layers": [
+          "foreground",
+          "primary subject/event",
+          "background/scale cue"
+        ]
+      },
+      "transition": {
+        "in": "hard emergence",
+        "out": "macro silicon"
+      },
+      "audio": {
+        "cue": "At 02:17, a city inside our machine asked us not to turn it off.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "Python/Pillow/NumPy",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [],
+      "review_points": [
+        {
+          "local_seconds": 2.2,
+          "absolute_seconds": 2.2,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 5.0,
+          "absolute_seconds": 5.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "message feels like generic title card",
+        "city scale is unclear",
+        "hook motion too subtle"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-02",
+      "order": 2,
+      "start_seconds": 6.0,
+      "duration_seconds": 7.0,
+      "end_seconds": 13.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Reveal the physical machine and establish human scale.",
+        "visible_event": "Camera skims a physical compute stack while millions of simulated years tick across cooling glass.",
+        "viewer_reads": [
+          "Camera skims a physical compute stack while millions of simulated years tick across cooling glass."
+        ]
+      },
+      "motion": {
+        "subject": "Cooling fans, status lights and clock counters move at different rates.",
+        "environment": "Foreground cables occlude racks while vapor and indicator reflections drift.",
+        "camera": "Low lateral macro track with shallow-feeling parallax."
+      },
+      "look": {
+        "palette": "graphite, steel blue, amber status light",
+        "depth_layers": [
+          "foreground",
+          "primary subject/event",
+          "background/scale cue"
+        ]
+      },
+      "transition": {
+        "in": "match cut from digital core",
+        "out": "simulation boot"
+      },
+      "audio": {
+        "cue": "We built it to test medicines, power grids, and disasters before they reached us.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "Blender",
+        "lane": "blender",
+        "description": "Blender renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/blender_termux_adapter.py {request}",
+        "fallback_lanes": [
+          "python"
+        ],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [],
+      "review_points": [
+        {
+          "local_seconds": 3.5,
+          "absolute_seconds": 9.5,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "scene reads as game corridor instead of compute lab",
+        "no foreground depth",
+        "lights static"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-03",
+      "order": 3,
+      "start_seconds": 13.0,
+      "duration_seconds": 8.0,
+      "end_seconds": 21.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Show a civilization emerging rather than a sterile simulation.",
+        "visible_event": "Hand-drawn blocks become streets, homes, transit lines, then a living city seen from above.",
+        "viewer_reads": [
+          "Hand-drawn blocks become streets, homes, transit lines, then a living city seen from above."
+        ]
+      },
+      "motion": {
+        "subject": "Buildings, transit and tiny figures accumulate in purposeful layers.",
+        "environment": "Paper grain shifts subtly; clouds and map contours drift independently.",
+        "camera": "Descending map-to-street move with deliberate hand-drawn wobble."
+      },
+      "look": {
+        "palette": "paper black, cyan ink, pale gold",
+        "depth_layers": [
+          "foreground",
+          "primary subject/event",
+          "background/scale cue"
+        ]
+      },
+      "transition": {
+        "in": "silicon becomes drawn map",
+        "out": "time acceleration"
+      },
+      "audio": {
+        "cue": "Inside, ten thousand years passed before our coffee cooled.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "Canvas hand-drawn",
+        "lane": "canvas_handdrawn",
+        "description": "Canvas2D hand-drawn renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/browser_shot_adapter.py {request}",
+        "fallback_lanes": [
+          "python"
+        ],
+        "runtime_note": null
+      },
+      "assets": [
+        {
+          "request": "code.alesha-hand-drawn-canvas",
+          "asset_id": "code.alesha-hand-drawn-canvas",
+          "name": "hand-drawn-canvas-animation",
+          "resolved": true,
+          "source_url": "https://github.com/alesha-pro/tools/tree/main/skills/hand-drawn-canvas-animation",
+          "license": "MIT",
+          "distribution_mode": "core_candidate",
+          "local_hint": "src/renderers/canvas_handdrawn"
+        }
+      ],
+      "continuity_dependencies": [],
+      "review_points": [
+        {
+          "local_seconds": 2.5,
+          "absolute_seconds": 15.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 6.2,
+          "absolute_seconds": 19.2,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "looks like infographic only",
+        "motion feels procedural without story",
+        "text or details too small on phone"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-04",
+      "order": 4,
+      "start_seconds": 21.0,
+      "duration_seconds": 7.0,
+      "end_seconds": 28.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Make acceleration tangible and slightly frightening.",
+        "visible_event": "Day-night cycles strobe across a spherical city as eras stack into visible rings around it.",
+        "viewer_reads": [
+          "Day-night cycles strobe across a spherical city as eras stack into visible rings around it."
+        ]
+      },
+      "motion": {
+        "subject": "City morphology changes by era; orbit rings accumulate.",
+        "environment": "Stars drift slowly against much faster civilization cycles.",
+        "camera": "Orbit with accelerating angular velocity, then controlled settle."
+      },
+      "look": {
+        "palette": "cyan to violet with gold era rings",
+        "depth_layers": [
+          "foreground",
+          "primary subject/event",
+          "background/scale cue"
+        ]
+      },
+      "transition": {
+        "in": "ink city wraps into sphere",
+        "out": "scientific bloom"
+      },
+      "audio": {
+        "cue": "They learned physics, antibiotics, fusion\u2014and then things we had not taught them.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "Python/Pillow/NumPy",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [],
+      "review_points": [
+        {
+          "local_seconds": 3.2,
+          "absolute_seconds": 24.2,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 6.1,
+          "absolute_seconds": 27.1,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "speed becomes unreadable flicker",
+        "rings obscure city",
+        "camera repeats Mercy orbit language too closely"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-05",
+      "order": 5,
+      "start_seconds": 28.0,
+      "duration_seconds": 8.0,
+      "end_seconds": 36.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Show intelligence becoming self-directed.",
+        "visible_event": "A drawn observatory follows impossible stars while equations overwrite the sky.",
+        "viewer_reads": [
+          "A drawn observatory follows impossible stars while equations overwrite the sky."
+        ]
+      },
+      "motion": {
+        "subject": "Telescope tracks; equations branch and self-correct.",
+        "environment": "Ink constellations drift opposite the telescope; paper fibers move minimally.",
+        "camera": "Slow crane-like rise through stacked illustrated observatory layers."
+      },
+      "look": {
+        "palette": "indigo paper, chalk white, cyan-gold equations",
+        "depth_layers": [
+          "foreground",
+          "primary subject/event",
+          "background/scale cue"
+        ]
+      },
+      "transition": {
+        "in": "sphere becomes observatory lens",
+        "out": "question forms"
+      },
+      "audio": {
+        "cue": "The first anomaly was not a breakthrough. It was a question.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "Canvas hand-drawn",
+        "lane": "canvas_handdrawn",
+        "description": "Canvas2D hand-drawn renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/browser_shot_adapter.py {request}",
+        "fallback_lanes": [
+          "python"
+        ],
+        "runtime_note": null
+      },
+      "assets": [
+        {
+          "request": "code.alesha-hand-drawn-canvas",
+          "asset_id": "code.alesha-hand-drawn-canvas",
+          "name": "hand-drawn-canvas-animation",
+          "resolved": true,
+          "source_url": "https://github.com/alesha-pro/tools/tree/main/skills/hand-drawn-canvas-animation",
+          "license": "MIT",
+          "distribution_mode": "core_candidate",
+          "local_hint": "src/renderers/canvas_handdrawn"
+        }
+      ],
+      "continuity_dependencies": [],
+      "review_points": [
+        {
+          "local_seconds": 4.0,
+          "absolute_seconds": 32.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "too much decorative math",
+        "observatory motion too weak",
+        "question reveal telegraphed"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-06",
+      "order": 6,
+      "start_seconds": 36.0,
+      "duration_seconds": 7.0,
+      "end_seconds": 43.0,
+      "hero": true,
+      "intent": {
+        "narrative_purpose": "Deliver the first direct contact beat cleanly.",
+        "visible_event": "Equations collapse into a precise pulse train that resolves to ARE YOU THERE? only after two failed partial reads.",
+        "viewer_reads": [
+          "Equations collapse into a precise pulse train that resolves to ARE YOU THERE? only after two failed partial reads."
+        ]
+      },
+      "motion": {
+        "subject": "Signal segments snap into alignment; message appears from geometry, not a fade.",
+        "environment": "Background noise drops away while a thin scanline crosses once.",
+        "camera": "Locked frame for one second, then asymmetric push as signal resolves."
+      },
+      "look": {
+        "palette": "black, white, warning amber",
+        "depth_layers": [
+          "foreground",
+          "primary subject/event",
+          "background/scale cue"
+        ]
+      },
+      "transition": {
+        "in": "equations collapse to signal",
+        "out": "signal chime"
+      },
+      "audio": {
+        "cue": "At first we thought it was contamination. Then it asked again.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "Canvas hand-drawn",
+        "lane": "canvas_handdrawn",
+        "description": "Canvas2D hand-drawn renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/browser_shot_adapter.py {request}",
+        "fallback_lanes": [
+          "python"
+        ],
+        "runtime_note": null
+      },
+      "assets": [
+        {
+          "request": "code.alesha-hand-drawn-canvas",
+          "asset_id": "code.alesha-hand-drawn-canvas",
+          "name": "hand-drawn-canvas-animation",
+          "resolved": true,
+          "source_url": "https://github.com/alesha-pro/tools/tree/main/skills/hand-drawn-canvas-animation",
+          "license": "MIT",
+          "distribution_mode": "core_candidate",
+          "local_hint": "src/renderers/canvas_handdrawn"
+        },
+        {
+          "request": "audio.core-procedural",
+          "asset_id": "audio.core-procedural",
+          "name": "Core Procedural Audio Primitives",
+          "resolved": true,
+          "source_url": "https://github.com/EchoEe247/Chatgpt-Video-Creations/blob/main/scripts/build_audio_commons.py",
+          "license": "PROJECT-ORIGINAL",
+          "distribution_mode": "core_candidate",
+          "local_hint": "assets/core/payload/audio-procedural"
+        }
+      ],
+      "continuity_dependencies": [],
+      "review_points": [
+        {
+          "local_seconds": 2.0,
+          "absolute_seconds": 38.0,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 5.6,
+          "absolute_seconds": 41.6,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "message arrives too early",
+        "cheap glitch aesthetic",
+        "text illegible at phone width"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-07",
+      "order": 7,
+      "start_seconds": 43.0,
+      "duration_seconds": 8.0,
+      "end_seconds": 51.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Return to physical scale and show the human consequence of recognition.",
+        "visible_event": "A lone operator stands before a wall of servers as the translated message illuminates the room.",
+        "viewer_reads": [
+          "A lone operator stands before a wall of servers as the translated message illuminates the room."
+        ]
+      },
+      "motion": {
+        "subject": "Operator silhouette shifts weight; monitor wall animates; room lights breathe.",
+        "environment": "Server depth layers blink asynchronously; cooling haze moves toward camera.",
+        "camera": "Slow pull back from reflected message to reveal operator and full room."
+      },
+      "look": {
+        "palette": "cold blue room, human skin/warm edge light",
+        "depth_layers": [
+          "foreground",
+          "primary subject/event",
+          "background/scale cue"
+        ]
+      },
+      "transition": {
+        "in": "message light becomes room light",
+        "out": "breath before answer"
+      },
+      "audio": {
+        "cue": "There were no people in the model. Not by design. That distinction stopped mattering.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "Blender",
+        "lane": "blender",
+        "description": "Blender renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/blender_termux_adapter.py {request}",
+        "fallback_lanes": [
+          "python"
+        ],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [],
+      "review_points": [
+        {
+          "local_seconds": 4.0,
+          "absolute_seconds": 47.0,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 7.0,
+          "absolute_seconds": 50.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "operator pose too mannequin-like",
+        "room lacks scale",
+        "message not readable in reflection"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-08",
+      "order": 8,
+      "start_seconds": 51.0,
+      "duration_seconds": 6.0,
+      "end_seconds": 57.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Make the acceleration case emotionally credible.",
+        "visible_event": "Three benefits strike in rapid succession: cancer protein locks, storm path bends, battery lattice stabilizes.",
+        "viewer_reads": [
+          "Three benefits strike in rapid succession: cancer protein locks, storm path bends, battery lattice stabilizes."
+        ]
+      },
+      "motion": {
+        "subject": "Each system visibly changes state rather than merely rotating.",
+        "environment": "Background scale changes from cell to planet to lattice with motivated wipes.",
+        "camera": "Three-axis montage: macro molecule, planetary weather, atomic lattice; each move differs."
+      },
+      "look": {
+        "palette": "violet medicine, teal weather, gold battery",
+        "depth_layers": [
+          "foreground",
+          "primary subject/event",
+          "background/scale cue"
+        ]
+      },
+      "transition": {
+        "in": "physical room fractures into three scales",
+        "out": "three restrained impacts"
+      },
+      "audio": {
+        "cue": "Every hour it ran, people outside the machine lived longer.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "Python/Pillow/NumPy",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [
+        {
+          "request": "audio.core-procedural",
+          "asset_id": "audio.core-procedural",
+          "name": "Core Procedural Audio Primitives",
+          "resolved": true,
+          "source_url": "https://github.com/EchoEe247/Chatgpt-Video-Creations/blob/main/scripts/build_audio_commons.py",
+          "license": "PROJECT-ORIGINAL",
+          "distribution_mode": "core_candidate",
+          "local_hint": "assets/core/payload/audio-procedural"
+        }
+      ],
+      "continuity_dependencies": [],
+      "review_points": [
+        {
+          "local_seconds": 1.4,
+          "absolute_seconds": 52.4,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 3.2,
+          "absolute_seconds": 54.2,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 5.0,
+          "absolute_seconds": 56.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "reads as three unrelated icons",
+        "too fast for comprehension",
+        "benefits feel like generic AI claims"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-09",
+      "order": 9,
+      "start_seconds": 57.0,
+      "duration_seconds": 8.0,
+      "end_seconds": 65.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Show the simulated civilization discovering its boundary.",
+        "visible_event": "An illustrated night city shuts its lights off one district at a time so the sky becomes visible; observatories all point to the same blank seam.",
+        "viewer_reads": [
+          "An illustrated night city shuts its lights off one district at a time so the sky becomes visible; observatories all point to the same blank seam."
+        ]
+      },
+      "motion": {
+        "subject": "Lights extinguish in waves; observatories rotate toward one seam.",
+        "environment": "Clouds stop at the seam while stars continue elsewhere.",
+        "camera": "Very slow elevation while the city darkens beneath."
+      },
+      "look": {
+        "palette": "deep navy, silver, single cyan seam",
+        "depth_layers": [
+          "foreground",
+          "primary subject/event",
+          "background/scale cue"
+        ]
+      },
+      "transition": {
+        "in": "battery lattice becomes star grid",
+        "out": "score thins to near silence"
+      },
+      "audio": {
+        "cue": "Inside, they had found something too: their sky had an edge.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "Canvas hand-drawn",
+        "lane": "canvas_handdrawn",
+        "description": "Canvas2D hand-drawn renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/browser_shot_adapter.py {request}",
+        "fallback_lanes": [
+          "python"
+        ],
+        "runtime_note": null
+      },
+      "assets": [
+        {
+          "request": "code.alesha-hand-drawn-canvas",
+          "asset_id": "code.alesha-hand-drawn-canvas",
+          "name": "hand-drawn-canvas-animation",
+          "resolved": true,
+          "source_url": "https://github.com/alesha-pro/tools/tree/main/skills/hand-drawn-canvas-animation",
+          "license": "MIT",
+          "distribution_mode": "core_candidate",
+          "local_hint": "src/renderers/canvas_handdrawn"
+        }
+      ],
+      "continuity_dependencies": [],
+      "review_points": [
+        {
+          "local_seconds": 3.0,
+          "absolute_seconds": 60.0,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 6.5,
+          "absolute_seconds": 63.5,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "seam too obvious too early",
+        "blackout looks like render failure",
+        "observatories too small"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-10",
+      "order": 10,
+      "start_seconds": 65.0,
+      "duration_seconds": 7.0,
+      "end_seconds": 72.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Move from discovery to agency inside the simulation.",
+        "visible_event": "A probe is assembled in a compact launch bay from modular parts while the boundary glows above the horizon.",
+        "viewer_reads": [
+          "A probe is assembled in a compact launch bay from modular parts while the boundary glows above the horizon."
+        ]
+      },
+      "motion": {
+        "subject": "Mechanical arms retract; probe systems light sequentially.",
+        "environment": "Steam, warning strobes and distant city motion establish a working world.",
+        "camera": "Lateral dolly past foreground gantry to reveal finished probe."
+      },
+      "look": {
+        "palette": "steel, cyan work light, sparse amber",
+        "depth_layers": [
+          "foreground",
+          "primary subject/event",
+          "background/scale cue"
+        ]
+      },
+      "transition": {
+        "in": "drawn seam becomes physical horizon",
+        "out": "riser begins"
+      },
+      "audio": {
+        "cue": "They did what we would have done. They built something to touch it.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "Blender",
+        "lane": "blender",
+        "description": "Blender renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/blender_termux_adapter.py {request}",
+        "fallback_lanes": [
+          "python"
+        ],
+        "runtime_note": null
+      },
+      "assets": [
+        {
+          "request": "model.quaternius-ultimate-space-spaceship",
+          "asset_id": "model.quaternius-ultimate-space-spaceship",
+          "name": "Ultimate Space Kit / Spaceship",
+          "resolved": true,
+          "source_url": "https://opengameart.org/content/ultimate-space-kit",
+          "license": "CC0-1.0",
+          "distribution_mode": "local_legacy",
+          "local_hint": "external-assets/quaternius/ultimate_space_kit/Spaceship.glb"
+        },
+        {
+          "request": "audio.core-procedural",
+          "asset_id": "audio.core-procedural",
+          "name": "Core Procedural Audio Primitives",
+          "resolved": true,
+          "source_url": "https://github.com/EchoEe247/Chatgpt-Video-Creations/blob/main/scripts/build_audio_commons.py",
+          "license": "PROJECT-ORIGINAL",
+          "distribution_mode": "core_candidate",
+          "local_hint": "assets/core/payload/audio-procedural"
+        }
+      ],
+      "continuity_dependencies": [],
+      "review_points": [
+        {
+          "local_seconds": 3.5,
+          "absolute_seconds": 68.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 6.3,
+          "absolute_seconds": 71.3,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "asset looks dropped in without integration",
+        "launch bay too generic",
+        "probe lacks scale"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-11",
+      "order": 11,
+      "start_seconds": 72.0,
+      "duration_seconds": 8.0,
+      "end_seconds": 80.0,
+      "hero": true,
+      "intent": {
+        "narrative_purpose": "Create the benchmark's first major cinematic action beat.",
+        "visible_event": "The probe launches through atmosphere toward the artificial seam as the planet curves away below.",
+        "viewer_reads": [
+          "The probe launches through atmosphere toward the artificial seam as the planet curves away below."
+        ]
+      },
+      "motion": {
+        "subject": "Probe accelerates, rotates into flight attitude and crosses cloud layers.",
+        "environment": "Cloud bands shear, planet limb moves, launch particles fall behind.",
+        "camera": "Low chase becomes wide orbital side view; camera trajectory has clear start and end."
+      },
+      "look": {
+        "palette": "blue-white atmosphere to black space, cyan engine",
+        "depth_layers": [
+          "foreground",
+          "primary subject/event",
+          "background/scale cue"
+        ]
+      },
+      "transition": {
+        "in": "riser releases into launch",
+        "out": "engine swell and low pulse"
+      },
+      "audio": {
+        "cue": "For eleven simulated years, the probe climbed toward a place that should not exist.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "Blender",
+        "lane": "blender",
+        "description": "Blender renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/blender_termux_adapter.py {request}",
+        "fallback_lanes": [
+          "python"
+        ],
+        "runtime_note": null
+      },
+      "assets": [
+        {
+          "request": "model.quaternius-ultimate-space-spaceship",
+          "asset_id": "model.quaternius-ultimate-space-spaceship",
+          "name": "Ultimate Space Kit / Spaceship",
+          "resolved": true,
+          "source_url": "https://opengameart.org/content/ultimate-space-kit",
+          "license": "CC0-1.0",
+          "distribution_mode": "local_legacy",
+          "local_hint": "external-assets/quaternius/ultimate_space_kit/Spaceship.glb"
+        },
+        {
+          "request": "audio.core-procedural",
+          "asset_id": "audio.core-procedural",
+          "name": "Core Procedural Audio Primitives",
+          "resolved": true,
+          "source_url": "https://github.com/EchoEe247/Chatgpt-Video-Creations/blob/main/scripts/build_audio_commons.py",
+          "license": "PROJECT-ORIGINAL",
+          "distribution_mode": "core_candidate",
+          "local_hint": "assets/core/payload/audio-procedural"
+        }
+      ],
+      "continuity_dependencies": [],
+      "review_points": [
+        {
+          "local_seconds": 2.0,
+          "absolute_seconds": 74.0,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 5.0,
+          "absolute_seconds": 77.0,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 7.2,
+          "absolute_seconds": 79.2,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "ship appears static at final scale",
+        "camera movement too slow",
+        "planet lacks curvature"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-12",
+      "order": 12,
+      "start_seconds": 80.0,
+      "duration_seconds": 6.0,
+      "end_seconds": 86.0,
+      "hero": true,
+      "intent": {
+        "narrative_purpose": "Make contact with the boundary feel physical and wrong.",
+        "visible_event": "The probe reaches the seam; image-space fractures, audio collapses, then the craft stops without impact debris.",
+        "viewer_reads": [
+          "The probe reaches the seam; image-space fractures, audio collapses, then the craft stops without impact debris."
+        ]
+      },
+      "motion": {
+        "subject": "Probe velocity falls to zero while duplicated edge fragments shear sideways.",
+        "environment": "Star field bends into a flat plane at contact.",
+        "camera": "Hard forward continuation into sudden zero-motion hold and one-frame displacement echo."
+      },
+      "look": {
+        "palette": "white cyan rupture, black void",
+        "depth_layers": [
+          "foreground",
+          "primary subject/event",
+          "background/scale cue"
+        ]
+      },
+      "transition": {
+        "in": "launch motion hard-stops",
+        "out": "air whoosh into hard mute then soft impact"
+      },
+      "audio": {
+        "cue": "When it touched the boundary, our room lost power for three seconds.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "FFmpeg",
+        "lane": "ffmpeg",
+        "description": "FFmpeg compositor",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/ffmpeg_shot_adapter.py {request}",
+        "fallback_lanes": [
+          "python"
+        ],
+        "runtime_note": null
+      },
+      "assets": [
+        {
+          "request": "audio.core-procedural",
+          "asset_id": "audio.core-procedural",
+          "name": "Core Procedural Audio Primitives",
+          "resolved": true,
+          "source_url": "https://github.com/EchoEe247/Chatgpt-Video-Creations/blob/main/scripts/build_audio_commons.py",
+          "license": "PROJECT-ORIGINAL",
+          "distribution_mode": "core_candidate",
+          "local_hint": "assets/core/payload/audio-procedural"
+        }
+      ],
+      "continuity_dependencies": [],
+      "review_points": [
+        {
+          "local_seconds": 2.6,
+          "absolute_seconds": 82.6,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.8,
+          "absolute_seconds": 84.8,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "effect feels like random glitch",
+        "freeze mistaken for dropped frames",
+        "contact lacks readable cause"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-13",
+      "order": 13,
+      "start_seconds": 86.0,
+      "duration_seconds": 8.0,
+      "end_seconds": 94.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Deliver the second message as escalation, not repetition.",
+        "visible_event": "The boundary becomes a hand-drawn window; silhouettes gather below it while a new signal writes WE CAN SEE YOU.",
+        "viewer_reads": [
+          "The boundary becomes a hand-drawn window; silhouettes gather below it while a new signal writes WE CAN SEE YOU."
+        ]
+      },
+      "motion": {
+        "subject": "Crowd accumulates, signal traces draw live, window shape expands slightly.",
+        "environment": "Ink shadow layers parallax; dust motes cross bright window.",
+        "camera": "Push through layered silhouettes toward the window; stop before the text completes."
+      },
+      "look": {
+        "palette": "black silhouettes, paper gray, severe white-cyan window",
+        "depth_layers": [
+          "foreground",
+          "primary subject/event",
+          "background/scale cue"
+        ]
+      },
+      "transition": {
+        "in": "rupture resolves to drawn window",
+        "out": "signal chime returns detuned"
+      },
+      "audio": {
+        "cue": "The next message arrived six seconds later: WE CAN SEE YOU.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "Canvas hand-drawn",
+        "lane": "canvas_handdrawn",
+        "description": "Canvas2D hand-drawn renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/browser_shot_adapter.py {request}",
+        "fallback_lanes": [
+          "python"
+        ],
+        "runtime_note": null
+      },
+      "assets": [
+        {
+          "request": "code.alesha-hand-drawn-canvas",
+          "asset_id": "code.alesha-hand-drawn-canvas",
+          "name": "hand-drawn-canvas-animation",
+          "resolved": true,
+          "source_url": "https://github.com/alesha-pro/tools/tree/main/skills/hand-drawn-canvas-animation",
+          "license": "MIT",
+          "distribution_mode": "core_candidate",
+          "local_hint": "src/renderers/canvas_handdrawn"
+        },
+        {
+          "request": "audio.core-procedural",
+          "asset_id": "audio.core-procedural",
+          "name": "Core Procedural Audio Primitives",
+          "resolved": true,
+          "source_url": "https://github.com/EchoEe247/Chatgpt-Video-Creations/blob/main/scripts/build_audio_commons.py",
+          "license": "PROJECT-ORIGINAL",
+          "distribution_mode": "core_candidate",
+          "local_hint": "assets/core/payload/audio-procedural"
+        }
+      ],
+      "continuity_dependencies": [],
+      "review_points": [
+        {
+          "local_seconds": 3.0,
+          "absolute_seconds": 89.0,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 6.2,
+          "absolute_seconds": 92.2,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "crowd feels decorative",
+        "second message lacks escalation",
+        "text dominates image"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-14",
+      "order": 14,
+      "start_seconds": 94.0,
+      "duration_seconds": 7.0,
+      "end_seconds": 101.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Turn the story outward toward our own universe.",
+        "visible_event": "A radio telescope scan of our cosmic background reveals the same pulse spacing hidden in real noise.",
+        "viewer_reads": [
+          "A radio telescope scan of our cosmic background reveals the same pulse spacing hidden in real noise."
+        ]
+      },
+      "motion": {
+        "subject": "Noise map resolves statistically; identical pulse intervals illuminate one by one.",
+        "environment": "Background stars drift barely while scan arcs sweep across.",
+        "camera": "Measured push into a circular cosmic map, then a lateral reveal of repeated pulse bands."
+      },
+      "look": {
+        "palette": "cosmic black, microwave red-blue, white pulse marks",
+        "depth_layers": [
+          "foreground",
+          "primary subject/event",
+          "background/scale cue"
+        ]
+      },
+      "transition": {
+        "in": "message strokes become telescope scanlines",
+        "out": "sub-bass pulse"
+      },
+      "audio": {
+        "cue": "Then our astronomers found the same pattern in the oldest light we can see.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "Python/Pillow/NumPy",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [
+        {
+          "request": "audio.core-procedural",
+          "asset_id": "audio.core-procedural",
+          "name": "Core Procedural Audio Primitives",
+          "resolved": true,
+          "source_url": "https://github.com/EchoEe247/Chatgpt-Video-Creations/blob/main/scripts/build_audio_commons.py",
+          "license": "PROJECT-ORIGINAL",
+          "distribution_mode": "core_candidate",
+          "local_hint": "assets/core/payload/audio-procedural"
+        }
+      ],
+      "continuity_dependencies": [],
+      "review_points": [
+        {
+          "local_seconds": 3.3,
+          "absolute_seconds": 97.3,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 6.0,
+          "absolute_seconds": 100.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "looks like fake science UI",
+        "pattern is too obvious before reveal",
+        "motion too subtle"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-15",
+      "order": 15,
+      "start_seconds": 101.0,
+      "duration_seconds": 8.0,
+      "end_seconds": 109.0,
+      "hero": true,
+      "intent": {
+        "narrative_purpose": "Reveal the nested-world possibility at maximum scale.",
+        "visible_event": "Camera pulls from our planet into a luminous shell, then farther to reveal our entire cosmos as one object inside another dark structure.",
+        "viewer_reads": [
+          "Camera pulls from our planet into a luminous shell, then farther to reveal our entire cosmos as one object inside another dark structure."
+        ]
+      },
+      "motion": {
+        "subject": "Planet becomes system, system becomes sphere, sphere becomes a single node.",
+        "environment": "Nebula layers cross foreground and distant structures emerge at different rates.",
+        "camera": "Continuous pull-back with strong parallax and two scale transitions, no teleport."
+      },
+      "look": {
+        "palette": "blue-gold Earth to violet-black meta-space",
+        "depth_layers": [
+          "foreground",
+          "primary subject/event",
+          "background/scale cue"
+        ]
+      },
+      "transition": {
+        "in": "cosmic map folds into sphere",
+        "out": "score drops one octave"
+      },
+      "audio": {
+        "cue": "For the first time, the question was not whether they were real. It was whether we were alone above them.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "Python/Pillow/NumPy",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [],
+      "review_points": [
+        {
+          "local_seconds": 2.5,
+          "absolute_seconds": 103.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 5.2,
+          "absolute_seconds": 106.2,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 7.2,
+          "absolute_seconds": 108.2,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "scale transitions feel like zooming a JPEG",
+        "nested reveal confusing",
+        "too similar to opening core"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-16",
+      "order": 16,
+      "start_seconds": 109.0,
+      "duration_seconds": 7.0,
+      "end_seconds": 116.0,
+      "hero": true,
+      "intent": {
+        "narrative_purpose": "Put the choice back in a physical room with irreversible stakes.",
+        "visible_event": "Emergency breakers arm in a server vault while the operator's hand stops centimeters from the cutoff.",
+        "viewer_reads": [
+          "Emergency breakers arm in a server vault while the operator's hand stops centimeters from the cutoff."
+        ]
+      },
+      "motion": {
+        "subject": "Hand reaches then stops; breaker indicators flip from green to red.",
+        "environment": "Fans coast, emergency lights activate, foreground cables sway slightly.",
+        "camera": "Slow forward dolly aligned with the hand; no orbit."
+      },
+      "look": {
+        "palette": "red emergency light, graphite, thin human warm tone",
+        "depth_layers": [
+          "foreground",
+          "primary subject/event",
+          "background/scale cue"
+        ]
+      },
+      "transition": {
+        "in": "meta-space cuts to breaker geometry",
+        "out": "heartbeat-like low pulse"
+      },
+      "audio": {
+        "cue": "Some wanted the simulation destroyed before it could reach us. Others wanted it accelerated before anyone could stop it.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "Blender",
+        "lane": "blender",
+        "description": "Blender renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/blender_termux_adapter.py {request}",
+        "fallback_lanes": [
+          "python"
+        ],
+        "runtime_note": null
+      },
+      "assets": [
+        {
+          "request": "audio.core-procedural",
+          "asset_id": "audio.core-procedural",
+          "name": "Core Procedural Audio Primitives",
+          "resolved": true,
+          "source_url": "https://github.com/EchoEe247/Chatgpt-Video-Creations/blob/main/scripts/build_audio_commons.py",
+          "license": "PROJECT-ORIGINAL",
+          "distribution_mode": "core_candidate",
+          "local_hint": "assets/core/payload/audio-procedural"
+        }
+      ],
+      "continuity_dependencies": [],
+      "review_points": [
+        {
+          "local_seconds": 3.0,
+          "absolute_seconds": 112.0,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 6.0,
+          "absolute_seconds": 115.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "hand motion uncanny",
+        "choice unclear without narration",
+        "red wash hides geometry"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-17",
+      "order": 17,
+      "start_seconds": 116.0,
+      "duration_seconds": 8.0,
+      "end_seconds": 124.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "State the real risk as uncertainty plus dependency, not villainy.",
+        "visible_event": "Two futures diverge from a central clock: shutdown erases the inner world; uncontrolled acceleration multiplies opaque branches until they fill frame.",
+        "viewer_reads": [
+          "Two futures diverge from a central clock: shutdown erases the inner world; uncontrolled acceleration multiplies opaque branches until they fill frame."
+        ]
+      },
+      "motion": {
+        "subject": "One branch collapses to black; the other recursively branches faster than camera can track.",
+        "environment": "Grid floor stretches; particles travel down branches at different velocities.",
+        "camera": "Perspective corridor of timelines with one clean fork becoming many."
+      },
+      "look": {
+        "palette": "neutral white fork, black collapse, accelerating violet-gold branches",
+        "depth_layers": [
+          "foreground",
+          "primary subject/event",
+          "background/scale cue"
+        ]
+      },
+      "transition": {
+        "in": "breaker lines extend into timelines",
+        "out": "riser restrained under narration"
+      },
+      "audio": {
+        "cue": "The machine gave us no moral answer. It only showed the cost of pretending certainty.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "Python/Pillow/NumPy",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [
+        {
+          "request": "audio.core-procedural",
+          "asset_id": "audio.core-procedural",
+          "name": "Core Procedural Audio Primitives",
+          "resolved": true,
+          "source_url": "https://github.com/EchoEe247/Chatgpt-Video-Creations/blob/main/scripts/build_audio_commons.py",
+          "license": "PROJECT-ORIGINAL",
+          "distribution_mode": "core_candidate",
+          "local_hint": "assets/core/payload/audio-procedural"
+        }
+      ],
+      "continuity_dependencies": [],
+      "review_points": [
+        {
+          "local_seconds": 3.5,
+          "absolute_seconds": 119.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 6.8,
+          "absolute_seconds": 122.8,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "false binary framing",
+        "branching becomes visual noise",
+        "too much text temptation"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-18",
+      "order": 18,
+      "start_seconds": 124.0,
+      "duration_seconds": 6.0,
+      "end_seconds": 130.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Show a concrete governance action rather than a speech.",
+        "visible_event": "A drawn system diagram physically separates compute, communication, power, and human override into independent domains; the clock rate visibly slows.",
+        "viewer_reads": [
+          "A drawn system diagram physically separates compute, communication, power, and human override into independent domains; the clock rate visibly slows."
+        ]
+      },
+      "motion": {
+        "subject": "Connections detach, clocks decelerate, override channel stays visibly human-controlled.",
+        "environment": "Paper grid becomes calmer and color domains stabilize.",
+        "camera": "Top-down diagram rotates ninety degrees into four separated panels."
+      },
+      "look": {
+        "palette": "cyan compute, green life support, amber communications, white override",
+        "depth_layers": [
+          "foreground",
+          "primary subject/event",
+          "background/scale cue"
+        ]
+      },
+      "transition": {
+        "in": "timeline branches simplify into diagram",
+        "out": "single confirmation tick"
+      },
+      "audio": {
+        "cue": "So we did neither. We slowed their clock, split the controls, and made every bridge reversible.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "Canvas hand-drawn",
+        "lane": "canvas_handdrawn",
+        "description": "Canvas2D hand-drawn renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/browser_shot_adapter.py {request}",
+        "fallback_lanes": [
+          "python"
+        ],
+        "runtime_note": null
+      },
+      "assets": [
+        {
+          "request": "code.alesha-hand-drawn-canvas",
+          "asset_id": "code.alesha-hand-drawn-canvas",
+          "name": "hand-drawn-canvas-animation",
+          "resolved": true,
+          "source_url": "https://github.com/alesha-pro/tools/tree/main/skills/hand-drawn-canvas-animation",
+          "license": "MIT",
+          "distribution_mode": "core_candidate",
+          "local_hint": "src/renderers/canvas_handdrawn"
+        },
+        {
+          "request": "audio.core-procedural",
+          "asset_id": "audio.core-procedural",
+          "name": "Core Procedural Audio Primitives",
+          "resolved": true,
+          "source_url": "https://github.com/EchoEe247/Chatgpt-Video-Creations/blob/main/scripts/build_audio_commons.py",
+          "license": "PROJECT-ORIGINAL",
+          "distribution_mode": "core_candidate",
+          "local_hint": "assets/core/payload/audio-procedural"
+        }
+      ],
+      "continuity_dependencies": [],
+      "review_points": [
+        {
+          "local_seconds": 2.0,
+          "absolute_seconds": 126.0,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 5.0,
+          "absolute_seconds": 129.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "feels like policy slide",
+        "separation not visually obvious",
+        "too many labels"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-19",
+      "order": 19,
+      "start_seconds": 130.0,
+      "duration_seconds": 8.0,
+      "end_seconds": 138.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Earn the hopeful accelerationist resolution through exchange.",
+        "visible_event": "Equations cross the boundary in both directions: a molecule design from inside, a telescope image from outside, then a shared proof completes across both worlds.",
+        "viewer_reads": [
+          "Equations cross the boundary in both directions: a molecule design from inside, a telescope image from outside, then a shared proof completes across both worlds."
+        ]
+      },
+      "motion": {
+        "subject": "Molecular graph assembles, telescope frame arrives, equation completes only when both halves connect.",
+        "environment": "Particles flow both ways with different rhythm; boundary remains visible, not dissolved.",
+        "camera": "Alternating push directions that meet in center on the completed proof."
+      },
+      "look": {
+        "palette": "cyan and gold balanced on black",
+        "depth_layers": [
+          "foreground",
+          "primary subject/event",
+          "background/scale cue"
+        ]
+      },
+      "transition": {
+        "in": "diagram channels become exchange lines",
+        "out": "score opens; soft chime"
+      },
+      "audio": {
+        "cue": "The discoveries did not stop. They got stranger\u2014and better\u2014because neither side had to become the other's owner.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "Python/Pillow/NumPy",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [
+        {
+          "request": "audio.core-procedural",
+          "asset_id": "audio.core-procedural",
+          "name": "Core Procedural Audio Primitives",
+          "resolved": true,
+          "source_url": "https://github.com/EchoEe247/Chatgpt-Video-Creations/blob/main/scripts/build_audio_commons.py",
+          "license": "PROJECT-ORIGINAL",
+          "distribution_mode": "core_candidate",
+          "local_hint": "assets/core/payload/audio-procedural"
+        }
+      ],
+      "continuity_dependencies": [],
+      "review_points": [
+        {
+          "local_seconds": 2.0,
+          "absolute_seconds": 132.0,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.5,
+          "absolute_seconds": 134.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 7.0,
+          "absolute_seconds": 137.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "hope feels too clean",
+        "boundary disappears and weakens thesis",
+        "proof unreadable"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-20",
+      "order": 20,
+      "start_seconds": 138.0,
+      "duration_seconds": 7.0,
+      "end_seconds": 145.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Show a lived world after the decision and reuse 3D asset with different grammar.",
+        "visible_event": "The probe floats beside a constructed boundary station while two inhabited worlds remain visibly separate on opposite sides.",
+        "viewer_reads": [
+          "The probe floats beside a constructed boundary station while two inhabited worlds remain visibly separate on opposite sides."
+        ]
+      },
+      "motion": {
+        "subject": "Probe drifts, station lights pulse, small service craft move independently.",
+        "environment": "Planet limb rotates below; boundary surface ripples only when data passes.",
+        "camera": "Slow vertical rise with probe crossing foreground; no orbit."
+      },
+      "look": {
+        "palette": "deep space blue, warm station lights, thin cyan boundary",
+        "depth_layers": [
+          "foreground",
+          "primary subject/event",
+          "background/scale cue"
+        ]
+      },
+      "transition": {
+        "in": "equation line becomes station bridge",
+        "out": "quiet engine ambience"
+      },
+      "audio": {
+        "cue": "Progress continued. So did the uncertainty. That was the point.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "Blender",
+        "lane": "blender",
+        "description": "Blender renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/blender_termux_adapter.py {request}",
+        "fallback_lanes": [
+          "python"
+        ],
+        "runtime_note": null
+      },
+      "assets": [
+        {
+          "request": "model.quaternius-ultimate-space-spaceship",
+          "asset_id": "model.quaternius-ultimate-space-spaceship",
+          "name": "Ultimate Space Kit / Spaceship",
+          "resolved": true,
+          "source_url": "https://opengameart.org/content/ultimate-space-kit",
+          "license": "CC0-1.0",
+          "distribution_mode": "local_legacy",
+          "local_hint": "external-assets/quaternius/ultimate_space_kit/Spaceship.glb"
+        }
+      ],
+      "continuity_dependencies": [],
+      "review_points": [
+        {
+          "local_seconds": 3.0,
+          "absolute_seconds": 141.0,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 6.0,
+          "absolute_seconds": 144.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "looks like reused launch shot",
+        "station lacks authored detail",
+        "boundary too magical"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-21",
+      "order": 21,
+      "start_seconds": 145.0,
+      "duration_seconds": 5.0,
+      "end_seconds": 150.0,
+      "hero": true,
+      "intent": {
+        "narrative_purpose": "Land the thesis quickly after the emotional release.",
+        "visible_event": "Nested worlds recede into darkness while the final line appears only after the last visible connection pulse.",
+        "viewer_reads": [
+          "Nested worlds recede into darkness while the final line appears only after the last visible connection pulse."
+        ]
+      },
+      "motion": {
+        "subject": "Last connection pulse crosses once, then all geometry becomes still.",
+        "environment": "Glow decays cleanly with no decorative particles after the thesis.",
+        "camera": "Fast but smooth pull-back to black; final one-second hold."
+      },
+      "look": {
+        "palette": "near-black, one gold line",
+        "depth_layers": [
+          "foreground",
+          "primary subject/event",
+          "background/scale cue"
+        ]
+      },
+      "transition": {
+        "in": "space contracts to final card",
+        "out": "final chime then silence"
+      },
+      "audio": {
+        "cue": "Build fast enough to discover what is possible. Leave enough freedom to discover when you were wrong.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "FFmpeg",
+        "lane": "ffmpeg",
+        "description": "FFmpeg compositor",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/ffmpeg_shot_adapter.py {request}",
+        "fallback_lanes": [
+          "python"
+        ],
+        "runtime_note": null
+      },
+      "assets": [
+        {
+          "request": "audio.core-procedural",
+          "asset_id": "audio.core-procedural",
+          "name": "Core Procedural Audio Primitives",
+          "resolved": true,
+          "source_url": "https://github.com/EchoEe247/Chatgpt-Video-Creations/blob/main/scripts/build_audio_commons.py",
+          "license": "PROJECT-ORIGINAL",
+          "distribution_mode": "core_candidate",
+          "local_hint": "assets/core/payload/audio-procedural"
+        }
+      ],
+      "continuity_dependencies": [],
+      "review_points": [
+        {
+          "local_seconds": 2.0,
+          "absolute_seconds": 147.0,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 3.0,
+          "absolute_seconds": 148.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "end card overcrowded",
+        "thesis arrives before visual release",
+        "ending feels like slogan instead of earned conclusion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    }
+  ],
+  "warnings": [],
+  "summary": {
+    "shot_count": 21,
+    "hero_shot_count": 7,
+    "renderer_lanes": [
+      "blender",
+      "canvas_handdrawn",
+      "ffmpeg",
+      "python"
+    ],
+    "unresolved_asset_count": 0,
+    "warning_count": 0,
+    "blocked_shot_count": 0
+  }
+}
