@@ -72,6 +72,8 @@ The core shot workflow remains usable without any generation API. Optional relia
 
 Before handing a serious video to the user, run `scripts/creativeqactl.py analyze` against the exact candidate and its current execution plan, then read both `docs/CREATIVE_QA_WORKFLOW.md` and `docs/EXPERIENCE_REVIEW_WORKFLOW.md`.
 
+New reports use schema v3; read `docs/EVIDENCE_FIRST_REVIEW.md`. All authored points and timed text checks are required, observations must describe rendered events, and perceptual PASS requires the appropriate inspection modality. Missing audible access cannot be converted into an audio PASS from metrics. Contact-sheet labels now use explicit source times. Historical v1/v2 evidence remains readable.
+
 Schema-v2 review is multi-pass rather than "look at a contact sheet and approve." It includes phone-scale frames, normal-speed shot clips, interior motion-cadence analysis, every-cut transition strips/clips, visual-style continuity signals, master-audio boundary checks, narration-vs-bed/pacing analysis when stems exist, a full spectrogram, and authored A/V sync-event clips.
 
 Automated signals are triage evidence, not aesthetic verdicts. Every schema-v2 warning must receive an evidence-backed `accepted_intentional` or `repair_required` disposition. A repair-required warning blocks assistant PASS. After a repair, use `creativeqactl.py compare` to inspect BEFORE/AFTER deltas, then regenerate/review the complete candidate; a local A/B improvement is not enough by itself.

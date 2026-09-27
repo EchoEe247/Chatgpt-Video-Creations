@@ -1,5 +1,7 @@
 # Experience Review Workflow
 
+Current default: **schema v3**. Read [Evidence-first review](EVIDENCE_FIRST_REVIEW.md) for complete review-point coverage, source timestamps, full transition shoulders, authored-silence checks and modality-bound review. The schema-v2 sections below describe the inherited checks; v3 adds the stricter requirements.
+
 This workflow exists because a technically valid video can still feel wrong.
 
 A candidate may decode perfectly, have no frozen frames, and still contain:

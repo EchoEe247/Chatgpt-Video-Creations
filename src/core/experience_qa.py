@@ -123,6 +123,7 @@ def visual_continuity(path,execution,fps=8.0,cut_window=.18,context_window=.55):
             "style_shift_boundaries":[{"from":x["from"],"to":x["to"],"context_style_distance":x["context_style_distance"]} for x in bounds if x["context_style_shift"]]}
 
 def audio_continuity(media_path,execution,stems_dir=None,sample_rate=16000):
+    from src.core.review_contract import active_speech_windows
     audio=_audio(media_path,sample_rate);n=len(audio);shots=execution.get("shots",[]);rows=[]
     for s in shots:
         a=max(0,int(float(s["start_seconds"])*sample_rate));b=min(n,int(float(s["end_seconds"])*sample_rate));x=audio[a:b]
@@ -147,9 +148,10 @@ def audio_continuity(media_path,execution,stems_dir=None,sample_rate=16000):
                 bed=np.sum(np.vstack([x[:min(map(len,beds))] for x in beds]),0) if beds else np.zeros_like(voice);vr,br=_rms_db(voice),_rms_db(bed)
                 block=max(1,int(.05*sample_rate));usable=(len(voice)//block)*block;env=np.array([_rms_db(x) for x in voice[:usable].reshape(-1,block)]) if usable else np.array([])
                 ai=np.where(env>-45)[0] if env.size else np.array([],dtype=int);lead=float(ai[0])*.05 if len(ai) else duration;tail=duration-float(ai[-1]+1)*.05 if len(ai) else 0;occ=float(len(ai))/len(env) if len(env) else 0
-                row={"shot_id":s["id"],"voice_rms_dbfs":round(vr,2),"bed_rms_dbfs":round(br,2),"voice_margin_db":round(vr-br,2),
+                local_windows=active_speech_windows(voice,bed,sample_rate,start_seconds=float(s["start_seconds"]))
+                row={"active_speech_windows":local_windows,"shot_id":s["id"],"voice_rms_dbfs":round(vr,2),"bed_rms_dbfs":round(br,2),"voice_margin_db":round(vr-br,2),
                      "low_mid_ratio":round(_band(voice,sample_rate,300,700),4),"presence_ratio":round(_band(voice,sample_rate,2000,5000),4),
-                     "masking_warning":bool(vr>-48 and vr-br<4),"lead_in_seconds":round(lead,2),"tail_out_seconds":round(max(0,tail),2),
+                     "masking_warning":bool((vr>-48 and vr-br<4) or local_windows["risk_windows"]),"lead_in_seconds":round(lead,2),"tail_out_seconds":round(max(0,tail),2),
                      "speech_occupancy":round(occ,3),"pacing_warning":bool(vr>-48 and (lead<.20 or tail<.20 or occ>.84))}
                 sr["shots"].append(row)
                 if vr>-48:active.append(row)
@@ -186,10 +188,12 @@ def _font(size):
         try:return ImageFont.truetype(f,size)
         except:pass
     return ImageFont.load_default()
-def build_transition_evidence(media_path,execution,out_dir,max_width=240):
+def build_transition_evidence(media_path,execution,out_dir,max_width=200,transition_finish=None):
+    from src.core.review_contract import transition_windows
     media=Path(media_path).resolve();out=Path(out_dir).resolve();out.mkdir(parents=True,exist_ok=True);tmp=out/"_frames";tmp.mkdir(exist_ok=True);res=[];shots=execution.get("shots",[])
+    windows=transition_windows(execution,transition_finish)["boundaries"]
     for idx,(l,r) in enumerate(zip(shots,shots[1:]),1):
-        at=float(l["end_seconds"]);times=[max(.01,at-.35),max(.01,at-.08),at+.08,at+.35];files=[]
+        window=windows[idx-1];at=window["at_seconds"];times=window["sample_times"];files=[]
         for j,t in enumerate(times):
             f=tmp/f"{idx:02d}-{j}.jpg";extract_frame(media,f,time_seconds=t,max_width=max_width);files.append(f)
         imgs=[Image.open(f).convert("RGB") for f in files];canvas=Image.new("RGB",(sum(x.width for x in imgs),max(x.height for x in imgs)+34),(5,8,12));x=0
@@ -197,8 +201,8 @@ def build_transition_evidence(media_path,execution,out_dir,max_width=240):
         ImageDraw.Draw(canvas).text((10,17),f"{l['id']} -> {r['id']} @ {at:.2f}s",font=_font(17),fill=(225,235,238),anchor="lm")
         strip=out/f"{idx:02d}-{l['id']}-to-{r['id']}.jpg";canvas.save(strip,quality=90)
         for im in imgs:im.close()
-        clip=out/f"{idx:02d}-{l['id']}-to-{r['id']}.mp4";extract_review_clip(media,clip,center_seconds=at,duration_seconds=1.6,max_width=720)
-        res.append({"from":l["id"],"to":r["id"],"at_seconds":at,"strip":strip.name,"strip_sha256":sha256_file(strip),"clip":clip.name,"clip_sha256":sha256_file(clip)})
+        clip=out/f"{idx:02d}-{l['id']}-to-{r['id']}.mp4";extract_review_clip(media,clip,center_seconds=at,duration_seconds=max(1.6,window["end_seconds"]-window["start_seconds"]),max_width=720)
+        res.append({"from":l["id"],"to":r["id"],"at_seconds":at,"sample_times":times,"shoulder_seconds":window["shoulder_seconds"],"strip":strip.name,"strip_sha256":sha256_file(strip),"clip":clip.name,"clip_sha256":sha256_file(clip)})
     for f in tmp.glob("*"):f.unlink()
     try:tmp.rmdir()
     except OSError:pass

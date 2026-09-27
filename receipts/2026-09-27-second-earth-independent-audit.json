@@ -1,0 +1,135 @@
+{
+  "candidate_sha256": "653ee90a00f49393edac5938770befe244a4cfe3fbb33592753287b7513e9912",
+  "creative_qa_sha256": "db88d820d1b68cf7d2f090febed494f121dec74f529e12d6d860ae2a4c1ae41b",
+  "summary": {
+    "freeze_count": 0,
+    "weak_motion_shot_count": 0,
+    "camera_repeat_count": 0,
+    "motion_cadence_warning_count": 0,
+    "visual_cut_warning_count": 0,
+    "visual_style_shift_review_count": 4,
+    "audio_transition_warning_count": 0,
+    "narration_mix_warning_count": 14,
+    "av_sync_offset_warning_count": 0,
+    "layout_violation_count": 0,
+    "warning_count": 5
+  },
+  "review_points": {
+    "required": 49,
+    "generated": 49,
+    "missing": []
+  },
+  "authored_audio_intent": {
+    "available": true,
+    "analysis_channels": 2,
+    "events": [
+      {
+        "event_id": "boundary-impact.mute",
+        "at_seconds": 84.7,
+        "duration_seconds": 0.45,
+        "declared_stem": "effects",
+        "scope": "unspecified",
+        "master": {
+          "measurable": true,
+          "rms_dbfs": -44.61,
+          "peak_dbfs": -34.51,
+          "threshold_dbfs": -50.0,
+          "loudest_50ms_rms_dbfs": -42.86,
+          "warning": true
+        },
+        "stem": {
+          "measurable": true,
+          "rms_dbfs": -160.0,
+          "peak_dbfs": -160.0,
+          "threshold_dbfs": -50.0,
+          "loudest_50ms_rms_dbfs": -160.0,
+          "warning": false
+        },
+        "review_required": true
+      },
+      {
+        "event_id": "final.silence",
+        "at_seconds": 149.3,
+        "duration_seconds": 0.7,
+        "declared_stem": "score",
+        "scope": "unspecified",
+        "master": {
+          "measurable": true,
+          "rms_dbfs": -37.3,
+          "peak_dbfs": -13.29,
+          "threshold_dbfs": -50.0,
+          "loudest_50ms_rms_dbfs": -27.14,
+          "warning": true
+        },
+        "stem": {
+          "measurable": true,
+          "rms_dbfs": -54.67,
+          "peak_dbfs": -40.04,
+          "threshold_dbfs": -50.0,
+          "loudest_50ms_rms_dbfs": -48.05,
+          "warning": true
+        },
+        "review_required": true
+      }
+    ],
+    "warnings": [
+      {
+        "event_id": "boundary-impact.mute",
+        "at_seconds": 84.7,
+        "duration_seconds": 0.45,
+        "declared_stem": "effects",
+        "scope": "unspecified",
+        "master": {
+          "measurable": true,
+          "rms_dbfs": -44.61,
+          "peak_dbfs": -34.51,
+          "threshold_dbfs": -50.0,
+          "loudest_50ms_rms_dbfs": -42.86,
+          "warning": true
+        },
+        "stem": {
+          "measurable": true,
+          "rms_dbfs": -160.0,
+          "peak_dbfs": -160.0,
+          "threshold_dbfs": -50.0,
+          "loudest_50ms_rms_dbfs": -160.0,
+          "warning": false
+        },
+        "review_required": true
+      },
+      {
+        "event_id": "final.silence",
+        "at_seconds": 149.3,
+        "duration_seconds": 0.7,
+        "declared_stem": "score",
+        "scope": "unspecified",
+        "master": {
+          "measurable": true,
+          "rms_dbfs": -37.3,
+          "peak_dbfs": -13.29,
+          "threshold_dbfs": -50.0,
+          "loudest_50ms_rms_dbfs": -27.14,
+          "warning": true
+        },
+        "stem": {
+          "measurable": true,
+          "rms_dbfs": -54.67,
+          "peak_dbfs": -40.04,
+          "threshold_dbfs": -50.0,
+          "loudest_50ms_rms_dbfs": -48.05,
+          "warning": true
+        },
+        "review_required": true
+      }
+    ],
+    "note": "Unspecified silence scope requires review. Master silence must be checked after all mixing/encoding."
+  },
+  "transition_usage": {
+    "color_fade_count": 12,
+    "boundary_count": 20
+  },
+  "evidence_files": 187,
+  "perceptual_pass": false,
+  "audio_listened": false,
+  "continuous_playback_reviewed": false
+}

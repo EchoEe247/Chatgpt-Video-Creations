@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+from src.core.production_manifest import STATUSES
 
 ROOT=Path(__file__).resolve().parents[1]
 P=ROOT/"productions"/"standalone"/"second-earth-benchmark"
@@ -39,7 +40,7 @@ def test_second_earth_uses_no_online_video_generation_and_requires_creative_qa()
     acceptance=load("benchmark-acceptance.json")
     assert acceptance["required_before_render"]["online_video_generation"] is False
     assert production["workflow"]["creative_qa_required"] is True
-    assert production["status"] in {"PLANNED","CANDIDATE","TECHNICAL_QA","ASSISTANT_REVIEW","USER_REVIEW","DONE"}
+    assert production["status"] in STATUSES
 
 
 def test_second_earth_local_asset_resolution_has_no_blockers():

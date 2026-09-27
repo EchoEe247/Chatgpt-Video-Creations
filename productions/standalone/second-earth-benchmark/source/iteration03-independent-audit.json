@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "date": "2026-09-27",
+  "candidate_sha256": "653ee90a00f49393edac5938770befe244a4cfe3fbb33592753287b7513e9912",
+  "verdict": "The local workflow has demonstrated a complete film. Iteration 03 still needs visual refinement and an audible review; a clean technical warning count does not establish experience quality.",
+  "capability_proof": "150-second, 21-shot production combining local Canvas, procedural graphics, Blender and editorial assembly with narration and separate audio stems. The exact candidate hash was verified. The key messages and final thesis are readable in targeted phone-scale frames.",
+  "review_limit": "Directly inspected the 21 prior phone frames and targeted new reveal/text frames. Motion was examined as sampled frames, not continuous playback. No audible monitoring path was available; audio findings below are measured or source-code observations. No new perceptual PASS is claimed.",
+  "findings": [
+    {
+      "priority": "high",
+      "basis": "direct frame inspection",
+      "point_id": "shot-03-rp02",
+      "title": "Civilization reads as bars rather than a lived-in city",
+      "observed": "At 19.2 seconds, the rendered city is a radial field of slim rectangles with substantial empty paper. Streets, homes and transit from the shot intent are not clearly legible. Enlargement alone has not supplied the missing visual content.",
+      "repair": "Build a small connected street/block layout with recognizable building groups and visible transit. Review start, growth and final state at 360 pixels; revise the shot before extending render duration."
+    },
+    {
+      "priority": "high",
+      "basis": "direct frame inspection",
+      "point_id": "shot-02-rp01",
+      "title": "The physical setup loses important information in darkness",
+      "observed": "At 9.5 seconds, the server scene mostly presents dark planes and a close vertical rack edge. The planned fans, clock counters and cables are not clearly readable in the inspected frame.",
+      "repair": "Light a clear hero rack or control feature and retain a foreground depth cue. Check the silhouette and useful detail at phone scale before rendering the complete shot."
+    },
+    {
+      "priority": "medium",
+      "basis": "direct frame inspection and renderer source",
+      "point_id": "shot-18-rp02",
+      "title": "Layout QA overlooks supporting text",
+      "observed": "Control headings are authored at 22 px, equivalent to about 6.2 px at the 360 px review width. Small diagram labels and recurring shot-ID bars are absent from the five-item layout inventory. The larger final message is readable.",
+      "repair": "Remove production/debug shot-ID bars from delivery. Enlarge or remove secondary labels; require a complete rendered-text inventory or a manual inventory check instead of treating declared boxes as exhaustive."
+    },
+    {
+      "priority": "high",
+      "basis": "source contract and sampled transition evidence",
+      "point_id": "shot-03-rp01",
+      "title": "Color dips can conceal discontinuity without improving the visual handoff",
+      "observed": "12 of 20 boundaries are finished with fade-out/fade-in color shoulders. The earlier +/-0.35 second strips can sit entirely inside a 0.55 second shoulder, omitting the unmodified scenes. The script implements color fades even when the motif name implies a more specific visual transition.",
+      "repair": "Review the full shoulders and clear frames outside them. Retain fades only where their rhythm works; use actual shared shapes, camera direction or scene geometry for remaining mismatches. A low cut-distance signal is not the acceptance goal."
+    },
+    {
+      "priority": "high",
+      "basis": "measured encoded audio and source timeline",
+      "title": "Designed silence is not established by the current final mix",
+      "observed": "The timeline specifies a 0.45-second boundary drop and 0.7-second final silence, but the audio builder does not execute designed_silence events. The final mix contains measurable sound in the promised closing interval. The timeline names individual stems without stating whether the intended silence is stem-only or master-wide.",
+      "repair": "Specify silence_scope as master or stem. Execute the intended envelope after relevant mixing, preserve narration endings, then verify the encoded interval. Listen to the repaired tail and boundary beat before approval."
+    },
+    {
+      "priority": "medium",
+      "basis": "audio source inspection",
+      "title": "Polished stems are diagnostic components, not exact post-master stems",
+      "observed": "The bed/effects exports branch before master limiting and loudness normalization; narration is copied unchanged. They are useful pre-master mix components, but they do not reconstruct the encoded master exactly.",
+      "repair": "Label diagnostic stage accurately, bind stem file hashes, and assess audible output from the encoded master. Add reconstruction validation before describing any stems as exact post-master components."
+    },
+    {
+      "priority": "high",
+      "basis": "review implementation",
+      "point_id": "shot-13-text03",
+      "title": "The previous gate missed later reveals and could approve audio from images",
+      "observed": "Only the first review point of each shot was generated: 21 points from 44 authored points. All eleven criteria could cite a contact sheet regardless of modality. Hash binding proved provenance, not that an agent watched or heard the evidence.",
+      "repair": "Implemented v3: all 44 authored points plus five text checks, explicit observation-to-point binding, modality requirements, full-film review declaration, and blocked acceptance for capped evidence coverage."
+    }
+  ]
+}

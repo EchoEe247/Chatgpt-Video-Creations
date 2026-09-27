@@ -10,7 +10,7 @@ from src.core.experience_qa import build_iteration_compare
 
 def main():
     p=argparse.ArgumentParser(description=__doc__); sp=p.add_subparsers(dest="cmd",required=True)
-    a=sp.add_parser("analyze"); a.add_argument("media"); a.add_argument("execution_plan"); a.add_argument("output_dir"); a.add_argument("--layout"); a.add_argument("--timeline"); a.add_argument("--stems-dir"); a.add_argument("--review-clip-limit",type=int,default=12)
+    a=sp.add_parser("analyze"); a.add_argument("media"); a.add_argument("execution_plan"); a.add_argument("output_dir"); a.add_argument("--layout"); a.add_argument("--timeline"); a.add_argument("--stems-dir"); a.add_argument("--review-clip-limit",type=int,default=0,help="0 = all authored/text points; a positive cap marks coverage incomplete")
     b=sp.add_parser("validate-bundle"); b.add_argument("report")
     v=sp.add_parser("validate-review"); v.add_argument("report"); v.add_argument("review")
     cp=sp.add_parser("compare"); cp.add_argument("before"); cp.add_argument("after"); cp.add_argument("execution_plan"); cp.add_argument("output_dir"); cp.add_argument("--max-clips",type=int,default=12)

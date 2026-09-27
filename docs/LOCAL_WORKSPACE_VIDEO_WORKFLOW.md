@@ -1,5 +1,7 @@
 # Local Workspace Video Workflow
 
+Current default: **schema v3**. Read [Evidence-first review](EVIDENCE_FIRST_REVIEW.md) for complete review-point coverage, source timestamps, full transition shoulders, authored-silence checks and modality-bound review. The schema-v2 sections below describe the inherited checks; v3 adds the stricter requirements.
+
 This repository predates the Local Workspace plugin. The old workflow assumed ChatGPT could plan and create files but could not reliably inspect the local runtime, persist long jobs, drive provider websites, or inspect rendered media directly.
 
 That limitation no longer defines production.

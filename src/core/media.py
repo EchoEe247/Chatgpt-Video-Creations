@@ -390,6 +390,9 @@ def build_contact_sheet(
     columns: int = 4,
     cell_width: int = 320,
 ) -> Path:
+    """Label explicit source timestamps, never retimed fps-filter timestamps."""
+    import tempfile
+    from PIL import Image, ImageDraw, ImageFont
     p = Path(path).expanduser().resolve()
     out = Path(output).expanduser().resolve()
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -397,40 +400,31 @@ def build_contact_sheet(
     duration = float(info.get("duration_seconds") or 0.0)
     if duration <= 0:
         raise MediaToolError("media duration is unavailable or non-positive")
-
     count = max(2, min(int(count), 40))
     columns = max(1, min(int(columns), count))
-    rows = int(math.ceil(count / columns))
     cell_width = max(160, min(int(cell_width), 960))
-    interval = duration / count
-    fps = 1.0 / interval
-    vf = (
-        f"fps={fps:.10f},"
-        f"scale='min({cell_width},iw)':-2,"
-        f"drawtext=text='%{{pts\\:hms}}':x=8:y=8:"
-        "fontsize=18:fontcolor=white:box=1:boxcolor=black@0.65,"
-        f"tile={columns}x{rows}:nb_frames={count}:padding=4:margin=4"
-    )
-    proc = _run(
-        [
-            _binary("ffmpeg"),
-            "-y",
-            "-v",
-            "error",
-            "-ss",
-            f"{interval / 2:.6f}",
-            "-i",
-            str(p),
-            "-frames:v",
-            "1",
-            "-vf",
-            vf,
-            str(out),
-        ],
-        timeout=120,
-    )
-    if proc.returncode != 0 or not out.is_file():
-        raise MediaToolError((proc.stderr or proc.stdout or "contact sheet failed").strip())
+    font = ImageFont.load_default()
+    with tempfile.TemporaryDirectory(prefix="contact-") as tmp:
+        frames=[]
+        video=next((s for s in info.get("streams",[]) if s.get("codec_type")=="video"),{})
+        fps=float(video.get("frame_rate") or 24)
+        last=max(0,duration-1/fps)
+        times=[min(last,math.floor(((i+.5)*duration/count)*fps)/fps) for i in range(count)]
+        for i,at in enumerate(times):
+            dest=Path(tmp)/f"{i}.png"
+            extract_frame(p,dest,time_seconds=at,max_width=cell_width)
+            with Image.open(dest) as source:
+                frames.append(source.convert("RGB").copy())
+        height=max(im.height for im in frames)+24
+        sheet=Image.new("RGB",(columns*cell_width,math.ceil(count/columns)*height),(6,9,14))
+        draw=ImageDraw.Draw(sheet)
+        for i,(at,im) in enumerate(zip(times,frames)):
+            x=(i%columns)*cell_width;y=(i//columns)*height
+            sheet.paste(im,(x,y+24))
+            draw.text((x+6,y+5),f"source {at:.3f}s",font=font,fill="white")
+            im.close()
+        sheet.save(out)
+        sheet.close()
     return out
 
 

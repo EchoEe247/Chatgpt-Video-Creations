@@ -4,7 +4,7 @@ SECOND EARTH is the fresh integrated benchmark produced after the Mercy Engine w
 
 ## Final review status
 
-**Phase 7C plus the user-triggered Experience Review repair is complete.** The production is now in `USER_REVIEW` on iteration 03.
+**Independent audit reopened iteration 03 for refinement.** The same candidate remains available as capability proof; the new audit identifies sparse city staging, dark physical detail, untracked small labels, repetitive color-fade finishing, and unresolved designed silence. The earlier assistant PASS below is historical, not the current judgment. See `source/iteration03-independent-audit.json` and `docs/EVIDENCE_FIRST_REVIEW.md`.
 
 Final candidate:
 
@@ -14,7 +14,7 @@ Final candidate:
 - SHA-256: `653ee90a00f49393edac5938770befe244a4cfe3fbb33592753287b7513e9912`
 - technical QA: PASS
 - creative QA: PASS
-- assistant review: PASS
+- assistant review: FAIL after independent audit; earlier v2 PASS preserved in iteration evidence
 - user review: PENDING
 - local review page: `http://127.0.0.1:8880/`
 
@@ -63,7 +63,7 @@ Repair cycle 1 addressed those defects:
 
 Iteration 01 then passed all required gates.
 
-## Final evidence
+## Historical iteration-03 gate evidence
 
 Technical QA:
 
@@ -141,7 +141,7 @@ Read these in order:
 16. `source/transition-finish.json`
 17. `finish_transitions.py`
 
-The next state transition is user acceptance or a new repair cycle based on Angel's actual review.
+The current next action is refinement from the independent audit, followed by complete v3 review. The production history below preserves the earlier handoffs.
 
 ## Post-review experience-QA audit
 
@@ -218,7 +218,7 @@ Production state is now `USER_REVIEW`; the user gate remains PENDING until Angel
 
 ## Iteration 03 — continuity plus audio polish
 
-Iteration 03 is the candidate currently awaiting Angel's review.
+Iteration 03 was handed off for Angel's review under the earlier v2 gate. The later independent audit below supersedes that assistant PASS.
 
 Candidate SHA-256:
 
@@ -257,3 +257,8 @@ Final iteration-03 evidence:
 Four context-level style shifts remain visible because they are story-semantic changes between physical reality, the illustrated inner civilization, and procedural/cosmic analysis. The transition strips show authored bridge frames and immediate-cut analysis is clean, so the single `visual_style_shift_review` warning is explicitly dispositioned as `accepted_intentional`.
 
 The user gate remains **PENDING** until Angel explicitly accepts iteration 03.
+## Independent audit — 2026-09-27
+
+The workflow now generates schema-v3 review evidence: 44 authored review points plus five timed text checks. The old bundle generated only 21 first points. A source-timestamp bug in contact sheets was fixed. Transition strips now extend outside fade shoulders, and audio checks include short speech-active windows plus explicit designed-silence intervals.
+
+Read the audit at `http://127.0.0.1:8880/review/experience-qa-v3/index.html`. This is an audit page, not a newly repaired film. Candidate bytes and prior iteration evidence are preserved. Direct audio listening and continuous motion review were unavailable in this audit; neither is claimed. The current next action is refinement using the ranked findings, followed by complete v3 review.
