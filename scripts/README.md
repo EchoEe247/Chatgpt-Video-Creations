@@ -9,7 +9,7 @@ Use the narrowest entry point that matches the task.
 - `videoctl.py` — media inspection/QA primitives: probe, strict decode, loudness/silence analysis, frames, contact sheets, full-runtime baseline comparison, codec/pixel/audio delivery checks, receipts, and review packs.
 - `canvas_handdrawn_adapter.py` — stable Pixel/Termux setup, browser discovery, preview, and full-render entry point for the integrated Canvas2D hand-drawn renderer.
 - `rendererctl.py` — reports standardized renderer lanes versus actual device runtime readiness, including the current WebGL degradation/fallback state.
-- `creativeqactl.py` — builds candidate-bound creative-QA evidence: freeze/motion signals, camera repetition, optional text-layout checks, phone-scale frames, normal-speed clips, and assistant-review validation.
+- `creativeqactl.py` — builds candidate-bound experience QA: freeze/motion and interior cadence, camera repetition, phone/layout checks, every-cut transition strips/clips, visual-style continuity, audio boundary/spectral/stem/pacing analysis, A/V sync clips, evidence-bound assistant review, and BEFORE/AFTER repair comparison.
 - `python_shot_adapter.py`, `browser_shot_adapter.py`, `blender_termux_adapter.py`, `ffmpeg_shot_adapter.py` — common `{request}` frame-render contract used by `shotctl` across the major local renderer lanes.
 - `assemble-scenes.py` — assembles only the explicit ordered scenes listed in an assembly manifest. It rejects missing/duplicate inputs, output-as-input collisions, stream incompatibility, optional SHA mismatches, and duration mismatches before concat-copy and master decode verification.
 - `validate-production-v2.py` — production package schema/gate validation.

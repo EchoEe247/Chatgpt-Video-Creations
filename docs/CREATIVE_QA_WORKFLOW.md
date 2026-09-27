@@ -2,6 +2,8 @@
 
 Phase 6 adds automated **triage signals** and a stronger evidence bundle before assistant acceptance. It does not replace watching the video at normal speed.
 
+The current default report is **schema v2**. Schema v2 keeps the original freeze/motion/camera/layout checks and adds the experience-level review system in [EXPERIENCE_REVIEW_WORKFLOW.md](EXPERIENCE_REVIEW_WORKFLOW.md): interior motion cadence, every-cut transition evidence, visual-style continuity, audio boundary/spectral/stem/pacing checks, A/V sync clips, explicit warning dispositions, and before/after repair comparison.
+
 ## Command
 
 Build a creative-QA bundle:

@@ -12,6 +12,10 @@ from typing import Any
 import numpy as np
 
 from src.core.media import probe_media, sha256_file, extract_review_clip, extract_frame, build_contact_sheet
+from src.core.experience_qa import (
+    motion_smoothness, visual_continuity, audio_continuity,
+    build_transition_evidence, build_sync_evidence, build_spectrogram,
+)
 
 def _run(argv, timeout=180):
     return subprocess.run(argv, stdin=subprocess.DEVNULL, capture_output=True, timeout=timeout, check=False)
@@ -152,7 +156,7 @@ def layout_checks(layout: dict[str,Any]|None, *, master_width:int, master_height
             "phone_width":phone_width,"min_phone_font_px":min_phone_font_px,"items":items,"violations":violations}
 
 def build_creative_qa(media_path: str|Path, execution_path: str|Path, output_dir: str|Path, layout_path: str|Path|None=None,
-                      *, review_clip_limit=12):
+                      *, review_clip_limit=12, timeline_path: str|Path|None=None, stems_dir: str|Path|None=None):
     media=Path(media_path).resolve(); execution_path=Path(execution_path).resolve(); out=Path(output_dir).resolve()
     out.mkdir(parents=True,exist_ok=True)
     execution=json.loads(execution_path.read_text())
@@ -162,6 +166,17 @@ def build_creative_qa(media_path: str|Path, execution_path: str|Path, output_dir
     per_shot=segment_motion(motion,execution)
     cameras=camera_repetition(execution)
     layout_result=layout_checks(layout,master_width=width,master_height=height)
+
+    if timeline_path is None:
+        candidate=execution_path.parent/"av-timeline.json"
+        timeline_path=candidate if candidate.is_file() else None
+    if stems_dir is None:
+        candidate=execution_path.parent.parent/"audio"
+        stems_dir=candidate if candidate.is_dir() else None
+
+    smoothness=motion_smoothness(motion,execution)
+    visual_flow=visual_continuity(media,execution)
+    audio_flow=audio_continuity(media,execution,stems_dir=stems_dir)
 
     phone_dir=out/"phone-frames"; phone_dir.mkdir(exist_ok=True)
     clip_dir=out/"normal-speed"; clip_dir.mkdir(exist_ok=True)
@@ -179,6 +194,12 @@ def build_creative_qa(media_path: str|Path, execution_path: str|Path, output_dir
     contact=out/"contact-sheet.jpg"
     build_contact_sheet(media,contact,count=min(16,max(8,len(execution.get("shots",[])))),columns=4,cell_width=240)
 
+    transition_dir=out/"transitions"
+    transition_evidence=build_transition_evidence(media,execution,transition_dir)
+    sync_dir=out/"sync-events"
+    sync_evidence=build_sync_evidence(media,timeline_path,sync_dir)
+    spectrogram=build_spectrogram(media,out/"audio-spectrogram.png")
+
     weak=[x["shot_id"] for x in per_shot if x["weak_motion_signal"]]
     warnings=[]
     if freeze["segments"]: warnings.append({"code":"freeze_spans","detail":freeze["segments"]})
@@ -187,24 +208,43 @@ def build_creative_qa(media_path: str|Path, execution_path: str|Path, output_dir
     if cameras["dominant_families"]: warnings.append({"code":"dominant_camera_family","detail":cameras["dominant_families"]})
     if layout_result["violations"]: warnings.append({"code":"layout_violations","detail":layout_result["violations"]})
     if layout_result["manual_text_review_required"]: warnings.append({"code":"text_metadata_missing","detail":"Phone/text readability requires assistant visual review."})
+    if smoothness["warning_shots"]: warnings.append({"code":"motion_cadence_review","detail":smoothness["warning_shots"]})
+    if visual_flow["warning_boundaries"]: warnings.append({"code":"visual_transition_review","detail":visual_flow["warning_boundaries"]})
+    if audio_flow["warning_boundaries"]: warnings.append({"code":"audio_transition_review","detail":audio_flow["warning_boundaries"]})
+    if audio_flow["stems"].get("warnings"): warnings.append({"code":"narration_mix_review","detail":audio_flow["stems"]["warnings"]})
     result={
-      "schema_version":1,"media":str(media),"media_sha256":sha256_file(media),
+      "schema_version":2,"media":str(media),"media_sha256":sha256_file(media),
       "execution_plan":str(execution_path),"execution_plan_sha256":sha256_file(execution_path),
       "signals":{
         "motion_global":{k:v for k,v in motion.items() if k!="series"},
         "freeze":freeze,"motion_by_shot":per_shot,"camera_repetition":cameras,"layout":layout_result,
+        "motion_smoothness":smoothness,"visual_continuity":visual_flow,"audio_continuity":audio_flow,
       },
-      "evidence":{"contact_sheet":str(contact.relative_to(out)),"contact_sheet_sha256":sha256_file(contact),"review_points":evidence},
+      "evidence":{
+        "contact_sheet":str(contact.relative_to(out)),"contact_sheet_sha256":sha256_file(contact),
+        "review_points":evidence,
+        "transitions":[{**x,"strip":str(Path("transitions")/x["strip"]),"clip":str(Path("transitions")/x["clip"])} for x in transition_evidence],
+        "sync_events":[{**x,"clip":str(Path("sync-events")/x["clip"])} for x in sync_evidence],
+        "audio_spectrogram":{"file":spectrogram["file"],"sha256":spectrogram["sha256"]},
+      },
       "warnings":warnings,
       "manual_review_required":[
         "composition and focal hierarchy",
         "phone-scale text/image readability",
         "motion meaning at normal speed",
         "camera movement quality rather than mere difference",
+        "transition fit across renderer/style changes",
+        "audio continuity and mix consistency across cuts",
+        "narration clarity against score/ambience/effects",
+        "audio-picture sync at authored events",
         "story/emotional clarity"
       ],
       "summary":{"freeze_count":freeze["count"],"weak_motion_shot_count":len(weak),
                  "camera_repeat_count":len(cameras["consecutive_repeats"]),
+                 "motion_cadence_warning_count":len(smoothness["warning_shots"]),
+                 "visual_transition_warning_count":len(visual_flow["warning_boundaries"]),
+                 "audio_transition_warning_count":len(audio_flow["warning_boundaries"]),
+                 "narration_mix_warning_count":len(audio_flow["stems"].get("warnings") or []),
                  "layout_violation_count":len(layout_result["violations"]),"warning_count":len(warnings)}
     }
     (out/"creative-qa.json").write_text(json.dumps(result,indent=2)+"\n")
@@ -215,8 +255,15 @@ def build_creative_qa(media_path: str|Path, execution_path: str|Path, output_dir
         "phone_scale_readability":{"pass":False,"notes":"","evidence":[]},
         "visible_motion":{"pass":False,"notes":"","evidence":[]},
         "camera_variety":{"pass":False,"notes":"","evidence":[]},
-        "normal_speed_story_read":{"pass":False,"notes":"","evidence":[]}
+        "normal_speed_story_read":{"pass":False,"notes":"","evidence":[]},
+        "motion_smoothness":{"pass":False,"notes":"","evidence":[]},
+        "transition_coherence":{"pass":False,"notes":"","evidence":[]},
+        "visual_style_continuity":{"pass":False,"notes":"","evidence":[]},
+        "audio_continuity":{"pass":False,"notes":"","evidence":[]},
+        "narration_clarity":{"pass":False,"notes":"","evidence":[]},
+        "av_sync":{"pass":False,"notes":"","evidence":[]}
       },
+      "warning_dispositions":[{"code":w["code"],"status":"","notes":"","evidence":[]} for w in warnings],
       "defects":[],"next_change":""
     }
     (out/"assistant-review-template.json").write_text(json.dumps(review,indent=2)+"\n")
@@ -235,6 +282,14 @@ def validate_report_evidence(report_path: str|Path):
     for item in evidence.get("review_points",[]):
         refs.append((f"{item.get('shot_id')} phone",item.get("phone_frame"),item.get("frame_sha256")))
         refs.append((f"{item.get('shot_id')} clip",item.get("normal_speed_clip"),item.get("clip_sha256")))
+    for item in evidence.get("transitions",[]):
+        refs.append((f"{item.get('from')}->{item.get('to')} strip",item.get("strip"),item.get("strip_sha256")))
+        refs.append((f"{item.get('from')}->{item.get('to')} clip",item.get("clip"),item.get("clip_sha256")))
+    for item in evidence.get("sync_events",[]):
+        refs.append((f"sync {item.get('event_id')}",item.get("clip"),item.get("clip_sha256")))
+    spec=evidence.get("audio_spectrogram") or {}
+    if spec.get("file"):
+        refs.append(("audio_spectrogram",spec.get("file"),spec.get("sha256")))
     for label,relative,expected in refs:
         if not isinstance(relative,str) or not relative:
             errors.append(f"{label}: evidence path missing"); continue
@@ -257,10 +312,22 @@ def validate_assistant_review(report_path: str|Path, review_path: str|Path):
     if review.get("candidate_sha256")!=report.get("media_sha256"): errors.append("review candidate SHA does not match report")
     if review.get("creative_qa_sha256")!=sha256_file(report_path): errors.append("review is not bound to current creative QA report")
     required={"composition","phone_scale_readability","visible_motion","camera_variety","normal_speed_story_read"}
+    if int(report.get("schema_version") or 1)>=2:
+        required |= {
+            "motion_smoothness","transition_coherence","visual_style_continuity",
+            "audio_continuity","narration_clarity","av_sync"
+        }
     allowed={str((report.get("evidence") or {}).get("contact_sheet") or "")}
     for item in (report.get("evidence") or {}).get("review_points",[]):
         allowed.add(str(item.get("phone_frame") or ""))
         allowed.add(str(item.get("normal_speed_clip") or ""))
+    for item in (report.get("evidence") or {}).get("transitions",[]):
+        allowed.add(str(item.get("strip") or ""))
+        allowed.add(str(item.get("clip") or ""))
+    for item in (report.get("evidence") or {}).get("sync_events",[]):
+        allowed.add(str(item.get("clip") or ""))
+    spec=(report.get("evidence") or {}).get("audio_spectrogram") or {}
+    allowed.add(str(spec.get("file") or ""))
     allowed.discard("")
     criteria=review.get("criteria") or {}
     if set(criteria)!=required: errors.append("review criteria set is incomplete")
@@ -272,6 +339,31 @@ def validate_assistant_review(report_path: str|Path, review_path: str|Path):
         if not evidence: errors.append(f"{key}: evidence required")
         elif any(str(x) not in allowed for x in evidence): errors.append(f"{key}: evidence must reference generated creative-QA artifacts")
     failed=[k for k,v in criteria.items() if not v.get("pass")]
-    if (failed or review.get("defects")) and not str(review.get("next_change","")).strip():
+    repair_warnings=[]
+    if int(report.get("schema_version") or 1)>=2:
+        warning_codes={str(w.get("code")) for w in report.get("warnings",[]) if w.get("code")}
+        dispositions=review.get("warning_dispositions")
+        if not isinstance(dispositions,list):
+            errors.append("warning_dispositions must be a list for schema v2")
+            dispositions=[]
+        disp_codes={str(x.get("code")) for x in dispositions if isinstance(x,dict) and x.get("code")}
+        if disp_codes!=warning_codes:
+            errors.append("warning_dispositions must cover every report warning exactly once")
+        for item in dispositions:
+            if not isinstance(item,dict): continue
+            code=str(item.get("code") or "")
+            status=item.get("status")
+            if status not in {"accepted_intentional","repair_required"}:
+                errors.append(f"{code}: warning disposition status invalid")
+            if not str(item.get("notes","")).strip():
+                errors.append(f"{code}: warning disposition notes required")
+            ev=item.get("evidence") or []
+            if not ev:
+                errors.append(f"{code}: warning disposition evidence required")
+            elif any(str(x) not in allowed for x in ev):
+                errors.append(f"{code}: warning disposition evidence must reference generated creative-QA artifacts")
+            if status=="repair_required": repair_warnings.append(code)
+    if (failed or repair_warnings or review.get("defects")) and not str(review.get("next_change","")).strip():
         errors.append("failed review requires next_change")
-    return {"pass":not errors and not failed and not review.get("defects"),"valid":not errors,"errors":errors,"failed_criteria":failed}
+    return {"pass":not errors and not failed and not repair_warnings and not review.get("defects"),
+            "valid":not errors,"errors":errors,"failed_criteria":failed,"repair_warnings":repair_warnings}

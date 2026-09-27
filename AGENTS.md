@@ -70,9 +70,13 @@ The core shot workflow remains usable without any generation API. Optional relia
 
 ## Creative QA before assistant acceptance
 
-Before handing a serious video to the user, run `scripts/creativeqactl.py analyze` against the exact candidate and its current execution plan, then read `docs/CREATIVE_QA_WORKFLOW.md`.
+Before handing a serious video to the user, run `scripts/creativeqactl.py analyze` against the exact candidate and its current execution plan, then read both `docs/CREATIVE_QA_WORKFLOW.md` and `docs/EXPERIENCE_REVIEW_WORKFLOW.md`.
 
-Automated freeze/motion/camera/layout signals are triage evidence, not aesthetic verdicts. The assistant must inspect generated phone-scale frames and normal-speed clips, complete the hash-bound creative review, and cite only evidence generated for that exact candidate. Missing text-layout metadata means manual readability review is required; never convert missing evidence into a fake automated pass.
+Schema-v2 review is multi-pass rather than "look at a contact sheet and approve." It includes phone-scale frames, normal-speed shot clips, interior motion-cadence analysis, every-cut transition strips/clips, visual-style continuity signals, master-audio boundary checks, narration-vs-bed/pacing analysis when stems exist, a full spectrogram, and authored A/V sync-event clips.
+
+Automated signals are triage evidence, not aesthetic verdicts. Every schema-v2 warning must receive an evidence-backed `accepted_intentional` or `repair_required` disposition. A repair-required warning blocks assistant PASS. After a repair, use `creativeqactl.py compare` to inspect BEFORE/AFTER deltas, then regenerate/review the complete candidate; a local A/B improvement is not enough by itself.
+
+The assistant must cite only evidence generated for the exact candidate. Missing text-layout metadata means manual readability review is required; never convert missing evidence into a fake automated pass.
 
 ## Model-independent directing
 

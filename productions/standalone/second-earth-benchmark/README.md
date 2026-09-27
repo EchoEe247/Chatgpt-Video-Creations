@@ -136,3 +136,34 @@ Read these in order:
 15. `iterations/iteration-01/qa/creative-qa/assistant-review.json`
 
 The next state transition is user acceptance or a new repair cycle based on Angel's actual review.
+
+## Post-review experience-QA audit
+
+Angel's first watch identified a broader issue than any single bad frame: some renderer/scene changes do not feel smooth or like they belong to the same film.
+
+That feedback triggered the schema-v2 experience-review upgrade in the repository.
+
+Running the same SECOND EARTH final candidate through the new system produced:
+
+- freeze spans: 0
+- weak-motion shots: 0
+- interior motion-cadence warnings: 0
+- camera-family repeats: 0
+- audio-transition warnings: 0
+- narration-mix warnings: 0
+- layout violations: 0
+- **visual-transition review targets: 6**
+- candidate-bound evidence files verified: 131
+
+The six review-target boundaries are:
+
+- shot-01 → shot-02
+- shot-02 → shot-03
+- shot-03 → shot-04
+- shot-15 → shot-16
+- shot-17 → shot-18
+- shot-18 → shot-19
+
+The current user gate remains PENDING. The older assistant PASS is preserved as historical iteration-01 state, but a future schema-v2 PASS must explicitly inspect/disposition those transition warnings and perform the expanded audio/A-V review rather than relying on the old five-criterion creative gate.
+
+See `docs/EXPERIENCE_REVIEW_WORKFLOW.md` and `receipts/2026-09-27-experience-review-v2.md`.
