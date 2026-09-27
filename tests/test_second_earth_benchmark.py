@@ -84,3 +84,29 @@ def test_second_earth_implementation_sources_are_present():
         assert (P/rel).is_file(), rel
     assert impl["groups"][0]["source"]=="renderers/python_frames.py"
     assert impl["groups"][-1]["source"]=="render_benchmark.py"
+
+
+def test_second_earth_delivery_has_no_debug_shot_labels():
+    py=(P/"renderers/python_frames.py").read_text()
+    canvas=(P/"renderers/canvas_world.html").read_text()
+    assert "SECOND EARTH  ·  {sid.upper()}" not in py
+    assert "SECOND EARTH  ·  '+shotId.toUpperCase()" not in canvas
+
+
+def test_second_earth_transition_finish_is_not_a_fade_crutch():
+    cfg=load("transition-finish.json")
+    assert len(cfg["transitions"]) <= 5
+    assert len(cfg["transitions"]) / 20 <= 0.25
+
+
+def test_second_earth_authored_silence_has_explicit_scope():
+    timeline=load("av-timeline.json")
+    events={e["id"]:e for e in timeline["events"] if e.get("kind")=="designed_silence"}
+    assert events["boundary-impact.mute"]["silence_scope"]=="stem"
+    assert events["final.silence"]["silence_scope"]=="master"
+
+
+def test_second_earth_critical_control_labels_are_in_layout_inventory():
+    layout=load("layout-qa.json")
+    ids={x["id"] for x in layout["text_items"]}
+    assert {"shot-18-compute","shot-18-power","shot-18-comms","shot-18-override","shot-18-reversible"} <= ids

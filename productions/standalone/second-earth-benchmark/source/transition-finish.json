@@ -1,20 +1,14 @@
 {
   "schema_version": 1,
-  "purpose": "Film-level continuity finishing for renderer/style boundaries surfaced by experience-QA v2.",
+  "purpose": "Use a small number of motivated renderer-language bridges; hard cuts are preferred elsewhere.",
   "policy": {
     "preserve_shot_duration": true,
     "preserve_story_timing": true,
     "touch_only_flagged_boundaries": true,
-    "audio_master_unchanged_until_audio_review_finds_a_defect": true
+    "audio_master_unchanged_until_audio_review_finds_a_defect": true,
+    "max_color_fade_ratio": 0.25
   },
   "transitions": [
-    {
-      "from": "shot-01",
-      "to": "shot-02",
-      "duration_seconds": 0.28,
-      "color": "0x05080D",
-      "motif": "dark_dip"
-    },
     {
       "from": "shot-02",
       "to": "shot-03",
@@ -30,41 +24,6 @@
       "motif": "ink_to_space"
     },
     {
-      "from": "shot-06",
-      "to": "shot-07",
-      "duration_seconds": 0.3,
-      "color": "0x05080D",
-      "motif": "message_to_room"
-    },
-    {
-      "from": "shot-07",
-      "to": "shot-08",
-      "duration_seconds": 0.3,
-      "color": "0x071018",
-      "motif": "physical_to_montage"
-    },
-    {
-      "from": "shot-13",
-      "to": "shot-14",
-      "duration_seconds": 0.32,
-      "color": "0x05080D",
-      "motif": "message_to_cosmos"
-    },
-    {
-      "from": "shot-15",
-      "to": "shot-16",
-      "duration_seconds": 0.3,
-      "color": "0x10171B",
-      "motif": "decision_room"
-    },
-    {
-      "from": "shot-16",
-      "to": "shot-17",
-      "duration_seconds": 0.3,
-      "color": "0x070A10",
-      "motif": "control_to_uncertainty"
-    },
-    {
       "from": "shot-17",
       "to": "shot-18",
       "duration_seconds": 0.44,
@@ -77,20 +36,6 @@
       "duration_seconds": 0.55,
       "color": "0x070A12",
       "motif": "paper_to_cosmic"
-    },
-    {
-      "from": "shot-19",
-      "to": "shot-20",
-      "duration_seconds": 0.32,
-      "color": "0x061017",
-      "motif": "proof_to_station"
-    },
-    {
-      "from": "shot-20",
-      "to": "shot-21",
-      "duration_seconds": 0.4,
-      "color": "0x05080D",
-      "motif": "station_to_thesis"
     }
   ]
 }

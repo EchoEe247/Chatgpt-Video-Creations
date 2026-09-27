@@ -4,6 +4,8 @@ import json,subprocess
 
 P=Path(__file__).resolve().parent
 R=P/"renders";OUT=R/"finished";OUT.mkdir(parents=True,exist_ok=True)
+for stale in OUT.glob("shot-*.mp4"):
+    stale.unlink()
 plan=json.loads((P/"source/execution-plan.json").read_text())
 cfg=json.loads((P/"source/transition-finish.json").read_text())
 shots={s["id"]:s for s in plan["shots"]}

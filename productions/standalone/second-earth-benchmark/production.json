@@ -1,14 +1,14 @@
 {
   "artifacts": {
-    "artifact_receipt": "iterations/iteration-03/qa/review-pack/artifact-receipt.json",
+    "artifact_receipt": "iterations/iteration-05/qa/review-pack/artifact-receipt.json",
     "baseline_comparison": null,
     "baseline_master": null,
-    "candidate_master": "iterations/iteration-03/candidate.mp4",
-    "candidate_sha256": "653ee90a00f49393edac5938770befe244a4cfe3fbb33592753287b7513e9912",
-    "creative_qa": "iterations/iteration-03/qa/creative-qa/creative-qa.json",
-    "creative_review": "iterations/iteration-03/qa/creative-qa/assistant-review.json",
-    "iteration_dir": "iterations/iteration-03",
-    "review_pack": "iterations/iteration-03/qa/review-pack/review-pack.json"
+    "candidate_master": "iterations/iteration-05/candidate.mp4",
+    "candidate_sha256": "7837f2fa97f2ed28e61d336fc07cd8b49b8f743e60fbe3249cb29358f1c097e3",
+    "creative_qa": null,
+    "creative_review": null,
+    "iteration_dir": "iterations/iteration-05",
+    "review_pack": "iterations/iteration-05/qa/review-pack/review-pack.json"
   },
   "delivery": {
     "audio_codec": "aac",
@@ -34,13 +34,13 @@
   },
   "gates": {
     "assistant": {
-      "candidate_sha256": "653ee90a00f49393edac5938770befe244a4cfe3fbb33592753287b7513e9912",
-      "notes": "Independent iteration-03 audit found visible shot-intent gaps, untracked small text and unresolved authored silence. See source/iteration03-independent-audit.json and review/experience-qa-v3/index.html. Historical v2 evidence is preserved; audible and continuous-motion review are not claimed. Refine then perform complete v3 review.",
-      "status": "FAIL"
+      "candidate_sha256": null,
+      "notes": null,
+      "status": "PENDING"
     },
     "technical": {
-      "candidate_sha256": "653ee90a00f49393edac5938770befe244a4cfe3fbb33592753287b7513e9912",
-      "evidence": "iterations/iteration-03/qa/technical-qa.json",
+      "candidate_sha256": "7837f2fa97f2ed28e61d336fc07cd8b49b8f743e60fbe3249cb29358f1c097e3",
+      "evidence": "iterations/iteration-05/qa/technical-qa.json",
       "status": "PASS"
     },
     "user": {
@@ -178,6 +178,92 @@
       },
       "repair_cycle": 2,
       "status": "USER_REVIEW"
+    },
+    {
+      "artifacts": {
+        "artifact_receipt": "iterations/iteration-03/qa/review-pack/artifact-receipt.json",
+        "baseline_comparison": null,
+        "baseline_master": null,
+        "candidate_master": "iterations/iteration-03/candidate.mp4",
+        "candidate_sha256": "653ee90a00f49393edac5938770befe244a4cfe3fbb33592753287b7513e9912",
+        "creative_qa": "iterations/iteration-03/qa/creative-qa/creative-qa.json",
+        "creative_review": "iterations/iteration-03/qa/creative-qa/assistant-review.json",
+        "iteration_dir": "iterations/iteration-03",
+        "review_pack": "iterations/iteration-03/qa/review-pack/review-pack.json"
+      },
+      "at": "2026-09-27T12:49:35+00:00",
+      "gates": {
+        "assistant": {
+          "candidate_sha256": "653ee90a00f49393edac5938770befe244a4cfe3fbb33592753287b7513e9912",
+          "notes": "Independent iteration-03 audit found visible shot-intent gaps, untracked small text and unresolved authored silence. See source/iteration03-independent-audit.json and review/experience-qa-v3/index.html. Historical v2 evidence is preserved; audible and continuous-motion review are not claimed. Refine then perform complete v3 review.",
+          "status": "FAIL"
+        },
+        "technical": {
+          "candidate_sha256": "653ee90a00f49393edac5938770befe244a4cfe3fbb33592753287b7513e9912",
+          "evidence": "iterations/iteration-03/qa/technical-qa.json",
+          "status": "PASS"
+        },
+        "user": {
+          "candidate_sha256": null,
+          "notes": null,
+          "status": "PENDING"
+        }
+      },
+      "render_job": {
+        "command": null,
+        "completed_at": null,
+        "cwd": null,
+        "exit_code": null,
+        "job_id": null,
+        "output": null,
+        "started_at": null,
+        "state": "NONE"
+      },
+      "repair_cycle": 3,
+      "status": "REFINEMENT_REQUIRED"
+    },
+    {
+      "artifacts": {
+        "artifact_receipt": "iterations/iteration-04/qa/review-pack/artifact-receipt.json",
+        "baseline_comparison": null,
+        "baseline_master": null,
+        "candidate_master": "iterations/iteration-04/candidate.mp4",
+        "candidate_sha256": "7ac042a83298ed327168c08382c98fd1054ac5da8cc8be9a83a4c7f2b78abfb2",
+        "creative_qa": null,
+        "creative_review": null,
+        "iteration_dir": "iterations/iteration-04",
+        "review_pack": "iterations/iteration-04/qa/review-pack/review-pack.json"
+      },
+      "at": "2026-09-27T13:00:01+00:00",
+      "gates": {
+        "assistant": {
+          "candidate_sha256": "7ac042a83298ed327168c08382c98fd1054ac5da8cc8be9a83a4c7f2b78abfb2",
+          "notes": "Iteration 04 rejected during final encoded-master verification: designed 149.3-150.0 s silence still measured about -39 dBFS RMS / -13 dBFS peak. Do not expose this immutable candidate.",
+          "status": "FAIL"
+        },
+        "technical": {
+          "candidate_sha256": "7ac042a83298ed327168c08382c98fd1054ac5da8cc8be9a83a4c7f2b78abfb2",
+          "evidence": "iterations/iteration-04/qa/technical-qa.json",
+          "status": "PASS"
+        },
+        "user": {
+          "candidate_sha256": null,
+          "notes": null,
+          "status": "PENDING"
+        }
+      },
+      "render_job": {
+        "command": null,
+        "completed_at": null,
+        "cwd": null,
+        "exit_code": null,
+        "job_id": null,
+        "output": null,
+        "started_at": null,
+        "state": "NONE"
+      },
+      "repair_cycle": 4,
+      "status": "REFINEMENT_REQUIRED"
     }
   ],
   "lane": "animation",
@@ -194,7 +280,7 @@
     "scene_plan": null
   },
   "review": {
-    "assistant": "FAIL",
+    "assistant": "PENDING",
     "user": "PENDING"
   },
   "schema_version": 2,
@@ -205,15 +291,17 @@
     "season": "standalone",
     "show": "SECOND EARTH"
   },
-  "status": "REFINEMENT_REQUIRED",
+  "status": "ASSISTANT_REVIEW",
   "workflow": {
     "creative_qa_required": true,
     "escalation_reason": null,
     "last_action": {
-      "action": "assistant_review_failed",
-      "at": "2026-09-27T12:32:41+00:00"
+      "action": "review_evidence_built",
+      "at": "2026-09-27T13:00:37+00:00",
+      "candidate_sha256": "7837f2fa97f2ed28e61d336fc07cd8b49b8f743e60fbe3249cb29358f1c097e3",
+      "review_pack": "iterations/iteration-05/qa/review-pack/review-pack.json"
     },
-    "max_autonomous_repair_cycles": 4,
+    "max_autonomous_repair_cycles": 5,
     "mode": "autonomous_until_final_review",
     "render_job": {
       "command": null,
@@ -225,7 +313,7 @@
       "started_at": null,
       "state": "NONE"
     },
-    "repair_cycle": 3,
+    "repair_cycle": 5,
     "user_review_policy": "final_candidate_only"
   }
 }

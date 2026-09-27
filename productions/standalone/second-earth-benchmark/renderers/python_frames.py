@@ -121,7 +121,7 @@ def shot08(im,t,dur):
         a=1 if i<seg else ease((t-i*dur/3)/(dur/3)) if i==seg else 0
         molecule_panel(d,x,170,330,330,t,i)
         col=(240,194,100) if a>.3 else (105,135,150)
-        text(d,(x+165,545),labels[i],19,col,"mm",True)
+        text(d,(x+165,545),labels[i],28,col,"mm",True)
         if a>.4:
             d.line((x+60,570,x+270,570),fill=col,width=3)
 
@@ -151,7 +151,7 @@ def shot14(im,t,dur):
         y=220+k*64
         x0=900+55*math.sin(k*.8+t*.4)
         d.line((x0,y,x0+150*reveal,y),fill=(240,203,130,190),width=3)
-    text(d,(88,92),"COSMIC BACKGROUND / CORRELATION",22,(178,200,214),"la",True)
+    text(d,(88,92),"COSMIC BACKGROUND / CORRELATION",30,(178,200,214),"la",True)
 
 def shot15(im,t,dur):
     d=ImageDraw.Draw(im);stars(im,t*.15,220,51)
@@ -168,7 +168,7 @@ def shot15(im,t,dur):
     for k in range(5):
         x=(W+260)-((t*95+k*310)%(W+620))
         d.arc((x-180,-100,x+250,H+140),70,290,fill=(53,74,110,90),width=5)
-    text(d,(W/2,620),"THE OBSERVER MAY ALSO BE OBSERVED",22,(196,208,220),"mm",True)
+    text(d,(W/2,620),"THE OBSERVER MAY ALSO BE OBSERVED",30,(196,208,220),"mm",True)
 
 def shot17(im,t,dur):
     d=ImageDraw.Draw(im);cx=190;cy=H/2
@@ -205,7 +205,7 @@ def shot19(im,t,dur):
     p=ease(clamp((t-4.0)/2.7))
     if p>0:
         d.arc((500,260,780,540),180,180+180*p,fill=(245,240,220),width=6)
-        text(d,(W/2,575),"PROOF COMPLETES ONLY WHEN BOTH HALVES CONNECT",19,(205,218,222),"mm",True)
+        text(d,(W/2,575),"PROOF COMPLETES ONLY WHEN BOTH HALVES CONNECT",28,(205,218,222),"mm",True)
 
 def render_frame(shot, frame_index, output_path, request):
     sid=shot["id"];fps=float(shot["fps"]);dur=float(shot["duration_seconds"]);t=frame_index/fps
@@ -220,9 +220,6 @@ def render_frame(shot, frame_index, output_path, request):
       "shot-15":shot15,"shot-17":shot17,"shot-19":shot19
     }[sid](im,t,dur)
     d=ImageDraw.Draw(im)
-    # subtle cinematic bars and shot identity, no generic HUD.
-    d.rectangle((0,0,W,32),fill=(3,5,8,235));d.rectangle((0,H-38,W,H),fill=(3,5,8,235))
-    d.text((32,16),f"SECOND EARTH  ·  {sid.upper()}",font=font(14,True),fill=(145,164,175),anchor="lm")
     # fade only at hard boundaries
     f=min(1,t/.25,(dur-t)/.25)
     if f<1:

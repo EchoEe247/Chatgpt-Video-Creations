@@ -103,12 +103,15 @@ def split_blender_reels():
         (R/"blender-probe-v2-reel.mp4",[("shot-10",0,7),("shot-11",7,8),("shot-20",15,7)]),
     ]
     for reel,segments in groups:
+        physical=(reel.name=="blender-physical-reel.mp4")
         for sid,start,duration in segments:
             out=R/f"{sid}.mp4"
             if valid(out,duration):
                 continue
+            exposure="eq=brightness=0.045:contrast=1.07:gamma=1.18:saturation=1.08," if physical else ""
             vf=(
                 "scale=1280:720:flags=lanczos,"
+                +exposure+
                 "minterpolate=fps=24:mi_mode=mci:mc_mode=aobmc:vsbmc=1,"
                 f"tpad=stop_mode=clone:stop_duration=0.35,trim=duration={duration},setpts=PTS-STARTPTS"
             )
@@ -186,8 +189,8 @@ def build_audio():
     if not valid(master,150,.10):
         raise RuntimeError("invalid audio master")
     polished=A/"master-polished.wav"
-    if not valid(polished,150,.10):
-        run([sys.executable,str(A/"polish_audio.py")])
+    # Cheap post-master polish may contain authored envelopes; always refresh it.
+    run([sys.executable,str(A/"polish_audio.py")])
     if not valid(polished,150,.10):
         raise RuntimeError("invalid polished audio master")
     return polished
@@ -211,7 +214,7 @@ def assemble():
     master=F/"second-earth.mp4"
     audio_master=A/"master-polished.wav"
     run(["ffmpeg","-y","-v","error","-i",str(silent),"-i",str(audio_master),
-         "-map","0:v:0","-map","1:a:0","-c:v","copy","-c:a","aac","-b:a","192k",
+         "-map","0:v:0","-map","1:a:0","-c:v","copy","-af","atrim=end=149.2,asetpts=PTS-STARTPTS,apad=pad_dur=0.8","-c:a","aac","-b:a","192k",
          "-t","150","-movflags","+faststart",str(master)])
     if not valid(master,150,.12):
         raise RuntimeError(f"final master duration invalid: {probe_duration(master)}")

@@ -61,6 +61,66 @@
         0.1
       ],
       "font_px": 40
+    },
+    {
+      "id": "shot-18-compute",
+      "start_seconds": 124.0,
+      "end_seconds": 130.0,
+      "bbox_norm": [
+        0.07,
+        0.31,
+        0.18,
+        0.1
+      ],
+      "font_px": 42
+    },
+    {
+      "id": "shot-18-power",
+      "start_seconds": 124.0,
+      "end_seconds": 130.0,
+      "bbox_norm": [
+        0.3,
+        0.31,
+        0.18,
+        0.1
+      ],
+      "font_px": 42
+    },
+    {
+      "id": "shot-18-comms",
+      "start_seconds": 124.0,
+      "end_seconds": 130.0,
+      "bbox_norm": [
+        0.53,
+        0.31,
+        0.18,
+        0.1
+      ],
+      "font_px": 42
+    },
+    {
+      "id": "shot-18-override",
+      "start_seconds": 124.0,
+      "end_seconds": 130.0,
+      "bbox_norm": [
+        0.76,
+        0.31,
+        0.18,
+        0.1
+      ],
+      "font_px": 42
+    },
+    {
+      "id": "shot-18-reversible",
+      "start_seconds": 124.5,
+      "end_seconds": 130.0,
+      "bbox_norm": [
+        0.22,
+        0.72,
+        0.56,
+        0.1
+      ],
+      "font_px": 42
     }
   ]
 }

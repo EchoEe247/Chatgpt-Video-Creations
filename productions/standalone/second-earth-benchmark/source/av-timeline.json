@@ -1043,7 +1043,9 @@
         "qa"
       ],
       "duration_seconds": 0.45,
-      "stem": "effects"
+      "stem": "effects",
+      "silence_scope": "stem",
+      "silence_threshold_dbfs": -50
     },
     {
       "id": "shot-12.review-02",
@@ -1891,7 +1893,9 @@
         "qa"
       ],
       "duration_seconds": 0.7,
-      "stem": "score"
+      "stem": "score",
+      "silence_scope": "master",
+      "silence_threshold_dbfs": -50
     }
   ],
   "policy": {
