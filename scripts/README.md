@@ -2,6 +2,7 @@
 
 Use the narrowest entry point that matches the task.
 
+- `directorctl.py` — validates director briefs and compiles hash-bound, agent-independent execution plans with renderer lanes, asset resolution, timing, review points, and explicit blockers.
 - `productionctl.py` — restart-safe production controller. Persists Local Workspace render-job identity, copies candidates into immutable iteration directories, binds QA to candidate SHA-256, reconciles interrupted jobs, tracks repair history/budget, and verifies evidence again before final acceptance.
 - `videoctl.py` — media inspection/QA primitives: probe, strict decode, loudness/silence analysis, frames, contact sheets, full-runtime baseline comparison, codec/pixel/audio delivery checks, receipts, and review packs.
 - `canvas_handdrawn_adapter.py` — stable Pixel/Termux setup, browser discovery, preview, and full-render entry point for the integrated Canvas2D hand-drawn renderer.

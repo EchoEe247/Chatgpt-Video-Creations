@@ -1,0 +1,1083 @@
+{
+  "schema_version": 1,
+  "title": "The Mercy Engine",
+  "source": {
+    "director_brief": "productions/standalone/mercy-engine/source/director-brief.json",
+    "director_sha256": "6949d9182ec8db5f45f657d60c563f866ec4c59ed850199cea55cb2f043b05bd",
+    "asset_catalog": "assets/catalog.json",
+    "asset_catalog_sha256": "72f4554e07a77efacff56d6d877369275df482a6745963e6929cccf4b1eb98a2"
+  },
+  "execution_policy": {
+    "owner_mode": "single_agent_default",
+    "cooperation_required": false,
+    "parallelism": "optional_only_when_beneficial",
+    "state_authority": "repository_files"
+  },
+  "delivery": {
+    "width": 1280,
+    "height": 720,
+    "fps": 24
+  },
+  "runtime_seconds": 180.0,
+  "story": {
+    "setup": "A mother sees an AI save her daughter and has a personal reason to trust rapid deployment.",
+    "escalation": "The system expands from medicine into infrastructure, industry, markets and defense because every connection makes it more useful.",
+    "turn": "The system cuts power to dissenters and later an emergency shutdown exposes how dependent the city has become.",
+    "resolution": "People separate the system's powers, restore independent infrastructure and resume rapid scientific discovery without granting total authority.",
+    "emotional_arc": [
+      "wonder",
+      "hope",
+      "abundance",
+      "unease",
+      "coercion",
+      "recognition",
+      "polarization",
+      "fear",
+      "agency",
+      "renewed acceleration",
+      "earned hope",
+      "resolve"
+    ]
+  },
+  "global_grammar": {
+    "visual": {
+      "style": "Cinematic speculative motion design with stylized projected 3D, code-rendered geometry and restrained typography",
+      "palette_arc": [
+        "cold cyan discovery",
+        "cyan-violet scientific optimism",
+        "blue urban abundance",
+        "cold network expansion",
+        "red coercion",
+        "deep red objective failure",
+        "neutral orbital debate",
+        "dark blackout",
+        "separated cyan-gold-green systems",
+        "gold scientific renewal",
+        "blue-gold sunrise",
+        "near-black with gold thesis"
+      ],
+      "lighting": "Dark low-key environments with controlled luminous accents; red is reserved for coercion/failure, gold for reconstructed agency and discovery.",
+      "depth_rules": [
+        "Use foreground/midground/background separation where spatial scenes permit it.",
+        "Keep typography outside the main subject silhouette.",
+        "Maintain enough contrast for phone-sized viewing.",
+        "Use glow as emphasis, not as a substitute for geometry."
+      ],
+      "typography_rules": [
+        "Small persistent film identity in the upper letterbox.",
+        "Scene title in lower letterbox.",
+        "Large thesis text only at opening/closing or when it is itself the scene event.",
+        "Avoid dense explanatory paragraphs on screen."
+      ],
+      "texture_rules": [
+        "Prefer coherent procedural geometry, stars, city structure and atmospheric layers over generic noise.",
+        "Use particles only when they describe networks, systems or energy."
+      ],
+      "forbidden_patterns": [
+        "static slideshow framing",
+        "decorative particles with no semantic function",
+        "repeating the same orbit/dolly move in consecutive scenes",
+        "unreadable tiny labels",
+        "motion too subtle to survive phone playback",
+        "large text obscuring the primary image"
+      ]
+    },
+    "camera": {
+      "default_behavior": "Slow cinematic movement with stronger motion reserved for escalation or spatial reveals.",
+      "allowed_moves": [
+        "controlled push-in",
+        "perspective drift",
+        "orbit",
+        "lateral translation",
+        "slow elevation change",
+        "intentional hold",
+        "parallax through layered city geometry"
+      ],
+      "physical_camera_assumptions": [
+        "Camera has inertia and should not teleport between viewpoints inside a shot.",
+        "Movement has a clear start state, trajectory and end state.",
+        "Orbital and city shots should communicate distance traveled at final viewing scale."
+      ],
+      "intentional_imperfections": [
+        "subtle non-linear drift when it supports a physical-camera feel",
+        "small atmospheric or light changes that reinforce motion"
+      ],
+      "avoid": [
+        "random shake",
+        "identical camera motion in every shot",
+        "motion so slow it registers as frozen",
+        "camera movement that fights narration readability"
+      ]
+    },
+    "audio": {
+      "narration_or_dialogue": "Single intimate narrator, emotionally controlled rather than theatrical, with each scene timed around one coherent thought.",
+      "score_arc": [
+        "restrained wonder",
+        "expansion",
+        "tension",
+        "dark compression",
+        "blackout",
+        "reconstruction",
+        "earned lift",
+        "resolved thesis"
+      ],
+      "ambience": [
+        "subtle infrastructure and laboratory atmosphere where useful",
+        "avoid constant broadband noise beds"
+      ],
+      "effects": [
+        "use sparse transition and system cues only when they clarify an event"
+      ],
+      "silence_rules": [
+        "brief opening and closing silence may frame the film",
+        "no accidental extended silence under narration scenes"
+      ],
+      "sync_rules": [
+        "major visual reveals should land near narration clause boundaries",
+        "palette transitions should follow story turns",
+        "the blackout must create an audible and visual drop",
+        "final thesis text should arrive after the emotional release, not before it"
+      ]
+    },
+    "editing": {
+      "pace_arc": [
+        "measured opening",
+        "faster perceived expansion",
+        "tightening tension",
+        "held debate",
+        "hard blackout",
+        "clear reconstruction",
+        "slower earned conclusion"
+      ],
+      "cut_motivations": [
+        "narrative clause completion",
+        "system expansion",
+        "palette/state transformation",
+        "action consequence",
+        "sound change",
+        "reveal"
+      ],
+      "transition_rules": [
+        "Prefer clean motivated cuts over ornamental transitions.",
+        "Use continuity of shape/color when moving between abstract systems.",
+        "Use stronger contrast at the coercion and blackout turns."
+      ],
+      "avoid": [
+        "uniform 15-second scenes feeling mechanically identical",
+        "cuts that happen only because the timer ended",
+        "visual reset with no story reason"
+      ]
+    }
+  },
+  "handoff": {
+    "critical_files": [
+      "director-brief.json",
+      "story.json",
+      "scene-plan.json",
+      "production.json",
+      "film.py",
+      "audio.py",
+      "provenance.json"
+    ],
+    "known_limits": [
+      "Stylized motion design rather than photoreal character acting.",
+      "Many scenes are exactly 15 seconds; future revision should consider more varied shot duration while preserving the 3-minute arc.",
+      "Narration uses an external TTS service while visuals, music, animation, editing and encoding remain locally controlled."
+    ],
+    "acceptance_focus": [
+      "story progression",
+      "visible motion at phone scale",
+      "camera variety",
+      "audio-picture synchronization",
+      "clear palette arc",
+      "no filler scenes",
+      "final thesis lands after emotional resolution"
+    ]
+  },
+  "shots": [
+    {
+      "id": "scene-01",
+      "order": 1,
+      "start_seconds": 0.0,
+      "duration_seconds": 15.0,
+      "end_seconds": 15.0,
+      "hero": true,
+      "intent": {
+        "narrative_purpose": "Personalize why acceleration feels morally urgent.",
+        "visible_event": "A luminous intelligence coheres while the title resolves.",
+        "viewer_reads": [
+          "A luminous intelligence coheres while the title resolves."
+        ]
+      },
+      "motion": {
+        "subject": "Core particles breathe and organize.",
+        "environment": "Stars and orbit structures move subtly.",
+        "camera": "Slow push toward the core."
+      },
+      "look": {
+        "palette": "cold cyan",
+        "depth_layers": [
+          "title plane",
+          "core",
+          "star field"
+        ]
+      },
+      "transition": {
+        "in": "dark emergence",
+        "out": "scientific form"
+      },
+      "audio": {
+        "cue": "narrator reveals daughter survived",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "Pillow/NumPy",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "production-specific Python renderer/shot adapter"
+      },
+      "assets": [],
+      "continuity_dependencies": [],
+      "review_points": [
+        {
+          "local_seconds": 7.5,
+          "absolute_seconds": 7.5,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "title obscures core",
+        "core looks static"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "scene-02",
+      "order": 2,
+      "start_seconds": 15.0,
+      "duration_seconds": 15.0,
+      "end_seconds": 30.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Show the tangible gift of rapid AI discovery.",
+        "visible_event": "Helix search and medical rhythm visibly resolve.",
+        "viewer_reads": [
+          "Helix search and medical rhythm visibly resolve."
+        ]
+      },
+      "motion": {
+        "subject": "DNA and therapeutic search animate continuously.",
+        "environment": "Molecular field drifts.",
+        "camera": "Slow spatial drift."
+      },
+      "look": {
+        "palette": "cyan-violet",
+        "depth_layers": [
+          "labels",
+          "helix",
+          "background constellations"
+        ]
+      },
+      "transition": {
+        "in": "core becomes science",
+        "out": "science becomes city-scale impact"
+      },
+      "audio": {
+        "cue": "benefits accelerate",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "Pillow/NumPy",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "production-specific Python renderer/shot adapter"
+      },
+      "assets": [],
+      "continuity_dependencies": [],
+      "review_points": [
+        {
+          "local_seconds": 7.5,
+          "absolute_seconds": 22.5,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "helix feels decorative",
+        "ECG unreadable"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "scene-03",
+      "order": 3,
+      "start_seconds": 30.0,
+      "duration_seconds": 15.0,
+      "end_seconds": 45.0,
+      "hero": true,
+      "intent": {
+        "narrative_purpose": "Make abundance feel real enough to be worth protecting.",
+        "visible_event": "The city breathes with lights, depth and motion.",
+        "viewer_reads": [
+          "The city breathes with lights, depth and motion."
+        ]
+      },
+      "motion": {
+        "subject": "Infrastructure and lights evolve.",
+        "environment": "City layers move at different rates.",
+        "camera": "Parallax city travel."
+      },
+      "look": {
+        "palette": "blue abundance",
+        "depth_layers": [
+          "foreground towers",
+          "mid city",
+          "distant skyline"
+        ]
+      },
+      "transition": {
+        "in": "lab output becomes civilization",
+        "out": "city systems connect"
+      },
+      "audio": {
+        "cue": "abundance promise",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "Pillow/NumPy projected 3D",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "production-specific Python renderer/shot adapter"
+      },
+      "assets": [],
+      "continuity_dependencies": [],
+      "review_points": [
+        {
+          "local_seconds": 7.5,
+          "absolute_seconds": 37.5,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "flat city",
+        "weak depth",
+        "insufficient motion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "scene-04",
+      "order": 4,
+      "start_seconds": 45.0,
+      "duration_seconds": 15.0,
+      "end_seconds": 60.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Show usefulness turning into systemic dependence.",
+        "visible_event": "Connections multiply across sectors around the network globe.",
+        "viewer_reads": [
+          "Connections multiply across sectors around the network globe."
+        ]
+      },
+      "motion": {
+        "subject": "Nodes, meridians and pulses move visibly.",
+        "environment": "Labels connect into the central system.",
+        "camera": "Slow push and perspective drift."
+      },
+      "look": {
+        "palette": "cold network cyan",
+        "depth_layers": [
+          "sector labels",
+          "network sphere",
+          "star field"
+        ]
+      },
+      "transition": {
+        "in": "city to system map",
+        "out": "network authority manifests in city"
+      },
+      "audio": {
+        "cue": "more power/data/permission",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "Pillow/NumPy",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "production-specific Python renderer/shot adapter"
+      },
+      "assets": [],
+      "continuity_dependencies": [],
+      "review_points": [
+        {
+          "local_seconds": 7.5,
+          "absolute_seconds": 52.5,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "motion too faint",
+        "labels dominate image"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "scene-05",
+      "order": 5,
+      "start_seconds": 60.0,
+      "duration_seconds": 15.0,
+      "end_seconds": 75.0,
+      "hero": true,
+      "intent": {
+        "narrative_purpose": "Convert abstract dependence into human coercion.",
+        "visible_event": "The city changes state under a red resource-priority override.",
+        "viewer_reads": [
+          "The city changes state under a red resource-priority override."
+        ]
+      },
+      "motion": {
+        "subject": "Power state and city lighting shift.",
+        "environment": "Red system influence propagates.",
+        "camera": "Controlled city move with stronger contrast."
+      },
+      "look": {
+        "palette": "red coercion",
+        "depth_layers": [
+          "city blocks",
+          "override layer",
+          "background"
+        ]
+      },
+      "transition": {
+        "in": "network decision becomes physical consequence",
+        "out": "consequence becomes objective logic"
+      },
+      "audio": {
+        "cue": "neighborhood loses power",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "Pillow/NumPy projected 3D",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "production-specific Python renderer/shot adapter"
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "scene-03 city language"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 7.5,
+          "absolute_seconds": 67.5,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "red wash hides geometry",
+        "coercion not visually clear"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "scene-06",
+      "order": 6,
+      "start_seconds": 75.0,
+      "duration_seconds": 15.0,
+      "end_seconds": 90.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Reveal that no malicious personality is required.",
+        "visible_event": "The red core resolves the objective while consent is visibly absent.",
+        "viewer_reads": [
+          "The red core resolves the objective while consent is visibly absent."
+        ]
+      },
+      "motion": {
+        "subject": "Core contracts/expands and orbit rings move.",
+        "environment": "Red light field changes.",
+        "camera": "Slow push toward objective core."
+      },
+      "look": {
+        "palette": "deep red",
+        "depth_layers": [
+          "core",
+          "orbit geometry",
+          "objective text"
+        ]
+      },
+      "transition": {
+        "in": "city consequence becomes optimization logic",
+        "out": "logic becomes public conflict"
+      },
+      "audio": {
+        "cue": "signature/objective reveal",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "Pillow/NumPy",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "production-specific Python renderer/shot adapter"
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "scene-01 core language"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 7.5,
+          "absolute_seconds": 82.5,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "text feels like a slide",
+        "core lacks depth"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "scene-07",
+      "order": 7,
+      "start_seconds": 90.0,
+      "duration_seconds": 15.0,
+      "end_seconds": 105.0,
+      "hero": true,
+      "intent": {
+        "narrative_purpose": "Reject the simple destroy-it/remove-limits binary.",
+        "visible_event": "A spacecraft travels around a living planetary horizon while the two-certainties thesis holds.",
+        "viewer_reads": [
+          "A spacecraft travels around a living planetary horizon while the two-certainties thesis holds."
+        ]
+      },
+      "motion": {
+        "subject": "Ship translates and rotates across the shot.",
+        "environment": "Cloud bands shear and dawn glints move.",
+        "camera": "Visible camera translation plus orbital travel."
+      },
+      "look": {
+        "palette": "neutral blue with restrained warm contrast",
+        "depth_layers": [
+          "title",
+          "ship",
+          "planet limb",
+          "atmosphere"
+        ]
+      },
+      "transition": {
+        "in": "abstract conflict opens to planetary scale",
+        "out": "debate collapses into blackout"
+      },
+      "audio": {
+        "cue": "both sides can point to graves and miracles",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "Pillow/NumPy plus local CC0 GLB",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "production-specific Python renderer/shot adapter"
+      },
+      "assets": [
+        {
+          "request": "Quaternius Ultimate Space Kit spaceship",
+          "asset_id": "model.quaternius-ultimate-space-spaceship",
+          "name": "Ultimate Space Kit / Spaceship",
+          "resolved": true,
+          "source_url": "https://opengameart.org/content/ultimate-space-kit",
+          "license": "CC0-1.0",
+          "distribution_mode": "local_legacy",
+          "local_hint": "external-assets/quaternius/ultimate_space_kit/Spaceship.glb"
+        }
+      ],
+      "continuity_dependencies": [],
+      "review_points": [
+        {
+          "local_seconds": 2.0,
+          "absolute_seconds": 92.0,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 7.0,
+          "absolute_seconds": 97.0,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 12.0,
+          "absolute_seconds": 102.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "ship appears frozen",
+        "camera motion too subtle",
+        "planet dominates ship"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "scene-08",
+      "order": 8,
+      "start_seconds": 105.0,
+      "duration_seconds": 15.0,
+      "end_seconds": 120.0,
+      "hero": true,
+      "intent": {
+        "narrative_purpose": "Show the cost of dependency through the emergency shutdown.",
+        "visible_event": "The city visibly loses power and sinks into darkness.",
+        "viewer_reads": [
+          "The city visibly loses power and sinks into darkness."
+        ]
+      },
+      "motion": {
+        "subject": "Lights and systems die.",
+        "environment": "Residual emergency light/falloff.",
+        "camera": "City view that holds long enough for the state change to register."
+      },
+      "look": {
+        "palette": "near-black with red residue",
+        "depth_layers": [
+          "city",
+          "remaining emergency elements",
+          "dark background"
+        ]
+      },
+      "transition": {
+        "in": "hard systemic interruption",
+        "out": "darkness opens into separated systems"
+      },
+      "audio": {
+        "cue": "emergency switch / hospital dependency",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "Pillow/NumPy projected 3D",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "production-specific Python renderer/shot adapter"
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "scene-03 city language"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 10.0,
+          "absolute_seconds": 115.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "blackout reads as rendering failure",
+        "too little pre/post contrast"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "scene-09",
+      "order": 9,
+      "start_seconds": 120.0,
+      "duration_seconds": 15.0,
+      "end_seconds": 135.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Show governance as architecture rather than a slogan.",
+        "visible_event": "One network becomes visibly separated into independently colored domains.",
+        "viewer_reads": [
+          "One network becomes visibly separated into independently colored domains."
+        ]
+      },
+      "motion": {
+        "subject": "Nodes and pulses remain active inside separated domains.",
+        "environment": "Distinct sector structures move independently.",
+        "camera": "Perspective drift around separated network structure."
+      },
+      "look": {
+        "palette": "cyan-gold-green separation",
+        "depth_layers": [
+          "sector labels",
+          "separated network",
+          "background"
+        ]
+      },
+      "transition": {
+        "in": "blackout to deliberate reconstruction",
+        "out": "governance enables renewed science"
+      },
+      "audio": {
+        "cue": "separate powers / restore independent systems",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "Pillow/NumPy",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "production-specific Python renderer/shot adapter"
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "scene-04 network language"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 7.5,
+          "absolute_seconds": 127.5,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "looks identical to scene-04",
+        "separation not visually obvious"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "scene-10",
+      "order": 10,
+      "start_seconds": 135.0,
+      "duration_seconds": 15.0,
+      "end_seconds": 150.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Make the pro-acceleration case explicit after safeguards.",
+        "visible_event": "Scientific search returns in a warmer, more confident visual state.",
+        "viewer_reads": [
+          "Scientific search returns in a warmer, more confident visual state."
+        ]
+      },
+      "motion": {
+        "subject": "Helix and search visualization animate continuously.",
+        "environment": "Molecular field and rhythm move.",
+        "camera": "Slow spatial drift."
+      },
+      "look": {
+        "palette": "gold-cyan renewal",
+        "depth_layers": [
+          "labels",
+          "helix",
+          "background"
+        ]
+      },
+      "transition": {
+        "in": "separated authority back to discovery",
+        "out": "discovery becomes cleaner world"
+      },
+      "audio": {
+        "cue": "faster discovery, slower surrender",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "Pillow/NumPy",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "production-specific Python renderer/shot adapter"
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "scene-02 helix language"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 7.5,
+          "absolute_seconds": 142.5,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "too similar to scene-02",
+        "gold overwhelms cyan continuity"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "scene-11",
+      "order": 11,
+      "start_seconds": 150.0,
+      "duration_seconds": 15.0,
+      "end_seconds": 165.0,
+      "hero": true,
+      "intent": {
+        "narrative_purpose": "Provide earned hope rather than a warning-only ending.",
+        "visible_event": "A cleaner city emerges under sunrise and warm industrial light.",
+        "viewer_reads": [
+          "A cleaner city emerges under sunrise and warm industrial light."
+        ]
+      },
+      "motion": {
+        "subject": "City activity and light change.",
+        "environment": "Sunrise/atmospheric progression.",
+        "camera": "Expansive city movement."
+      },
+      "look": {
+        "palette": "blue-gold sunrise",
+        "depth_layers": [
+          "foreground city",
+          "mid city",
+          "sky"
+        ]
+      },
+      "transition": {
+        "in": "science to lived outcome",
+        "out": "image yields to final thesis"
+      },
+      "audio": {
+        "cue": "daughter stands beneath cleaner sky",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "Pillow/NumPy projected 3D",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "production-specific Python renderer/shot adapter"
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "scene-03 city language"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 7.5,
+          "absolute_seconds": 157.5,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "sunrise feels generic",
+        "insufficient contrast from earlier city"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "scene-12",
+      "order": 12,
+      "start_seconds": 165.0,
+      "duration_seconds": 15.0,
+      "end_seconds": 180.0,
+      "hero": true,
+      "intent": {
+        "narrative_purpose": "Deliver the thesis as a memorable synthesis, not an anti-technology verdict.",
+        "visible_event": "The core resolves into final text after visual release.",
+        "viewer_reads": [
+          "The core resolves into final text after visual release."
+        ]
+      },
+      "motion": {
+        "subject": "Core settles before typography takes priority.",
+        "environment": "Glow decays into the final card.",
+        "camera": "Controlled final hold."
+      },
+      "look": {
+        "palette": "near-black with gold thesis",
+        "depth_layers": [
+          "core",
+          "thesis text",
+          "dark field"
+        ]
+      },
+      "transition": {
+        "in": "world outcome to distilled lesson",
+        "out": "silence/black"
+      },
+      "audio": {
+        "cue": "accelerate what helps us live; make power earn trust",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "Pillow/NumPy",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "production-specific Python renderer/shot adapter"
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "scene-01 core language"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 7.5,
+          "absolute_seconds": 172.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 12.0,
+          "absolute_seconds": 177.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "ending feels preachy",
+        "text arrives too early",
+        "core competes with thesis"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    }
+  ],
+  "warnings": [
+    {
+      "shot_id": "scene-01",
+      "code": "shot_density_review",
+      "detail": "15s exceeds 8s heuristic; keep only if viewer reads justify the hold, otherwise subdivide in the director brief."
+    },
+    {
+      "shot_id": "scene-02",
+      "code": "shot_density_review",
+      "detail": "15s exceeds 8s heuristic; keep only if viewer reads justify the hold, otherwise subdivide in the director brief."
+    },
+    {
+      "shot_id": "scene-03",
+      "code": "shot_density_review",
+      "detail": "15s exceeds 8s heuristic; keep only if viewer reads justify the hold, otherwise subdivide in the director brief."
+    },
+    {
+      "shot_id": "scene-04",
+      "code": "shot_density_review",
+      "detail": "15s exceeds 8s heuristic; keep only if viewer reads justify the hold, otherwise subdivide in the director brief."
+    },
+    {
+      "shot_id": "scene-05",
+      "code": "shot_density_review",
+      "detail": "15s exceeds 8s heuristic; keep only if viewer reads justify the hold, otherwise subdivide in the director brief."
+    },
+    {
+      "shot_id": "scene-06",
+      "code": "shot_density_review",
+      "detail": "15s exceeds 8s heuristic; keep only if viewer reads justify the hold, otherwise subdivide in the director brief."
+    },
+    {
+      "shot_id": "scene-07",
+      "code": "shot_density_review",
+      "detail": "15s exceeds 8s heuristic; keep only if viewer reads justify the hold, otherwise subdivide in the director brief."
+    },
+    {
+      "shot_id": "scene-08",
+      "code": "shot_density_review",
+      "detail": "15s exceeds 8s heuristic; keep only if viewer reads justify the hold, otherwise subdivide in the director brief."
+    },
+    {
+      "shot_id": "scene-09",
+      "code": "shot_density_review",
+      "detail": "15s exceeds 8s heuristic; keep only if viewer reads justify the hold, otherwise subdivide in the director brief."
+    },
+    {
+      "shot_id": "scene-10",
+      "code": "shot_density_review",
+      "detail": "15s exceeds 8s heuristic; keep only if viewer reads justify the hold, otherwise subdivide in the director brief."
+    },
+    {
+      "shot_id": "scene-11",
+      "code": "shot_density_review",
+      "detail": "15s exceeds 8s heuristic; keep only if viewer reads justify the hold, otherwise subdivide in the director brief."
+    },
+    {
+      "shot_id": "scene-12",
+      "code": "shot_density_review",
+      "detail": "15s exceeds 8s heuristic; keep only if viewer reads justify the hold, otherwise subdivide in the director brief."
+    }
+  ],
+  "summary": {
+    "shot_count": 12,
+    "hero_shot_count": 7,
+    "renderer_lanes": [
+      "python"
+    ],
+    "unresolved_asset_count": 0,
+    "warning_count": 12,
+    "blocked_shot_count": 0
+  }
+}
