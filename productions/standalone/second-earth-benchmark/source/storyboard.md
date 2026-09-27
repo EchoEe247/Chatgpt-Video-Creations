@@ -419,4 +419,3 @@
 **Review at:** 2, 3s local
 
 **Fail if:** end card overcrowded; thesis arrives before visual release; ending feels like slogan instead of earned conclusion
-
