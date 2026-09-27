@@ -132,6 +132,47 @@ def action_by_contains(needle: str):
     return matches[0]
 
 
+def snapshot_pose_action(armature, source_action, source_frame: float, name: str):
+    """Bake one evaluated source pose into a tiny full-body hold action."""
+    armature.animation_data_create()
+    armature.animation_data.action = source_action
+    scene.frame_set(int(source_frame))
+    bpy.context.view_layer.update()
+
+    captured = {}
+    for bone in armature.pose.bones:
+        captured[bone.name] = {
+            "location": bone.location.copy(),
+            "rotation_mode": bone.rotation_mode,
+            "rotation_quaternion": bone.rotation_quaternion.copy(),
+            "rotation_euler": bone.rotation_euler.copy(),
+            "rotation_axis_angle": tuple(bone.rotation_axis_angle),
+            "scale": bone.scale.copy(),
+        }
+
+    action = bpy.data.actions.new(name)
+    armature.animation_data.action = action
+    for frame in (0, 1):
+        for bone in armature.pose.bones:
+            state = captured[bone.name]
+            bone.location = state["location"]
+            bone.rotation_mode = state["rotation_mode"]
+            if bone.rotation_mode == "QUATERNION":
+                bone.rotation_quaternion = state["rotation_quaternion"]
+                bone.keyframe_insert(data_path="rotation_quaternion", frame=frame, group=bone.name)
+            elif bone.rotation_mode == "AXIS_ANGLE":
+                bone.rotation_axis_angle = state["rotation_axis_angle"]
+                bone.keyframe_insert(data_path="rotation_axis_angle", frame=frame, group=bone.name)
+            else:
+                bone.rotation_euler = state["rotation_euler"]
+                bone.keyframe_insert(data_path="rotation_euler", frame=frame, group=bone.name)
+            bone.scale = state["scale"]
+            bone.keyframe_insert(data_path="location", frame=frame, group=bone.name)
+            bone.keyframe_insert(data_path="scale", frame=frame, group=bone.name)
+    armature.animation_data.action = None
+    return action
+
+
 def add_nla_strip(track, name, action, start: float, end: float):
     strip = track.strips.new(name, start, action)
     a0, a1 = action.frame_range
@@ -267,7 +308,7 @@ add_point("BackRed", (0, 6.4, 2.05), 420.0, (1.0, 0.08, 0.025), 1.1)
 add_point("SideBlue", (-1.75, -0.7, 1.55), 300.0, (0.08, 0.35, 1.0), 1.4)
 
 # --- Hero character ------------------------------------------------------
-hero, hero_objs = imported_root(SPACE / "Astronaut.glb", "HeroRoot", loc=(0.0, -6.55, 0.55), scale=0.55)
+hero, hero_objs = imported_root(SPACE / "Astronaut.glb", "HeroRoot", loc=(0.0, -6.55, 0.55), rot=(0, 0, math.pi), scale=0.55)
 armatures = [o for o in hero_objs if o.type == "ARMATURE"]
 if len(armatures) != 1:
     raise RuntimeError(f"expected one hero armature, got {len(armatures)}")
@@ -281,13 +322,28 @@ for obj in list(hero_objs):
 # Action strips use the model's own authored clips. Root travel is separate so
 # the run cycle stays reusable and predictable.
 hero_arm.animation_data_create()
+# glTF imports every embedded clip as a live NLA track. Leaving those tracks
+# attached makes their HOLD extrapolation override this production sequence and
+# can force bones back toward rest/T poses between our intended clips.
+for imported_track in list(hero_arm.animation_data.nla_tracks):
+    hero_arm.animation_data.nla_tracks.remove(imported_track)
 hero_arm.animation_data.action = None
+# Idle_Gun is a partial-body clip in this asset and leaves the upper arms
+# unkeyed. A standalone use therefore exposes the rig's rest/T pose. Capture a
+# complete weapon-ready pose from the authored Weapon clip and use that for the
+# brief plant/hold beats instead.
+aim_hold = snapshot_pose_action(
+    hero_arm,
+    action_by_contains("Weapon_CharacterArmature"),
+    10,
+    "Hero_AimHold",
+)
 track = hero_arm.animation_data.nla_tracks.new()
 track.name = "HeroAction"
 add_nla_strip(track, "Run_Gun", action_by_contains("Run_Gun_CharacterArmature"), 1, 48)
-add_nla_strip(track, "Idle_Gun_Prepare", action_by_contains("Idle_Gun_CharacterArmature"), 48, 61)
+add_nla_strip(track, "Aim_Hold_Prepare", aim_hold, 48, 61)
 add_nla_strip(track, "Run_Gun_Shoot", action_by_contains("Run_Gun_Shoot_CharacterArmature"), 61, 73)
-add_nla_strip(track, "Idle_Gun_Hold", action_by_contains("Idle_Gun_CharacterArmature"), 73, 96)
+add_nla_strip(track, "Aim_Hold_After", aim_hold, 73, 96)
 
 for frame, loc in (
     (1, (0.10, -6.55, 0.55)),
@@ -316,6 +372,8 @@ if enemy_arms:
     enemy_arm = enemy_arms[0]
     enemy_arm.name = "EnemyArmature"
     enemy_arm.animation_data_create()
+    for imported_track in list(enemy_arm.animation_data.nla_tracks):
+        enemy_arm.animation_data.nla_tracks.remove(imported_track)
     enemy_arm.animation_data.action = None
     etrack = enemy_arm.animation_data.nla_tracks.new()
     etrack.name = "EnemyAction"
