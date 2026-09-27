@@ -152,6 +152,9 @@ def validate_production_v2(data: Mapping[str, Any]) -> list[str]:
     if workflow.get("user_review_policy") not in USER_REVIEW_POLICIES:
         errors.append("workflow.user_review_policy must be final_candidate_only")
     max_cycles = workflow.get("max_autonomous_repair_cycles")
+    creative_required = workflow.get("creative_qa_required")
+    if not isinstance(creative_required, bool):
+        errors.append("workflow.creative_qa_required must be boolean")
     current_cycle = workflow.get("repair_cycle")
     if not isinstance(max_cycles, int) or isinstance(max_cycles, bool) or max_cycles < 1:
         errors.append("workflow.max_autonomous_repair_cycles must be an integer >= 1")
@@ -221,7 +224,10 @@ def validate_production_v2(data: Mapping[str, Any]) -> list[str]:
             errors.append("USER_REVIEW requires technical gate PASS")
         if gates["assistant"]["status"] != "PASS":
             errors.append("USER_REVIEW requires assistant gate PASS")
-        for key in ("artifact_receipt", "review_pack"):
+        required_artifacts = ["artifact_receipt", "review_pack"]
+        if workflow.get("creative_qa_required"):
+            required_artifacts += ["creative_qa", "creative_review"]
+        for key in required_artifacts:
             if not artifacts.get(key):
                 errors.append(f"USER_REVIEW requires artifacts.{key}")
 
@@ -230,7 +236,10 @@ def validate_production_v2(data: Mapping[str, Any]) -> list[str]:
             errors.append("DONE requires technical gate PASS")
         if gates["assistant"]["status"] != "PASS" or gates["user"]["status"] != "PASS":
             errors.append("DONE requires assistant and user review PASS")
-        for key in ("artifact_receipt", "review_pack"):
+        required_artifacts = ["artifact_receipt", "review_pack"]
+        if workflow.get("creative_qa_required"):
+            required_artifacts += ["creative_qa", "creative_review"]
+        for key in required_artifacts:
             if not artifacts.get(key):
                 errors.append(f"DONE requires artifacts.{key}")
 

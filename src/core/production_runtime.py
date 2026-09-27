@@ -23,6 +23,7 @@ DEFAULT_WORKFLOW = {
     "mode": "autonomous_until_final_review",
     "user_review_policy": "final_candidate_only",
     "max_autonomous_repair_cycles": 4,
+    "creative_qa_required": False,
     "repair_cycle": 0,
     "escalation_reason": None,
     "last_action": None,
@@ -106,10 +107,11 @@ def artifact_evidence_complete(data: Mapping[str, Any]) -> bool:
     artifacts = data.get("artifacts")
     if not isinstance(artifacts, Mapping):
         return False
-    return all(
-        artifacts.get(key)
-        for key in ("candidate_master", "candidate_sha256", "artifact_receipt", "review_pack")
-    )
+    required = ["candidate_master", "candidate_sha256", "artifact_receipt", "review_pack"]
+    workflow = normalized_runtime(data)["workflow"]
+    if workflow.get("creative_qa_required"):
+        required += ["creative_qa", "creative_review"]
+    return all(artifacts.get(key) for key in required)
 
 
 def ready_for_user_review(data: Mapping[str, Any]) -> bool:
@@ -166,6 +168,10 @@ def next_action(data: Mapping[str, Any]) -> str:
         return "repair" if repair_budget_remaining(data) > 0 else "human_decision"
     if not artifacts.get("artifact_receipt") or not artifacts.get("review_pack"):
         return "build_review_evidence"
+    if runtime["workflow"].get("creative_qa_required") and (
+        not artifacts.get("creative_qa") or not artifacts.get("creative_review")
+    ):
+        return "creative_qa"
     if gates["assistant"]["status"] == PENDING:
         return "assistant_review"
     if gates["assistant"]["status"] == FAIL:

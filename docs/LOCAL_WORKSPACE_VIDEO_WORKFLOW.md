@@ -10,7 +10,7 @@ The repository is the source of production truth. Local Workspace is the executi
 
 For serious work, use:
 
-**goal → inspect → validate plan → start tracked render job → reconcile job → preserve candidate immutably → deterministic QA → assistant visual/audio review → repair internally → revalidate → final candidate → one user acceptance review → DONE**
+**goal → inspect → validate plan → start tracked render job → reconcile job → preserve candidate immutably → deterministic QA → creative-QA evidence → assistant normal-speed review → repair internally → revalidate → final candidate → one user acceptance review → DONE**
 
 The user is not the normal debugging loop.
 
@@ -33,6 +33,7 @@ The manifest records:
 - technical QA evidence;
 - review pack and artifact receipt;
 - baseline comparison;
+- optional/required candidate-bound creative-QA report and assistant creative review;
 - technical, assistant, and user gates;
 - autonomous repair-cycle budget;
 - blocker/escalation reason;
@@ -50,6 +51,7 @@ Typical `next_action` values are:
 - `record_candidate`
 - `technical_qa`
 - `build_review_evidence`
+- `creative_qa`
 - `assistant_review`
 - `repair`
 - `user_final_review`
@@ -105,7 +107,8 @@ Before assistant PASS, final user acceptance, or a trusted DONE status, the cont
 - technical QA evidence exists, passes, and is bound to the same SHA-256;
 - review-pack manifest exists, carries the same candidate SHA-256, and points at the current candidate;
 - contact sheet, scene-boundary frames, and review-point still/clip evidence referenced by the pack still exist;
-- configured baseline-comparison evidence exists and is bound to the same candidate when applicable.
+- configured baseline-comparison evidence exists and is bound to the same candidate when applicable;
+- when `workflow.creative_qa_required` is true, the creative-QA report is bound to the candidate, every generated creative evidence file exists and matches its stored hash, and the assistant creative review is bound to that exact QA report.
 
 If the candidate or required review evidence disappears or changes after review, acceptance fails closed.
 
@@ -216,6 +219,8 @@ The command:
 10. moves to `ASSISTANT_REVIEW` only when deterministic QA passes.
 
 A technical FAIL routes to `repair`; when the autonomous budget is exhausted it routes to `human_decision`. It does not loop forever on `technical_qa`.
+
+For new v2 productions, `creative_qa_required` defaults to true. After `prepare-review`, build the creative evidence bundle with `scripts/creativeqactl.py`, inspect the phone-scale frames and normal-speed clips, complete the assistant review, then pass both paths to `productionctl assistant-pass`. See `docs/CREATIVE_QA_WORKFLOW.md`.
 
 ## Scene plans and review points
 
@@ -339,6 +344,8 @@ A production is DONE only when:
 - unintended silence policy passes;
 - configured scene plan/baseline evidence is available;
 - representative and important visual beats are reviewed;
+- when required, the hash-bound creative-QA bundle and assistant creative review pass;
+- phone-scale frames and normal-speed review clips have been inspected;
 - dedicated-browser playback is reviewed when that runtime is available;
 - long-form seams are reviewed;
 - baseline regression is understood where applicable;

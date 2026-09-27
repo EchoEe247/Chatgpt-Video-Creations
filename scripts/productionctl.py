@@ -33,6 +33,7 @@ from src.core.production_runtime import (
     sync_review_aliases,
 )
 from src.core.review_pack import build_review_pack
+from src.core.creative_qa import validate_assistant_review, validate_report_evidence
 
 
 def _now() -> str:
@@ -207,6 +208,26 @@ def _verify_review_evidence(manifest: Path, data: dict[str, Any]) -> dict[str, A
         if baseline_data.get("candidate_sha256") != digest:
             raise ValueError("baseline comparison is not bound to the current candidate SHA-256")
 
+    creative_qa_path = _resolve(manifest, artifacts.get("creative_qa"))
+    creative_review_path = _resolve(manifest, artifacts.get("creative_review"))
+    if data["workflow"].get("creative_qa_required"):
+        if creative_qa_path is None or not creative_qa_path.is_file():
+            raise FileNotFoundError("creative QA report is missing")
+        if creative_review_path is None or not creative_review_path.is_file():
+            raise FileNotFoundError("creative assistant review is missing")
+        creative_data = json.loads(creative_qa_path.read_text(encoding="utf-8"))
+        if creative_data.get("media_sha256") != digest:
+            raise ValueError("creative QA report is not bound to the current candidate SHA-256")
+        creative_files = validate_report_evidence(creative_qa_path)
+        if not creative_files.get("pass"):
+            raise ValueError("creative QA evidence bundle is invalid: " + "; ".join(creative_files.get("errors") or []))
+        creative_result = validate_assistant_review(creative_qa_path, creative_review_path)
+        if not creative_result.get("valid"):
+            raise ValueError("creative assistant review is structurally invalid: " + "; ".join(creative_result.get("errors") or []))
+        if not creative_result.get("pass"):
+            failed = ", ".join(creative_result.get("failed_criteria") or [])
+            raise ValueError(f"creative assistant review does not pass: {failed or 'defects recorded'}")
+
     return {
         "candidate": str(candidate),
         "candidate_sha256": digest,
@@ -214,6 +235,8 @@ def _verify_review_evidence(manifest: Path, data: dict[str, Any]) -> dict[str, A
         "review_pack": str(review_pack_path),
         "technical": str(technical_path),
         "baseline_comparison": str(baseline_path) if baseline_path else None,
+        "creative_qa": str(creative_qa_path) if creative_qa_path else None,
+        "creative_review": str(creative_review_path) if creative_review_path else None,
     }
 
 
@@ -226,6 +249,8 @@ def _record_candidate(manifest: Path, data: dict[str, Any], source: Path) -> Non
     artifacts["artifact_receipt"] = None
     artifacts["review_pack"] = None
     artifacts["baseline_comparison"] = None
+    artifacts["creative_qa"] = None
+    artifacts["creative_review"] = None
 
     data["gates"]["technical"] = {"status": PENDING, "evidence": None}
     data["gates"]["assistant"] = {"status": PENDING, "notes": None}
@@ -275,6 +300,8 @@ def _reset_for_next_render(data: dict[str, Any]) -> None:
     data["artifacts"]["artifact_receipt"] = None
     data["artifacts"]["review_pack"] = None
     data["artifacts"]["baseline_comparison"] = None
+    data["artifacts"]["creative_qa"] = None
+    data["artifacts"]["creative_review"] = None
     data["workflow"]["render_job"] = {
         "job_id": None,
         "state": "NONE",
@@ -540,6 +567,15 @@ def command_assistant_pass(args) -> int:
     manifest, data = _load(args.manifest)
     if data["gates"]["technical"]["status"] != PASS:
         raise ValueError("assistant PASS requires technical gate PASS")
+    if data["workflow"].get("creative_qa_required"):
+        if not args.creative_qa or not args.creative_review:
+            raise ValueError("assistant PASS requires --creative-qa and --creative-review when workflow.creative_qa_required is true")
+        qa_path = Path(args.creative_qa).expanduser().resolve()
+        review_path = Path(args.creative_review).expanduser().resolve()
+        if not qa_path.is_file() or not review_path.is_file():
+            raise FileNotFoundError("creative QA report/review is missing")
+        data["artifacts"]["creative_qa"] = _relative(manifest, qa_path)
+        data["artifacts"]["creative_review"] = _relative(manifest, review_path)
     integrity = _verify_review_evidence(manifest, data)
 
     data["gates"]["assistant"] = {
@@ -701,6 +737,9 @@ def build_parser() -> argparse.ArgumentParser:
         p.add_argument("manifest")
         if name in {"assistant-pass", "assistant-fail", "user-accept", "user-reject"}:
             p.add_argument("--notes")
+        if name == "assistant-pass":
+            p.add_argument("--creative-qa")
+            p.add_argument("--creative-review")
         if name == "repair-start":
             p.add_argument("--reason", required=True)
         if name == "block":

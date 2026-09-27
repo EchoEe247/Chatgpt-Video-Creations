@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "safe_margin_ratio": 0.04,
+  "text_items": [
+    {
+      "id": "example-title",
+      "start_seconds": 0,
+      "end_seconds": 3,
+      "bbox_norm": [0.10, 0.10, 0.80, 0.12],
+      "font_px": 54
+    }
+  ]
+}

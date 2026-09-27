@@ -68,6 +68,12 @@ finished visual quality. Preview review is performed by ChatGPT, not a request
 for user permission. Preserve observed limitations and verify the actual repair.
 The core shot workflow remains usable without any generation API. Optional reliable resources may augment it, but unavailable services must fall back cleanly to cached or local rendering.
 
+## Creative QA before assistant acceptance
+
+Before handing a serious video to the user, run `scripts/creativeqactl.py analyze` against the exact candidate and its current execution plan, then read `docs/CREATIVE_QA_WORKFLOW.md`.
+
+Automated freeze/motion/camera/layout signals are triage evidence, not aesthetic verdicts. The assistant must inspect generated phone-scale frames and normal-speed clips, complete the hash-bound creative review, and cite only evidence generated for that exact candidate. Missing text-layout metadata means manual readability review is required; never convert missing evidence into a fake automated pass.
+
 ## Model-independent directing
 
 For serious narrative, cinematic, launch, music, or explainer work, read `docs/DIRECTOR_SPEC_WORKFLOW.md` and create a production-specific director brief from `templates/director-brief.json` before expensive rendering.

@@ -19,6 +19,7 @@ class ProductionRuntimeTests(unittest.TestCase):
         data = copy.deepcopy(TEMPLATE)
         data["production_id"] = "test-production"
         data["source"]["show"] = "test-show"
+        data["workflow"]["creative_qa_required"] = False
         return data
 
     def test_planned_starts_at_render(self):
@@ -69,6 +70,39 @@ class ProductionRuntimeTests(unittest.TestCase):
         data["workflow"]["render_job"]["job_id"] = "job-123"
         data["workflow"]["render_job"]["state"] = "RUNNING"
         self.assertEqual(next_action(data), "reconcile_render_job")
+
+    def test_required_creative_qa_is_a_distinct_next_action(self):
+        data = self.make()
+        data["workflow"]["creative_qa_required"] = True
+        data["status"] = "ASSISTANT_REVIEW"
+        data["artifacts"].update({
+            "candidate_master": "candidate.mp4",
+            "candidate_sha256": "c" * 64,
+            "artifact_receipt": "receipt.json",
+            "review_pack": "review.json",
+        })
+        data["gates"]["technical"]["status"] = "PASS"
+        self.assertEqual(next_action(data), "creative_qa")
+        data["artifacts"]["creative_qa"] = "creative/creative-qa.json"
+        data["artifacts"]["creative_review"] = "creative/assistant-review.json"
+        self.assertEqual(next_action(data), "assistant_review")
+
+    def test_user_review_requires_creative_artifacts_when_enabled(self):
+        data = self.make()
+        data["workflow"]["creative_qa_required"] = True
+        data["status"] = "USER_REVIEW"
+        data["artifacts"].update({
+            "candidate_master": "candidate.mp4",
+            "candidate_sha256": "d" * 64,
+            "artifact_receipt": "receipt.json",
+            "review_pack": "review.json",
+        })
+        data["gates"]["technical"]["status"] = "PASS"
+        data["gates"]["assistant"]["status"] = "PASS"
+        self.assertFalse(ready_for_user_review(data))
+        data["artifacts"]["creative_qa"] = "creative/creative-qa.json"
+        data["artifacts"]["creative_review"] = "creative/assistant-review.json"
+        self.assertTrue(ready_for_user_review(data))
 
     def test_explicit_gate_reset_beats_legacy_alias(self):
         data = self.make()

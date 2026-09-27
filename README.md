@@ -147,6 +147,7 @@ See [`docs/SCENE_GEOMETRY.md`](docs/SCENE_GEOMETRY.md) and [`docs/VISUAL_QA_STAN
 - [`docs/DIRECTOR_EXECUTION_PLAN.md`](docs/DIRECTOR_EXECUTION_PLAN.md) — compiles the director brief into hash-bound shot timing, renderer lanes, asset provenance, audio/transition cues, QA requirements, and blockers.
 - [`docs/AUDIO_TIMELINE_WORKFLOW.md`](docs/AUDIO_TIMELINE_WORKFLOW.md) — shared picture/audio event clock, four-stem plan, Core Audio Commons, synchronization, and master-audio QA.
 - [`docs/RENDERER_ADAPTERS.md`](docs/RENDERER_ADAPTERS.md) — stable Python/Canvas/Three.js-WebGL/Blender/FFmpeg shot contracts, Pixel runtime doctor, fallback lanes, and recovery behavior.
+- [`docs/CREATIVE_QA_WORKFLOW.md`](docs/CREATIVE_QA_WORKFLOW.md) — freeze/motion-density/camera-pattern/layout signals, phone-scale frames, normal-speed clips, and hash-bound assistant creative review.
 - [`docs/CANVAS_HANDDRAWN_RENDERER.md`](docs/CANVAS_HANDDRAWN_RENDERER.md) — integrated MIT Canvas2D hand-drawn renderer, Pixel adapter, provenance, and local validation.
 - [`templates/director-brief.json`](templates/director-brief.json) — reusable director brief starter for serious narrative/cinematic productions.
 - [`templates/`](templates/) — business release, show, season, episode, and production starters.

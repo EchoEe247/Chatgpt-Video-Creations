@@ -1,5 +1,6 @@
 import copy
 import json
+import hashlib
 import shutil
 import subprocess
 import tempfile
@@ -43,11 +44,12 @@ class ProductionControllerIntegrationTests(unittest.TestCase):
     def tearDownClass(cls):
         cls.temp.cleanup()
 
-    def make_manifest(self, name: str, *, width: int = 320) -> Path:
+    def make_manifest(self, name: str, *, width: int = 320, creative_required: bool = False) -> Path:
         package = self.root / name
         package.mkdir(parents=True, exist_ok=True)
         data = copy.deepcopy(TEMPLATE)
         data["production_id"] = name
+        data["workflow"]["creative_qa_required"] = creative_required
         data["source"]["show"] = "test-show"
         data["delivery"].update(
             {
@@ -85,6 +87,108 @@ class ProductionControllerIntegrationTests(unittest.TestCase):
         passed = self.run_ctl("assistant-pass", manifest, "--notes", "integration pass")
         self.assertEqual(passed.returncode, 0, passed.stderr + passed.stdout)
         return self.load(manifest)
+
+
+    def build_creative_evidence(self, manifest: Path) -> tuple[Path, Path]:
+        data = self.load(manifest)
+        digest = data["artifacts"]["candidate_sha256"]
+        root = manifest.parent / "creative"
+        (root / "phone").mkdir(parents=True, exist_ok=True)
+        (root / "normal").mkdir(parents=True, exist_ok=True)
+        contact = root / "contact.jpg"
+        phone = root / "phone" / "shot-01.jpg"
+        clip = root / "normal" / "shot-01.mp4"
+        contact.write_bytes(b"contact")
+        phone.write_bytes(b"phone")
+        shutil.copy2(self.source, clip)
+
+        def sha(path: Path) -> str:
+            return hashlib.sha256(path.read_bytes()).hexdigest()
+
+        report = {
+            "schema_version": 1,
+            "media_sha256": digest,
+            "evidence": {
+                "contact_sheet": "contact.jpg",
+                "contact_sheet_sha256": sha(contact),
+                "review_points": [
+                    {
+                        "shot_id": "shot-01",
+                        "phone_frame": "phone/shot-01.jpg",
+                        "normal_speed_clip": "normal/shot-01.mp4",
+                        "frame_sha256": sha(phone),
+                        "clip_sha256": sha(clip),
+                    }
+                ],
+            },
+        }
+        report_path = root / "creative-qa.json"
+        report_path.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
+        report_sha = sha(report_path)
+        criteria = {
+            key: {"pass": True, "notes": "inspected exact candidate evidence", "evidence": ["contact.jpg"]}
+            for key in (
+                "composition",
+                "phone_scale_readability",
+                "visible_motion",
+                "camera_variety",
+                "normal_speed_story_read",
+            )
+        }
+        review = {
+            "schema_version": 1,
+            "candidate_sha256": digest,
+            "creative_qa_sha256": report_sha,
+            "criteria": criteria,
+            "defects": [],
+            "next_change": "",
+        }
+        review_path = root / "assistant-review.json"
+        review_path.write_text(json.dumps(review, indent=2) + "\n", encoding="utf-8")
+        return report_path, review_path
+
+    def test_creative_qa_required_blocks_unbound_assistant_pass(self):
+        manifest = self.make_manifest("creative-required", creative_required=True)
+        self.assertEqual(self.run_ctl("candidate", manifest, self.source).returncode, 0)
+        prepared = self.run_ctl("prepare-review", manifest)
+        self.assertEqual(prepared.returncode, 0, prepared.stderr + prepared.stdout)
+
+        blocked = self.run_ctl("assistant-pass", manifest, "--notes", "should block")
+        self.assertNotEqual(blocked.returncode, 0)
+        self.assertIn("--creative-qa and --creative-review", blocked.stderr)
+
+        report, review = self.build_creative_evidence(manifest)
+        passed = self.run_ctl(
+            "assistant-pass",
+            manifest,
+            "--notes",
+            "creative QA passed",
+            "--creative-qa",
+            report,
+            "--creative-review",
+            review,
+        )
+        self.assertEqual(passed.returncode, 0, passed.stderr + passed.stdout)
+        data = self.load(manifest)
+        self.assertEqual(data["status"], "USER_REVIEW")
+        self.assertTrue(data["artifacts"]["creative_qa"])
+        self.assertTrue(data["artifacts"]["creative_review"])
+
+    def test_creative_bundle_tampering_breaks_user_review_integrity(self):
+        manifest = self.make_manifest("creative-tamper", creative_required=True)
+        self.assertEqual(self.run_ctl("candidate", manifest, self.source).returncode, 0)
+        self.assertEqual(self.run_ctl("prepare-review", manifest).returncode, 0)
+        report, review = self.build_creative_evidence(manifest)
+        passed = self.run_ctl(
+            "assistant-pass", manifest,
+            "--creative-qa", report,
+            "--creative-review", review,
+        )
+        self.assertEqual(passed.returncode, 0, passed.stderr + passed.stdout)
+        (report.parent / "contact.jpg").write_bytes(b"tampered")
+        accepted = self.run_ctl("user-accept", manifest)
+        self.assertNotEqual(accepted.returncode, 0)
+        self.assertIn("creative QA evidence bundle is invalid", accepted.stderr)
 
     def test_user_accept_rejects_missing_candidate(self):
         manifest = self.make_manifest("missing-candidate")

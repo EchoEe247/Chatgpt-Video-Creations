@@ -168,7 +168,7 @@ The default review policy is `final_candidate_only`.
 
 Technical failures and assistant-detected visual/audio/continuity defects return to an internal repair loop. Do not ask the user to review those intermediate candidates merely to discover whether the repair worked.
 
-For business, one-off, and episode work, the normal user-facing handoff happens after deterministic QA and assistant review pass. User acceptance is the final gate. Immediately before assistant PASS and user acceptance, verify that the candidate still exists, its SHA-256 still matches, and the technical/review evidence is bound to that same candidate.
+For business, one-off, and episode work, the normal user-facing handoff happens after deterministic QA and assistant review pass. New v2 productions also require the Phase 6 creative-QA bundle: freeze/motion/camera/layout triage, phone-scale frames, and normal-speed review clips, followed by an evidence-backed assistant creative review. User acceptance is the final gate. Immediately before assistant PASS and user acceptance, verify that the candidate still exists, its SHA-256 still matches, and the technical/review/creative evidence is bound to that same candidate.
 
 For episode work, technical, assistant, and user gates all have to pass before the episode becomes `DONE ✅` and continuity-out/canon is updated.
 

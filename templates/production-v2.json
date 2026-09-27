@@ -49,7 +49,8 @@
       "started_at": null,
       "completed_at": null,
       "exit_code": null
-    }
+    },
+    "creative_qa_required": true
   },
   "artifacts": {
     "candidate_master": null,
@@ -58,7 +59,9 @@
     "artifact_receipt": null,
     "review_pack": null,
     "baseline_master": null,
-    "baseline_comparison": null
+    "baseline_comparison": null,
+    "creative_qa": null,
+    "creative_review": null
   },
   "gates": {
     "technical": {

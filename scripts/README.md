@@ -5,10 +5,11 @@ Use the narrowest entry point that matches the task.
 - `directorctl.py` — validates director briefs and compiles hash-bound, agent-independent execution plans with renderer lanes, asset resolution, timing, review points, and explicit blockers.
 - `timelinectl.py` — compiles execution plans plus production-specific events into one hash-bound seconds/frame/sample timeline shared by picture, audio, and QA.
 - `audioctl.py` — builds/verifies the tiny procedural Core Audio Commons and applies explicit loudness/true-peak/silence master checks.
-- `productionctl.py` — restart-safe production controller. Persists Local Workspace render-job identity, copies candidates into immutable iteration directories, binds QA to candidate SHA-256, reconciles interrupted jobs, tracks repair history/budget, and verifies evidence again before final acceptance.
+- `productionctl.py` — restart-safe production controller. Persists Local Workspace render-job identity, copies candidates into immutable iteration directories, binds technical and required creative QA to candidate SHA-256, reconciles interrupted jobs, tracks repair history/budget, and verifies evidence again before final acceptance.
 - `videoctl.py` — media inspection/QA primitives: probe, strict decode, loudness/silence analysis, frames, contact sheets, full-runtime baseline comparison, codec/pixel/audio delivery checks, receipts, and review packs.
 - `canvas_handdrawn_adapter.py` — stable Pixel/Termux setup, browser discovery, preview, and full-render entry point for the integrated Canvas2D hand-drawn renderer.
 - `rendererctl.py` — reports standardized renderer lanes versus actual device runtime readiness, including the current WebGL degradation/fallback state.
+- `creativeqactl.py` — builds candidate-bound creative-QA evidence: freeze/motion signals, camera repetition, optional text-layout checks, phone-scale frames, normal-speed clips, and assistant-review validation.
 - `python_shot_adapter.py`, `browser_shot_adapter.py`, `blender_termux_adapter.py`, `ffmpeg_shot_adapter.py` — common `{request}` frame-render contract used by `shotctl` across the major local renderer lanes.
 - `assemble-scenes.py` — assembles only the explicit ordered scenes listed in an assembly manifest. It rejects missing/duplicate inputs, output-as-input collisions, stream incompatibility, optional SHA mismatches, and duration mismatches before concat-copy and master decode verification.
 - `validate-production-v2.py` — production package schema/gate validation.
