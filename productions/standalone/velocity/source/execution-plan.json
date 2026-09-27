@@ -1,0 +1,1825 @@
+{
+  "schema_version": 1,
+  "title": "VELOCITY \u2014 A Highway Study",
+  "source": {
+    "director_brief": "productions/standalone/velocity/source/director-brief.json",
+    "director_sha256": "3073d396e6691a057a7d81cb1674ded004148fcd956efc7deb2249857f014dfc"
+  },
+  "execution_policy": {
+    "owner_mode": "single_agent_default",
+    "cooperation_required": false,
+    "parallelism": "optional_only_when_beneficial",
+    "state_authority": "repository_files"
+  },
+  "delivery": {
+    "width": 960,
+    "height": 540,
+    "fps": 24
+  },
+  "runtime_seconds": 120.0,
+  "story": {
+    "setup": "A dark-blue performance coupe joins steady evening highway traffic at ordinary speed.",
+    "escalation": "The road opens and the hero car accelerates while surrounding traffic remains lane-disciplined and believable.",
+    "turn": "Blue hour becomes night as speed, parallax, headlights and traffic density intensify.",
+    "resolution": "The car settles back into a normal cruise among regular traffic under city lights.",
+    "emotional_arc": [
+      "observation",
+      "flow",
+      "acceleration",
+      "focus",
+      "release"
+    ]
+  },
+  "global_grammar": {
+    "visual": {
+      "style": "Original locally rendered 3D highway realism study; correctly proportioned performance coupe, coherent traffic, dusk-to-night lighting, road-scale parallax",
+      "palette_arc": [
+        "warm sunset asphalt",
+        "cool blue hour",
+        "deep night with practical lights"
+      ],
+      "lighting": "Sunset key progressing into cool night ambience with practical streetlights and vehicle lamps",
+      "depth_rules": [
+        "World-space connected divided highway with persistent lane geometry",
+        "Near asphalt/reflectors, hero and traffic vehicles, roadside infrastructure, skyline and atmosphere"
+      ],
+      "typography_rules": [
+        "Readable opening title and restrained ending credit; no debug overlays"
+      ],
+      "texture_rules": [
+        "Procedural asphalt grain and repair strips",
+        "Authored reflective road furniture, vehicle trim and building-window emission",
+        "No claim of external texture assets unless provenance records them"
+      ],
+      "forbidden_patterns": [
+        "Real driving footage",
+        "Loops",
+        "Still-image slideshow",
+        "Cars clipping through each other",
+        "Random lane weaving",
+        "Unmotivated airborne vehicles"
+      ]
+    },
+    "camera": {
+      "default_behavior": "Variable-duration cinematic coverage tied to speed phase; avoid periodic camera cycles",
+      "allowed_moves": [
+        "rear chase",
+        "front lead",
+        "side tracking",
+        "hood POV",
+        "low wheel detail",
+        "aerial",
+        "long-lens chase"
+      ],
+      "physical_camera_assumptions": [
+        "Ground clearance",
+        "Restrained vibration"
+      ],
+      "intentional_imperfections": [
+        "Small inertial shake"
+      ],
+      "avoid": [
+        "Camera inside car body",
+        "Random orbital motion",
+        "Traffic occluding the entire frame"
+      ]
+    },
+    "audio": {
+      "narration_or_dialogue": "None",
+      "score_arc": [
+        "restrained sunset pulse",
+        "stronger acceleration drive",
+        "night-time release"
+      ],
+      "ambience": [
+        "locally synthesized wind, road noise and traffic bed"
+      ],
+      "effects": [
+        "locally synthesized engine harmonics, expansion joints and passing-car whooshes"
+      ],
+      "silence_rules": [
+        "No extended silence; controlled opening and ending fades only"
+      ],
+      "sync_rules": [
+        "Picture displacement and audio engine/wind derive from the same source/speed-profile.json continuous speed curve",
+        "Traffic pass-bys are authored stereo events"
+      ]
+    },
+    "editing": {
+      "pace_arc": [
+        "longer observational sunset shots",
+        "shorter first acceleration coverage",
+        "breathing-space cruise reset",
+        "shorter second acceleration coverage",
+        "longer night release"
+      ],
+      "cut_motivations": [
+        "speed-phase changes",
+        "camera-scale contrast",
+        "traffic relationships",
+        "dusk-to-night progression"
+      ],
+      "transition_rules": [
+        "Straight cuts preserve action timeline",
+        "No repetitive color fades"
+      ],
+      "avoid": [
+        "Reused footage",
+        "Looped motion",
+        "Artificial slow motion interpolation"
+      ]
+    }
+  },
+  "handoff": {
+    "critical_files": [
+      "render_3d.py",
+      "execution-plan.json",
+      "av-timeline.json",
+      "provenance.json"
+    ],
+    "known_limits": [
+      "Software rasterization on Pixel; improved stylized realism but not photoreal.",
+      "Native rendered size 960x540 at 24 fps."
+    ],
+    "acceptance_focus": [
+      "2\u20135 minutes",
+      "No real driving footage",
+      "Believable lane traffic",
+      "Normal and fast hero-car phases",
+      "Decode-valid audiovisual file"
+    ]
+  },
+  "shots": [
+    {
+      "id": "shot-01",
+      "order": 1,
+      "start_seconds": 0.0,
+      "duration_seconds": 8.0,
+      "end_seconds": 8.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "normal-speed cruise / release",
+        "visible_event": "The dark-blue hero coupe advances through continuous highway traffic during a normal-speed cruise / release, viewed in rear high chase.",
+        "viewer_reads": [
+          "The dark-blue hero coupe advances through continuous highway traffic during a normal-speed cruise / release, viewed in rear high chase."
+        ]
+      },
+      "motion": {
+        "subject": "Hero displacement uses the shared continuous speed curve; wheel rotation follows integrated distance; lane changes are smooth and persistent; traffic trajectories do not modulo-loop around the hero.",
+        "environment": "Lane markings, guard rails, reflectors, streetlights, overpasses and skyline create world-fixed parallax.",
+        "camera": "rear high chase"
+      },
+      "look": {
+        "palette": "sunset-to-blue-hour-to-night highway",
+        "depth_layers": [
+          "near asphalt and reflectors",
+          "hero and traffic vehicles",
+          "guard rails and lamps",
+          "city skyline and sky"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous synthesized engine, road/wind bed, traffic pass-bys and restrained electronic score.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same dark-blue hero coupe",
+        "Continuous highway progress",
+        "Traffic remains lane-disciplined"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 1.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 5.76,
+          "absolute_seconds": 5.76,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "car proportion drift",
+        "traffic collision or lane snap",
+        "camera inside body",
+        "lane clipping",
+        "frozen motion",
+        "underexposed subject detail",
+        "periodic camera repetition"
+      ],
+      "qa_required": [
+        "composition",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review",
+        "exposure_detail",
+        "speed_continuity",
+        "traffic_trajectory"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-02",
+      "order": 2,
+      "start_seconds": 8.0,
+      "duration_seconds": 7.0,
+      "end_seconds": 15.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "normal-speed cruise / release",
+        "visible_event": "The dark-blue hero coupe advances through continuous highway traffic during a normal-speed cruise / release, viewed in rear quarter.",
+        "viewer_reads": [
+          "The dark-blue hero coupe advances through continuous highway traffic during a normal-speed cruise / release, viewed in rear quarter."
+        ]
+      },
+      "motion": {
+        "subject": "Hero displacement uses the shared continuous speed curve; wheel rotation follows integrated distance; lane changes are smooth and persistent; traffic trajectories do not modulo-loop around the hero.",
+        "environment": "Lane markings, guard rails, reflectors, streetlights, overpasses and skyline create world-fixed parallax.",
+        "camera": "rear quarter"
+      },
+      "look": {
+        "palette": "sunset-to-blue-hour-to-night highway",
+        "depth_layers": [
+          "near asphalt and reflectors",
+          "hero and traffic vehicles",
+          "guard rails and lamps",
+          "city skyline and sky"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous synthesized engine, road/wind bed, traffic pass-bys and restrained electronic score.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same dark-blue hero coupe",
+        "Continuous highway progress",
+        "Traffic remains lane-disciplined"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 9.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 5.04,
+          "absolute_seconds": 13.04,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "car proportion drift",
+        "traffic collision or lane snap",
+        "camera inside body",
+        "lane clipping",
+        "frozen motion",
+        "underexposed subject detail",
+        "periodic camera repetition"
+      ],
+      "qa_required": [
+        "composition",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review",
+        "exposure_detail",
+        "speed_continuity",
+        "traffic_trajectory"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-03",
+      "order": 3,
+      "start_seconds": 15.0,
+      "duration_seconds": 6.0,
+      "end_seconds": 21.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "normal-speed cruise / release",
+        "visible_event": "The dark-blue hero coupe advances through continuous highway traffic during a normal-speed cruise / release, viewed in aerial.",
+        "viewer_reads": [
+          "The dark-blue hero coupe advances through continuous highway traffic during a normal-speed cruise / release, viewed in aerial."
+        ]
+      },
+      "motion": {
+        "subject": "Hero displacement uses the shared continuous speed curve; wheel rotation follows integrated distance; lane changes are smooth and persistent; traffic trajectories do not modulo-loop around the hero.",
+        "environment": "Lane markings, guard rails, reflectors, streetlights, overpasses and skyline create world-fixed parallax.",
+        "camera": "aerial"
+      },
+      "look": {
+        "palette": "sunset-to-blue-hour-to-night highway",
+        "depth_layers": [
+          "near asphalt and reflectors",
+          "hero and traffic vehicles",
+          "guard rails and lamps",
+          "city skyline and sky"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous synthesized engine, road/wind bed, traffic pass-bys and restrained electronic score.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same dark-blue hero coupe",
+        "Continuous highway progress",
+        "Traffic remains lane-disciplined"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 16.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.32,
+          "absolute_seconds": 19.32,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "car proportion drift",
+        "traffic collision or lane snap",
+        "camera inside body",
+        "lane clipping",
+        "frozen motion",
+        "underexposed subject detail",
+        "periodic camera repetition"
+      ],
+      "qa_required": [
+        "composition",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review",
+        "exposure_detail",
+        "speed_continuity",
+        "traffic_trajectory"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-04",
+      "order": 4,
+      "start_seconds": 21.0,
+      "duration_seconds": 5.0,
+      "end_seconds": 26.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "normal-speed cruise / release",
+        "visible_event": "The dark-blue hero coupe advances through continuous highway traffic during a normal-speed cruise / release, viewed in side tracking.",
+        "viewer_reads": [
+          "The dark-blue hero coupe advances through continuous highway traffic during a normal-speed cruise / release, viewed in side tracking."
+        ]
+      },
+      "motion": {
+        "subject": "Hero displacement uses the shared continuous speed curve; wheel rotation follows integrated distance; lane changes are smooth and persistent; traffic trajectories do not modulo-loop around the hero.",
+        "environment": "Lane markings, guard rails, reflectors, streetlights, overpasses and skyline create world-fixed parallax.",
+        "camera": "side tracking"
+      },
+      "look": {
+        "palette": "sunset-to-blue-hour-to-night highway",
+        "depth_layers": [
+          "near asphalt and reflectors",
+          "hero and traffic vehicles",
+          "guard rails and lamps",
+          "city skyline and sky"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous synthesized engine, road/wind bed, traffic pass-bys and restrained electronic score.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same dark-blue hero coupe",
+        "Continuous highway progress",
+        "Traffic remains lane-disciplined"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 22.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 3.6,
+          "absolute_seconds": 24.6,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "car proportion drift",
+        "traffic collision or lane snap",
+        "camera inside body",
+        "lane clipping",
+        "frozen motion",
+        "underexposed subject detail",
+        "periodic camera repetition"
+      ],
+      "qa_required": [
+        "composition",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review",
+        "exposure_detail",
+        "speed_continuity",
+        "traffic_trajectory"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-05",
+      "order": 5,
+      "start_seconds": 26.0,
+      "duration_seconds": 4.0,
+      "end_seconds": 30.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "normal-speed cruise / release",
+        "visible_event": "The dark-blue hero coupe advances through continuous highway traffic during a normal-speed cruise / release, viewed in hood POV.",
+        "viewer_reads": [
+          "The dark-blue hero coupe advances through continuous highway traffic during a normal-speed cruise / release, viewed in hood POV."
+        ]
+      },
+      "motion": {
+        "subject": "Hero displacement uses the shared continuous speed curve; wheel rotation follows integrated distance; lane changes are smooth and persistent; traffic trajectories do not modulo-loop around the hero.",
+        "environment": "Lane markings, guard rails, reflectors, streetlights, overpasses and skyline create world-fixed parallax.",
+        "camera": "hood POV"
+      },
+      "look": {
+        "palette": "sunset-to-blue-hour-to-night highway",
+        "depth_layers": [
+          "near asphalt and reflectors",
+          "hero and traffic vehicles",
+          "guard rails and lamps",
+          "city skyline and sky"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous synthesized engine, road/wind bed, traffic pass-bys and restrained electronic score.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same dark-blue hero coupe",
+        "Continuous highway progress",
+        "Traffic remains lane-disciplined"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.2,
+          "absolute_seconds": 27.2,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 2.88,
+          "absolute_seconds": 28.88,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "car proportion drift",
+        "traffic collision or lane snap",
+        "camera inside body",
+        "lane clipping",
+        "frozen motion",
+        "underexposed subject detail",
+        "periodic camera repetition"
+      ],
+      "qa_required": [
+        "composition",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review",
+        "exposure_detail",
+        "speed_continuity",
+        "traffic_trajectory"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-06",
+      "order": 6,
+      "start_seconds": 30.0,
+      "duration_seconds": 4.0,
+      "end_seconds": 34.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "normal-speed cruise / release",
+        "visible_event": "The dark-blue hero coupe advances through continuous highway traffic during a normal-speed cruise / release, viewed in front lead.",
+        "viewer_reads": [
+          "The dark-blue hero coupe advances through continuous highway traffic during a normal-speed cruise / release, viewed in front lead."
+        ]
+      },
+      "motion": {
+        "subject": "Hero displacement uses the shared continuous speed curve; wheel rotation follows integrated distance; lane changes are smooth and persistent; traffic trajectories do not modulo-loop around the hero.",
+        "environment": "Lane markings, guard rails, reflectors, streetlights, overpasses and skyline create world-fixed parallax.",
+        "camera": "front lead"
+      },
+      "look": {
+        "palette": "sunset-to-blue-hour-to-night highway",
+        "depth_layers": [
+          "near asphalt and reflectors",
+          "hero and traffic vehicles",
+          "guard rails and lamps",
+          "city skyline and sky"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous synthesized engine, road/wind bed, traffic pass-bys and restrained electronic score.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same dark-blue hero coupe",
+        "Continuous highway progress",
+        "Traffic remains lane-disciplined"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.2,
+          "absolute_seconds": 31.2,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 2.88,
+          "absolute_seconds": 32.88,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "car proportion drift",
+        "traffic collision or lane snap",
+        "camera inside body",
+        "lane clipping",
+        "frozen motion",
+        "underexposed subject detail",
+        "periodic camera repetition"
+      ],
+      "qa_required": [
+        "composition",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review",
+        "exposure_detail",
+        "speed_continuity",
+        "traffic_trajectory"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-07",
+      "order": 7,
+      "start_seconds": 34.0,
+      "duration_seconds": 4.0,
+      "end_seconds": 38.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "normal-speed cruise / release",
+        "visible_event": "The dark-blue hero coupe advances through continuous highway traffic during a normal-speed cruise / release, viewed in rear quarter.",
+        "viewer_reads": [
+          "The dark-blue hero coupe advances through continuous highway traffic during a normal-speed cruise / release, viewed in rear quarter."
+        ]
+      },
+      "motion": {
+        "subject": "Hero displacement uses the shared continuous speed curve; wheel rotation follows integrated distance; lane changes are smooth and persistent; traffic trajectories do not modulo-loop around the hero.",
+        "environment": "Lane markings, guard rails, reflectors, streetlights, overpasses and skyline create world-fixed parallax.",
+        "camera": "rear quarter"
+      },
+      "look": {
+        "palette": "sunset-to-blue-hour-to-night highway",
+        "depth_layers": [
+          "near asphalt and reflectors",
+          "hero and traffic vehicles",
+          "guard rails and lamps",
+          "city skyline and sky"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous synthesized engine, road/wind bed, traffic pass-bys and restrained electronic score.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same dark-blue hero coupe",
+        "Continuous highway progress",
+        "Traffic remains lane-disciplined"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.2,
+          "absolute_seconds": 35.2,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 2.88,
+          "absolute_seconds": 36.88,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "car proportion drift",
+        "traffic collision or lane snap",
+        "camera inside body",
+        "lane clipping",
+        "frozen motion",
+        "underexposed subject detail",
+        "periodic camera repetition"
+      ],
+      "qa_required": [
+        "composition",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review",
+        "exposure_detail",
+        "speed_continuity",
+        "traffic_trajectory"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-08",
+      "order": 8,
+      "start_seconds": 38.0,
+      "duration_seconds": 5.0,
+      "end_seconds": 43.0,
+      "hero": true,
+      "intent": {
+        "narrative_purpose": "continuous acceleration / high-speed phase",
+        "visible_event": "The dark-blue hero coupe advances through continuous highway traffic during a continuous acceleration / high-speed phase, viewed in low wheel detail.",
+        "viewer_reads": [
+          "The dark-blue hero coupe advances through continuous highway traffic during a continuous acceleration / high-speed phase, viewed in low wheel detail."
+        ]
+      },
+      "motion": {
+        "subject": "Hero displacement uses the shared continuous speed curve; wheel rotation follows integrated distance; lane changes are smooth and persistent; traffic trajectories do not modulo-loop around the hero.",
+        "environment": "Lane markings, guard rails, reflectors, streetlights, overpasses and skyline create world-fixed parallax.",
+        "camera": "low wheel detail"
+      },
+      "look": {
+        "palette": "sunset-to-blue-hour-to-night highway",
+        "depth_layers": [
+          "near asphalt and reflectors",
+          "hero and traffic vehicles",
+          "guard rails and lamps",
+          "city skyline and sky"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous synthesized engine, road/wind bed, traffic pass-bys and restrained electronic score.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same dark-blue hero coupe",
+        "Continuous highway progress",
+        "Traffic remains lane-disciplined"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 39.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 3.6,
+          "absolute_seconds": 41.6,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "car proportion drift",
+        "traffic collision or lane snap",
+        "camera inside body",
+        "lane clipping",
+        "frozen motion",
+        "underexposed subject detail",
+        "periodic camera repetition"
+      ],
+      "qa_required": [
+        "composition",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review",
+        "exposure_detail",
+        "speed_continuity",
+        "traffic_trajectory"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-09",
+      "order": 9,
+      "start_seconds": 43.0,
+      "duration_seconds": 8.0,
+      "end_seconds": 51.0,
+      "hero": true,
+      "intent": {
+        "narrative_purpose": "continuous acceleration / high-speed phase",
+        "visible_event": "The dark-blue hero coupe advances through continuous highway traffic during a continuous acceleration / high-speed phase, viewed in long-lens chase.",
+        "viewer_reads": [
+          "The dark-blue hero coupe advances through continuous highway traffic during a continuous acceleration / high-speed phase, viewed in long-lens chase."
+        ]
+      },
+      "motion": {
+        "subject": "Hero displacement uses the shared continuous speed curve; wheel rotation follows integrated distance; lane changes are smooth and persistent; traffic trajectories do not modulo-loop around the hero.",
+        "environment": "Lane markings, guard rails, reflectors, streetlights, overpasses and skyline create world-fixed parallax.",
+        "camera": "long-lens chase"
+      },
+      "look": {
+        "palette": "sunset-to-blue-hour-to-night highway",
+        "depth_layers": [
+          "near asphalt and reflectors",
+          "hero and traffic vehicles",
+          "guard rails and lamps",
+          "city skyline and sky"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous synthesized engine, road/wind bed, traffic pass-bys and restrained electronic score.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same dark-blue hero coupe",
+        "Continuous highway progress",
+        "Traffic remains lane-disciplined"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 44.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 5.76,
+          "absolute_seconds": 48.76,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "car proportion drift",
+        "traffic collision or lane snap",
+        "camera inside body",
+        "lane clipping",
+        "frozen motion",
+        "underexposed subject detail",
+        "periodic camera repetition"
+      ],
+      "qa_required": [
+        "composition",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review",
+        "exposure_detail",
+        "speed_continuity",
+        "traffic_trajectory"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-10",
+      "order": 10,
+      "start_seconds": 51.0,
+      "duration_seconds": 7.0,
+      "end_seconds": 58.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "continuous acceleration / high-speed phase",
+        "visible_event": "The dark-blue hero coupe advances through continuous highway traffic during a continuous acceleration / high-speed phase, viewed in rear high chase.",
+        "viewer_reads": [
+          "The dark-blue hero coupe advances through continuous highway traffic during a continuous acceleration / high-speed phase, viewed in rear high chase."
+        ]
+      },
+      "motion": {
+        "subject": "Hero displacement uses the shared continuous speed curve; wheel rotation follows integrated distance; lane changes are smooth and persistent; traffic trajectories do not modulo-loop around the hero.",
+        "environment": "Lane markings, guard rails, reflectors, streetlights, overpasses and skyline create world-fixed parallax.",
+        "camera": "rear high chase"
+      },
+      "look": {
+        "palette": "sunset-to-blue-hour-to-night highway",
+        "depth_layers": [
+          "near asphalt and reflectors",
+          "hero and traffic vehicles",
+          "guard rails and lamps",
+          "city skyline and sky"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous synthesized engine, road/wind bed, traffic pass-bys and restrained electronic score.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same dark-blue hero coupe",
+        "Continuous highway progress",
+        "Traffic remains lane-disciplined"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 52.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 5.04,
+          "absolute_seconds": 56.04,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "car proportion drift",
+        "traffic collision or lane snap",
+        "camera inside body",
+        "lane clipping",
+        "frozen motion",
+        "underexposed subject detail",
+        "periodic camera repetition"
+      ],
+      "qa_required": [
+        "composition",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review",
+        "exposure_detail",
+        "speed_continuity",
+        "traffic_trajectory"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-11",
+      "order": 11,
+      "start_seconds": 58.0,
+      "duration_seconds": 8.0,
+      "end_seconds": 66.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "continuous acceleration / high-speed phase",
+        "visible_event": "The dark-blue hero coupe advances through continuous highway traffic during a continuous acceleration / high-speed phase, viewed in side tracking.",
+        "viewer_reads": [
+          "The dark-blue hero coupe advances through continuous highway traffic during a continuous acceleration / high-speed phase, viewed in side tracking."
+        ]
+      },
+      "motion": {
+        "subject": "Hero displacement uses the shared continuous speed curve; wheel rotation follows integrated distance; lane changes are smooth and persistent; traffic trajectories do not modulo-loop around the hero.",
+        "environment": "Lane markings, guard rails, reflectors, streetlights, overpasses and skyline create world-fixed parallax.",
+        "camera": "side tracking"
+      },
+      "look": {
+        "palette": "sunset-to-blue-hour-to-night highway",
+        "depth_layers": [
+          "near asphalt and reflectors",
+          "hero and traffic vehicles",
+          "guard rails and lamps",
+          "city skyline and sky"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous synthesized engine, road/wind bed, traffic pass-bys and restrained electronic score.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same dark-blue hero coupe",
+        "Continuous highway progress",
+        "Traffic remains lane-disciplined"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 59.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 5.76,
+          "absolute_seconds": 63.76,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "car proportion drift",
+        "traffic collision or lane snap",
+        "camera inside body",
+        "lane clipping",
+        "frozen motion",
+        "underexposed subject detail",
+        "periodic camera repetition"
+      ],
+      "qa_required": [
+        "composition",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review",
+        "exposure_detail",
+        "speed_continuity",
+        "traffic_trajectory"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-12",
+      "order": 12,
+      "start_seconds": 66.0,
+      "duration_seconds": 7.0,
+      "end_seconds": 73.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "normal-speed cruise / release",
+        "visible_event": "The dark-blue hero coupe advances through continuous highway traffic during a normal-speed cruise / release, viewed in aerial.",
+        "viewer_reads": [
+          "The dark-blue hero coupe advances through continuous highway traffic during a normal-speed cruise / release, viewed in aerial."
+        ]
+      },
+      "motion": {
+        "subject": "Hero displacement uses the shared continuous speed curve; wheel rotation follows integrated distance; lane changes are smooth and persistent; traffic trajectories do not modulo-loop around the hero.",
+        "environment": "Lane markings, guard rails, reflectors, streetlights, overpasses and skyline create world-fixed parallax.",
+        "camera": "aerial"
+      },
+      "look": {
+        "palette": "sunset-to-blue-hour-to-night highway",
+        "depth_layers": [
+          "near asphalt and reflectors",
+          "hero and traffic vehicles",
+          "guard rails and lamps",
+          "city skyline and sky"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous synthesized engine, road/wind bed, traffic pass-bys and restrained electronic score.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same dark-blue hero coupe",
+        "Continuous highway progress",
+        "Traffic remains lane-disciplined"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 67.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 5.04,
+          "absolute_seconds": 71.04,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "car proportion drift",
+        "traffic collision or lane snap",
+        "camera inside body",
+        "lane clipping",
+        "frozen motion",
+        "underexposed subject detail",
+        "periodic camera repetition"
+      ],
+      "qa_required": [
+        "composition",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review",
+        "exposure_detail",
+        "speed_continuity",
+        "traffic_trajectory"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-13",
+      "order": 13,
+      "start_seconds": 73.0,
+      "duration_seconds": 5.0,
+      "end_seconds": 78.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "normal-speed cruise / release",
+        "visible_event": "The dark-blue hero coupe advances through continuous highway traffic during a normal-speed cruise / release, viewed in front lead.",
+        "viewer_reads": [
+          "The dark-blue hero coupe advances through continuous highway traffic during a normal-speed cruise / release, viewed in front lead."
+        ]
+      },
+      "motion": {
+        "subject": "Hero displacement uses the shared continuous speed curve; wheel rotation follows integrated distance; lane changes are smooth and persistent; traffic trajectories do not modulo-loop around the hero.",
+        "environment": "Lane markings, guard rails, reflectors, streetlights, overpasses and skyline create world-fixed parallax.",
+        "camera": "front lead"
+      },
+      "look": {
+        "palette": "sunset-to-blue-hour-to-night highway",
+        "depth_layers": [
+          "near asphalt and reflectors",
+          "hero and traffic vehicles",
+          "guard rails and lamps",
+          "city skyline and sky"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous synthesized engine, road/wind bed, traffic pass-bys and restrained electronic score.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same dark-blue hero coupe",
+        "Continuous highway progress",
+        "Traffic remains lane-disciplined"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 74.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 3.6,
+          "absolute_seconds": 76.6,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "car proportion drift",
+        "traffic collision or lane snap",
+        "camera inside body",
+        "lane clipping",
+        "frozen motion",
+        "underexposed subject detail",
+        "periodic camera repetition"
+      ],
+      "qa_required": [
+        "composition",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review",
+        "exposure_detail",
+        "speed_continuity",
+        "traffic_trajectory"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-14",
+      "order": 14,
+      "start_seconds": 78.0,
+      "duration_seconds": 4.0,
+      "end_seconds": 82.0,
+      "hero": true,
+      "intent": {
+        "narrative_purpose": "continuous acceleration / high-speed phase",
+        "visible_event": "The dark-blue hero coupe advances through continuous highway traffic during a continuous acceleration / high-speed phase, viewed in hood POV.",
+        "viewer_reads": [
+          "The dark-blue hero coupe advances through continuous highway traffic during a continuous acceleration / high-speed phase, viewed in hood POV."
+        ]
+      },
+      "motion": {
+        "subject": "Hero displacement uses the shared continuous speed curve; wheel rotation follows integrated distance; lane changes are smooth and persistent; traffic trajectories do not modulo-loop around the hero.",
+        "environment": "Lane markings, guard rails, reflectors, streetlights, overpasses and skyline create world-fixed parallax.",
+        "camera": "hood POV"
+      },
+      "look": {
+        "palette": "sunset-to-blue-hour-to-night highway",
+        "depth_layers": [
+          "near asphalt and reflectors",
+          "hero and traffic vehicles",
+          "guard rails and lamps",
+          "city skyline and sky"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous synthesized engine, road/wind bed, traffic pass-bys and restrained electronic score.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same dark-blue hero coupe",
+        "Continuous highway progress",
+        "Traffic remains lane-disciplined"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.2,
+          "absolute_seconds": 79.2,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 2.88,
+          "absolute_seconds": 80.88,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "car proportion drift",
+        "traffic collision or lane snap",
+        "camera inside body",
+        "lane clipping",
+        "frozen motion",
+        "underexposed subject detail",
+        "periodic camera repetition"
+      ],
+      "qa_required": [
+        "composition",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review",
+        "exposure_detail",
+        "speed_continuity",
+        "traffic_trajectory"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-15",
+      "order": 15,
+      "start_seconds": 82.0,
+      "duration_seconds": 4.0,
+      "end_seconds": 86.0,
+      "hero": true,
+      "intent": {
+        "narrative_purpose": "continuous acceleration / high-speed phase",
+        "visible_event": "The dark-blue hero coupe advances through continuous highway traffic during a continuous acceleration / high-speed phase, viewed in rear quarter.",
+        "viewer_reads": [
+          "The dark-blue hero coupe advances through continuous highway traffic during a continuous acceleration / high-speed phase, viewed in rear quarter."
+        ]
+      },
+      "motion": {
+        "subject": "Hero displacement uses the shared continuous speed curve; wheel rotation follows integrated distance; lane changes are smooth and persistent; traffic trajectories do not modulo-loop around the hero.",
+        "environment": "Lane markings, guard rails, reflectors, streetlights, overpasses and skyline create world-fixed parallax.",
+        "camera": "rear quarter"
+      },
+      "look": {
+        "palette": "sunset-to-blue-hour-to-night highway",
+        "depth_layers": [
+          "near asphalt and reflectors",
+          "hero and traffic vehicles",
+          "guard rails and lamps",
+          "city skyline and sky"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous synthesized engine, road/wind bed, traffic pass-bys and restrained electronic score.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same dark-blue hero coupe",
+        "Continuous highway progress",
+        "Traffic remains lane-disciplined"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.2,
+          "absolute_seconds": 83.2,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 2.88,
+          "absolute_seconds": 84.88,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "car proportion drift",
+        "traffic collision or lane snap",
+        "camera inside body",
+        "lane clipping",
+        "frozen motion",
+        "underexposed subject detail",
+        "periodic camera repetition"
+      ],
+      "qa_required": [
+        "composition",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review",
+        "exposure_detail",
+        "speed_continuity",
+        "traffic_trajectory"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-16",
+      "order": 16,
+      "start_seconds": 86.0,
+      "duration_seconds": 4.0,
+      "end_seconds": 90.0,
+      "hero": true,
+      "intent": {
+        "narrative_purpose": "continuous acceleration / high-speed phase",
+        "visible_event": "The dark-blue hero coupe advances through continuous highway traffic during a continuous acceleration / high-speed phase, viewed in low wheel detail.",
+        "viewer_reads": [
+          "The dark-blue hero coupe advances through continuous highway traffic during a continuous acceleration / high-speed phase, viewed in low wheel detail."
+        ]
+      },
+      "motion": {
+        "subject": "Hero displacement uses the shared continuous speed curve; wheel rotation follows integrated distance; lane changes are smooth and persistent; traffic trajectories do not modulo-loop around the hero.",
+        "environment": "Lane markings, guard rails, reflectors, streetlights, overpasses and skyline create world-fixed parallax.",
+        "camera": "low wheel detail"
+      },
+      "look": {
+        "palette": "sunset-to-blue-hour-to-night highway",
+        "depth_layers": [
+          "near asphalt and reflectors",
+          "hero and traffic vehicles",
+          "guard rails and lamps",
+          "city skyline and sky"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous synthesized engine, road/wind bed, traffic pass-bys and restrained electronic score.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same dark-blue hero coupe",
+        "Continuous highway progress",
+        "Traffic remains lane-disciplined"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.2,
+          "absolute_seconds": 87.2,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 2.88,
+          "absolute_seconds": 88.88,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "car proportion drift",
+        "traffic collision or lane snap",
+        "camera inside body",
+        "lane clipping",
+        "frozen motion",
+        "underexposed subject detail",
+        "periodic camera repetition"
+      ],
+      "qa_required": [
+        "composition",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review",
+        "exposure_detail",
+        "speed_continuity",
+        "traffic_trajectory"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-17",
+      "order": 17,
+      "start_seconds": 90.0,
+      "duration_seconds": 5.0,
+      "end_seconds": 95.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "continuous acceleration / high-speed phase",
+        "visible_event": "The dark-blue hero coupe advances through continuous highway traffic during a continuous acceleration / high-speed phase, viewed in long-lens chase.",
+        "viewer_reads": [
+          "The dark-blue hero coupe advances through continuous highway traffic during a continuous acceleration / high-speed phase, viewed in long-lens chase."
+        ]
+      },
+      "motion": {
+        "subject": "Hero displacement uses the shared continuous speed curve; wheel rotation follows integrated distance; lane changes are smooth and persistent; traffic trajectories do not modulo-loop around the hero.",
+        "environment": "Lane markings, guard rails, reflectors, streetlights, overpasses and skyline create world-fixed parallax.",
+        "camera": "long-lens chase"
+      },
+      "look": {
+        "palette": "sunset-to-blue-hour-to-night highway",
+        "depth_layers": [
+          "near asphalt and reflectors",
+          "hero and traffic vehicles",
+          "guard rails and lamps",
+          "city skyline and sky"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous synthesized engine, road/wind bed, traffic pass-bys and restrained electronic score.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same dark-blue hero coupe",
+        "Continuous highway progress",
+        "Traffic remains lane-disciplined"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 91.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 3.6,
+          "absolute_seconds": 93.6,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "car proportion drift",
+        "traffic collision or lane snap",
+        "camera inside body",
+        "lane clipping",
+        "frozen motion",
+        "underexposed subject detail",
+        "periodic camera repetition"
+      ],
+      "qa_required": [
+        "composition",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review",
+        "exposure_detail",
+        "speed_continuity",
+        "traffic_trajectory"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-18",
+      "order": 18,
+      "start_seconds": 95.0,
+      "duration_seconds": 7.0,
+      "end_seconds": 102.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "continuous acceleration / high-speed phase",
+        "visible_event": "The dark-blue hero coupe advances through continuous highway traffic during a continuous acceleration / high-speed phase, viewed in rear high chase.",
+        "viewer_reads": [
+          "The dark-blue hero coupe advances through continuous highway traffic during a continuous acceleration / high-speed phase, viewed in rear high chase."
+        ]
+      },
+      "motion": {
+        "subject": "Hero displacement uses the shared continuous speed curve; wheel rotation follows integrated distance; lane changes are smooth and persistent; traffic trajectories do not modulo-loop around the hero.",
+        "environment": "Lane markings, guard rails, reflectors, streetlights, overpasses and skyline create world-fixed parallax.",
+        "camera": "rear high chase"
+      },
+      "look": {
+        "palette": "sunset-to-blue-hour-to-night highway",
+        "depth_layers": [
+          "near asphalt and reflectors",
+          "hero and traffic vehicles",
+          "guard rails and lamps",
+          "city skyline and sky"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous synthesized engine, road/wind bed, traffic pass-bys and restrained electronic score.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same dark-blue hero coupe",
+        "Continuous highway progress",
+        "Traffic remains lane-disciplined"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 96.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 5.04,
+          "absolute_seconds": 100.04,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "car proportion drift",
+        "traffic collision or lane snap",
+        "camera inside body",
+        "lane clipping",
+        "frozen motion",
+        "underexposed subject detail",
+        "periodic camera repetition"
+      ],
+      "qa_required": [
+        "composition",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review",
+        "exposure_detail",
+        "speed_continuity",
+        "traffic_trajectory"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-19",
+      "order": 19,
+      "start_seconds": 102.0,
+      "duration_seconds": 8.0,
+      "end_seconds": 110.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "normal-speed cruise / release",
+        "visible_event": "The dark-blue hero coupe advances through continuous highway traffic during a normal-speed cruise / release, viewed in side tracking.",
+        "viewer_reads": [
+          "The dark-blue hero coupe advances through continuous highway traffic during a normal-speed cruise / release, viewed in side tracking."
+        ]
+      },
+      "motion": {
+        "subject": "Hero displacement uses the shared continuous speed curve; wheel rotation follows integrated distance; lane changes are smooth and persistent; traffic trajectories do not modulo-loop around the hero.",
+        "environment": "Lane markings, guard rails, reflectors, streetlights, overpasses and skyline create world-fixed parallax.",
+        "camera": "side tracking"
+      },
+      "look": {
+        "palette": "sunset-to-blue-hour-to-night highway",
+        "depth_layers": [
+          "near asphalt and reflectors",
+          "hero and traffic vehicles",
+          "guard rails and lamps",
+          "city skyline and sky"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous synthesized engine, road/wind bed, traffic pass-bys and restrained electronic score.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same dark-blue hero coupe",
+        "Continuous highway progress",
+        "Traffic remains lane-disciplined"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 103.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 5.76,
+          "absolute_seconds": 107.76,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "car proportion drift",
+        "traffic collision or lane snap",
+        "camera inside body",
+        "lane clipping",
+        "frozen motion",
+        "underexposed subject detail",
+        "periodic camera repetition"
+      ],
+      "qa_required": [
+        "composition",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review",
+        "exposure_detail",
+        "speed_continuity",
+        "traffic_trajectory"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-20",
+      "order": 20,
+      "start_seconds": 110.0,
+      "duration_seconds": 10.0,
+      "end_seconds": 120.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "normal-speed cruise / release",
+        "visible_event": "The dark-blue hero coupe advances through continuous highway traffic during a normal-speed cruise / release, viewed in front lead.",
+        "viewer_reads": [
+          "The dark-blue hero coupe advances through continuous highway traffic during a normal-speed cruise / release, viewed in front lead."
+        ]
+      },
+      "motion": {
+        "subject": "Hero displacement uses the shared continuous speed curve; wheel rotation follows integrated distance; lane changes are smooth and persistent; traffic trajectories do not modulo-loop around the hero.",
+        "environment": "Lane markings, guard rails, reflectors, streetlights, overpasses and skyline create world-fixed parallax.",
+        "camera": "front lead"
+      },
+      "look": {
+        "palette": "sunset-to-blue-hour-to-night highway",
+        "depth_layers": [
+          "near asphalt and reflectors",
+          "hero and traffic vehicles",
+          "guard rails and lamps",
+          "city skyline and sky"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous synthesized engine, road/wind bed, traffic pass-bys and restrained electronic score.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same dark-blue hero coupe",
+        "Continuous highway progress",
+        "Traffic remains lane-disciplined"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 111.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 7.2,
+          "absolute_seconds": 117.2,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "car proportion drift",
+        "traffic collision or lane snap",
+        "camera inside body",
+        "lane clipping",
+        "frozen motion",
+        "underexposed subject detail",
+        "periodic camera repetition"
+      ],
+      "qa_required": [
+        "composition",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review",
+        "exposure_detail",
+        "speed_continuity",
+        "traffic_trajectory"
+      ],
+      "state": "PLANNED"
+    }
+  ],
+  "warnings": [],
+  "summary": {
+    "shot_count": 22,
+    "hero_shot_count": 4,
+    "renderer_lanes": [
+      "python"
+    ],
+    "unresolved_asset_count": 0,
+    "warning_count": 0,
+    "blocked_shot_count": 0
+  }
+}

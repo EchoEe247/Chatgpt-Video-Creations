@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "duration_seconds": 120.0,
+  "ramp_half_seconds": 2.2,
+  "segments": [
+    {
+      "start": 0.0,
+      "end": 24.0,
+      "speed_mps": 28.5
+    },
+    {
+      "start": 24.0,
+      "end": 42.0,
+      "speed_mps": 31.0
+    },
+    {
+      "start": 42.0,
+      "end": 60.0,
+      "speed_mps": 42.0
+    },
+    {
+      "start": 60.0,
+      "end": 78.0,
+      "speed_mps": 29.5
+    },
+    {
+      "start": 78.0,
+      "end": 102.0,
+      "speed_mps": 47.0
+    },
+    {
+      "start": 102.0,
+      "end": 120.0,
+      "speed_mps": 32.0
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "safe_margin_ratio": 0.04,
+  "text_items": [
+    {
+      "id": "opening-title",
+      "start_seconds": 1,
+      "end_seconds": 5,
+      "bbox_norm": [
+        0.25,
+        0.39,
+        0.5,
+        0.1
+      ],
+      "font_px": 48
+    },
+    {
+      "id": "opening-subtitle",
+      "start_seconds": 1,
+      "end_seconds": 5,
+      "bbox_norm": [
+        0.27,
+        0.505,
+        0.46,
+        0.07
+      ],
+      "font_px": 32
+    },
+    {
+      "id": "ending-title",
+      "start_seconds": 126,
+      "end_seconds": 130.8,
+      "bbox_norm": [
+        0.08,
+        0.39,
+        0.84,
+        0.1
+      ],
+      "font_px": 48
+    }
+  ]
+}

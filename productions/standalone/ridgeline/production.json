@@ -1,0 +1,102 @@
+{
+  "artifacts": {
+    "artifact_receipt": null,
+    "baseline_comparison": null,
+    "baseline_master": null,
+    "candidate_master": "final/ridgeline.mp4",
+    "candidate_sha256": "348de54393756c5d7e28b9c9fb64383242e56fa76ea336cc92203de34ea99e56",
+    "creative_qa": "review/experience/creative-qa.json",
+    "creative_review": null,
+    "iteration_dir": null,
+    "review_pack": null
+  },
+  "delivery": {
+    "audio_codec": "aac",
+    "audio_required": true,
+    "baseline_compare_fps": 2,
+    "duration_tolerance_seconds": 0.15,
+    "expected_duration_seconds": 132,
+    "fps": 24,
+    "height": 540,
+    "intentional_silence_intervals": [
+      [
+        130,
+        132
+      ]
+    ],
+    "max_unintended_silence_seconds": 1,
+    "pixel_format": "yuv420p",
+    "profile": "h264_web",
+    "silence_min_duration_seconds": 0.5,
+    "silence_threshold_db": -55,
+    "video_codec": "h264",
+    "width": 960
+  },
+  "gates": {
+    "assistant": {
+      "candidate_sha256": "348de54393756c5d7e28b9c9fb64383242e56fa76ea336cc92203de34ea99e56",
+      "notes": "Adrenaline revision: revised rider anatomy/attack stance, visible authored trail kickers before airborne motion, stronger high-speed camera/dust/wind cues, and revised landing timing. Creative QA passes with review notes: cadence review on shots 01 and 22; one non-click audio loudness transition at 72.0s (6.89 dB).",
+      "status": "PASS_WITH_REVIEW_NOTES"
+    },
+    "technical": {
+      "candidate_sha256": "348de54393756c5d7e28b9c9fb64383242e56fa76ea336cc92203de34ea99e56",
+      "evidence": "review/technical-qa.json",
+      "status": "PASS"
+    },
+    "user": {
+      "candidate_sha256": "348de54393756c5d7e28b9c9fb64383242e56fa76ea336cc92203de34ea99e56",
+      "notes": null,
+      "status": "PENDING"
+    }
+  },
+  "lane": "animation",
+  "production_id": "ridgeline",
+  "render": {
+    "command": [
+      "python",
+      "source/finish.py"
+    ],
+    "cwd": ".",
+    "master_recipe": "source/finish.py",
+    "output": "final/ridgeline.mp4",
+    "scene_directory": "renders",
+    "scene_plan": "source/execution-plan.json"
+  },
+  "review": {
+    "assistant": "PASS_WITH_REVIEW_NOTES",
+    "user": "PENDING"
+  },
+  "schema_version": 2,
+  "source": {
+    "episode": "a-descent",
+    "season": "standalone",
+    "show": "ridgeline"
+  },
+  "status": "FINAL_CANDIDATE",
+  "workflow": {
+    "creative_qa_required": true,
+    "escalation_reason": null,
+    "last_action": {
+      "action": "adrenaline_revision_verified",
+      "at": "2026-09-27T21:08:48+00:00",
+      "job_id": "job-1790542006793-2b6279"
+    },
+    "max_autonomous_repair_cycles": 4,
+    "mode": "autonomous_until_final_review",
+    "render_job": {
+      "command": [
+        "python",
+        "source/finish_review_candidate.py"
+      ],
+      "completed_at": "2026-09-27T20:46:39+00:00",
+      "cwd": "/data/data/com.termux/files/home/MainWorkspace/Chatgpt-Video-Creations/productions/standalone/ridgeline",
+      "exit_code": 0,
+      "job_id": "job-1790540721685-1ff17f",
+      "output": "/data/data/com.termux/files/home/MainWorkspace/Chatgpt-Video-Creations/productions/standalone/ridgeline/final/ridgeline.mp4",
+      "started_at": "2026-09-27T20:25:21+00:00",
+      "state": "COMPLETED"
+    },
+    "repair_cycle": 1,
+    "user_review_policy": "final_candidate_only"
+  }
+}

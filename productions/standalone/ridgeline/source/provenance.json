@@ -1,0 +1,46 @@
+[
+  {
+    "title": "Rocky Terrain 02",
+    "creator": "Poly Haven",
+    "source_url": "https://polyhaven.com/a/rocky_terrain_02",
+    "license": "CC0",
+    "license_url": "https://polyhaven.com/license",
+    "path": "assets/rock.jpg",
+    "use": "texture; local shader color adaptation",
+    "sha256": "d570c10b1d5302f4fde9e0e94f4cbab0d5e112fc3fe2b3b91c38a98bd3ddaf4b",
+    "retrieved": "2026-09-27"
+  },
+  {
+    "title": "Forest Ground 04",
+    "creator": "Poly Haven",
+    "source_url": "https://polyhaven.com/a/forest_ground_04",
+    "license": "CC0",
+    "license_url": "https://polyhaven.com/license",
+    "path": "assets/forest.jpg",
+    "use": "texture; local shader color adaptation",
+    "sha256": "50a4dda30875020c64385261aa7e00e2155b592302fa6794165f58fae73cbd2c",
+    "retrieved": "2026-09-27"
+  },
+  {
+    "title": "Me and You",
+    "creator": "Michael Ramir C.",
+    "provider": "Mixkit",
+    "source_url": "https://mixkit.co/free-stock-music/rock/",
+    "download_url": "https://assets.mixkit.co/music/851/851.mp3",
+    "license": "Mixkit Stock Music Free License",
+    "license_url": "https://mixkit.co/license/#musicFree",
+    "path": "assets/score.mp3",
+    "use": "edited score, fades, mastering",
+    "sha256": "630de9ab6da1108ed85cc56b3b0e344233f0a1c58054f618727c5572f0852b1b",
+    "retrieved": "2026-09-27"
+  },
+  {
+    "title": "Rider, bicycle, terrain, trees, camera and sound effects",
+    "creator": "Original production code authored in Local Workspace",
+    "license": "Original local production",
+    "path": "source/render_3d.py",
+    "use": "all moving picture and effects",
+    "sha256": "3eb1f577f6cc13dbf13c6f0d53f913bdf29ad56ab26a8b7b31c180e663be2f3f",
+    "retrieved": "2026-09-27"
+  }
+]

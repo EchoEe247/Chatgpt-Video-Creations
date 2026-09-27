@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "assets": [
+    {
+      "path": "source/render_3d.py",
+      "origin": "locally authored procedural 3D renderer",
+      "license": "original",
+      "sha256": "11903535380190e511b8d49798dd1758088201c76fdf0bcc3af7934aeeb88b32"
+    },
+    {
+      "path": "audio/master.wav",
+      "origin": "locally synthesized from deterministic procedural audio",
+      "license": "original"
+    }
+  ]
+}

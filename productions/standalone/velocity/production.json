@@ -1,0 +1,84 @@
+{
+  "schema_version": 2,
+  "production_id": "velocity",
+  "lane": "animation",
+  "status": "REFINEMENT_REQUIRED",
+  "source": {
+    "show": "velocity",
+    "season": "standalone",
+    "episode": "highway-study"
+  },
+  "delivery": {
+    "profile": "h264_web",
+    "width": 960,
+    "height": 540,
+    "fps": 24,
+    "expected_duration_seconds": 120,
+    "duration_tolerance_seconds": 0.15,
+    "video_codec": "h264",
+    "pixel_format": "yuv420p",
+    "audio_required": true,
+    "audio_codec": "aac",
+    "max_unintended_silence_seconds": 1.5,
+    "silence_threshold_db": -55,
+    "silence_min_duration_seconds": 0.5,
+    "intentional_silence_intervals": []
+  },
+  "render": {
+    "command": [
+      "python",
+      "source/finish.py"
+    ],
+    "cwd": ".",
+    "output": "final/velocity.mp4",
+    "scene_directory": "renders",
+    "scene_plan": "source/execution-plan.json",
+    "master_recipe": "source/finish.py"
+  },
+  "artifacts": {
+    "candidate_master": "final/velocity.mp4",
+    "candidate_sha256": "04c35537d9804bfcf0226695d1ab0f975b0ee2d7db1c9e7191771a1cf2d5e39f",
+    "creative_qa": "review/experience-v2/creative-qa.json",
+    "cinematic_qa": "review/cinematic-qa.json"
+  },
+  "gates": {
+    "technical": {
+      "candidate_sha256": "04c35537d9804bfcf0226695d1ab0f975b0ee2d7db1c9e7191771a1cf2d5e39f",
+      "evidence": "review/technical-qa.json",
+      "status": "PASS"
+    },
+    "assistant": {
+      "candidate_sha256": "04c35537d9804bfcf0226695d1ab0f975b0ee2d7db1c9e7191771a1cf2d5e39f",
+      "evidence": "review/experience-v2/creative-qa.json",
+      "status": "PASS",
+      "notes": "Legacy creative QA passes."
+    },
+    "user": {
+      "candidate_sha256": "04c35537d9804bfcf0226695d1ab0f975b0ee2d7db1c9e7191771a1cf2d5e39f",
+      "notes": null,
+      "status": "PENDING"
+    },
+    "cinematic": {
+      "candidate_sha256": "04c35537d9804bfcf0226695d1ab0f975b0ee2d7db1c9e7191771a1cf2d5e39f",
+      "evidence": "review/cinematic-qa.json",
+      "status": "REFINEMENT_REQUIRED",
+      "notes": "Physics/sync/traffic/camera/stereo/plan checks pass; late exposure now passes, but late-frame detail energy remains below the new realism floor."
+    }
+  },
+  "review": {
+    "assistant": "PASS_WITH_CINEMATIC_REFINEMENT_REQUIRED",
+    "user": "PENDING"
+  },
+  "workflow": {
+    "mode": "autonomous_until_final_review",
+    "creative_qa_required": true,
+    "repair_cycle": 1,
+    "max_autonomous_repair_cycles": 3,
+    "user_review_policy": "final_candidate_only",
+    "last_action": {
+      "action": "audit_driven_iteration_v2",
+      "at": "2026-09-27T22:57:00+00:00",
+      "job_id": "job-1790549307848-c0359b"
+    }
+  }
+}

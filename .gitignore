@@ -22,6 +22,17 @@ productions/standalone/*/*
 !productions/standalone/*/source/
 !productions/standalone/*/source/**
 
+# Re-apply generated/transient exclusions after the source/** negation above.
+productions/standalone/*/source/**/__pycache__/
+productions/standalone/*/source/**/*.py[cod]
+productions/standalone/*/source/*.pre-*
+productions/standalone/*/source/**/*.pre-*
+
+# Derived production metadata is regenerated from durable source inputs.
+productions/standalone/*/source/av-events.json
+productions/standalone/*/source/av-timeline.json
+productions/standalone/*/source/motion-telemetry.json
+
 # Machine-local asset payload/state. Catalog, schemas and manifests are tracked.
 assets/local-state.json
 assets/core/payload/

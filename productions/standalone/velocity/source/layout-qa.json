@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "safe_margin_ratio": 0.04,
+  "text_items": [
+    {
+      "id": "opening-title",
+      "start_seconds": 1,
+      "end_seconds": 5,
+      "bbox_norm": [
+        0.25,
+        0.1,
+        0.5,
+        0.12
+      ],
+      "font_px": 54
+    },
+    {
+      "id": "opening-subtitle",
+      "start_seconds": 1,
+      "end_seconds": 5,
+      "bbox_norm": [
+        0.24,
+        0.22,
+        0.52,
+        0.08
+      ],
+      "font_px": 30
+    },
+    {
+      "id": "ending-title",
+      "start_seconds": 116,
+      "end_seconds": 119,
+      "bbox_norm": [
+        0.25,
+        0.64,
+        0.5,
+        0.12
+      ],
+      "font_px": 54
+    },
+    {
+      "id": "ending-subtitle",
+      "start_seconds": 116,
+      "end_seconds": 119,
+      "bbox_norm": [
+        0.28,
+        0.76,
+        0.44,
+        0.07
+      ],
+      "font_px": 30
+    }
+  ]
+}

@@ -1,0 +1,1854 @@
+{
+  "schema_version": 1,
+  "title": "RIDGELINE \u2014 A Descent",
+  "source": {
+    "director_brief": "productions/standalone/ridgeline/source/director-brief.json",
+    "director_sha256": "321215f45e9b59f12ca9ee98ce8c94f22bc698468cff848f1c459433aa3cb57a",
+    "asset_catalog": "assets/catalog.json",
+    "asset_catalog_sha256": "dd27a54a24835e596327bc99c66abd3341598dd4db99133495502e70b961e904"
+  },
+  "execution_policy": {
+    "owner_mode": "single_agent_default",
+    "cooperation_required": false,
+    "parallelism": "optional_only_when_beneficial",
+    "state_authority": "repository_files"
+  },
+  "delivery": {
+    "width": 960,
+    "height": 540,
+    "fps": 24
+  },
+  "runtime_seconds": 132.0,
+  "story": {
+    "setup": "A solitary rider enters a high forest trail.",
+    "escalation": "The rider accelerates through trees and over rocky singletrack.",
+    "turn": "The forest opens onto exposed ground with airborne moments.",
+    "resolution": "The trail returns to forest, then the camera rises to leave the rider in the landscape.",
+    "emotional_arc": [
+      "anticipation",
+      "commitment",
+      "flow",
+      "exposure",
+      "release"
+    ]
+  },
+  "global_grammar": {
+    "visual": {
+      "style": "Original rendered 3D realism study; physically connected rider and bike; textured mountain terrain; atmospheric perspective",
+      "palette_arc": [
+        "warm dirt",
+        "deep fir green",
+        "blue mountain distance"
+      ],
+      "lighting": "Single warm directional key, cool fill, distance haze",
+      "depth_rules": [
+        "World-space connected trail",
+        "Foreground stones, moving rider, forest and mountain backgrounds"
+      ],
+      "typography_rules": [
+        "One opening title and short ending credit; no debug overlays"
+      ],
+      "texture_rules": [
+        "CC0 Poly Haven ground materials; authored geometry"
+      ],
+      "forbidden_patterns": [
+        "Real riding footage",
+        "Loops",
+        "Still-image slideshow",
+        "Disconnected rider limbs",
+        "Reverse bicycle travel"
+      ]
+    },
+    "camera": {
+      "default_behavior": "Camera tracks one continuous route",
+      "allowed_moves": [
+        "aerial establishing",
+        "rear chase",
+        "side tracking",
+        "low wheel detail",
+        "front three-quarter",
+        "rider POV"
+      ],
+      "physical_camera_assumptions": [
+        "Ground clearance",
+        "Restrained vibration"
+      ],
+      "intentional_imperfections": [
+        "Small inertial shake"
+      ],
+      "avoid": [
+        "Helmet obstructing POV",
+        "Unmotivated spinning camera"
+      ]
+    },
+    "audio": {
+      "narration_or_dialogue": "None",
+      "score_arc": [
+        "restrained entry",
+        "driving rock",
+        "brief space before exposed trail",
+        "strong finish then fade"
+      ],
+      "ambience": [
+        "locally synthesized moving air"
+      ],
+      "effects": [
+        "locally synthesized tire gravel and jump landing pulses"
+      ],
+      "silence_rules": [
+        "Short end fade only; no false silence promise"
+      ],
+      "sync_rules": [
+        "Jump sound events derive from the same world route and time function as picture"
+      ]
+    },
+    "editing": {
+      "pace_arc": [
+        "wide entry",
+        "closer action",
+        "exposure",
+        "forest runout"
+      ],
+      "cut_motivations": [
+        "camera-scale contrast",
+        "route progression",
+        "riding action"
+      ],
+      "transition_rules": [
+        "Straight cuts preserve action timeline",
+        "No repetitive color fades"
+      ],
+      "avoid": [
+        "Reused footage",
+        "Looped motion",
+        "Artificial slow motion interpolation"
+      ]
+    }
+  },
+  "handoff": {
+    "critical_files": [
+      "render_3d.py",
+      "execution-plan.json",
+      "av-timeline.json",
+      "provenance.json"
+    ],
+    "known_limits": [
+      "Software rasterization on Pixel; this is visibly computer-rendered and not photorealistic.",
+      "Native rendered size 960x540 at 24 fps.",
+      "Audible and continuous audiovisual perception unavailable in this session; do not mark perceptual PASS."
+    ],
+    "acceptance_focus": [
+      "No real riding footage",
+      "2\u20135 minutes",
+      "Native subject motion",
+      "Decode-valid audiovisual file"
+    ]
+  },
+  "shots": [
+    {
+      "id": "shot-01",
+      "order": 1,
+      "start_seconds": 0.0,
+      "duration_seconds": 6.0,
+      "end_seconds": 6.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Establish place and rider",
+        "visible_event": "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in aerial.",
+        "viewer_reads": [
+          "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in aerial."
+        ]
+      },
+      "motion": {
+        "subject": "Wheels rotate from traveled distance; early pedaling becomes technical coasting; bent limbs stay attached to controls; lean follows route curvature.",
+        "environment": "World-fixed trees and rocks create depth-dependent parallax.",
+        "camera": "aerial"
+      },
+      "look": {
+        "palette": "ochre dirt, forest green, blue haze",
+        "depth_layers": [
+          "trail-edge stones",
+          "rider and bicycle",
+          "trees",
+          "mountain distance"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous rock score and tire/air bed; landing accents from shared jump times.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same rider, bicycle, continuous increasing route distance"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 1.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.0,
+          "absolute_seconds": 4.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "rider disconnected",
+        "POV occlusion",
+        "camera below ground",
+        "wheel slip",
+        "frozen motion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-02",
+      "order": 2,
+      "start_seconds": 6.0,
+      "duration_seconds": 6.0,
+      "end_seconds": 12.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Establish place and rider",
+        "visible_event": "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in rear chase.",
+        "viewer_reads": [
+          "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in rear chase."
+        ]
+      },
+      "motion": {
+        "subject": "Wheels rotate from traveled distance; early pedaling becomes technical coasting; bent limbs stay attached to controls; lean follows route curvature.",
+        "environment": "World-fixed trees and rocks create depth-dependent parallax.",
+        "camera": "rear chase"
+      },
+      "look": {
+        "palette": "ochre dirt, forest green, blue haze",
+        "depth_layers": [
+          "trail-edge stones",
+          "rider and bicycle",
+          "trees",
+          "mountain distance"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous rock score and tire/air bed; landing accents from shared jump times.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same rider, bicycle, continuous increasing route distance"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 7.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.0,
+          "absolute_seconds": 10.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "rider disconnected",
+        "POV occlusion",
+        "camera below ground",
+        "wheel slip",
+        "frozen motion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-03",
+      "order": 3,
+      "start_seconds": 12.0,
+      "duration_seconds": 6.0,
+      "end_seconds": 18.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Establish place and rider",
+        "visible_event": "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in side track.",
+        "viewer_reads": [
+          "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in side track."
+        ]
+      },
+      "motion": {
+        "subject": "Wheels rotate from traveled distance; early pedaling becomes technical coasting; bent limbs stay attached to controls; lean follows route curvature.",
+        "environment": "World-fixed trees and rocks create depth-dependent parallax.",
+        "camera": "side track"
+      },
+      "look": {
+        "palette": "ochre dirt, forest green, blue haze",
+        "depth_layers": [
+          "trail-edge stones",
+          "rider and bicycle",
+          "trees",
+          "mountain distance"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous rock score and tire/air bed; landing accents from shared jump times.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same rider, bicycle, continuous increasing route distance"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 13.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.0,
+          "absolute_seconds": 16.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "rider disconnected",
+        "POV occlusion",
+        "camera below ground",
+        "wheel slip",
+        "frozen motion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-04",
+      "order": 4,
+      "start_seconds": 18.0,
+      "duration_seconds": 6.0,
+      "end_seconds": 24.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Establish place and rider",
+        "visible_event": "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in close chase.",
+        "viewer_reads": [
+          "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in close chase."
+        ]
+      },
+      "motion": {
+        "subject": "Wheels rotate from traveled distance; early pedaling becomes technical coasting; bent limbs stay attached to controls; lean follows route curvature.",
+        "environment": "World-fixed trees and rocks create depth-dependent parallax.",
+        "camera": "close chase"
+      },
+      "look": {
+        "palette": "ochre dirt, forest green, blue haze",
+        "depth_layers": [
+          "trail-edge stones",
+          "rider and bicycle",
+          "trees",
+          "mountain distance"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous rock score and tire/air bed; landing accents from shared jump times.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same rider, bicycle, continuous increasing route distance"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 19.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.0,
+          "absolute_seconds": 22.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "rider disconnected",
+        "POV occlusion",
+        "camera below ground",
+        "wheel slip",
+        "frozen motion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-05",
+      "order": 5,
+      "start_seconds": 24.0,
+      "duration_seconds": 6.0,
+      "end_seconds": 30.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Establish place and rider",
+        "visible_event": "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in front three-quarter.",
+        "viewer_reads": [
+          "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in front three-quarter."
+        ]
+      },
+      "motion": {
+        "subject": "Wheels rotate from traveled distance; early pedaling becomes technical coasting; bent limbs stay attached to controls; lean follows route curvature.",
+        "environment": "World-fixed trees and rocks create depth-dependent parallax.",
+        "camera": "front three-quarter"
+      },
+      "look": {
+        "palette": "ochre dirt, forest green, blue haze",
+        "depth_layers": [
+          "trail-edge stones",
+          "rider and bicycle",
+          "trees",
+          "mountain distance"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous rock score and tire/air bed; landing accents from shared jump times.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same rider, bicycle, continuous increasing route distance"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 25.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.0,
+          "absolute_seconds": 28.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "rider disconnected",
+        "POV occlusion",
+        "camera below ground",
+        "wheel slip",
+        "frozen motion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-06",
+      "order": 6,
+      "start_seconds": 30.0,
+      "duration_seconds": 6.0,
+      "end_seconds": 36.0,
+      "hero": true,
+      "intent": {
+        "narrative_purpose": "Establish place and rider",
+        "visible_event": "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in wheel detail.",
+        "viewer_reads": [
+          "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in wheel detail."
+        ]
+      },
+      "motion": {
+        "subject": "Wheels rotate from traveled distance; early pedaling becomes technical coasting; bent limbs stay attached to controls; lean follows route curvature.",
+        "environment": "World-fixed trees and rocks create depth-dependent parallax.",
+        "camera": "wheel detail"
+      },
+      "look": {
+        "palette": "ochre dirt, forest green, blue haze",
+        "depth_layers": [
+          "trail-edge stones",
+          "rider and bicycle",
+          "trees",
+          "mountain distance"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous rock score and tire/air bed; landing accents from shared jump times.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same rider, bicycle, continuous increasing route distance"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 31.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.0,
+          "absolute_seconds": 34.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "rider disconnected",
+        "POV occlusion",
+        "camera below ground",
+        "wheel slip",
+        "frozen motion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-07",
+      "order": 7,
+      "start_seconds": 36.0,
+      "duration_seconds": 6.0,
+      "end_seconds": 42.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Build trail speed",
+        "visible_event": "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in side track.",
+        "viewer_reads": [
+          "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in side track."
+        ]
+      },
+      "motion": {
+        "subject": "Wheels rotate from traveled distance; early pedaling becomes technical coasting; bent limbs stay attached to controls; lean follows route curvature.",
+        "environment": "World-fixed trees and rocks create depth-dependent parallax.",
+        "camera": "side track"
+      },
+      "look": {
+        "palette": "ochre dirt, forest green, blue haze",
+        "depth_layers": [
+          "trail-edge stones",
+          "rider and bicycle",
+          "trees",
+          "mountain distance"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous rock score and tire/air bed; landing accents from shared jump times.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same rider, bicycle, continuous increasing route distance"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 37.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.0,
+          "absolute_seconds": 40.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "rider disconnected",
+        "POV occlusion",
+        "camera below ground",
+        "wheel slip",
+        "frozen motion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-08",
+      "order": 8,
+      "start_seconds": 42.0,
+      "duration_seconds": 6.0,
+      "end_seconds": 48.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Build trail speed",
+        "visible_event": "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in high three-quarter.",
+        "viewer_reads": [
+          "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in high three-quarter."
+        ]
+      },
+      "motion": {
+        "subject": "Wheels rotate from traveled distance; early pedaling becomes technical coasting; bent limbs stay attached to controls; lean follows route curvature.",
+        "environment": "World-fixed trees and rocks create depth-dependent parallax.",
+        "camera": "high three-quarter"
+      },
+      "look": {
+        "palette": "ochre dirt, forest green, blue haze",
+        "depth_layers": [
+          "trail-edge stones",
+          "rider and bicycle",
+          "trees",
+          "mountain distance"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous rock score and tire/air bed; landing accents from shared jump times.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same rider, bicycle, continuous increasing route distance"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 43.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.0,
+          "absolute_seconds": 46.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "rider disconnected",
+        "POV occlusion",
+        "camera below ground",
+        "wheel slip",
+        "frozen motion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-09",
+      "order": 9,
+      "start_seconds": 48.0,
+      "duration_seconds": 6.0,
+      "end_seconds": 54.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Build trail speed",
+        "visible_event": "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in close chase.",
+        "viewer_reads": [
+          "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in close chase."
+        ]
+      },
+      "motion": {
+        "subject": "Wheels rotate from traveled distance; early pedaling becomes technical coasting; bent limbs stay attached to controls; lean follows route curvature.",
+        "environment": "World-fixed trees and rocks create depth-dependent parallax.",
+        "camera": "close chase"
+      },
+      "look": {
+        "palette": "ochre dirt, forest green, blue haze",
+        "depth_layers": [
+          "trail-edge stones",
+          "rider and bicycle",
+          "trees",
+          "mountain distance"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous rock score and tire/air bed; landing accents from shared jump times.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same rider, bicycle, continuous increasing route distance"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 49.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.0,
+          "absolute_seconds": 52.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "rider disconnected",
+        "POV occlusion",
+        "camera below ground",
+        "wheel slip",
+        "frozen motion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-10",
+      "order": 10,
+      "start_seconds": 54.0,
+      "duration_seconds": 6.0,
+      "end_seconds": 60.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Build trail speed",
+        "visible_event": "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in POV.",
+        "viewer_reads": [
+          "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in POV."
+        ]
+      },
+      "motion": {
+        "subject": "Wheels rotate from traveled distance; early pedaling becomes technical coasting; bent limbs stay attached to controls; lean follows route curvature.",
+        "environment": "World-fixed trees and rocks create depth-dependent parallax.",
+        "camera": "POV"
+      },
+      "look": {
+        "palette": "ochre dirt, forest green, blue haze",
+        "depth_layers": [
+          "trail-edge stones",
+          "rider and bicycle",
+          "trees",
+          "mountain distance"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous rock score and tire/air bed; landing accents from shared jump times.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same rider, bicycle, continuous increasing route distance"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 55.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.0,
+          "absolute_seconds": 58.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "rider disconnected",
+        "POV occlusion",
+        "camera below ground",
+        "wheel slip",
+        "frozen motion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-11",
+      "order": 11,
+      "start_seconds": 60.0,
+      "duration_seconds": 6.0,
+      "end_seconds": 66.0,
+      "hero": true,
+      "intent": {
+        "narrative_purpose": "Build trail speed",
+        "visible_event": "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in side track.",
+        "viewer_reads": [
+          "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in side track."
+        ]
+      },
+      "motion": {
+        "subject": "Wheels rotate from traveled distance; early pedaling becomes technical coasting; bent limbs stay attached to controls; lean follows route curvature.",
+        "environment": "World-fixed trees and rocks create depth-dependent parallax.",
+        "camera": "side track"
+      },
+      "look": {
+        "palette": "ochre dirt, forest green, blue haze",
+        "depth_layers": [
+          "trail-edge stones",
+          "rider and bicycle",
+          "trees",
+          "mountain distance"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous rock score and tire/air bed; landing accents from shared jump times.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same rider, bicycle, continuous increasing route distance"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 61.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.0,
+          "absolute_seconds": 64.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "rider disconnected",
+        "POV occlusion",
+        "camera below ground",
+        "wheel slip",
+        "frozen motion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-12",
+      "order": 12,
+      "start_seconds": 66.0,
+      "duration_seconds": 6.0,
+      "end_seconds": 72.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Build trail speed",
+        "visible_event": "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in front three-quarter.",
+        "viewer_reads": [
+          "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in front three-quarter."
+        ]
+      },
+      "motion": {
+        "subject": "Wheels rotate from traveled distance; early pedaling becomes technical coasting; bent limbs stay attached to controls; lean follows route curvature.",
+        "environment": "World-fixed trees and rocks create depth-dependent parallax.",
+        "camera": "front three-quarter"
+      },
+      "look": {
+        "palette": "ochre dirt, forest green, blue haze",
+        "depth_layers": [
+          "trail-edge stones",
+          "rider and bicycle",
+          "trees",
+          "mountain distance"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous rock score and tire/air bed; landing accents from shared jump times.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same rider, bicycle, continuous increasing route distance"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 67.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.0,
+          "absolute_seconds": 70.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "rider disconnected",
+        "POV occlusion",
+        "camera below ground",
+        "wheel slip",
+        "frozen motion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-13",
+      "order": 13,
+      "start_seconds": 72.0,
+      "duration_seconds": 6.0,
+      "end_seconds": 78.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Show bike contact and rider control",
+        "visible_event": "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in rear chase.",
+        "viewer_reads": [
+          "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in rear chase."
+        ]
+      },
+      "motion": {
+        "subject": "Wheels rotate from traveled distance; early pedaling becomes technical coasting; bent limbs stay attached to controls; lean follows route curvature.",
+        "environment": "World-fixed trees and rocks create depth-dependent parallax.",
+        "camera": "rear chase"
+      },
+      "look": {
+        "palette": "ochre dirt, forest green, blue haze",
+        "depth_layers": [
+          "trail-edge stones",
+          "rider and bicycle",
+          "trees",
+          "mountain distance"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous rock score and tire/air bed; landing accents from shared jump times.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same rider, bicycle, continuous increasing route distance"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 73.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.0,
+          "absolute_seconds": 76.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "rider disconnected",
+        "POV occlusion",
+        "camera below ground",
+        "wheel slip",
+        "frozen motion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-14",
+      "order": 14,
+      "start_seconds": 78.0,
+      "duration_seconds": 6.0,
+      "end_seconds": 84.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Show bike contact and rider control",
+        "visible_event": "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in wheel detail.",
+        "viewer_reads": [
+          "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in wheel detail."
+        ]
+      },
+      "motion": {
+        "subject": "Wheels rotate from traveled distance; early pedaling becomes technical coasting; bent limbs stay attached to controls; lean follows route curvature.",
+        "environment": "World-fixed trees and rocks create depth-dependent parallax.",
+        "camera": "wheel detail"
+      },
+      "look": {
+        "palette": "ochre dirt, forest green, blue haze",
+        "depth_layers": [
+          "trail-edge stones",
+          "rider and bicycle",
+          "trees",
+          "mountain distance"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous rock score and tire/air bed; landing accents from shared jump times.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same rider, bicycle, continuous increasing route distance"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 79.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.0,
+          "absolute_seconds": 82.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "rider disconnected",
+        "POV occlusion",
+        "camera below ground",
+        "wheel slip",
+        "frozen motion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-15",
+      "order": 15,
+      "start_seconds": 84.0,
+      "duration_seconds": 6.0,
+      "end_seconds": 90.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Show bike contact and rider control",
+        "visible_event": "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in close chase.",
+        "viewer_reads": [
+          "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in close chase."
+        ]
+      },
+      "motion": {
+        "subject": "Wheels rotate from traveled distance; early pedaling becomes technical coasting; bent limbs stay attached to controls; lean follows route curvature.",
+        "environment": "World-fixed trees and rocks create depth-dependent parallax.",
+        "camera": "close chase"
+      },
+      "look": {
+        "palette": "ochre dirt, forest green, blue haze",
+        "depth_layers": [
+          "trail-edge stones",
+          "rider and bicycle",
+          "trees",
+          "mountain distance"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous rock score and tire/air bed; landing accents from shared jump times.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same rider, bicycle, continuous increasing route distance"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 85.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.0,
+          "absolute_seconds": 88.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "rider disconnected",
+        "POV occlusion",
+        "camera below ground",
+        "wheel slip",
+        "frozen motion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-16",
+      "order": 16,
+      "start_seconds": 90.0,
+      "duration_seconds": 6.0,
+      "end_seconds": 96.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Show bike contact and rider control",
+        "visible_event": "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in high three-quarter.",
+        "viewer_reads": [
+          "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in high three-quarter."
+        ]
+      },
+      "motion": {
+        "subject": "Wheels rotate from traveled distance; early pedaling becomes technical coasting; bent limbs stay attached to controls; lean follows route curvature.",
+        "environment": "World-fixed trees and rocks create depth-dependent parallax.",
+        "camera": "high three-quarter"
+      },
+      "look": {
+        "palette": "ochre dirt, forest green, blue haze",
+        "depth_layers": [
+          "trail-edge stones",
+          "rider and bicycle",
+          "trees",
+          "mountain distance"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous rock score and tire/air bed; landing accents from shared jump times.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same rider, bicycle, continuous increasing route distance"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 91.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.0,
+          "absolute_seconds": 94.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "rider disconnected",
+        "POV occlusion",
+        "camera below ground",
+        "wheel slip",
+        "frozen motion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-17",
+      "order": 17,
+      "start_seconds": 96.0,
+      "duration_seconds": 6.0,
+      "end_seconds": 102.0,
+      "hero": true,
+      "intent": {
+        "narrative_purpose": "Show bike contact and rider control",
+        "visible_event": "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in POV.",
+        "viewer_reads": [
+          "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in POV."
+        ]
+      },
+      "motion": {
+        "subject": "Wheels rotate from traveled distance; early pedaling becomes technical coasting; bent limbs stay attached to controls; lean follows route curvature.",
+        "environment": "World-fixed trees and rocks create depth-dependent parallax.",
+        "camera": "POV"
+      },
+      "look": {
+        "palette": "ochre dirt, forest green, blue haze",
+        "depth_layers": [
+          "trail-edge stones",
+          "rider and bicycle",
+          "trees",
+          "mountain distance"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous rock score and tire/air bed; landing accents from shared jump times.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same rider, bicycle, continuous increasing route distance"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 97.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.0,
+          "absolute_seconds": 100.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "rider disconnected",
+        "POV occlusion",
+        "camera below ground",
+        "wheel slip",
+        "frozen motion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-18",
+      "order": 18,
+      "start_seconds": 102.0,
+      "duration_seconds": 6.0,
+      "end_seconds": 108.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Show bike contact and rider control",
+        "visible_event": "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in side track.",
+        "viewer_reads": [
+          "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in side track."
+        ]
+      },
+      "motion": {
+        "subject": "Wheels rotate from traveled distance; early pedaling becomes technical coasting; bent limbs stay attached to controls; lean follows route curvature.",
+        "environment": "World-fixed trees and rocks create depth-dependent parallax.",
+        "camera": "side track"
+      },
+      "look": {
+        "palette": "ochre dirt, forest green, blue haze",
+        "depth_layers": [
+          "trail-edge stones",
+          "rider and bicycle",
+          "trees",
+          "mountain distance"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous rock score and tire/air bed; landing accents from shared jump times.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same rider, bicycle, continuous increasing route distance"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 103.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.0,
+          "absolute_seconds": 106.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "rider disconnected",
+        "POV occlusion",
+        "camera below ground",
+        "wheel slip",
+        "frozen motion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-19",
+      "order": 19,
+      "start_seconds": 108.0,
+      "duration_seconds": 6.0,
+      "end_seconds": 114.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Finish the descent",
+        "visible_event": "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in front three-quarter.",
+        "viewer_reads": [
+          "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in front three-quarter."
+        ]
+      },
+      "motion": {
+        "subject": "Wheels rotate from traveled distance; early pedaling becomes technical coasting; bent limbs stay attached to controls; lean follows route curvature.",
+        "environment": "World-fixed trees and rocks create depth-dependent parallax.",
+        "camera": "front three-quarter"
+      },
+      "look": {
+        "palette": "ochre dirt, forest green, blue haze",
+        "depth_layers": [
+          "trail-edge stones",
+          "rider and bicycle",
+          "trees",
+          "mountain distance"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous rock score and tire/air bed; landing accents from shared jump times.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same rider, bicycle, continuous increasing route distance"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 109.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.0,
+          "absolute_seconds": 112.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "rider disconnected",
+        "POV occlusion",
+        "camera below ground",
+        "wheel slip",
+        "frozen motion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-20",
+      "order": 20,
+      "start_seconds": 114.0,
+      "duration_seconds": 6.0,
+      "end_seconds": 120.0,
+      "hero": true,
+      "intent": {
+        "narrative_purpose": "Finish the descent",
+        "visible_event": "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in close chase.",
+        "viewer_reads": [
+          "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in close chase."
+        ]
+      },
+      "motion": {
+        "subject": "Wheels rotate from traveled distance; early pedaling becomes technical coasting; bent limbs stay attached to controls; lean follows route curvature.",
+        "environment": "World-fixed trees and rocks create depth-dependent parallax.",
+        "camera": "close chase"
+      },
+      "look": {
+        "palette": "ochre dirt, forest green, blue haze",
+        "depth_layers": [
+          "trail-edge stones",
+          "rider and bicycle",
+          "trees",
+          "mountain distance"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous rock score and tire/air bed; landing accents from shared jump times.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same rider, bicycle, continuous increasing route distance"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 115.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.0,
+          "absolute_seconds": 118.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "rider disconnected",
+        "POV occlusion",
+        "camera below ground",
+        "wheel slip",
+        "frozen motion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-21",
+      "order": 21,
+      "start_seconds": 120.0,
+      "duration_seconds": 6.0,
+      "end_seconds": 126.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Finish the descent",
+        "visible_event": "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in rear chase.",
+        "viewer_reads": [
+          "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in rear chase."
+        ]
+      },
+      "motion": {
+        "subject": "Wheels rotate from traveled distance; early pedaling becomes technical coasting; bent limbs stay attached to controls; lean follows route curvature.",
+        "environment": "World-fixed trees and rocks create depth-dependent parallax.",
+        "camera": "rear chase"
+      },
+      "look": {
+        "palette": "ochre dirt, forest green, blue haze",
+        "depth_layers": [
+          "trail-edge stones",
+          "rider and bicycle",
+          "trees",
+          "mountain distance"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous rock score and tire/air bed; landing accents from shared jump times.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same rider, bicycle, continuous increasing route distance"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 121.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.0,
+          "absolute_seconds": 124.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "rider disconnected",
+        "POV occlusion",
+        "camera below ground",
+        "wheel slip",
+        "frozen motion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-22",
+      "order": 22,
+      "start_seconds": 126.0,
+      "duration_seconds": 6.0,
+      "end_seconds": 132.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "Finish the descent",
+        "visible_event": "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in aerial.",
+        "viewer_reads": [
+          "The same orange-jacketed rider advances along a connected mountain singletrack, viewed in aerial."
+        ]
+      },
+      "motion": {
+        "subject": "Wheels rotate from traveled distance; early pedaling becomes technical coasting; bent limbs stay attached to controls; lean follows route curvature.",
+        "environment": "World-fixed trees and rocks create depth-dependent parallax.",
+        "camera": "aerial"
+      },
+      "look": {
+        "palette": "ochre dirt, forest green, blue haze",
+        "depth_layers": [
+          "trail-edge stones",
+          "rider and bicycle",
+          "trees",
+          "mountain distance"
+        ]
+      },
+      "transition": {
+        "in": "cut",
+        "out": "cut"
+      },
+      "audio": {
+        "cue": "Continuous rock score and tire/air bed; landing accents from shared jump times.",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "Same rider, bicycle, continuous increasing route distance"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 1.5,
+          "absolute_seconds": 127.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.0,
+          "absolute_seconds": 130.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "rider disconnected",
+        "POV occlusion",
+        "camera below ground",
+        "wheel slip",
+        "frozen motion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    }
+  ],
+  "warnings": [],
+  "summary": {
+    "shot_count": 22,
+    "hero_shot_count": 4,
+    "renderer_lanes": [
+      "python"
+    ],
+    "unresolved_asset_count": 0,
+    "warning_count": 0,
+    "blocked_shot_count": 0
+  }
+}

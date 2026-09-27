@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "title": "VELOCITY \u2014 A Highway Study",
+  "objective": "Create a 2-minute locally rendered cinematic highway-driving film with a proportionally coherent hero car, believable traffic, normal and fast speed phases, dusk-to-night progression, and strong audiovisual speed cues.",
+  "constraints": [
+    "No real driving footage",
+    "Local rendering only",
+    "Hero car remains physically coherent",
+    "Traffic follows lanes and varied plausible speeds",
+    "Acceleration feels fast through parallax, lens, engine and wind rather than impossible stunts"
+  ],
+  "deliverable": {
+    "duration_seconds": 120,
+    "width": 960,
+    "height": 540,
+    "fps": 24
+  }
+}
