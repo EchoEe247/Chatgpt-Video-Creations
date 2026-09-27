@@ -127,7 +127,10 @@ def shot08(im,t,dur):
 
 def shot14(im,t,dur):
     d=ImageDraw.Draw(im);stars(im,t*.2,150,31)
-    cx,cy=W/2,H/2+10
+    # Deliberate lateral reveal after shot-13's push: the map travels across frame
+    # while the scan discovers repeated pulse bands on the newly exposed side.
+    u=ease(t/dur)
+    cx,cy=lerp(W*.68,W*.45,u),H/2+10
     for r in range(60,300,36):
         d.ellipse((cx-r,cy-r,cx+r,cy+r),outline=(40,79,106,130),width=1)
     for k in range(28):
@@ -143,6 +146,11 @@ def shot14(im,t,dur):
         a=-1.0+k*.32; r=215
         x=cx+r*math.cos(a);y=cy+r*math.sin(a)
         d.ellipse((x-6*p,y-6*p,x+6*p,y+6*p),fill=(245,216,145,220))
+    reveal=ease(clamp((t-2.2)/3.0))
+    for k in range(5):
+        y=220+k*64
+        x0=900+55*math.sin(k*.8+t*.4)
+        d.line((x0,y,x0+150*reveal,y),fill=(240,203,130,190),width=3)
     text(d,(88,92),"COSMIC BACKGROUND / CORRELATION",22,(178,200,214),"la",True)
 
 def shot15(im,t,dur):

@@ -646,9 +646,9 @@
       "duration_seconds": 7,
       "narrative_purpose": "Turn the story outward toward our own universe.",
       "visible_event": "A radio telescope scan of our cosmic background reveals the same pulse spacing hidden in real noise.",
-      "camera": "Measured push into a circular cosmic map, then a lateral reveal of repeated pulse bands.",
-      "subject_motion": "Noise map resolves statistically; identical pulse intervals illuminate one by one.",
-      "environment_motion": "Background stars drift barely while scan arcs sweep across.",
+      "camera": "Locked analytic frame while the cosmic map itself traverses across frame to reveal repeated pulse bands.",
+      "subject_motion": "Noise map resolves statistically while repeated pulse intervals illuminate into the revealed side.",
+      "environment_motion": "Background stars drift barely while the cosmic map traverses laterally and scan arcs sweep.",
       "depth_layers": [
         "foreground",
         "primary subject/event",
@@ -678,7 +678,7 @@
       "duration_seconds": 8,
       "narrative_purpose": "Reveal the nested-world possibility at maximum scale.",
       "visible_event": "Camera pulls from our planet into a luminous shell, then farther to reveal our entire cosmos as one object inside another dark structure.",
-      "camera": "Continuous pull-back with strong parallax and two scale transitions, no teleport.",
+      "camera": "Rapid cosmic pull-back through nested spatial shells, with strong parallax and two readable scale transitions.",
       "subject_motion": "Planet becomes system, system becomes sphere, sphere becomes a single node.",
       "environment_motion": "Nebula layers cross foreground and distant structures emerge at different rates.",
       "depth_layers": [

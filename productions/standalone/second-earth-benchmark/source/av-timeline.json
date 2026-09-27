@@ -24,7 +24,7 @@
   },
   "source": {
     "execution_plan": "productions/standalone/second-earth-benchmark/source/execution-plan.json",
-    "execution_plan_sha256": "fc049677f67b90650b8d6d5c47d0767772d5691632feee1f3488d42222a1ca40",
+    "execution_plan_sha256": "cc2e91d27f63f611f126c927cdce2e61fe002fd34cfcef8c5ae505d42613a6d4",
     "custom_events": "productions/standalone/second-earth-benchmark/source/av-events.json",
     "custom_events_sha256": "af27584815fa65e54cab2fca4170ce9434698afb94f0e2f966a4a5127dc1255f"
   },

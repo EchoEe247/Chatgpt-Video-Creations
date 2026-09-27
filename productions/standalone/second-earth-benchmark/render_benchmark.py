@@ -68,7 +68,7 @@ def render_canvas():
         return
     run(["node",str(P/"renderers/render_canvas_shots.mjs")])
 
-def ensure_blender_reel(frame_dir_name,builder,reel_name,expected_frames,duration):
+def ensure_blender_reel(frame_dir_name,builder,reel_name,expected_frames,duration,source_fps=6):
     frame_dir=R/frame_dir_name;frame_dir.mkdir(exist_ok=True)
     reel=R/reel_name
     if valid(reel,duration):
@@ -87,10 +87,10 @@ def ensure_blender_reel(frame_dir_name,builder,reel_name,expected_frames,duratio
     if count<expected_frames:
         raise RuntimeError(f"{frame_dir_name} incomplete: {count}/{expected_frames}")
     run([
-        "ffmpeg","-y","-v","error","-framerate","6","-pattern_type","glob",
+        "ffmpeg","-y","-v","error","-framerate",str(source_fps),"-pattern_type","glob",
         "-i",str(frame_dir/"frame_*.png"),"-frames:v",str(expected_frames),
         "-an","-c:v","libx264","-preset","veryfast",
-        "-crf","18","-r","6","-pix_fmt","yuv420p",str(reel)
+        "-crf","18","-r",str(source_fps),"-pix_fmt","yuv420p",str(reel)
     ])
     if not valid(reel,duration):
         raise RuntimeError(f"invalid Blender reel: {reel}")
@@ -100,7 +100,7 @@ def ensure_blender_reel(frame_dir_name,builder,reel_name,expected_frames,duratio
 def split_blender_reels():
     groups=[
         (R/"blender-physical-reel.mp4",[("shot-02",0,7),("shot-07",7,8),("shot-16",15,7)]),
-        (R/"blender-probe-reel.mp4",[("shot-10",0,7),("shot-11",7,8),("shot-20",15,7)]),
+        (R/"blender-probe-v2-reel.mp4",[("shot-10",0,7),("shot-11",7,8),("shot-20",15,7)]),
     ]
     for reel,segments in groups:
         for sid,start,duration in segments:
@@ -152,16 +152,20 @@ def render_editorial():
     if not valid(out,5):
         if out.exists():out.unlink()
         font="/data/data/com.termux/files/usr/share/fonts/TTF/DejaVuSans.ttf"
+        src=R/"shot-20.mp4"
         vf=(
-          f"drawtext=fontfile={font}:text='BUILD FAST ENOUGH TO DISCOVER WHAT IS POSSIBLE.':"
-          "fontcolor=0xE6EDEB:fontsize=34:x=(w-text_w)/2:y=h*0.40:enable='gte(t,1.0)',"
-          f"drawtext=fontfile={font}:text='LEAVE ENOUGH FREEDOM TO DISCOVER WHEN YOU WERE WRONG.':"
-          "fontcolor=0xE7B975:fontsize=30:x=(w-text_w)/2:y=h*0.52:enable='gte(t,1.35)',"
-          "fade=t=out:st=4.3:d=0.7"
+          "trim=start=2:end=7,setpts=PTS-STARTPTS,scale=1280:720:flags=lanczos,"
+          "eq=brightness=-0.10:saturation=0.72,"
+          "drawbox=x=0:y=0:w=iw:h=ih:color=black@0.34:t=fill,"
+          f"drawtext=fontfile={font}:text='BUILD FAST. DISCOVER WHAT IS POSSIBLE.':"
+          "fontcolor=0xE6EDEB:fontsize=40:x=(w-text_w)/2:y=h*0.39:enable='between(t,0.9,4.45)',"
+          f"drawtext=fontfile={font}:text='KEEP ENOUGH FREEDOM TO BE WRONG.':"
+          "fontcolor=0xE7B975:fontsize=40:x=(w-text_w)/2:y=h*0.52:enable='between(t,1.25,4.45)',"
+          "fade=t=out:st=4.2:d=0.8"
         )
         run([
-            "ffmpeg","-y","-v","error","-f","lavfi","-i","color=c=0x05080D:s=1280x720:r=24:d=5",
-            "-vf",vf,"-an","-c:v","libx264","-preset","veryfast","-crf","18",
+            "ffmpeg","-y","-v","error","-i",str(src),"-vf",vf,"-t","5","-an",
+            "-c:v","libx264","-preset","veryfast","-crf","18","-r","24",
             "-pix_fmt","yuv420p",str(out)
         ])
 
@@ -205,7 +209,7 @@ def main():
     render_python()
     render_canvas()
     ensure_blender_reel("physical-frames","build_blender_physical.py","blender-physical-reel.mp4",132,22)
-    ensure_blender_reel("probe-frames","build_blender_probe.py","blender-probe-reel.mp4",132,22)
+    ensure_blender_reel("probe-v2-frames","build_blender_probe.py","blender-probe-v2-reel.mp4",88,22,source_fps=4)
     split_blender_reels()
     render_editorial()
     verify_shots()

@@ -3,7 +3,7 @@
   "title": "SECOND EARTH",
   "source": {
     "director_brief": "productions/standalone/second-earth-benchmark/source/director-brief.json",
-    "director_sha256": "9f617eaf545bbcd1a9d73b7fed53c7e5018b6e3278e6e9be627aa50761231995",
+    "director_sha256": "42b77be79c5b5a4dd3cb352062682cf3631453fd14d0e6506cb3c8a56412d66b",
     "asset_catalog": "assets/catalog.json",
     "asset_catalog_sha256": "dd27a54a24835e596327bc99c66abd3341598dd4db99133495502e70b961e904"
   },
@@ -1325,9 +1325,9 @@
         ]
       },
       "motion": {
-        "subject": "Noise map resolves statistically; identical pulse intervals illuminate one by one.",
-        "environment": "Background stars drift barely while scan arcs sweep across.",
-        "camera": "Measured push into a circular cosmic map, then a lateral reveal of repeated pulse bands."
+        "subject": "Noise map resolves statistically while repeated pulse intervals illuminate into the revealed side.",
+        "environment": "Background stars drift barely while the cosmic map traverses laterally and scan arcs sweep.",
+        "camera": "Locked analytic frame while the cosmic map itself traverses across frame to reveal repeated pulse bands."
       },
       "look": {
         "palette": "cosmic black, microwave red-blue, white pulse marks",
@@ -1410,7 +1410,7 @@
       "motion": {
         "subject": "Planet becomes system, system becomes sphere, sphere becomes a single node.",
         "environment": "Nebula layers cross foreground and distant structures emerge at different rates.",
-        "camera": "Continuous pull-back with strong parallax and two scale transitions, no teleport."
+        "camera": "Rapid cosmic pull-back through nested spatial shells, with strong parallax and two readable scale transitions."
       },
       "look": {
         "palette": "blue-gold Earth to violet-black meta-space",

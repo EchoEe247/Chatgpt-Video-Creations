@@ -1,14 +1,14 @@
 {
   "artifacts": {
-    "artifact_receipt": null,
+    "artifact_receipt": "iterations/iteration-01/qa/review-pack/artifact-receipt.json",
     "baseline_comparison": null,
     "baseline_master": null,
-    "candidate_master": "iterations/iteration-00/candidate.mp4",
-    "candidate_sha256": "185f2eb4d6b10145c8610e4a1602845baf441a03dac674f92e0cd5d93992a732",
-    "creative_qa": null,
-    "creative_review": null,
-    "iteration_dir": "iterations/iteration-00",
-    "review_pack": null
+    "candidate_master": "iterations/iteration-01/candidate.mp4",
+    "candidate_sha256": "f23a08583afd141b906cad486c088fb9ad355ecc3617939a28d7e78f4abf6d59",
+    "creative_qa": "iterations/iteration-01/qa/creative-qa/creative-qa.json",
+    "creative_review": "iterations/iteration-01/qa/creative-qa/assistant-review.json",
+    "iteration_dir": "iterations/iteration-01",
+    "review_pack": "iterations/iteration-01/qa/review-pack/review-pack.json"
   },
   "delivery": {
     "audio_codec": "aac",
@@ -34,14 +34,14 @@
   },
   "gates": {
     "assistant": {
-      "candidate_sha256": null,
-      "notes": null,
-      "status": "PENDING"
+      "candidate_sha256": "f23a08583afd141b906cad486c088fb9ad355ecc3617939a28d7e78f4abf6d59",
+      "notes": "Iteration 01 passes final assistant review. Technical QA PASS; creative bundle valid; zero freeze spans, zero weak-motion shots, zero camera-family repeats, zero layout violations. Repaired city scale, spacecraft/probe hero shots, second-message framing, cosmic scan grammar and moving final release.",
+      "status": "PASS"
     },
     "technical": {
-      "candidate_sha256": null,
-      "evidence": null,
-      "status": "PENDING"
+      "candidate_sha256": "f23a08583afd141b906cad486c088fb9ad355ecc3617939a28d7e78f4abf6d59",
+      "evidence": "iterations/iteration-01/qa/technical-qa.json",
+      "status": "PASS"
     },
     "user": {
       "candidate_sha256": null,
@@ -49,6 +49,51 @@
       "status": "PENDING"
     }
   },
+  "history": [
+    {
+      "artifacts": {
+        "artifact_receipt": "iterations/iteration-00/qa/review-pack/artifact-receipt.json",
+        "baseline_comparison": null,
+        "baseline_master": null,
+        "candidate_master": "iterations/iteration-00/candidate.mp4",
+        "candidate_sha256": "185f2eb4d6b10145c8610e4a1602845baf441a03dac674f92e0cd5d93992a732",
+        "creative_qa": null,
+        "creative_review": null,
+        "iteration_dir": "iterations/iteration-00",
+        "review_pack": "iterations/iteration-00/qa/review-pack/review-pack.json"
+      },
+      "at": "2026-09-27T09:54:11+00:00",
+      "gates": {
+        "assistant": {
+          "candidate_sha256": "185f2eb4d6b10145c8610e4a1602845baf441a03dac674f92e0cd5d93992a732",
+          "notes": "Iteration 00 fails creative review: probe-world shots read as placeholder geometry; shot-03 scale is too small; shot-13 message is clipped; shot-21 is weak-motion/static; shot-13 to shot-14 repeats push-family motion.",
+          "status": "FAIL"
+        },
+        "technical": {
+          "candidate_sha256": "185f2eb4d6b10145c8610e4a1602845baf441a03dac674f92e0cd5d93992a732",
+          "evidence": "iterations/iteration-00/qa/technical-qa.json",
+          "status": "PASS"
+        },
+        "user": {
+          "candidate_sha256": null,
+          "notes": null,
+          "status": "PENDING"
+        }
+      },
+      "render_job": {
+        "command": null,
+        "completed_at": null,
+        "cwd": null,
+        "exit_code": null,
+        "job_id": null,
+        "output": null,
+        "started_at": null,
+        "state": "NONE"
+      },
+      "repair_cycle": 0,
+      "status": "REFINEMENT_REQUIRED"
+    }
+  ],
   "lane": "animation",
   "production_id": "second-earth-benchmark-20260927",
   "render": {
@@ -63,7 +108,7 @@
     "scene_plan": null
   },
   "review": {
-    "assistant": "PENDING",
+    "assistant": "PASS",
     "user": "PENDING"
   },
   "schema_version": 2,
@@ -74,15 +119,14 @@
     "season": "standalone",
     "show": "SECOND EARTH"
   },
-  "status": "CANDIDATE",
+  "status": "USER_REVIEW",
   "workflow": {
     "creative_qa_required": true,
     "escalation_reason": null,
     "last_action": {
-      "action": "candidate_recorded",
-      "artifact": "iterations/iteration-00/candidate.mp4",
-      "at": "2026-09-27T09:45:43+00:00",
-      "sha256": "185f2eb4d6b10145c8610e4a1602845baf441a03dac674f92e0cd5d93992a732"
+      "action": "assistant_review_passed",
+      "at": "2026-09-27T10:24:10+00:00",
+      "candidate_sha256": "f23a08583afd141b906cad486c088fb9ad355ecc3617939a28d7e78f4abf6d59"
     },
     "max_autonomous_repair_cycles": 4,
     "mode": "autonomous_until_final_review",
@@ -96,7 +140,7 @@
       "started_at": null,
       "state": "NONE"
     },
-    "repair_cycle": 0,
+    "repair_cycle": 1,
     "user_review_policy": "final_candidate_only"
   }
 }

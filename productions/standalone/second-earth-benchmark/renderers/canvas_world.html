@@ -17,10 +17,11 @@ function city(t,dur,night=false){
  bgPaper(t,night);const p=ease(t/dur);
  x.save();x.translate(W/2,H*.74);
  for(let ring=0;ring<7;ring++){
-   const rr=70+ring*55;
+   const rr=90+ring*80;
    for(let k=0;k<10+ring*3;k++){
      const a=k*Math.PI*2/(10+ring*3)+ring*.22;
-     const q=clamp(p*1.5-ring*.11);
+     const initial=night ? .80 : .55;
+     const q=clamp(initial+p*.72-ring*.04);
      const px=Math.cos(a)*rr*q,py=Math.sin(a)*rr*.36*q;
      const hh=(18+((k*17+ring*11)%70))*q;
      x.fillStyle=night?(k%3?'#192a45':'#203d5b'):(k%3?'#323947':'#465261');
@@ -54,11 +55,12 @@ function blackout(t,dur){
  for(let i=0;i<6;i++){const px=130+i*180,py=H*.72+(i%2)*18;circle(px,py,18,'#172137','#93a8b7',2);line([px,py-10],[seamX,140],P.cyan,1)}
 }
 function crowd(t,dur){
- bgPaper(t,true);const p=ease(t/dur);const win=[W*.63,80,W*.94,H*.64];
+ bgPaper(t,true);const p=ease(t/dur);const win=[W*.50,68,W*.965,H*.66];
  x.fillStyle='#e9f6f6';x.fillRect(win[0],win[1],win[2]-win[0],win[3]-win[1]);
- for(let i=0;i<90;i++){const px=40+(i*77)%800,py=H-70-(i%6)*33;const grow=clamp(p*1.6-i/120);circle(px,py-18*grow,10*grow,'#0b101c');x.fillStyle='#0b101c';x.fillRect(px-7*grow,py-10*grow,14*grow,27*grow)}
- const rp=ease(clamp((t-2.1)/(dur-2.8)));x.save();x.globalAlpha=rp;label('WE CAN SEE YOU',W*.785,H*.37,64,'#111827','center','800');x.restore();
- for(let k=0;k<14;k++){const px=W*.63+(k/13)*(W*.31);line([px,win[3]],[W*.5,H*.74],'rgba(76,195,210,'+(.12+rp*.3)+')',1)}
+ x.strokeStyle=P.cyan;x.lineWidth=3;x.strokeRect(win[0],win[1],win[2]-win[0],win[3]-win[1]);
+ for(let i=0;i<110;i++){const px=34+(i*67)%760,py=H-58-(i%7)*31;const grow=clamp(.28+p*1.25-i/150);circle(px,py-18*grow,10*grow,'#0b101c');x.fillStyle='#0b101c';x.fillRect(px-7*grow,py-10*grow,14*grow,27*grow)}
+ const rp=ease(clamp((t-1.8)/(dur-2.5)));x.save();x.globalAlpha=rp;label('WE CAN SEE YOU',W*.732,H*.36,50,'#111827','center','800');x.restore();
+ for(let k=0;k<18;k++){const px=win[0]+18+(k/17)*(win[2]-win[0]-36);line([px,win[3]],[W*.46,H*.76],'rgba(76,195,210,'+(.12+rp*.34)+')',1)}
 }
 function controls(t,dur){
  bgPaper(t,false);const p=ease(t/dur);const names=['COMPUTE','POWER','COMMS','OVERRIDE'];const cols=[P.cyan,'#68a878',P.gold,'#222b37'];

@@ -12,7 +12,7 @@
         0.76,
         0.15
       ],
-      "font_px": 82
+      "font_px": 74
     },
     {
       "id": "shot-06-message",
@@ -24,43 +24,43 @@
         0.72,
         0.14
       ],
-      "font_px": 88
+      "font_px": 86
     },
     {
       "id": "shot-13-message",
       "start_seconds": 88.8,
       "end_seconds": 93.8,
       "bbox_norm": [
-        0.12,
+        0.52,
+        0.29,
         0.42,
-        0.76,
         0.14
       ],
-      "font_px": 84
+      "font_px": 50
     },
     {
       "id": "shot-21-thesis-1",
       "start_seconds": 147,
       "end_seconds": 149.3,
       "bbox_norm": [
-        0.09,
+        0.12,
         0.36,
-        0.82,
+        0.76,
         0.1
       ],
-      "font_px": 58
+      "font_px": 40
     },
     {
       "id": "shot-21-thesis-2",
       "start_seconds": 147.4,
       "end_seconds": 149.3,
       "bbox_norm": [
-        0.09,
-        0.5,
-        0.82,
+        0.12,
+        0.49,
+        0.76,
         0.1
       ],
-      "font_px": 58
+      "font_px": 40
     }
   ]
 }

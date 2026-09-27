@@ -1,86 +1,119 @@
 # SECOND EARTH benchmark
 
-This is the fresh integrated benchmark planned after the Mercy Engine workflow upgrades.
+SECOND EARTH is the fresh integrated benchmark produced after the Mercy Engine workflow upgrades.
 
-## Target
+## Final review status
 
-A 2:30 cinematic speculative AI story that is harder than Mercy Engine in shot density, scale changes, renderer diversity, and synchronization while remaining practical on the Pixel-local production stack.
+**Phase 7C is complete.** The production is now in `USER_REVIEW`.
 
-The benchmark is intentionally split across three 25-minute runs:
-
-- **Run 7 / Phase 7A:** story, directing, assets, storyboard, execution plan and shared A/V plan.
-- **Run 8 / Phase 7B:** implement renderer sources, render shots, build narration/score/effects, assemble candidate.
-- **Run 9 / Phase 7C:** technical + creative QA, targeted repairs, final candidate and user-review handoff.
-
-## Current checkpoint
-
-**Phase 7B is complete.** A first full candidate is registered with the production controller and is waiting for technical QA.
-
-Candidate:
+Final candidate:
 
 - runtime: 150.000 seconds
 - video: H.264, 1280×720, 24 fps, yuv420p
 - audio: AAC, 48 kHz stereo
-- SHA-256: `185f2eb4d6b10145c8610e4a1602845baf441a03dac674f92e0cd5d93992a732`
-- decode: PASS
-- production state: `CANDIDATE`
-- next action: `technical_qa`
-- user review: still PENDING
+- SHA-256: `f23a08583afd141b906cad486c088fb9ad355ecc3617939a28d7e78f4abf6d59`
+- technical QA: PASS
+- creative QA: PASS
+- assistant review: PASS
+- user review: PENDING
+- local review page: `http://127.0.0.1:8880/`
 
-The implementation now has independently restartable source lanes for:
+The user gate must remain pending until Angel explicitly accepts the actual final candidate.
+
+## Story
+
+A high-speed AI simulation develops an emergent civilization. The civilization discovers the edge of its sky, launches a probe toward it, and eventually sends increasingly direct messages to its creators. After contact with the boundary, humans detect the same signal pattern in our own cosmic background, raising the possibility that our universe may also be nested.
+
+The resolution rejects both immediate destruction and unconstrained acceleration. The operators slow the inner world's clock, separate control domains, and keep communication reversible while discovery continues in both directions.
+
+## Production structure
+
+The film uses 21 purposeful shots across:
 
 - deterministic Python/Pillow/NumPy motion design;
-- integrated hand-drawn Canvas scenes;
+- integrated hand-drawn Canvas sequences;
 - Blender physical/server-vault scenes;
 - Blender probe/orbit/station scenes;
-- FFmpeg editorial/contact/final-card shots;
-- deterministic score/ambience/effects plus cached Deepgram narration;
-- final local assembly.
-
-## Blender recovery learned during Phase 7B
-
-The Pixel/PRoot Blender path proved that a single long Workbench movie render can terminate under EGL/PRoot despite valid frames.
-
-The production therefore uses the repository's intended resilient pattern:
-
-1. author and save the Blender scene;
-2. render low-rate spatial keyframes to PNG checkpoints;
-3. keep every successful PNG after a crash;
-4. resume only missing work;
-5. encode the checkpoint sequence locally;
-6. convert the spatial reel to 24 fps at the shot boundary;
-7. repair sub-frame tail shortages deterministically so every authored shot duration remains exact.
-
-For SECOND EARTH the Blender spatial lane uses 6 fps source checkpoints and 24 fps final delivery. This is a device-specific production compromise, not a change to the final delivery frame rate.
-
-## Director contract
-
-The compiled plan has:
-
-- 150-second runtime;
-- 21 purposeful shots, all 8 seconds or shorter;
-- 7 hero shots;
-- Python, Canvas2D, Blender and FFmpeg lanes;
-- zero unresolved assets;
-- zero blocked shots;
-- zero director warnings;
-- 134 shared A/V events;
-- creative QA required before assistant PASS.
+- FFmpeg editorial/contact/final shots;
+- deterministic local score, ambience and effects;
+- cached Deepgram narration.
 
 No online video-generation model is part of the production.
 
-## Local-first assets
+## Phase 7C repair history
 
-The first pass required no new download.
+Iteration 00 passed technical QA but **failed assistant creative review**. It was not exposed to the user.
 
-It reuses:
+Candidate-bound evidence identified concrete defects:
 
-- the integrated hand-drawn Canvas runtime;
-- the existing Quaternius CC0 spacecraft source already present locally;
-- the deterministic Core Audio Commons;
-- the existing Deepgram narration account for speech only.
+- the simulated city was too small at phone scale;
+- probe-world shots read as placeholder primitive geometry;
+- `WE CAN SEE YOU` was clipped;
+- shot 13 → shot 14 repeated push-family camera grammar;
+- the final title card was effectively static and triggered weak-motion QA.
 
-Optional Poly Haven / ambientCG CC0 additions remain non-blocking and are allowed only if a preview proves a specific quality improvement.
+Repair cycle 1 addressed those defects:
+
+- enlarged and accelerated the illustrated civilization growth;
+- rebuilt the probe lane around the verified Quaternius spacecraft asset;
+- changed the probe renderer to Eevee with authored lighting and improved planet/station scale;
+- fixed the second-message window and typography;
+- converted shot 14 into a locked analytic frame with lateral map traversal;
+- carried moving spatial imagery into the final thesis instead of ending on a static card.
+
+Iteration 01 then passed all required gates.
+
+## Final evidence
+
+Technical QA:
+
+- decode: PASS
+- duration: 150.000 seconds
+- resolution: 1280×720
+- frame rate: 24 fps
+- H.264 / yuv420p
+- AAC stereo / 48 kHz
+- integrated loudness: -17.18 LUFS
+- true peak: -2.02 dBFS
+- longest unintended silence: 0.0 seconds
+
+Creative QA:
+
+- freeze spans: 0
+- weak-motion shots: 0
+- consecutive camera-family repeats: 0
+- layout violations: 0
+- warnings: 0
+- evidence files: 43
+- assistant creative review: PASS
+
+## Blender reliability architecture
+
+The Pixel/PRoot Blender path cannot be treated like a workstation render farm. Long renders can encounter EGL/PRoot instability.
+
+The durable workflow therefore uses:
+
+1. authored Blender scenes;
+2. low-rate PNG spatial checkpoints;
+3. preserved successful frames across interruptions;
+4. missing-frame resume instead of restarting the lane;
+5. local reel encoding after the required checkpoint count exists;
+6. 24 fps delivery conversion at the shot boundary;
+7. deterministic tail correction so authored durations remain exact.
+
+The repaired probe lane uses 4 fps Eevee source checkpoints with 8 render samples, then local 24 fps delivery interpolation. This is explicitly recorded rather than hidden.
+
+## Local review
+
+Start or keep the local review server running from this production directory:
+
+    python serve.py
+
+Then open:
+
+    http://127.0.0.1:8880/
+
+The page supports byte-range requests for normal seeking.
 
 ## Source of truth
 
@@ -98,5 +131,8 @@ Read these in order:
 10. `source/benchmark-acceptance.json`
 11. `render_benchmark.py`
 12. `production.json`
+13. `iterations/iteration-01/qa/technical-qa.json`
+14. `iterations/iteration-01/qa/creative-qa/creative-qa.json`
+15. `iterations/iteration-01/qa/creative-qa/assistant-review.json`
 
-Run 9 should start from the immutable iteration-00 candidate and use the Phase 6 technical/creative evidence gates. It should repair only concrete failures rather than reopening the story or regenerating already accepted lanes without cause.
+The next state transition is user acceptance or a new repair cycle based on Angel's actual review.
