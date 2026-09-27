@@ -1,0 +1,9 @@
+<!doctype html><meta charset="utf-8"><style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#101624}canvas{display:block;width:100vw;height:100vh}</style><canvas id="c"></canvas><script>
+const c=document.getElementById('c'),x=c.getContext('2d');
+window.renderFrameAt=(t,frame,shot)=>{
+ c.width=shot.width;c.height=shot.height;
+ const g=x.createLinearGradient(0,0,c.width,c.height);g.addColorStop(0,'#13213a');g.addColorStop(1,'#3a1642');x.fillStyle=g;x.fillRect(0,0,c.width,c.height);
+ const px=c.width*(.15+.7*((t*.35)%1));x.fillStyle='#f3c65d';x.beginPath();x.arc(px,c.height*.52,42,0,Math.PI*2);x.fill();
+ x.strokeStyle='#73d7e6';x.lineWidth=5;x.beginPath();x.moveTo(0,c.height*.7);x.quadraticCurveTo(c.width*.5,c.height*(.35+.08*Math.sin(t*2)),c.width,c.height*.7);x.stroke();
+ x.fillStyle='white';x.font='24px sans-serif';x.fillText('CANVAS '+frame,22,36);
+};</script>

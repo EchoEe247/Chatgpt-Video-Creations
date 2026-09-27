@@ -53,7 +53,9 @@ Current normalized lanes:
 - `ffmpeg` — composition/temporal treatment;
 - `unresolved` — explicit blocker.
 
-The plan distinguishes **renderer choice** from **adapter standardization**. Phase 3 establishes what each shot requires. Phase 5 will finish stable generic invocation adapters for every renderer lane. Until then an unstandardized lane is visible as a blocker instead of being papered over.
+The plan distinguishes **renderer choice** from **runtime readiness**. Phase 5 now provides stable request/output adapters for Python, Canvas, Three.js/WebGL, Blender, and FFmpeg. Use `python scripts/rendererctl.py doctor` to verify the current device before rendering.
+
+The current Pixel reports Python, Canvas, Blender, and FFmpeg ready. The Three.js/WebGL contract is standardized but the headless Chromium runtime does not currently expose a WebGL context, so that lane remains an explicit blocker with Blender/Canvas fallback lanes rather than being falsely marked ready.
 
 ## Asset resolution
 

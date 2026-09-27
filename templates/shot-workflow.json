@@ -16,20 +16,12 @@
       ],
       "sources": [
         "scene.blend",
-        "blender_shot_adapter.py"
+        "{repo}/scripts/blender_termux_adapter.py",
+        "{repo}/scripts/blender_shot_adapter.py"
       ],
       "renderer": [
-        "proot-distro",
-        "login",
-        "hermes-ubuntu",
-        "--",
-        "blender",
-        "--background",
-        "--python-exit-code",
-        "1",
-        "--python",
-        "/absolute/path/to/blender_shot_adapter.py",
-        "--",
+        "python",
+        "{repo}/scripts/blender_termux_adapter.py",
         "{request}"
       ],
       "width": 640,
@@ -42,7 +34,7 @@
       ],
       "settings": {
         "engine": "BLENDER_WORKBENCH",
-        "runtime_tag": "set-to-installed-blender-version"
+        "runtime_tag": "blender-4.0.2-hermes-ubuntu"
       }
     }
   ],

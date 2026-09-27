@@ -18,6 +18,16 @@ from pathlib import Path
 
 from src.core.media import sha256_file, validate_master
 
+REPO_ROOT = Path(__file__).resolve().parents[2]
+
+
+def resolve_source(spec_path, source):
+    value = str(source).replace('{repo}', str(REPO_ROOT))
+    candidate = Path(value).expanduser()
+    if not candidate.is_absolute():
+        candidate = Path(spec_path).parent / candidate
+    return candidate.resolve()
+
 
 def write_json(path, value):
     path = Path(path)
@@ -72,7 +82,7 @@ def load_spec(path):
             if '{request}' not in shot['renderer']:
                 raise ValueError('renderer must consume an exact {request} argv token')
             for source in shot['sources']:
-                if not (path.parent / source).resolve().is_file():
+                if not resolve_source(path, source).is_file():
                     raise ValueError(f'missing source: {source}')
     if not ids:
         raise ValueError('at least one shot is required')
@@ -92,7 +102,7 @@ def resolve_visual_mode(path, shot):
         return {'id': 'default', 'sources': shot['sources'], 'renderer': shot['renderer']}
     missing_by_mode = {}
     for mode in modes:
-        missing = [source for source in mode['sources'] if not (path.parent / source).resolve().is_file()]
+        missing = [source for source in mode['sources'] if not resolve_source(path, source).is_file()]
         if not missing:
             return {'id': mode['id'], 'sources': list(mode['sources']), 'renderer': list(mode['renderer'])}
         missing_by_mode[mode['id']] = missing
@@ -107,7 +117,7 @@ def context(path, sid):
         raise ValueError(f'unknown shot {sid}')
     mode = resolve_visual_mode(path, shot)
     shot = {**shot, 'sources': mode['sources'], 'renderer': mode['renderer'], 'selected_visual_mode': mode['id']}
-    sources = [(str((path.parent / p).resolve()), sha256_file(path.parent / p)) for p in shot['sources']]
+    sources = [(str(resolve_source(path, p)), sha256_file(resolve_source(path, p))) for p in shot['sources']]
     # Runner revisions also invalidate evidence/cache. Adapter code belongs in sources.
     fingerprint = hashlib.sha256(json.dumps({'shot': shot, 'sources': sources,
         'runner': sha256_file(__file__)}, sort_keys=True).encode()).hexdigest()
@@ -211,7 +221,7 @@ def render(path, sid, stage, timeout=300):
         missing = [i for i in frames if not valid_frame(frame_dir / f'{i:06d}.png', cache.get(str(i)), shot['width'], shot['height'])]
         started = time.monotonic()
         request = {'schema_version': 1, 'shot': shot, 'frames': missing,
-            'source_paths': [str((path.parent / p).resolve()) for p in shot['sources']],
+            'source_paths': [str(resolve_source(path, p)) for p in shot['sources']],
             'output_dir': str(frame_dir), 'spec_dir': str(path.parent), 'fingerprint': fingerprint,
             'selected_visual_mode': shot.get('selected_visual_mode', 'default')}
         write_json(stage_dir / 'request.json', request)
@@ -231,7 +241,11 @@ def render(path, sid, stage, timeout=300):
                     batch = missing[offset:offset + batch_size]
                     batch_request = stage_dir / f'request-{attempt}-{offset}.json'
                     write_json(batch_request, {**request, 'frames': batch})
-                    argv = [str(batch_request) if a == '{request}' else a for a in shot['renderer']]
+                    argv = [
+                        str(batch_request) if a == '{request}'
+                        else a.replace('{repo}', str(REPO_ROOT))
+                        for a in shot['renderer']
+                    ]
                     execute(argv, path.parent, stage_dir / f'render-{attempt}-{offset}.log', remaining)
                     # Some proot launchers return zero after a Blender signal 11.
                     # Verify artifacts rather than trusting the wrapper's status.

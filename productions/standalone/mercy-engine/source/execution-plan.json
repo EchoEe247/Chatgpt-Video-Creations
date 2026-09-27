@@ -235,7 +235,9 @@
         "lane": "python",
         "description": "Python/Pillow/NumPy deterministic renderer",
         "adapter_ready": true,
-        "entrypoint": "production-specific Python renderer/shot adapter"
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
       },
       "assets": [],
       "continuity_dependencies": [],
@@ -299,7 +301,9 @@
         "lane": "python",
         "description": "Python/Pillow/NumPy deterministic renderer",
         "adapter_ready": true,
-        "entrypoint": "production-specific Python renderer/shot adapter"
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
       },
       "assets": [],
       "continuity_dependencies": [],
@@ -363,7 +367,9 @@
         "lane": "python",
         "description": "Python/Pillow/NumPy deterministic renderer",
         "adapter_ready": true,
-        "entrypoint": "production-specific Python renderer/shot adapter"
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
       },
       "assets": [],
       "continuity_dependencies": [],
@@ -428,7 +434,9 @@
         "lane": "python",
         "description": "Python/Pillow/NumPy deterministic renderer",
         "adapter_ready": true,
-        "entrypoint": "production-specific Python renderer/shot adapter"
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
       },
       "assets": [],
       "continuity_dependencies": [],
@@ -492,7 +500,9 @@
         "lane": "python",
         "description": "Python/Pillow/NumPy deterministic renderer",
         "adapter_ready": true,
-        "entrypoint": "production-specific Python renderer/shot adapter"
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
       },
       "assets": [],
       "continuity_dependencies": [
@@ -558,7 +568,9 @@
         "lane": "python",
         "description": "Python/Pillow/NumPy deterministic renderer",
         "adapter_ready": true,
-        "entrypoint": "production-specific Python renderer/shot adapter"
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
       },
       "assets": [],
       "continuity_dependencies": [
@@ -625,7 +637,9 @@
         "lane": "python",
         "description": "Python/Pillow/NumPy deterministic renderer",
         "adapter_ready": true,
-        "entrypoint": "production-specific Python renderer/shot adapter"
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
       },
       "assets": [
         {
@@ -711,7 +725,9 @@
         "lane": "python",
         "description": "Python/Pillow/NumPy deterministic renderer",
         "adapter_ready": true,
-        "entrypoint": "production-specific Python renderer/shot adapter"
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
       },
       "assets": [],
       "continuity_dependencies": [
@@ -777,7 +793,9 @@
         "lane": "python",
         "description": "Python/Pillow/NumPy deterministic renderer",
         "adapter_ready": true,
-        "entrypoint": "production-specific Python renderer/shot adapter"
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
       },
       "assets": [],
       "continuity_dependencies": [
@@ -843,7 +861,9 @@
         "lane": "python",
         "description": "Python/Pillow/NumPy deterministic renderer",
         "adapter_ready": true,
-        "entrypoint": "production-specific Python renderer/shot adapter"
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
       },
       "assets": [],
       "continuity_dependencies": [
@@ -909,7 +929,9 @@
         "lane": "python",
         "description": "Python/Pillow/NumPy deterministic renderer",
         "adapter_ready": true,
-        "entrypoint": "production-specific Python renderer/shot adapter"
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
       },
       "assets": [],
       "continuity_dependencies": [
@@ -975,7 +997,9 @@
         "lane": "python",
         "description": "Python/Pillow/NumPy deterministic renderer",
         "adapter_ready": true,
-        "entrypoint": "production-specific Python renderer/shot adapter"
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
       },
       "assets": [],
       "continuity_dependencies": [

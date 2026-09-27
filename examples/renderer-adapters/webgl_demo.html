@@ -1,0 +1,9 @@
+<!doctype html><meta charset="utf-8"><style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:black}canvas{display:block;width:100vw;height:100vh}</style><canvas id="c"></canvas><script>
+const c=document.getElementById('c');const gl=c.getContext('webgl',{antialias:true});
+if(!gl) throw new Error('WebGL unavailable');
+const vs=gl.createShader(gl.VERTEX_SHADER);gl.shaderSource(vs,'attribute vec2 p; uniform float u; void main(){float a=u*.7; mat2 r=mat2(cos(a),-sin(a),sin(a),cos(a)); gl_Position=vec4(r*p,0.,1.);}');gl.compileShader(vs);
+const fs=gl.createShader(gl.FRAGMENT_SHADER);gl.shaderSource(fs,'precision mediump float; uniform float u; void main(){gl_FragColor=vec4(.18+.12*sin(u),.65,.86,1.);}');gl.compileShader(fs);
+const pr=gl.createProgram();gl.attachShader(pr,vs);gl.attachShader(pr,fs);gl.linkProgram(pr);
+const b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([0,.65,-.58,-.45,.58,-.45]),gl.STATIC_DRAW);
+window.renderFrameAt=(t,frame,shot)=>{c.width=shot.width;c.height=shot.height;gl.viewport(0,0,c.width,c.height);gl.clearColor(.03,.05,.1,1);gl.clear(gl.COLOR_BUFFER_BIT);gl.useProgram(pr);const p=gl.getAttribLocation(pr,'p');gl.enableVertexAttribArray(p);gl.vertexAttribPointer(p,2,gl.FLOAT,false,0,0);gl.uniform1f(gl.getUniformLocation(pr,'u'),t);gl.drawArrays(gl.TRIANGLES,0,3);gl.finish();};
+</script>

@@ -49,6 +49,14 @@ Stable entry points:
 
 The runtime is selectively vendored from an MIT-licensed upstream source with the upstream notice preserved. Do not copy its demo art; build original production content on the reusable engine.
 
+## Standard renderer adapters
+
+Before implementing a shot, run `python scripts/rendererctl.py doctor` and read `docs/RENDERER_ADAPTERS.md`.
+
+Use the stable `shotctl` adapter contract rather than embedding environment-specific renderer commands in each production. Renderer argv may use `{repo}` for the repository root and `{request}` for the exact generated shot request.
+
+Current Pixel floor: Python, Canvas, Blender, and FFmpeg are locally ready. Three.js/WebGL is standardized but currently degraded because headless Chromium does not expose a WebGL context; use the declared Blender/Canvas fallbacks when they preserve the intended shot instead of pretending WebGL succeeded.
+
 ## Preview-driven shot development
 
 For local video quality improvements, read `docs/CHATGPT_SHOT_WORKFLOW.md`.

@@ -24,12 +24,17 @@ RENDERER_ALIASES = {
 }
 
 ADAPTERS = {
-    "python": {"ready": True, "entrypoint": "production-specific Python renderer/shot adapter"},
-    "canvas_handdrawn": {"ready": True, "entrypoint": "python scripts/canvas_handdrawn_adapter.py"},
-    "threejs": {"ready": False, "entrypoint": None},
-    "blender": {"ready": True, "entrypoint": "Local Workspace Blender tools or production-specific Blender adapter"},
-    "ffmpeg": {"ready": True, "entrypoint": "ffmpeg / scripts/videoctl.py"},
-    "unresolved": {"ready": False, "entrypoint": None},
+    "python": {"ready": True, "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}", "fallback_lanes": []},
+    "canvas_handdrawn": {"ready": True, "entrypoint": "python {repo}/scripts/browser_shot_adapter.py {request}", "fallback_lanes": ["python"]},
+    "threejs": {
+        "ready": False,
+        "entrypoint": "python {repo}/scripts/browser_shot_adapter.py {request}",
+        "fallback_lanes": ["blender", "canvas_handdrawn"],
+        "runtime_note": "Standardized browser contract exists, but current Pixel headless Chromium does not expose a WebGL context. Use Blender for spatial 3D or Canvas for non-WebGL motion until rendererctl reports WebGL ready.",
+    },
+    "blender": {"ready": True, "entrypoint": "python {repo}/scripts/blender_termux_adapter.py {request}", "fallback_lanes": ["python"]},
+    "ffmpeg": {"ready": True, "entrypoint": "python {repo}/scripts/ffmpeg_shot_adapter.py {request}", "fallback_lanes": ["python"]},
+    "unresolved": {"ready": False, "entrypoint": None, "fallback_lanes": []},
 }
 
 def _sha(path: Path) -> str:
@@ -229,6 +234,8 @@ def compile_plan(brief_path: Path, catalog_path: Path, *, width=1280, height=720
                 "description":lane_desc,
                 "adapter_ready":adapter["ready"],
                 "entrypoint":adapter["entrypoint"],
+                "fallback_lanes":adapter.get("fallback_lanes",[]),
+                "runtime_note":adapter.get("runtime_note"),
             },
             "assets":resolved_assets,
             "continuity_dependencies":s.get("continuity_dependencies",[]),
