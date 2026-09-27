@@ -3,7 +3,15 @@
   "target_budget_mb": 3072,
   "policy": "Keep a small, broadly reusable, license-safe commons. Large/specialized payloads remain catalog-only until a production needs them.",
   "entries": [
-    {"asset_id": "provider.kenney", "state": "candidate", "reason": "Small CC0 audio/UI/general packs are broadly reusable."},
-    {"asset_id": "code.alesha-hand-drawn-canvas", "state": "phase2", "reason": "Reusable animation engine; integrate selectively after local validation."}
+    {
+      "asset_id": "provider.kenney",
+      "state": "candidate",
+      "reason": "Small CC0 audio/UI/general packs are broadly reusable."
+    },
+    {
+      "asset_id": "code.alesha-hand-drawn-canvas",
+      "state": "integrated",
+      "reason": "Selective MIT runtime integrated and locally validated at 1280x720/24fps with H.264/AAC output."
+    }
   ]
 }

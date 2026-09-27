@@ -144,6 +144,7 @@ See [`docs/SCENE_GEOMETRY.md`](docs/SCENE_GEOMETRY.md) and [`docs/VISUAL_QA_STAN
 - [`assets/`](assets/) — portable asset catalog, Core Commons manifest, license/provenance metadata, and machine-local install-state contract.
 - `scripts/assetctl.py` — validate/query the asset catalog and detect known local payloads before downloading or rebuilding resources.
 - [`docs/DIRECTOR_SPEC_WORKFLOW.md`](docs/DIRECTOR_SPEC_WORKFLOW.md) — model-independent directing contract: reference decomposition, story/visual/camera/audio grammar, shot events, and cross-model handoff.
+- [`docs/CANVAS_HANDDRAWN_RENDERER.md`](docs/CANVAS_HANDDRAWN_RENDERER.md) — integrated MIT Canvas2D hand-drawn renderer, Pixel adapter, provenance, and local validation.
 - [`templates/director-brief.json`](templates/director-brief.json) — reusable director brief starter for serious narrative/cinematic productions.
 - [`templates/`](templates/) — business release, show, season, episode, and production starters.
 - [`productions/`](productions/) — expected layout for real production packages.

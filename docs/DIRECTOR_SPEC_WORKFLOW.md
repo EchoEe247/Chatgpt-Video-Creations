@@ -73,6 +73,23 @@ For each shot record:
 
 A shot may be quiet, but if nothing changes, that stillness must be intentional and supported by composition/audio.
 
+## Time the viewer, not the code
+
+Before locking a shot, list the **reads** the viewer must understand in order.
+
+A read is one piece of information or emotion the eye has to find and register: a new object, a cause, a reaction, a reveal, a choice, or a change of state.
+
+Rules:
+
+- stage one primary read at a time;
+- lead the eye before an important action with gaze, motion, framing, light, or sound;
+- separate cause and reaction when both matter;
+- fast physical actions may be brief, but their meaning needs anticipation and/or a hold;
+- subtle, small, distant, or unfamiliar information needs more screen time than obvious central action;
+- once the reads have landed, do not pad the shot merely to hit a predetermined duration.
+
+This is especially important for generated animation: the agent already knows what the code is supposed to mean, while the viewer sees the event once at normal speed.
+
 ## Scene is not the same thing as shot
 
 A long-form production may keep 10–20 second **scene packages** for rendering/recovery, but those packages should not automatically become 10–20 second unbroken shots.

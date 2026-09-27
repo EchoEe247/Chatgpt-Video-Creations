@@ -37,6 +37,18 @@ Before downloading or rebuilding common resources, query the durable asset contr
 
 `assets/catalog.json` is portable source/license/compatibility metadata. `assets/core-manifest.json` defines the intentionally small Core Commons. Machine-specific installed state lives in ignored `assets/local-state.json`; bulk payloads do not belong in Git by default. Code engines, camera/transition helpers and procedural audio systems count as reusable assets just like meshes, textures and WAV files.
 
+## Canvas hand-drawn renderer
+
+For hand-drawn, illustrative, print, or lightweight stylized 2D shots, use the integrated Canvas lane documented in `docs/CANVAS_HANDDRAWN_RENDERER.md`.
+
+Stable entry points:
+
+- `python scripts/canvas_handdrawn_adapter.py doctor`
+- `python scripts/canvas_handdrawn_adapter.py preview <film.html> --grid 18`
+- `python scripts/canvas_handdrawn_adapter.py render <film.html>`
+
+The runtime is selectively vendored from an MIT-licensed upstream source with the upstream notice preserved. Do not copy its demo art; build original production content on the reusable engine.
+
 ## Preview-driven shot development
 
 For local video quality improvements, read `docs/CHATGPT_SHOT_WORKFLOW.md`.

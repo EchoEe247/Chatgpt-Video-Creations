@@ -1,0 +1,75 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>Signal Seed — Canvas hand-drawn renderer proof</title>
+<style>body{margin:0;background:#17171a;display:grid;place-items:center;min-height:100vh}canvas{max-width:100vw;max-height:100vh}</style>
+<canvas id="c"></canvas>
+<script src="../../src/renderers/canvas_handdrawn/runtime/core.js"></script>
+<script src="../../src/renderers/canvas_handdrawn/runtime/studio.js"></script>
+<script src="../../src/renderers/canvas_handdrawn/runtime/cels.js"></script>
+<script src="../../src/renderers/canvas_handdrawn/runtime/materials.js"></script>
+<script>
+'use strict';
+usePalette('risoPop');
+
+const k01=(t,a,b)=>easeIO(clamp((t-a)/(b-a),0,1));
+
+function sceneSeed(c,t){
+  const bg=k01(t,0,1.5);
+  paper(c,mix(PAL.paper,PAL.fills[2],.18*bg),null,5);
+  const p=k01(t,0,.75);
+  const r=22+150*p;
+  c.save();
+  c.strokeStyle=PAL.inks[0]; c.lineWidth=5;
+  selfDraw(c,ellPts(CX,CY,Math.max(3,r),Math.max(3,r),0,90),p,91,2,true);
+  c.restore();
+  seedDot(c,CX,CY,12+8*Math.sin(t*Math.PI),PAL.ink,PAL.accents[0]);
+  if(t>.65){
+    const q=k01(t,.65,1.5);
+    for(let i=0;i<5;i++){
+      const a=-Math.PI/2+(i-2)*.24;
+      c.strokeStyle=PAL.accents[i%PAL.accents.length];
+      c.lineWidth=2.2;
+      wob(c,[[CX,CY],[CX+Math.cos(a)*90*q,CY+Math.sin(a)*90*q],[CX+Math.cos(a)*170*q,CY+Math.sin(a)*170*q]],1.1,120+i,false,{pressure:.45});
+    }
+  }
+}
+
+function sceneGrow(c,t){
+  const bg=k01(t,0,1.5);
+  paper(c,mix('#efe6d7',PAL.fills[3],.18*bg),null,7);
+  const p=k01(t,0,1.1);
+  c.save();
+  c.translate(CX,CY+300);
+  plant(c,0,0,250*p,4,44,{stem:PAL.ink,leaf:PAL.accents[3],flower:PAL.accents[0],angle:-Math.PI/2,width:2});
+  c.restore();
+  const x=lerp(CX-250,CX+280,k01(t,.25,1.35));
+  const y=CY-150-Math.sin(k01(t,.25,1.35)*Math.PI)*100;
+  seedDot(c,x,y,10,PAL.inks[0],PAL.accents[1]);
+  speedLines(c,x-10,y+5,0,50,7,.45,PAL.ink);
+}
+
+function sceneBurst(c,t){
+  const bg=k01(t,0,1.5);
+  night(c,mix('#171a3e','#3b245b',.30*bg),13);
+  const p=k01(t,0,.8);
+  dotBurst(c,CX,CY,310,24,PAL.accents[2],61,p);
+  dottedArc(c,CX,CY,110+80*p,PAL.chalk,72,12,1.5);
+  dottedArc(c,CX,CY,210+55*p,PAL.accents[0],73,14,1.7);
+  const orb=1+.08*Math.sin(t*8);
+  seedDot(c,CX,CY,22*orb,PAL.chalk,PAL.accents[2]);
+  if(t>.7) loops(c,CX+260,CY+80,Math.PI,82,k01(t,.7,1.5),PAL.accents);
+}
+
+function score(ac,t0,dest){
+  const master=ac.createGain(); master.gain.value=.42; master.connect(dest);
+  [0,.75,1.5,2.25,3.0,3.75].forEach((t,i)=>note(ac,master,pentHz(i<3?0:1,i%5,196),t0,t,.48,i%2?'triangle':'sine',.18));
+  noiseBurst(ac,master,t0,3.05,.12,.12,9);
+}
+
+const TIMELINE=[
+  {name:'seed',dur:1.5,fn:sceneSeed},
+  {name:'grow',dur:1.5,fn:sceneGrow},
+  {name:'burst',dur:1.5,fn:sceneBurst}
+];
+defineFilm({timeline:TIMELINE,score,format:{ar:'16:9',width:1280},fps:24});
+</script>

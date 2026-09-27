@@ -5,77 +5,309 @@
       "asset_id": "provider.polyhaven",
       "name": "Poly Haven",
       "kind": "provider",
-      "source": {"url": "https://polyhaven.com/", "creator": "Poly Haven", "provider": "Poly Haven"},
-      "license": {"id": "CC0-1.0", "name": "CC0 1.0", "commercial_use": true, "modification_allowed": true, "attribution_required": false, "raw_redistribution": "allowed", "verified_on": "2026-09-27"},
-      "distribution": {"mode": "catalog_only", "expected_size_mb": null, "local_hint": null},
-      "compatibility": {"renderers": ["blender","threejs","python"], "platforms": ["pixel","desktop"]},
-      "tags": ["hdri","textures","materials","models","cc0","provider"],
+      "source": {
+        "url": "https://polyhaven.com/",
+        "creator": "Poly Haven",
+        "provider": "Poly Haven"
+      },
+      "license": {
+        "id": "CC0-1.0",
+        "name": "CC0 1.0",
+        "commercial_use": true,
+        "modification_allowed": true,
+        "attribution_required": false,
+        "raw_redistribution": "allowed",
+        "verified_on": "2026-09-27"
+      },
+      "distribution": {
+        "mode": "catalog_only",
+        "expected_size_mb": null,
+        "local_hint": null
+      },
+      "compatibility": {
+        "renderers": [
+          "blender",
+          "threejs",
+          "python"
+        ],
+        "platforms": [
+          "pixel",
+          "desktop"
+        ]
+      },
+      "tags": [
+        "hdri",
+        "textures",
+        "materials",
+        "models",
+        "cc0",
+        "provider"
+      ],
       "notes": "Preferred source for selectively downloaded CC0 HDRIs, textures and models. Keep high-resolution payloads goal-specific."
     },
     {
       "asset_id": "provider.ambientcg",
       "name": "ambientCG",
       "kind": "provider",
-      "source": {"url": "https://ambientcg.com/", "creator": "ambientCG", "provider": "ambientCG"},
-      "license": {"id": "CC0-1.0", "name": "CC0 1.0", "commercial_use": true, "modification_allowed": true, "attribution_required": false, "raw_redistribution": "allowed", "verified_on": "2026-09-27"},
-      "distribution": {"mode": "catalog_only", "expected_size_mb": null, "local_hint": null},
-      "compatibility": {"renderers": ["blender","threejs"], "platforms": ["pixel","desktop"]},
-      "tags": ["textures","materials","pbr","cc0","provider"],
+      "source": {
+        "url": "https://ambientcg.com/",
+        "creator": "ambientCG",
+        "provider": "ambientCG"
+      },
+      "license": {
+        "id": "CC0-1.0",
+        "name": "CC0 1.0",
+        "commercial_use": true,
+        "modification_allowed": true,
+        "attribution_required": false,
+        "raw_redistribution": "allowed",
+        "verified_on": "2026-09-27"
+      },
+      "distribution": {
+        "mode": "catalog_only",
+        "expected_size_mb": null,
+        "local_hint": null
+      },
+      "compatibility": {
+        "renderers": [
+          "blender",
+          "threejs"
+        ],
+        "platforms": [
+          "pixel",
+          "desktop"
+        ]
+      },
+      "tags": [
+        "textures",
+        "materials",
+        "pbr",
+        "cc0",
+        "provider"
+      ],
       "notes": "Preferred source for PBR materials. Download only resolutions needed by an active production."
     },
     {
       "asset_id": "provider.kenney",
       "name": "Kenney",
       "kind": "provider",
-      "source": {"url": "https://kenney.nl/assets", "creator": "Kenney", "provider": "Kenney"},
-      "license": {"id": "CC0-1.0", "name": "CC0 1.0", "commercial_use": true, "modification_allowed": true, "attribution_required": false, "raw_redistribution": "allowed", "verified_on": "2026-09-27"},
-      "distribution": {"mode": "core_candidate", "expected_size_mb": null, "local_hint": null},
-      "compatibility": {"renderers": ["canvas","threejs","blender","ffmpeg"], "platforms": ["pixel","desktop"]},
-      "tags": ["audio","ui","sfx","2d","3d","cc0","provider"],
+      "source": {
+        "url": "https://kenney.nl/assets",
+        "creator": "Kenney",
+        "provider": "Kenney"
+      },
+      "license": {
+        "id": "CC0-1.0",
+        "name": "CC0 1.0",
+        "commercial_use": true,
+        "modification_allowed": true,
+        "attribution_required": false,
+        "raw_redistribution": "allowed",
+        "verified_on": "2026-09-27"
+      },
+      "distribution": {
+        "mode": "core_candidate",
+        "expected_size_mb": null,
+        "local_hint": null
+      },
+      "compatibility": {
+        "renderers": [
+          "canvas",
+          "threejs",
+          "blender",
+          "ffmpeg"
+        ],
+        "platforms": [
+          "pixel",
+          "desktop"
+        ]
+      },
+      "tags": [
+        "audio",
+        "ui",
+        "sfx",
+        "2d",
+        "3d",
+        "cc0",
+        "provider"
+      ],
       "notes": "Strong candidate for small always-local general SFX/UI and lightweight visual packs."
     },
     {
       "asset_id": "code.alesha-hand-drawn-canvas",
       "name": "hand-drawn-canvas-animation",
       "kind": "code_asset",
-      "source": {"url": "https://github.com/alesha-pro/tools/tree/main/skills/hand-drawn-canvas-animation", "creator": "Alexey Fateev / alesha-pro", "provider": "GitHub"},
-      "license": {"id": "MIT", "name": "MIT License", "commercial_use": true, "modification_allowed": true, "attribution_required": true, "raw_redistribution": "allowed", "verified_on": "2026-09-27"},
-      "distribution": {"mode": "core_candidate", "expected_size_mb": null, "local_hint": null},
-      "compatibility": {"renderers": ["canvas","ffmpeg"], "platforms": ["pixel","desktop"]},
-      "tags": ["animation","canvas","hand-drawn","riso","pencil","ink","sand","paper","procedural-audio","opus-derived"],
-      "notes": "Phase 2 integration candidate. Extract reusable engine pieces and preserve upstream MIT notice; do not blindly vendor demos."
+      "source": {
+        "url": "https://github.com/alesha-pro/tools/tree/main/skills/hand-drawn-canvas-animation",
+        "creator": "Alexey Fateev / alesha-pro",
+        "provider": "GitHub",
+        "commit": "b80438eb33823156c575cbedd282a8aa1b32de9f"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT License",
+        "commercial_use": true,
+        "modification_allowed": true,
+        "attribution_required": true,
+        "raw_redistribution": "allowed",
+        "verified_on": "2026-09-27"
+      },
+      "distribution": {
+        "mode": "core_candidate",
+        "expected_size_mb": null,
+        "local_hint": "src/renderers/canvas_handdrawn"
+      },
+      "compatibility": {
+        "renderers": [
+          "canvas",
+          "ffmpeg"
+        ],
+        "platforms": [
+          "pixel",
+          "desktop"
+        ]
+      },
+      "tags": [
+        "animation",
+        "canvas",
+        "hand-drawn",
+        "riso",
+        "pencil",
+        "ink",
+        "sand",
+        "paper",
+        "procedural-audio",
+        "opus-derived"
+      ],
+      "notes": "Selectively integrated in Phase 2: Canvas2D runtime, cels/studio/material helpers, deterministic renderer, pinned npm dependency lock and upstream MIT notice. Upstream demos/art are not vendored."
     },
     {
       "asset_id": "code.claude-animation-base",
       "name": "ClaudeAnimationBase",
       "kind": "code_asset",
-      "source": {"url": "https://github.com/JohnHeibel/ClaudeAnimationBase", "creator": "John Heibel", "provider": "GitHub"},
-      "license": {"id": "MIT", "name": "MIT License", "commercial_use": true, "modification_allowed": true, "attribution_required": true, "raw_redistribution": "allowed", "verified_on": "2026-09-27"},
-      "distribution": {"mode": "catalog_only", "expected_size_mb": null, "local_hint": null},
-      "compatibility": {"renderers": ["canvas","ffmpeg"], "platforms": ["pixel","desktop"]},
-      "tags": ["animation","p5js","p5-brush","timing","camera","contact-sheet","opus-derived"],
-      "notes": "Phase 2 study source. Prefer transferable timing/camera/review mechanisms over copying example character art."
+      "source": {
+        "url": "https://github.com/JohnHeibel/ClaudeAnimationBase",
+        "creator": "John Heibel",
+        "provider": "GitHub",
+        "commit": "0ac8bf2b31942376cb6b8c4074715595d512acd2"
+      },
+      "license": {
+        "id": "MIT",
+        "name": "MIT License",
+        "commercial_use": true,
+        "modification_allowed": true,
+        "attribution_required": true,
+        "raw_redistribution": "allowed",
+        "verified_on": "2026-09-27"
+      },
+      "distribution": {
+        "mode": "catalog_only",
+        "expected_size_mb": null,
+        "local_hint": null
+      },
+      "compatibility": {
+        "renderers": [
+          "canvas",
+          "ffmpeg"
+        ],
+        "platforms": [
+          "pixel",
+          "desktop"
+        ]
+      },
+      "tags": [
+        "animation",
+        "p5js",
+        "p5-brush",
+        "timing",
+        "camera",
+        "contact-sheet",
+        "opus-derived"
+      ],
+      "notes": "Evaluated in Phase 2. Its pure-time animation, viewer-timing and contact-sheet methods are adopted as workflow rules, but the p5.brush runtime is not vendored yet because it adds a heavier Pixel render/dependency surface without a unique demonstrated need."
     },
     {
       "asset_id": "model.quaternius-ultimate-space-spaceship",
       "name": "Ultimate Space Kit / Spaceship",
       "kind": "model_pack",
-      "source": {"url": "https://opengameart.org/content/ultimate-space-kit", "creator": "Quaternius", "provider": "OpenGameArt"},
-      "license": {"id": "CC0-1.0", "name": "CC0 1.0", "commercial_use": true, "modification_allowed": true, "attribution_required": false, "raw_redistribution": "allowed", "verified_on": "2026-09-27"},
-      "distribution": {"mode": "local_legacy", "expected_size_mb": null, "local_hint": "external-assets/quaternius/ultimate_space_kit/Spaceship.glb"},
-      "compatibility": {"renderers": ["blender","python"], "platforms": ["pixel","desktop"]},
-      "tags": ["space","spaceship","3d","glb","cc0","mercy-engine"],
+      "source": {
+        "url": "https://opengameart.org/content/ultimate-space-kit",
+        "creator": "Quaternius",
+        "provider": "OpenGameArt"
+      },
+      "license": {
+        "id": "CC0-1.0",
+        "name": "CC0 1.0",
+        "commercial_use": true,
+        "modification_allowed": true,
+        "attribution_required": false,
+        "raw_redistribution": "allowed",
+        "verified_on": "2026-09-27"
+      },
+      "distribution": {
+        "mode": "local_legacy",
+        "expected_size_mb": null,
+        "local_hint": "external-assets/quaternius/ultimate_space_kit/Spaceship.glb"
+      },
+      "compatibility": {
+        "renderers": [
+          "blender",
+          "python"
+        ],
+        "platforms": [
+          "pixel",
+          "desktop"
+        ]
+      },
+      "tags": [
+        "space",
+        "spaceship",
+        "3d",
+        "glb",
+        "cc0",
+        "mercy-engine"
+      ],
       "notes": "Exact asset provenance inherited from The Mercy Engine production record. Do not generalize this license to newer Quaternius downloads."
     },
     {
       "asset_id": "provider.sonniss-gdc",
       "name": "Sonniss GDC Audio Bundles",
       "kind": "provider",
-      "source": {"url": "https://sonniss.com/gameaudiogdc", "creator": "Sonniss / contributing sound designers", "provider": "Sonniss"},
-      "license": {"id": "SONNISS-GDC", "name": "Sonniss GDC bundle license", "commercial_use": true, "modification_allowed": true, "attribution_required": false, "raw_redistribution": "prohibited", "verified_on": "2026-09-27"},
-      "distribution": {"mode": "catalog_only", "expected_size_mb": null, "local_hint": null},
-      "compatibility": {"renderers": ["ffmpeg"], "platforms": ["pixel","desktop"]},
-      "tags": ["audio","sfx","foley","ambience","goal-pack"],
+      "source": {
+        "url": "https://sonniss.com/gameaudiogdc",
+        "creator": "Sonniss / contributing sound designers",
+        "provider": "Sonniss"
+      },
+      "license": {
+        "id": "SONNISS-GDC",
+        "name": "Sonniss GDC bundle license",
+        "commercial_use": true,
+        "modification_allowed": true,
+        "attribution_required": false,
+        "raw_redistribution": "prohibited",
+        "verified_on": "2026-09-27"
+      },
+      "distribution": {
+        "mode": "catalog_only",
+        "expected_size_mb": null,
+        "local_hint": null
+      },
+      "compatibility": {
+        "renderers": [
+          "ffmpeg"
+        ],
+        "platforms": [
+          "pixel",
+          "desktop"
+        ]
+      },
+      "tags": [
+        "audio",
+        "sfx",
+        "foley",
+        "ambience",
+        "goal-pack"
+      ],
       "notes": "Index/on-demand only. Never vendor or redistribute raw bundle payloads; preserve source terms."
     }
   ]
