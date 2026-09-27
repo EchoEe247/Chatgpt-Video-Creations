@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "title": "Untitled production",
+  "goal": {
+    "audience": "",
+    "runtime_seconds": 0,
+    "one_sentence_promise": "",
+    "ending_takeaway": ""
+  },
+  "story": {
+    "setup": "",
+    "escalation": "",
+    "turn": "",
+    "resolution": "",
+    "emotional_arc": []
+  },
+  "reference_decomposition": [
+    {
+      "reference": "",
+      "use_for": [],
+      "transferable_rules": [],
+      "do_not_copy": []
+    }
+  ],
+  "visual_grammar": {
+    "style": "",
+    "palette_arc": [],
+    "lighting": "",
+    "depth_rules": [],
+    "typography_rules": [],
+    "texture_rules": [],
+    "forbidden_patterns": []
+  },
+  "camera_grammar": {
+    "default_behavior": "",
+    "allowed_moves": [],
+    "physical_camera_assumptions": [],
+    "intentional_imperfections": [],
+    "avoid": []
+  },
+  "audio_grammar": {
+    "narration_or_dialogue": "",
+    "score_arc": [],
+    "ambience": [],
+    "effects": [],
+    "silence_rules": [],
+    "sync_rules": []
+  },
+  "editing_grammar": {
+    "pace_arc": [],
+    "cut_motivations": [],
+    "transition_rules": [],
+    "avoid": []
+  },
+  "hero_shots": [],
+  "shots": [
+    {
+      "id": "shot-01",
+      "duration_seconds": 0,
+      "narrative_purpose": "",
+      "visible_event": "",
+      "camera": "",
+      "subject_motion": "",
+      "environment_motion": "",
+      "depth_layers": [],
+      "palette": "",
+      "transition_in": "",
+      "transition_out": "",
+      "audio_cue": "",
+      "renderer": "",
+      "assets": [],
+      "continuity_dependencies": [],
+      "review_points_seconds": [],
+      "failure_modes": []
+    }
+  ],
+  "handoff": {
+    "critical_files": [],
+    "known_limits": [],
+    "acceptance_focus": []
+  }
+}

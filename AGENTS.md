@@ -39,6 +39,14 @@ finished visual quality. Preview review is performed by ChatGPT, not a request
 for user permission. Preserve observed limitations and verify the actual repair.
 The core shot workflow remains usable without any generation API. Optional reliable resources may augment it, but unavailable services must fall back cleanly to cached or local rendering.
 
+## Model-independent directing
+
+For serious narrative, cinematic, launch, music, or explainer work, read `docs/DIRECTOR_SPEC_WORKFLOW.md` and create a production-specific director brief from `templates/director-brief.json` before expensive rendering.
+
+The goal is to keep quality in the workflow rather than in one model's hidden reasoning. Externalize story spine, visual/camera/audio/editing grammar, hero shots, shot-level visible events, continuity constraints, review points, and forbidden patterns into durable files. A stronger model may improve the plan, but its useful decisions are not considered a workflow improvement until another agent/session can execute them successfully.
+
+Reference strong public work for pacing, camera grammar, transitions, audio structure, and other transferable methods, but do not copy protected characters, dialogue, unique compositions, or other expressive elements. Treat reference analysis as decomposition into production rules.
+
 ## Angel wording integration
 
 For Angel-owned project communication, use `EchoEe247/Chatgpt-Angel-wording-refinement` as the wording/refinement authority.
