@@ -73,6 +73,29 @@ For each shot record:
 
 A shot may be quiet, but if nothing changes, that stillness must be intentional and supported by composition/audio.
 
+## Scene is not the same thing as shot
+
+A long-form production may keep 10–20 second **scene packages** for rendering/recovery, but those packages should not automatically become 10–20 second unbroken shots.
+
+Dynamic story-led work often benefits from several shorter shots inside one scene package. Use the story, music, action and visual idea to choose duration. As a starting heuristic, many energetic shots can live around 1.5–6 seconds, with longer holds reserved for moments that earn stillness.
+
+Each shot should have one immediately readable focal event. Vary shot scale and camera behavior across the sequence; do not make every scene feel like the same 15-second camera move with different geometry.
+
+## Deterministic frame rendering
+
+When practical, make each frame a deterministic function of absolute timeline time plus stable seeded randomness.
+
+This enables:
+
+- parallel and out-of-order frame rendering;
+- exact resume after interruption;
+- reliable re-render of only damaged ranges;
+- reproducible contact sheets and comparisons;
+- no real-time capture stutter;
+- safe multi-agent work on separate chapters/shots.
+
+Avoid hidden mutable animation state that requires rendering every prior frame to reconstruct the current one. If hand-drawn jitter or noise is desired, seed it predictably from time/object identity so the look remains lively without becoming non-reproducible.
+
 ## Audio is planned with the picture
 
 Do not bolt audio on after the visual cut is locked.
