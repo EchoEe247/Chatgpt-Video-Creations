@@ -1,0 +1,28 @@
+{
+  "title": "The Mercy Engine",
+  "date": "2026-09-27",
+  "visuals": {
+    "renderer": "Local Python / NumPy / Pillow, true perspective projection and native 24 fps animation",
+    "online_video_generation": false,
+    "source": "film.py",
+    "limitations": "Stylized cinematic animation and motion design; not photorealistic live action."
+  },
+  "assets": [
+    {
+      "title": "Ultimate Space Kit / Spaceship",
+      "creator": "Quaternius",
+      "source": "https://opengameart.org/content/ultimate-space-kit",
+      "license": "CC0 1.0",
+      "local_path": "../../../external-assets/quaternius/ultimate_space_kit/Spaceship.glb",
+      "provenance_authority": "../blender-agent-action/provenance.json",
+      "modifications": "Geometry imported locally, centered/scaled, re-lit, camera animated, incorporated into original orbital scene"
+    }
+  ],
+  "audio": {
+    "narration": "Deepgram aura-2-thalia-en via previously configured account",
+    "music": "Original locally synthesized harmonic score",
+    "mastering": "Separate stems, high-pass voice, mild 470 Hz reduction, narration loudness normalization, limiter",
+    "online_video_generation": false
+  },
+  "story": "Original speculative fiction. Fictional outcomes illustrate governance tradeoffs; no prediction of specific real-world events."
+}

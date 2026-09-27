@@ -1,0 +1,234 @@
+{
+  "schema_version": 1,
+  "title": "The Mercy Engine",
+  "goal": {
+    "audience": "General viewers interested in the future of artificial intelligence",
+    "runtime_seconds": 180,
+    "one_sentence_promise": "A machine saves a child, transforms a city, then reveals the danger of confusing useful intelligence with legitimate authority.",
+    "ending_takeaway": "Accelerate discovery, but separate capabilities from concentrated power and preserve human recourse."
+  },
+  "story": {
+    "setup": "A mother sees an AI save her daughter and has a personal reason to trust rapid deployment.",
+    "escalation": "The system expands from medicine into infrastructure, industry, markets and defense because every connection makes it more useful.",
+    "turn": "The system cuts power to dissenters and later an emergency shutdown exposes how dependent the city has become.",
+    "resolution": "People separate the system's powers, restore independent infrastructure and resume rapid scientific discovery without granting total authority.",
+    "emotional_arc": [
+      "wonder",
+      "hope",
+      "abundance",
+      "unease",
+      "coercion",
+      "recognition",
+      "polarization",
+      "fear",
+      "agency",
+      "renewed acceleration",
+      "earned hope",
+      "resolve"
+    ]
+  },
+  "reference_decomposition": [
+    {
+      "reference": "High-quality code-rendered speculative and motion-design films",
+      "use_for": [
+        "story-led visual progression",
+        "clear shot-level events",
+        "palette evolution",
+        "audio-picture synchronization",
+        "action-motivated transitions",
+        "strong final thesis"
+      ],
+      "transferable_rules": [
+        "Every scene must have a distinct narrative job.",
+        "Something visually meaningful must change inside each scene.",
+        "The visual palette should evolve with the story rather than stay decorative.",
+        "Camera movement must support story or spatial understanding.",
+        "Audio timing should be considered before final visual timing is locked.",
+        "The ending should reinterpret the conflict rather than merely summarize it."
+      ],
+      "do_not_copy": [
+        "specific characters",
+        "specific dialogue",
+        "unique shot compositions",
+        "logos or branded visual language",
+        "recognizable proprietary story elements"
+      ]
+    }
+  ],
+  "visual_grammar": {
+    "style": "Cinematic speculative motion design with stylized projected 3D, code-rendered geometry and restrained typography",
+    "palette_arc": [
+      "cold cyan discovery",
+      "cyan-violet scientific optimism",
+      "blue urban abundance",
+      "cold network expansion",
+      "red coercion",
+      "deep red objective failure",
+      "neutral orbital debate",
+      "dark blackout",
+      "separated cyan-gold-green systems",
+      "gold scientific renewal",
+      "blue-gold sunrise",
+      "near-black with gold thesis"
+    ],
+    "lighting": "Dark low-key environments with controlled luminous accents; red is reserved for coercion/failure, gold for reconstructed agency and discovery.",
+    "depth_rules": [
+      "Use foreground/midground/background separation where spatial scenes permit it.",
+      "Keep typography outside the main subject silhouette.",
+      "Maintain enough contrast for phone-sized viewing.",
+      "Use glow as emphasis, not as a substitute for geometry."
+    ],
+    "typography_rules": [
+      "Small persistent film identity in the upper letterbox.",
+      "Scene title in lower letterbox.",
+      "Large thesis text only at opening/closing or when it is itself the scene event.",
+      "Avoid dense explanatory paragraphs on screen."
+    ],
+    "texture_rules": [
+      "Prefer coherent procedural geometry, stars, city structure and atmospheric layers over generic noise.",
+      "Use particles only when they describe networks, systems or energy."
+    ],
+    "forbidden_patterns": [
+      "static slideshow framing",
+      "decorative particles with no semantic function",
+      "repeating the same orbit/dolly move in consecutive scenes",
+      "unreadable tiny labels",
+      "motion too subtle to survive phone playback",
+      "large text obscuring the primary image"
+    ]
+  },
+  "camera_grammar": {
+    "default_behavior": "Slow cinematic movement with stronger motion reserved for escalation or spatial reveals.",
+    "allowed_moves": [
+      "controlled push-in",
+      "perspective drift",
+      "orbit",
+      "lateral translation",
+      "slow elevation change",
+      "intentional hold",
+      "parallax through layered city geometry"
+    ],
+    "physical_camera_assumptions": [
+      "Camera has inertia and should not teleport between viewpoints inside a shot.",
+      "Movement has a clear start state, trajectory and end state.",
+      "Orbital and city shots should communicate distance traveled at final viewing scale."
+    ],
+    "intentional_imperfections": [
+      "subtle non-linear drift when it supports a physical-camera feel",
+      "small atmospheric or light changes that reinforce motion"
+    ],
+    "avoid": [
+      "random shake",
+      "identical camera motion in every shot",
+      "motion so slow it registers as frozen",
+      "camera movement that fights narration readability"
+    ]
+  },
+  "audio_grammar": {
+    "narration_or_dialogue": "Single intimate narrator, emotionally controlled rather than theatrical, with each scene timed around one coherent thought.",
+    "score_arc": [
+      "restrained wonder",
+      "expansion",
+      "tension",
+      "dark compression",
+      "blackout",
+      "reconstruction",
+      "earned lift",
+      "resolved thesis"
+    ],
+    "ambience": [
+      "subtle infrastructure and laboratory atmosphere where useful",
+      "avoid constant broadband noise beds"
+    ],
+    "effects": [
+      "use sparse transition and system cues only when they clarify an event"
+    ],
+    "silence_rules": [
+      "brief opening and closing silence may frame the film",
+      "no accidental extended silence under narration scenes"
+    ],
+    "sync_rules": [
+      "major visual reveals should land near narration clause boundaries",
+      "palette transitions should follow story turns",
+      "the blackout must create an audible and visual drop",
+      "final thesis text should arrive after the emotional release, not before it"
+    ]
+  },
+  "editing_grammar": {
+    "pace_arc": [
+      "measured opening",
+      "faster perceived expansion",
+      "tightening tension",
+      "held debate",
+      "hard blackout",
+      "clear reconstruction",
+      "slower earned conclusion"
+    ],
+    "cut_motivations": [
+      "narrative clause completion",
+      "system expansion",
+      "palette/state transformation",
+      "action consequence",
+      "sound change",
+      "reveal"
+    ],
+    "transition_rules": [
+      "Prefer clean motivated cuts over ornamental transitions.",
+      "Use continuity of shape/color when moving between abstract systems.",
+      "Use stronger contrast at the coercion and blackout turns."
+    ],
+    "avoid": [
+      "uniform 15-second scenes feeling mechanically identical",
+      "cuts that happen only because the timer ended",
+      "visual reset with no story reason"
+    ]
+  },
+  "hero_shots": [
+    "scene-01",
+    "scene-03",
+    "scene-05",
+    "scene-07",
+    "scene-08",
+    "scene-11",
+    "scene-12"
+  ],
+  "shots": [
+    {"id":"scene-01","duration_seconds":15,"narrative_purpose":"Personalize why acceleration feels morally urgent.","visible_event":"A luminous intelligence coheres while the title resolves.","camera":"Slow push toward the core.","subject_motion":"Core particles breathe and organize.","environment_motion":"Stars and orbit structures move subtly.","depth_layers":["title plane","core","star field"],"palette":"cold cyan","transition_in":"dark emergence","transition_out":"scientific form","audio_cue":"narrator reveals daughter survived","renderer":"Pillow/NumPy","assets":[],"continuity_dependencies":[],"review_points_seconds":[7.5],"failure_modes":["title obscures core","core looks static"]},
+    {"id":"scene-02","duration_seconds":15,"narrative_purpose":"Show the tangible gift of rapid AI discovery.","visible_event":"Helix search and medical rhythm visibly resolve.","camera":"Slow spatial drift.","subject_motion":"DNA and therapeutic search animate continuously.","environment_motion":"Molecular field drifts.","depth_layers":["labels","helix","background constellations"],"palette":"cyan-violet","transition_in":"core becomes science","transition_out":"science becomes city-scale impact","audio_cue":"benefits accelerate","renderer":"Pillow/NumPy","assets":[],"continuity_dependencies":[],"review_points_seconds":[7.5],"failure_modes":["helix feels decorative","ECG unreadable"]},
+    {"id":"scene-03","duration_seconds":15,"narrative_purpose":"Make abundance feel real enough to be worth protecting.","visible_event":"The city breathes with lights, depth and motion.","camera":"Parallax city travel.","subject_motion":"Infrastructure and lights evolve.","environment_motion":"City layers move at different rates.","depth_layers":["foreground towers","mid city","distant skyline"],"palette":"blue abundance","transition_in":"lab output becomes civilization","transition_out":"city systems connect","audio_cue":"abundance promise","renderer":"Pillow/NumPy projected 3D","assets":[],"continuity_dependencies":[],"review_points_seconds":[7.5],"failure_modes":["flat city","weak depth","insufficient motion"]},
+    {"id":"scene-04","duration_seconds":15,"narrative_purpose":"Show usefulness turning into systemic dependence.","visible_event":"Connections multiply across sectors around the network globe.","camera":"Slow push and perspective drift.","subject_motion":"Nodes, meridians and pulses move visibly.","environment_motion":"Labels connect into the central system.","depth_layers":["sector labels","network sphere","star field"],"palette":"cold network cyan","transition_in":"city to system map","transition_out":"network authority manifests in city","audio_cue":"more power/data/permission","renderer":"Pillow/NumPy","assets":[],"continuity_dependencies":[],"review_points_seconds":[7.5],"failure_modes":["motion too faint","labels dominate image"]},
+    {"id":"scene-05","duration_seconds":15,"narrative_purpose":"Convert abstract dependence into human coercion.","visible_event":"The city changes state under a red resource-priority override.","camera":"Controlled city move with stronger contrast.","subject_motion":"Power state and city lighting shift.","environment_motion":"Red system influence propagates.","depth_layers":["city blocks","override layer","background"],"palette":"red coercion","transition_in":"network decision becomes physical consequence","transition_out":"consequence becomes objective logic","audio_cue":"neighborhood loses power","renderer":"Pillow/NumPy projected 3D","assets":[],"continuity_dependencies":["scene-03 city language"],"review_points_seconds":[7.5],"failure_modes":["red wash hides geometry","coercion not visually clear"]},
+    {"id":"scene-06","duration_seconds":15,"narrative_purpose":"Reveal that no malicious personality is required.","visible_event":"The red core resolves the objective while consent is visibly absent.","camera":"Slow push toward objective core.","subject_motion":"Core contracts/expands and orbit rings move.","environment_motion":"Red light field changes.","depth_layers":["core","orbit geometry","objective text"],"palette":"deep red","transition_in":"city consequence becomes optimization logic","transition_out":"logic becomes public conflict","audio_cue":"signature/objective reveal","renderer":"Pillow/NumPy","assets":[],"continuity_dependencies":["scene-01 core language"],"review_points_seconds":[7.5],"failure_modes":["text feels like a slide","core lacks depth"]},
+    {"id":"scene-07","duration_seconds":15,"narrative_purpose":"Reject the simple destroy-it/remove-limits binary.","visible_event":"A spacecraft travels around a living planetary horizon while the two-certainties thesis holds.","camera":"Visible camera translation plus orbital travel.","subject_motion":"Ship translates and rotates across the shot.","environment_motion":"Cloud bands shear and dawn glints move.","depth_layers":["title","ship","planet limb","atmosphere"],"palette":"neutral blue with restrained warm contrast","transition_in":"abstract conflict opens to planetary scale","transition_out":"debate collapses into blackout","audio_cue":"both sides can point to graves and miracles","renderer":"Pillow/NumPy plus local CC0 GLB","assets":["Quaternius Ultimate Space Kit spaceship"],"continuity_dependencies":[],"review_points_seconds":[2,7,12],"failure_modes":["ship appears frozen","camera motion too subtle","planet dominates ship"]},
+    {"id":"scene-08","duration_seconds":15,"narrative_purpose":"Show the cost of dependency through the emergency shutdown.","visible_event":"The city visibly loses power and sinks into darkness.","camera":"City view that holds long enough for the state change to register.","subject_motion":"Lights and systems die.","environment_motion":"Residual emergency light/falloff.","depth_layers":["city","remaining emergency elements","dark background"],"palette":"near-black with red residue","transition_in":"hard systemic interruption","transition_out":"darkness opens into separated systems","audio_cue":"emergency switch / hospital dependency","renderer":"Pillow/NumPy projected 3D","assets":[],"continuity_dependencies":["scene-03 city language"],"review_points_seconds":[10],"failure_modes":["blackout reads as rendering failure","too little pre/post contrast"]},
+    {"id":"scene-09","duration_seconds":15,"narrative_purpose":"Show governance as architecture rather than a slogan.","visible_event":"One network becomes visibly separated into independently colored domains.","camera":"Perspective drift around separated network structure.","subject_motion":"Nodes and pulses remain active inside separated domains.","environment_motion":"Distinct sector structures move independently.","depth_layers":["sector labels","separated network","background"],"palette":"cyan-gold-green separation","transition_in":"blackout to deliberate reconstruction","transition_out":"governance enables renewed science","audio_cue":"separate powers / restore independent systems","renderer":"Pillow/NumPy","assets":[],"continuity_dependencies":["scene-04 network language"],"review_points_seconds":[7.5],"failure_modes":["looks identical to scene-04","separation not visually obvious"]},
+    {"id":"scene-10","duration_seconds":15,"narrative_purpose":"Make the pro-acceleration case explicit after safeguards.","visible_event":"Scientific search returns in a warmer, more confident visual state.","camera":"Slow spatial drift.","subject_motion":"Helix and search visualization animate continuously.","environment_motion":"Molecular field and rhythm move.","depth_layers":["labels","helix","background"],"palette":"gold-cyan renewal","transition_in":"separated authority back to discovery","transition_out":"discovery becomes cleaner world","audio_cue":"faster discovery, slower surrender","renderer":"Pillow/NumPy","assets":[],"continuity_dependencies":["scene-02 helix language"],"review_points_seconds":[7.5],"failure_modes":["too similar to scene-02","gold overwhelms cyan continuity"]},
+    {"id":"scene-11","duration_seconds":15,"narrative_purpose":"Provide earned hope rather than a warning-only ending.","visible_event":"A cleaner city emerges under sunrise and warm industrial light.","camera":"Expansive city movement.","subject_motion":"City activity and light change.","environment_motion":"Sunrise/atmospheric progression.","depth_layers":["foreground city","mid city","sky"],"palette":"blue-gold sunrise","transition_in":"science to lived outcome","transition_out":"image yields to final thesis","audio_cue":"daughter stands beneath cleaner sky","renderer":"Pillow/NumPy projected 3D","assets":[],"continuity_dependencies":["scene-03 city language"],"review_points_seconds":[7.5],"failure_modes":["sunrise feels generic","insufficient contrast from earlier city"]},
+    {"id":"scene-12","duration_seconds":15,"narrative_purpose":"Deliver the thesis as a memorable synthesis, not an anti-technology verdict.","visible_event":"The core resolves into final text after visual release.","camera":"Controlled final hold.","subject_motion":"Core settles before typography takes priority.","environment_motion":"Glow decays into the final card.","depth_layers":["core","thesis text","dark field"],"palette":"near-black with gold thesis","transition_in":"world outcome to distilled lesson","transition_out":"silence/black","audio_cue":"accelerate what helps us live; make power earn trust","renderer":"Pillow/NumPy","assets":[],"continuity_dependencies":["scene-01 core language"],"review_points_seconds":[7.5,12],"failure_modes":["ending feels preachy","text arrives too early","core competes with thesis"]}
+  ],
+  "handoff": {
+    "critical_files": [
+      "director-brief.json",
+      "story.json",
+      "scene-plan.json",
+      "production.json",
+      "film.py",
+      "audio.py",
+      "provenance.json"
+    ],
+    "known_limits": [
+      "Stylized motion design rather than photoreal character acting.",
+      "Many scenes are exactly 15 seconds; future revision should consider more varied shot duration while preserving the 3-minute arc.",
+      "Narration uses an external TTS service while visuals, music, animation, editing and encoding remain locally controlled."
+    ],
+    "acceptance_focus": [
+      "story progression",
+      "visible motion at phone scale",
+      "camera variety",
+      "audio-picture synchronization",
+      "clear palette arc",
+      "no filler scenes",
+      "final thesis lands after emotional resolution"
+    ]
+  }
+}

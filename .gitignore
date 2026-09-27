@@ -21,6 +21,10 @@ productions/standalone/*/*
 !productions/standalone/*/source/
 !productions/standalone/*/source/**
 
+# Machine-local asset payload/state. Catalog, schemas and manifests are tracked.
+assets/local-state.json
+assets/core/payload/
+
 # Downloaded third-party asset payloads stay local. Track provenance/manifests,
 # not redistributed bulk, unless a specific production deliberately vendors one.
 external-assets/

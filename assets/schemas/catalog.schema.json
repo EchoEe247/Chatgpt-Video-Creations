@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://echoee247.local/video-assets/catalog.schema.json",
+  "title": "Chatgpt-Video-Creations Asset Catalog",
+  "type": "object",
+  "required": ["schema_version", "assets"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "assets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["asset_id","name","kind","source","license","distribution","compatibility","tags"],
+        "properties": {
+          "asset_id": {"type":"string","pattern":"^[a-z0-9][a-z0-9._-]+$"},
+          "name": {"type":"string","minLength":1},
+          "kind": {"enum":["provider","code_asset","model_pack","animation_pack","audio_pack","texture_pack","hdri_pack","font_pack","vfx_pack","other"]},
+          "source": {
+            "type":"object",
+            "required":["url","creator"],
+            "properties":{"url":{"type":"string"},"creator":{"type":"string"},"provider":{"type":["string","null"]}}
+          },
+          "license": {
+            "type":"object",
+            "required":["id","commercial_use","modification_allowed","attribution_required","raw_redistribution","verified_on"],
+            "properties":{
+              "id":{"type":"string"},
+              "name":{"type":["string","null"]},
+              "commercial_use":{"type":"boolean"},
+              "modification_allowed":{"type":"boolean"},
+              "attribution_required":{"type":"boolean"},
+              "raw_redistribution":{"enum":["allowed","prohibited","unknown"]},
+              "verified_on":{"type":"string"}
+            }
+          },
+          "distribution": {
+            "type":"object",
+            "required":["mode"],
+            "properties":{
+              "mode":{"enum":["catalog_only","core_candidate","goal_pack","local_legacy"]},
+              "expected_size_mb":{"type":["number","null"],"minimum":0},
+              "local_hint":{"type":["string","null"]}
+            }
+          },
+          "compatibility": {
+            "type":"object",
+            "required":["renderers"],
+            "properties":{"renderers":{"type":"array","items":{"type":"string"}},"platforms":{"type":"array","items":{"type":"string"}}}
+          },
+          "tags":{"type":"array","items":{"type":"string"}},
+          "notes":{"type":["string","null"]}
+        }
+      }
+    }
+  }
+}

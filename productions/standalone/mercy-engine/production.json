@@ -1,0 +1,192 @@
+{
+  "artifacts": {
+    "artifact_receipt": "iterations/iteration-02/qa/review-pack/artifact-receipt.json",
+    "baseline_comparison": null,
+    "baseline_master": null,
+    "candidate_master": "iterations/iteration-02/candidate.mp4",
+    "candidate_sha256": "cc3861face6952415974df4474bf5c66653cbe9b2d0b46ca5fb69ec8c5bb0920",
+    "iteration_dir": "iterations/iteration-02",
+    "review_pack": "iterations/iteration-02/qa/review-pack/review-pack.json"
+  },
+  "delivery": {
+    "audio_codec": "aac",
+    "audio_required": true,
+    "baseline_compare_fps": 2,
+    "duration_tolerance_seconds": 0.15,
+    "expected_duration_seconds": 180,
+    "fps": 24,
+    "height": 720,
+    "intentional_silence_intervals": [
+      [
+        0,
+        1.2
+      ],
+      [
+        179,
+        180
+      ]
+    ],
+    "max_unintended_silence_seconds": 1,
+    "pixel_format": "yuv420p",
+    "profile": "h264_web",
+    "silence_min_duration_seconds": 0.5,
+    "silence_threshold_db": -55,
+    "video_codec": "h264",
+    "width": 1280
+  },
+  "gates": {
+    "assistant": {
+      "candidate_sha256": "cc3861face6952415974df4474bf5c66653cbe9b2d0b46ca5fb69ec8c5bb0920",
+      "notes": "Final candidate reviewed after orbit-motion repair: scene 7 now has visible ship translation/rotation, moving cloud bands and glints; its freeze scan is clean. Contact-sheet style remains coherent, technical QA passes, and the local review URL is live.",
+      "status": "PASS"
+    },
+    "technical": {
+      "candidate_sha256": "cc3861face6952415974df4474bf5c66653cbe9b2d0b46ca5fb69ec8c5bb0920",
+      "evidence": "iterations/iteration-02/qa/technical-qa.json",
+      "status": "PASS"
+    },
+    "user": {
+      "candidate_sha256": null,
+      "notes": null,
+      "status": "PENDING"
+    }
+  },
+  "history": [
+    {
+      "artifacts": {
+        "artifact_receipt": "iterations/iteration-00/qa/review-pack/artifact-receipt.json",
+        "baseline_comparison": null,
+        "baseline_master": null,
+        "candidate_master": "iterations/iteration-00/candidate.mp4",
+        "candidate_sha256": "6a6deda787af3ea45c2f148256869b776b1bd3b052904d98395e734240003235",
+        "iteration_dir": "iterations/iteration-00",
+        "review_pack": "iterations/iteration-00/qa/review-pack/review-pack.json"
+      },
+      "at": "2026-09-27T05:31:27+00:00",
+      "gates": {
+        "assistant": {
+          "candidate_sha256": "6a6deda787af3ea45c2f148256869b776b1bd3b052904d98395e734240003235",
+          "notes": "Network scenes have native motion but it is too faint at final scale; strengthen geometry contrast, orbital pulses and camera drift. Other scenes and audio pass.",
+          "status": "FAIL"
+        },
+        "technical": {
+          "candidate_sha256": "6a6deda787af3ea45c2f148256869b776b1bd3b052904d98395e734240003235",
+          "evidence": "iterations/iteration-00/qa/technical-qa.json",
+          "status": "PASS"
+        },
+        "user": {
+          "candidate_sha256": null,
+          "notes": null,
+          "status": "PENDING"
+        }
+      },
+      "render_job": {
+        "command": [
+          "python",
+          "film.py"
+        ],
+        "completed_at": "2026-09-27T05:28:38+00:00",
+        "cwd": "/data/data/com.termux/files/home/MainWorkspace/Chatgpt-Video-Creations/productions/standalone/mercy-engine",
+        "exit_code": 0,
+        "job_id": "job-1790486189244-490ee0",
+        "output": "/data/data/com.termux/files/home/MainWorkspace/Chatgpt-Video-Creations/productions/standalone/mercy-engine/mercy-engine.mp4",
+        "started_at": "2026-09-27T05:17:43+00:00",
+        "state": "COMPLETED"
+      },
+      "repair_cycle": 0,
+      "status": "REFINEMENT_REQUIRED"
+    },
+    {
+      "artifacts": {
+        "artifact_receipt": "iterations/iteration-01/qa/review-pack/artifact-receipt.json",
+        "baseline_comparison": null,
+        "baseline_master": null,
+        "candidate_master": "iterations/iteration-01/candidate.mp4",
+        "candidate_sha256": "022564683b7715ae4597fd57f98042554911a2c07c4def95ed3655c689ec6ed7",
+        "iteration_dir": "iterations/iteration-01",
+        "review_pack": "iterations/iteration-01/qa/review-pack/review-pack.json"
+      },
+      "at": "2026-09-27T05:40:22+00:00",
+      "gates": {
+        "assistant": {
+          "candidate_sha256": "022564683b7715ae4597fd57f98042554911a2c07c4def95ed3655c689ec6ed7",
+          "notes": "Orbit scene motion was still too subtle at final scale; strengthen ship/camera/cloud movement before delivery.",
+          "status": "FAIL"
+        },
+        "technical": {
+          "candidate_sha256": "022564683b7715ae4597fd57f98042554911a2c07c4def95ed3655c689ec6ed7",
+          "evidence": "iterations/iteration-01/qa/technical-qa.json",
+          "status": "PASS"
+        },
+        "user": {
+          "candidate_sha256": null,
+          "notes": null,
+          "status": "PENDING"
+        }
+      },
+      "render_job": {
+        "command": [
+          "python",
+          "film.py"
+        ],
+        "completed_at": "2026-09-27T05:33:14+00:00",
+        "cwd": "/data/data/com.termux/files/home/MainWorkspace/Chatgpt-Video-Creations/productions/standalone/mercy-engine",
+        "exit_code": 0,
+        "job_id": "job-1790487087962-f70140",
+        "output": "/data/data/com.termux/files/home/MainWorkspace/Chatgpt-Video-Creations/productions/standalone/mercy-engine/mercy-engine.mp4",
+        "started_at": "2026-09-27T05:31:28+00:00",
+        "state": "COMPLETED"
+      },
+      "repair_cycle": 1,
+      "status": "REFINEMENT_REQUIRED"
+    }
+  ],
+  "lane": "animation",
+  "production_id": "mercy-engine-20260927",
+  "render": {
+    "command": [
+      "python",
+      "film.py"
+    ],
+    "cwd": "/data/data/com.termux/files/home/MainWorkspace/Chatgpt-Video-Creations/productions/standalone/mercy-engine",
+    "master_recipe": "story.json",
+    "output": "mercy-engine.mp4",
+    "scene_directory": "renders",
+    "scene_plan": "scene-plan.json"
+  },
+  "review": {
+    "assistant": "PASS",
+    "user": "PENDING"
+  },
+  "schema_version": 2,
+  "source": {
+    "episode": "short-film",
+    "kind": "speculative fiction",
+    "provenance": "provenance.json",
+    "season": "standalone",
+    "show": "Mercy Engine"
+  },
+  "status": "USER_REVIEW",
+  "workflow": {
+    "escalation_reason": null,
+    "last_action": {
+      "action": "assistant_review_passed",
+      "at": "2026-09-27T05:43:14+00:00",
+      "candidate_sha256": "cc3861face6952415974df4474bf5c66653cbe9b2d0b46ca5fb69ec8c5bb0920"
+    },
+    "max_autonomous_repair_cycles": 4,
+    "mode": "autonomous_until_final_review",
+    "render_job": {
+      "command": null,
+      "completed_at": null,
+      "cwd": null,
+      "exit_code": null,
+      "job_id": null,
+      "output": null,
+      "started_at": null,
+      "state": "NONE"
+    },
+    "repair_cycle": 2,
+    "user_review_policy": "final_candidate_only"
+  }
+}

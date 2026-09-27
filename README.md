@@ -141,6 +141,8 @@ See [`docs/SCENE_GEOMETRY.md`](docs/SCENE_GEOMETRY.md) and [`docs/VISUAL_QA_STAN
 - [`docs/REFERENCE_SAMPLES.md`](docs/REFERENCE_SAMPLES.md) — what earlier production tests proved, failed, or established.
 - [`docs/LOCAL_WORKSPACE_VIDEO_WORKFLOW.md`](docs/LOCAL_WORKSPACE_VIDEO_WORKFLOW.md) — Local Workspace execution, media QA, provider automation, and artifact-review workflow.
 - [`docs/RESOURCE_SOURCING.md`](docs/RESOURCE_SOURCING.md) — free-asset sourcing, licensing/provenance, external-service reliability, and learn-before-brute-forcing policy.
+- [`assets/`](assets/) — portable asset catalog, Core Commons manifest, license/provenance metadata, and machine-local install-state contract.
+- `scripts/assetctl.py` — validate/query the asset catalog and detect known local payloads before downloading or rebuilding resources.
 - [`docs/DIRECTOR_SPEC_WORKFLOW.md`](docs/DIRECTOR_SPEC_WORKFLOW.md) — model-independent directing contract: reference decomposition, story/visual/camera/audio grammar, shot events, and cross-model handoff.
 - [`templates/director-brief.json`](templates/director-brief.json) — reusable director brief starter for serious narrative/cinematic productions.
 - [`templates/`](templates/) — business release, show, season, episode, and production starters.

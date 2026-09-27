@@ -28,6 +28,15 @@ If a technique is weak or repeated local experiments are not converging, researc
 
 Read `docs/RESOURCE_SOURCING.md` before substantial asset acquisition or external-service integration.
 
+Before downloading or rebuilding common resources, query the durable asset control plane:
+
+- `python scripts/assetctl.py status`
+- `python scripts/assetctl.py search <term>`
+- `python scripts/assetctl.py list --core`
+- `python scripts/assetctl.py scan-local`
+
+`assets/catalog.json` is portable source/license/compatibility metadata. `assets/core-manifest.json` defines the intentionally small Core Commons. Machine-specific installed state lives in ignored `assets/local-state.json`; bulk payloads do not belong in Git by default. Code engines, camera/transition helpers and procedural audio systems count as reusable assets just like meshes, textures and WAV files.
+
 ## Preview-driven shot development
 
 For local video quality improvements, read `docs/CHATGPT_SHOT_WORKFLOW.md`.
