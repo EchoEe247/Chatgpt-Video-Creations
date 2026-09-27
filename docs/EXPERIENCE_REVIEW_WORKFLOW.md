@@ -81,6 +81,17 @@ This directly targets the "this shot does not fit the next scene" failure mode.
 
 A large visual jump can be intentional. If so, the reviewer must say why the cut works and cite the exact transition evidence. It may not be ignored silently.
 
+### Cut continuity versus style shift
+
+The v2 continuity signal intentionally separates two different questions:
+
+- **cut discontinuity** — do the frames immediately on each side of the cut clash in brightness/color/detail strongly enough to feel like a snap?
+- **context style shift** — do the surrounding shots use substantially different renderer/style languages even when the cut itself is bridged well?
+
+This distinction matters for mixed local workflows. A physical Blender shot can intentionally lead into a paper/Canvas shot. The goal is not to force every renderer to look identical. The workflow should require an authored handoff so the viewer experiences one film rather than an accidental renderer switch.
+
+Saturation-only differences near black are not treated as cut failures because hue/saturation math becomes visually unstable and unimportant at very low luminance.
+
 ### 5. Audio-continuity pass
 
 The master audio is checked across every shot boundary for:
@@ -101,6 +112,12 @@ When stems are available, narration is also checked against score + ambience + e
 The full candidate also gets a spectrogram for manual tonal review.
 
 This is intentionally broader than a single LUFS number. Two mixes can have the same integrated loudness while one still feels inconsistent.
+
+### Objective effect-onset verification
+
+When a shared A/V timeline event references a deterministic Core Audio Commons effect, the workflow also checks the actual effects stem for the first audible onset around that event.
+
+This produces a measured onset offset in milliseconds and flags missing or >80 ms placement errors. It complements—rather than replaces—the normal-speed perceptual sync clip.
 
 ### 6. A/V synchronization pass
 

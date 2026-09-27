@@ -3,7 +3,7 @@ from pathlib import Path
 
 import numpy as np
 
-from src.core.experience_qa import motion_smoothness, audio_continuity
+from src.core.experience_qa import motion_smoothness, audio_continuity, effect_sync_signal
 from src.core.creative_qa import validate_assistant_review
 
 
@@ -126,3 +126,19 @@ def test_schema2_warnings_cannot_be_silently_ignored(tmp_path):
     assert out["valid"] is True
     assert out["pass"] is False
     assert out["repair_warnings"]==["visual_transition_review"]
+
+def test_effect_sync_signal_detects_authored_onset(tmp_path):
+    sr=16000
+    stems=tmp_path/"stems";stems.mkdir()
+    x=np.zeros(sr*2,dtype=np.float32)
+    x[int(.5*sr):int(.55*sr)]=.1
+    _write_wav(stems/"effects.wav",x,sr)
+    timeline=tmp_path/"timeline.json"
+    timeline.write_text(json.dumps({"events":[{
+        "id":"hit","at_seconds":.5,
+        "asset_id":"audio.core-procedural:soft_impact"
+    }]}))
+    out=effect_sync_signal(timeline,stems,sample_rate=sr)
+    assert out["available"] is True
+    assert out["warnings"]==[]
+    assert abs(out["events"][0]["onset_offset_ms"])<5

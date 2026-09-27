@@ -155,8 +155,7 @@ def render_editorial():
         src=R/"shot-20.mp4"
         vf=(
           "trim=start=2:end=7,setpts=PTS-STARTPTS,scale=1280:720:flags=lanczos,"
-          "eq=brightness=-0.10:saturation=0.72,"
-          "drawbox=x=0:y=0:w=iw:h=ih:color=black@0.34:t=fill,"
+          "eq=brightness='-0.10*min(t/0.85,1)':saturation='1-0.28*min(t/0.85,1)':eval=frame,"
           f"drawtext=fontfile={font}:text='BUILD FAST. DISCOVER WHAT IS POSSIBLE.':"
           "fontcolor=0xE6EDEB:fontsize=40:x=(w-text_w)/2:y=h*0.39:enable='between(t,0.9,4.45)',"
           f"drawtext=fontfile={font}:text='KEEP ENOUGH FREEDOM TO BE WRONG.':"
@@ -188,9 +187,16 @@ def build_audio():
     if not valid(master,150,.10):
         raise RuntimeError("invalid audio master")
 
+def finish_transitions():
+    run([sys.executable,str(P/"finish_transitions.py")])
+
 def assemble():
     order=R/"ordered.txt"
-    order.write_text("\n".join("file '"+str(R/f"{s['id']}.mp4")+"'"
+    finished=R/"finished"
+    def shot_path(sid):
+        candidate=finished/f"{sid}.mp4"
+        return candidate if candidate.is_file() else R/f"{sid}.mp4"
+    order.write_text("\n".join("file '"+str(shot_path(s["id"]))+"'"
                                for s in plan["shots"])+"\n")
     silent=F/"second-earth-silent.mp4"
     run(["ffmpeg","-y","-v","error","-f","concat","-safe","0","-i",str(order),
@@ -214,6 +220,7 @@ def main():
     render_editorial()
     verify_shots()
     build_audio()
+    finish_transitions()
     assemble()
 
 if __name__=="__main__":

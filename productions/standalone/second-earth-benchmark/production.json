@@ -1,14 +1,14 @@
 {
   "artifacts": {
-    "artifact_receipt": "iterations/iteration-01/qa/review-pack/artifact-receipt.json",
+    "artifact_receipt": "iterations/iteration-02/qa/review-pack/artifact-receipt.json",
     "baseline_comparison": null,
     "baseline_master": null,
-    "candidate_master": "iterations/iteration-01/candidate.mp4",
-    "candidate_sha256": "f23a08583afd141b906cad486c088fb9ad355ecc3617939a28d7e78f4abf6d59",
-    "creative_qa": "iterations/iteration-01/qa/creative-qa/creative-qa.json",
-    "creative_review": "iterations/iteration-01/qa/creative-qa/assistant-review.json",
-    "iteration_dir": "iterations/iteration-01",
-    "review_pack": "iterations/iteration-01/qa/review-pack/review-pack.json"
+    "candidate_master": "iterations/iteration-02/candidate.mp4",
+    "candidate_sha256": "025c7fcf2ec101a6c892ed8d821fb7b6683822b7b61bb499724aa318e5a91bbd",
+    "creative_qa": "iterations/iteration-02/qa/creative-qa/creative-qa.json",
+    "creative_review": "iterations/iteration-02/qa/creative-qa/assistant-review.json",
+    "iteration_dir": "iterations/iteration-02",
+    "review_pack": "iterations/iteration-02/qa/review-pack/review-pack.json"
   },
   "delivery": {
     "audio_codec": "aac",
@@ -34,13 +34,13 @@
   },
   "gates": {
     "assistant": {
-      "candidate_sha256": "f23a08583afd141b906cad486c088fb9ad355ecc3617939a28d7e78f4abf6d59",
-      "notes": "Iteration 01 passes final assistant review. Technical QA PASS; creative bundle valid; zero freeze spans, zero weak-motion shots, zero camera-family repeats, zero layout violations. Repaired city scale, spacecraft/probe hero shots, second-message framing, cosmic scan grammar and moving final release.",
+      "candidate_sha256": "025c7fcf2ec101a6c892ed8d821fb7b6683822b7b61bb499724aa318e5a91bbd",
+      "notes": "Iteration 02 passes schema-v2 experience review after user-requested continuity upgrade. Immediate cut-discontinuity warnings are now zero; remaining renderer-style shifts are explicitly bridged and dispositioned as intentional. Technical QA PASS; audio boundary/mix/A-V sync warnings zero; 11/11 assistant criteria PASS with 131 candidate-bound evidence artifacts.",
       "status": "PASS"
     },
     "technical": {
-      "candidate_sha256": "f23a08583afd141b906cad486c088fb9ad355ecc3617939a28d7e78f4abf6d59",
-      "evidence": "iterations/iteration-01/qa/technical-qa.json",
+      "candidate_sha256": "025c7fcf2ec101a6c892ed8d821fb7b6683822b7b61bb499724aa318e5a91bbd",
+      "evidence": "iterations/iteration-02/qa/technical-qa.json",
       "status": "PASS"
     },
     "user": {
@@ -92,6 +92,49 @@
       },
       "repair_cycle": 0,
       "status": "REFINEMENT_REQUIRED"
+    },
+    {
+      "artifacts": {
+        "artifact_receipt": "iterations/iteration-01/qa/review-pack/artifact-receipt.json",
+        "baseline_comparison": null,
+        "baseline_master": null,
+        "candidate_master": "iterations/iteration-01/candidate.mp4",
+        "candidate_sha256": "f23a08583afd141b906cad486c088fb9ad355ecc3617939a28d7e78f4abf6d59",
+        "creative_qa": "iterations/iteration-01/qa/creative-qa/creative-qa.json",
+        "creative_review": "iterations/iteration-01/qa/creative-qa/assistant-review.json",
+        "iteration_dir": "iterations/iteration-01",
+        "review_pack": "iterations/iteration-01/qa/review-pack/review-pack.json"
+      },
+      "at": "2026-09-27T11:12:48+00:00",
+      "gates": {
+        "assistant": {
+          "candidate_sha256": "f23a08583afd141b906cad486c088fb9ad355ecc3617939a28d7e78f4abf6d59",
+          "notes": "Iteration 01 passes final assistant review. Technical QA PASS; creative bundle valid; zero freeze spans, zero weak-motion shots, zero camera-family repeats, zero layout violations. Repaired city scale, spacecraft/probe hero shots, second-message framing, cosmic scan grammar and moving final release.",
+          "status": "PASS"
+        },
+        "technical": {
+          "candidate_sha256": "f23a08583afd141b906cad486c088fb9ad355ecc3617939a28d7e78f4abf6d59",
+          "evidence": "iterations/iteration-01/qa/technical-qa.json",
+          "status": "PASS"
+        },
+        "user": {
+          "candidate_sha256": "f23a08583afd141b906cad486c088fb9ad355ecc3617939a28d7e78f4abf6d59",
+          "notes": "User review found that parts of the film feel visually inconsistent or unsmooth and requested a significant upgrade to visual/audio reviewing and editing before a new final handoff.",
+          "status": "FAIL"
+        }
+      },
+      "render_job": {
+        "command": null,
+        "completed_at": null,
+        "cwd": null,
+        "exit_code": null,
+        "job_id": null,
+        "output": null,
+        "started_at": null,
+        "state": "NONE"
+      },
+      "repair_cycle": 1,
+      "status": "REFINEMENT_REQUIRED"
     }
   ],
   "lane": "animation",
@@ -125,8 +168,8 @@
     "escalation_reason": null,
     "last_action": {
       "action": "assistant_review_passed",
-      "at": "2026-09-27T10:24:10+00:00",
-      "candidate_sha256": "f23a08583afd141b906cad486c088fb9ad355ecc3617939a28d7e78f4abf6d59"
+      "at": "2026-09-27T11:40:56+00:00",
+      "candidate_sha256": "025c7fcf2ec101a6c892ed8d821fb7b6683822b7b61bb499724aa318e5a91bbd"
     },
     "max_autonomous_repair_cycles": 4,
     "mode": "autonomous_until_final_review",
@@ -140,7 +183,7 @@
       "started_at": null,
       "state": "NONE"
     },
-    "repair_cycle": 1,
+    "repair_cycle": 2,
     "user_review_policy": "final_candidate_only"
   }
 }

@@ -4,14 +4,14 @@ SECOND EARTH is the fresh integrated benchmark produced after the Mercy Engine w
 
 ## Final review status
 
-**Phase 7C is complete.** The production is now in `USER_REVIEW`.
+**Phase 7C plus the user-triggered Experience Review repair is complete.** The production is now in `USER_REVIEW` on iteration 02.
 
 Final candidate:
 
 - runtime: 150.000 seconds
 - video: H.264, 1280×720, 24 fps, yuv420p
 - audio: AAC, 48 kHz stereo
-- SHA-256: `f23a08583afd141b906cad486c088fb9ad355ecc3617939a28d7e78f4abf6d59`
+- SHA-256: `025c7fcf2ec101a6c892ed8d821fb7b6683822b7b61bb499724aa318e5a91bbd`
 - technical QA: PASS
 - creative QA: PASS
 - assistant review: PASS
@@ -77,15 +77,19 @@ Technical QA:
 - true peak: -2.02 dBFS
 - longest unintended silence: 0.0 seconds
 
-Creative QA:
+Experience Review v2:
 
 - freeze spans: 0
 - weak-motion shots: 0
+- immediate cut-discontinuity warnings: 0
 - consecutive camera-family repeats: 0
+- audio-transition warnings: 0
+- narration-mix warnings: 0
+- authored-effect sync-offset warnings: 0
 - layout violations: 0
-- warnings: 0
-- evidence files: 43
-- assistant creative review: PASS
+- candidate-bound evidence files: 131
+- 11/11 assistant criteria: PASS
+- two remaining triage warning classes explicitly dispositioned as intentional with evidence
 
 ## Blender reliability architecture
 
@@ -131,9 +135,11 @@ Read these in order:
 10. `source/benchmark-acceptance.json`
 11. `render_benchmark.py`
 12. `production.json`
-13. `iterations/iteration-01/qa/technical-qa.json`
-14. `iterations/iteration-01/qa/creative-qa/creative-qa.json`
-15. `iterations/iteration-01/qa/creative-qa/assistant-review.json`
+13. `iterations/iteration-02/qa/technical-qa.json`
+14. `iterations/iteration-02/qa/creative-qa/creative-qa.json`
+15. `iterations/iteration-02/qa/creative-qa/assistant-review.json`
+16. `source/transition-finish.json`
+17. `finish_transitions.py`
 
 The next state transition is user acceptance or a new repair cycle based on Angel's actual review.
 
@@ -167,3 +173,45 @@ The six review-target boundaries are:
 The current user gate remains PENDING. The older assistant PASS is preserved as historical iteration-01 state, but a future schema-v2 PASS must explicitly inspect/disposition those transition warnings and perform the expanded audio/A-V review rather than relying on the old five-criterion creative gate.
 
 See `docs/EXPERIENCE_REVIEW_WORKFLOW.md` and `receipts/2026-09-27-experience-review-v2.md`.
+## Iteration 02 — experience-review continuity repair
+
+Angel's first full review of iteration 01 identified a film-level issue the older gate did not capture strongly enough: some otherwise-good shots felt unsmooth or visually disconnected from the surrounding scene language.
+
+Iteration 02 is the first candidate reviewed under the repository's schema-v2 Experience Review workflow.
+
+Candidate SHA-256:
+
+`025c7fcf2ec101a6c892ed8d821fb7b6683822b7b61bb499724aa318e5a91bbd`
+
+Changes:
+
+- added a durable `transition-finish.json` contract instead of hand-editing the master;
+- added short shared-color continuity bridges only at renderer/style boundaries that review evidence justified;
+- added bridges for the newly surfaced 06→07, 07→08, 13→14, 16→17 and 19→20 boundaries;
+- lengthened the highest-contrast paper↔dark handoffs;
+- changed shot 21 so its opening grade inherits shot 20 before gradually darkening into the thesis instead of jumping darker on the cut;
+- preserved all original authored shot durations and the 150-second master runtime;
+- left the audio master unchanged because expanded stem/boundary analysis found no concrete audio defect requiring a destructive remix.
+
+Final schema-v2 evidence:
+
+- strict decode: PASS
+- technical QA: PASS
+- freeze spans: 0
+- weak-motion shots: 0
+- immediate visual cut-discontinuity warnings: 0
+- audio-transition warnings: 0
+- narration-mix warnings: 0
+- authored effect A/V sync offset warnings: 0
+- layout violations: 0
+- 131 candidate-bound evidence artifacts verified
+- 11/11 assistant review criteria: PASS
+
+Two triage warnings remain intentionally visible rather than hidden:
+
+- `motion_cadence_review` for shots 17/18 — normal-speed evidence shows discrete authored diagram/state changes, not stutter;
+- `visual_style_shift_review` for four paper/physical/procedural context shifts — their renderer language is intentionally different, but the actual cuts now pass through explicit shared visual bridges and no longer trigger immediate discontinuity warnings.
+
+Both warnings were explicitly dispositioned as `accepted_intentional` with candidate-bound evidence. They were not silently discarded.
+
+Production state is now `USER_REVIEW`; the user gate remains PENDING until Angel explicitly accepts this iteration.

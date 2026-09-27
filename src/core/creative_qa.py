@@ -13,7 +13,7 @@ import numpy as np
 
 from src.core.media import probe_media, sha256_file, extract_review_clip, extract_frame, build_contact_sheet
 from src.core.experience_qa import (
-    motion_smoothness, visual_continuity, audio_continuity,
+    motion_smoothness, visual_continuity, audio_continuity, effect_sync_signal,
     build_transition_evidence, build_sync_evidence, build_spectrogram,
 )
 
@@ -177,6 +177,7 @@ def build_creative_qa(media_path: str|Path, execution_path: str|Path, output_dir
     smoothness=motion_smoothness(motion,execution)
     visual_flow=visual_continuity(media,execution)
     audio_flow=audio_continuity(media,execution,stems_dir=stems_dir)
+    effect_sync=effect_sync_signal(timeline_path,stems_dir)
 
     phone_dir=out/"phone-frames"; phone_dir.mkdir(exist_ok=True)
     clip_dir=out/"normal-speed"; clip_dir.mkdir(exist_ok=True)
@@ -209,9 +210,11 @@ def build_creative_qa(media_path: str|Path, execution_path: str|Path, output_dir
     if layout_result["violations"]: warnings.append({"code":"layout_violations","detail":layout_result["violations"]})
     if layout_result["manual_text_review_required"]: warnings.append({"code":"text_metadata_missing","detail":"Phone/text readability requires assistant visual review."})
     if smoothness["warning_shots"]: warnings.append({"code":"motion_cadence_review","detail":smoothness["warning_shots"]})
-    if visual_flow["warning_boundaries"]: warnings.append({"code":"visual_transition_review","detail":visual_flow["warning_boundaries"]})
+    if visual_flow["warning_boundaries"]: warnings.append({"code":"visual_cut_discontinuity","detail":visual_flow["warning_boundaries"]})
+    if visual_flow.get("style_shift_boundaries"): warnings.append({"code":"visual_style_shift_review","detail":visual_flow["style_shift_boundaries"]})
     if audio_flow["warning_boundaries"]: warnings.append({"code":"audio_transition_review","detail":audio_flow["warning_boundaries"]})
     if audio_flow["stems"].get("warnings"): warnings.append({"code":"narration_mix_review","detail":audio_flow["stems"]["warnings"]})
+    if effect_sync.get("warnings"): warnings.append({"code":"av_sync_offset_review","detail":effect_sync["warnings"]})
     result={
       "schema_version":2,"media":str(media),"media_sha256":sha256_file(media),
       "execution_plan":str(execution_path),"execution_plan_sha256":sha256_file(execution_path),
@@ -219,6 +222,7 @@ def build_creative_qa(media_path: str|Path, execution_path: str|Path, output_dir
         "motion_global":{k:v for k,v in motion.items() if k!="series"},
         "freeze":freeze,"motion_by_shot":per_shot,"camera_repetition":cameras,"layout":layout_result,
         "motion_smoothness":smoothness,"visual_continuity":visual_flow,"audio_continuity":audio_flow,
+        "effect_sync":effect_sync,
       },
       "evidence":{
         "contact_sheet":str(contact.relative_to(out)),"contact_sheet_sha256":sha256_file(contact),
@@ -242,9 +246,11 @@ def build_creative_qa(media_path: str|Path, execution_path: str|Path, output_dir
       "summary":{"freeze_count":freeze["count"],"weak_motion_shot_count":len(weak),
                  "camera_repeat_count":len(cameras["consecutive_repeats"]),
                  "motion_cadence_warning_count":len(smoothness["warning_shots"]),
-                 "visual_transition_warning_count":len(visual_flow["warning_boundaries"]),
+                 "visual_cut_warning_count":len(visual_flow["warning_boundaries"]),
+                 "visual_style_shift_review_count":len(visual_flow.get("style_shift_boundaries") or []),
                  "audio_transition_warning_count":len(audio_flow["warning_boundaries"]),
                  "narration_mix_warning_count":len(audio_flow["stems"].get("warnings") or []),
+                 "av_sync_offset_warning_count":len(effect_sync.get("warnings") or []),
                  "layout_violation_count":len(layout_result["violations"]),"warning_count":len(warnings)}
     }
     (out/"creative-qa.json").write_text(json.dumps(result,indent=2)+"\n")

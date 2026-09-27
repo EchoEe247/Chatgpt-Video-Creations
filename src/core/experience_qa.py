@@ -62,24 +62,51 @@ def _feat(fr):
     f=fr.astype(np.float32)/255;mx=f.max(2);mn=f.min(2);sat=np.zeros_like(mx);np.divide(mx-mn,mx,out=sat,where=mx>1e-5)
     lum=.2126*f[:,:,0]+.7152*f[:,:,1]+.0722*f[:,:,2];edge=(np.abs(np.diff(lum,axis=1)).mean()+np.abs(np.diff(lum,axis=0)).mean())/2
     return {"luma":float(lum.mean()),"contrast":float(lum.std()),"saturation":float(sat.mean()),"edge_density":float(edge),"rgb":[float(x) for x in f.mean((0,1))]}
-def visual_continuity(path,execution,fps=2.0):
+def visual_continuity(path,execution,fps=8.0,cut_window=.18,context_window=.55):
     times,frames=_rgb_samples(path,fps);features=[_feat(x) for x in frames];rows=[]
-    for s in execution.get("shots",[]):
-        idx=np.where((times>=float(s["start_seconds"]))&(times<float(s["end_seconds"])))[0]
-        if not len(idx):continue
+    def avg_features(idx):
         vals=[features[i] for i in idx]
-        rows.append({"shot_id":s["id"],"luma":round(float(np.mean([x["luma"] for x in vals])),5),"contrast":round(float(np.mean([x["contrast"] for x in vals])),5),
-                     "saturation":round(float(np.mean([x["saturation"] for x in vals])),5),"edge_density":round(float(np.mean([x["edge_density"] for x in vals])),5),
-                     "rgb":[round(float(x),4) for x in np.mean(np.array([v["rgb"] for v in vals]),0)]})
-    by={x["shot_id"]:x for x in rows};bounds=[];shots=execution.get("shots",[])
+        if not vals:return None
+        return {"luma":float(np.mean([x["luma"] for x in vals])),
+                "contrast":float(np.mean([x["contrast"] for x in vals])),
+                "saturation":float(np.mean([x["saturation"] for x in vals])),
+                "edge_density":float(np.mean([x["edge_density"] for x in vals])),
+                "rgb":[float(x) for x in np.mean(np.array([v["rgb"] for v in vals]),0)]}
+    def distance(a,b):
+        rgb=float(np.linalg.norm(np.array(a["rgb"])-np.array(b["rgb"])))
+        lu=abs(a["luma"]-b["luma"]);sa=abs(a["saturation"]-b["saturation"]);ed=abs(a["edge_density"]-b["edge_density"])
+        dist=rgb*.45+lu*.25+sa*.20+min(ed*4,1)*.10
+        return dist,rgb,lu,sa,ed
+    for s in execution.get("shots",[]):
+        idx=np.where((times>=float(s["start_seconds"]))&(times<float(s["end_seconds"])))[0];a=avg_features(idx)
+        if not a:continue
+        rows.append({"shot_id":s["id"],"luma":round(a["luma"],5),"contrast":round(a["contrast"],5),
+                     "saturation":round(a["saturation"],5),"edge_density":round(a["edge_density"],5),
+                     "rgb":[round(float(x),4) for x in a["rgb"]]})
+    bounds=[];shots=execution.get("shots",[])
     for l,r in zip(shots,shots[1:]):
-        a,b=by.get(l["id"]),by.get(r["id"])
+        at=float(l["end_seconds"])
+        li=np.where((times>=at-cut_window)&(times<at))[0];ri=np.where((times>=at)&(times<at+cut_window))[0]
+        lctx=np.where((times>=at-context_window)&(times<at-cut_window))[0]
+        rctx=np.where((times>=at+cut_window)&(times<at+context_window))[0]
+        a,b=avg_features(li),avg_features(ri);ca,cb=avg_features(lctx),avg_features(rctx)
         if not a or not b:continue
-        rgb=float(np.linalg.norm(np.array(a["rgb"])-np.array(b["rgb"])));lu=abs(a["luma"]-b["luma"]);sa=abs(a["saturation"]-b["saturation"]);ed=abs(a["edge_density"]-b["edge_density"])
-        dist=rgb*.45+lu*.25+sa*.20+min(ed*4,1)*.10;warn=dist>.32 or lu>.28 or sa>.35
-        bounds.append({"from":l["id"],"to":r["id"],"at_seconds":float(l["end_seconds"]),"style_distance":round(dist,4),"rgb_distance":round(rgb,4),
-                       "luma_jump":round(lu,4),"saturation_jump":round(sa,4),"edge_jump":round(ed,5),"visual_fit_warning":warn})
-    return {"sample_fps":fps,"shots":rows,"boundaries":bounds,"warning_boundaries":[{"from":x["from"],"to":x["to"],"style_distance":x["style_distance"]} for x in bounds if x["visual_fit_warning"]]}
+        dist,rgb,lu,sa,ed=distance(a,b)
+        context_dist=distance(ca,cb)[0] if ca and cb else dist
+        # Saturation is unstable and visually unimportant near black. Do not
+        # call a dark dip discontinuous solely because hue math swings there.
+        visible_saturation_jump=sa>.32 and max(a["luma"],b["luma"])>.20
+        cut_warn=dist>.28 or lu>.24 or visible_saturation_jump
+        style_shift=context_dist>.32
+        bounds.append({"from":l["id"],"to":r["id"],"at_seconds":at,"cut_window_seconds":cut_window,
+                       "context_window_seconds":context_window,"cut_distance":round(dist,4),
+                       "context_style_distance":round(context_dist,4),"rgb_distance":round(rgb,4),
+                       "luma_jump":round(lu,4),"saturation_jump":round(sa,4),"edge_jump":round(ed,5),
+                       "cut_discontinuity_warning":cut_warn,"context_style_shift":style_shift})
+    return {"sample_fps":fps,"cut_window_seconds":cut_window,"context_window_seconds":context_window,
+            "shots":rows,"boundaries":bounds,
+            "warning_boundaries":[{"from":x["from"],"to":x["to"],"cut_distance":x["cut_distance"]} for x in bounds if x["cut_discontinuity_warning"]],
+            "style_shift_boundaries":[{"from":x["from"],"to":x["to"],"context_style_distance":x["context_style_distance"]} for x in bounds if x["context_style_shift"]]}
 
 def audio_continuity(media_path,execution,stems_dir=None,sample_rate=16000):
     audio=_audio(media_path,sample_rate);n=len(audio);shots=execution.get("shots",[]);rows=[]
@@ -121,6 +148,25 @@ def audio_continuity(media_path,execution,stems_dir=None,sample_rate=16000):
                                                "low_mid_outlier":row["low_mid_outlier"],"pacing_warning":row["pacing_warning"]})
     return {"sample_rate":sample_rate,"shots":rows,"boundaries":bounds,"warning_boundaries":[x for x in bounds if x["audio_transition_warning"]],"stems":sr}
 
+def effect_sync_signal(timeline_path,stems_dir,sample_rate=16000,threshold=.0015):
+    if not timeline_path or not stems_dir:return {"available":False,"events":[],"warnings":[]}
+    tp=Path(timeline_path).resolve();fx=Path(stems_dir).resolve()/"effects.wav"
+    if not tp.is_file() or not fx.is_file():return {"available":False,"events":[],"warnings":[]}
+    timeline=json.loads(tp.read_text());audio=_audio(fx,sample_rate);events=[];warnings=[]
+    for e in timeline.get("events",[]):
+        if not str(e.get("asset_id") or "").startswith("audio.core-procedural:"):continue
+        at=float(e.get("at_seconds") or 0);a=max(0,int((at-.12)*sample_rate));b=min(len(audio),int((at+.45)*sample_rate))
+        x=np.abs(audio[a:b]);idx=np.where(x>=threshold)[0]
+        onset=(a+int(idx[0]))/sample_rate if len(idx) else None
+        offset=(onset-at) if onset is not None else None
+        row={"event_id":e.get("id"),"at_seconds":at,"asset_id":e.get("asset_id"),
+             "detected_onset_seconds":round(onset,5) if onset is not None else None,
+             "onset_offset_ms":round(offset*1000,2) if offset is not None else None}
+        row["sync_warning"]=onset is None or abs(offset)>.08
+        events.append(row)
+        if row["sync_warning"]:warnings.append(row)
+    return {"available":True,"events":events,"warnings":warnings}
+
 def _font(size):
     for f in ("/data/data/com.termux/files/usr/share/fonts/TTF/DejaVuSans.ttf","/system/fonts/Roboto-Regular.ttf"):
         try:return ImageFont.truetype(f,size)
@@ -160,13 +206,18 @@ def build_spectrogram(media_path,output_path):
 
 def build_iteration_compare(old_media,new_media,execution,out_dir,max_clips=12):
     old,new=Path(old_media).resolve(),Path(new_media).resolve();out=Path(out_dir).resolve();out.mkdir(parents=True,exist_ok=True)
-    to,fo=_rgb_samples(old,1,120,68);tn,fn=_rgb_samples(new,1,120,68);ao,an=_audio(old,8000),_audio(new,8000);rows=[]
+    to,fo=_rgb_samples(old,8,120,68);tn,fn=_rgb_samples(new,8,120,68);ao,an=_audio(old,8000),_audio(new,8000);rows=[]
     for s in execution.get("shots",[]):
         a,b=float(s["start_seconds"]),float(s["end_seconds"]);io=np.where((to>=a)&(to<b))[0];inn=np.where((tn>=a)&(tn<b))[0];m=min(len(io),len(inn))
-        vd=float(np.mean(np.abs(fo[io[:m]].astype(np.float32)-fn[inn[:m]].astype(np.float32)))/255) if m else 0
+        if m:
+            frame_delta=np.mean(np.abs(fo[io[:m]].astype(np.float32)-fn[inn[:m]].astype(np.float32)),axis=(1,2,3))/255
+            vd=float(np.mean(frame_delta));vp95=float(np.percentile(frame_delta,95));vmax=float(np.max(frame_delta))
+        else:vd=vp95=vmax=0
         ia,ib=int(a*8000),int(b*8000);m2=min(len(ao[ia:ib]),len(an[ia:ib]));ad=float(np.sqrt(np.mean((ao[ia:ia+m2].astype(np.float64)-an[ia:ia+m2].astype(np.float64))**2))) if m2 else 0
-        rows.append({"shot_id":s["id"],"start_seconds":a,"duration_seconds":b-a,"visual_delta":round(vd,5),"audio_delta_rms":round(ad,6),"changed":bool(vd>.008 or ad>.004)})
-    changed=sorted([x for x in rows if x["changed"]],key=lambda x:x["visual_delta"]+x["audio_delta_rms"],reverse=True);clips=[];font="/data/data/com.termux/files/usr/share/fonts/TTF/DejaVuSans.ttf"
+        changed_flag=(vd>.004 or vp95>.012 or vmax>.020 or ad>.004)
+        rows.append({"shot_id":s["id"],"start_seconds":a,"duration_seconds":b-a,"visual_delta_mean":round(vd,5),
+                     "visual_delta_p95":round(vp95,5),"visual_delta_max":round(vmax,5),"audio_delta_rms":round(ad,6),"changed":bool(changed_flag)})
+    changed=sorted([x for x in rows if x["changed"]],key=lambda x:x["visual_delta_max"]+x["audio_delta_rms"],reverse=True);clips=[];font="/data/data/com.termux/files/usr/share/fonts/TTF/DejaVuSans.ttf"
     for row in changed[:max_clips]:
         sid=row["shot_id"];a=row["start_seconds"];dur=row["duration_seconds"];dest=out/f"{sid}-ab.mp4"
         fc=(f"[0:v]scale=640:360,drawtext=fontfile={font}:text='BEFORE':fontcolor=white:fontsize=22:x=18:y=18[o];"
@@ -174,7 +225,9 @@ def build_iteration_compare(old_media,new_media,execution,out_dir,max_clips=12):
         rr=_run(["ffmpeg","-y","-v","error","-ss",str(a),"-t",str(dur),"-i",str(old),"-ss",str(a),"-t",str(dur),"-i",str(new),
                  "-filter_complex",fc,"-map","[v]","-map","1:a?","-c:v","libx264","-preset","veryfast","-crf","21","-c:a","aac","-b:a","128k","-shortest",str(dest)])
         if rr.returncode:raise ValueError((rr.stderr or b"A/B render failed").decode(errors="replace")[-3000:])
-        clips.append({"shot_id":sid,"file":dest.name,"sha256":sha256_file(dest),"visual_delta":row["visual_delta"],"audio_delta_rms":row["audio_delta_rms"]})
+        clips.append({"shot_id":sid,"file":dest.name,"sha256":sha256_file(dest),
+                      "visual_delta_mean":row["visual_delta_mean"],"visual_delta_p95":row["visual_delta_p95"],
+                      "visual_delta_max":row["visual_delta_max"],"audio_delta_rms":row["audio_delta_rms"]})
     result={"schema_version":1,"before_sha256":sha256_file(old),"after_sha256":sha256_file(new),"shots":rows,"changed_shot_count":len(changed),
             "changed_shots":[x["shot_id"] for x in changed],"ab_clips":clips}
     (out/"iteration-compare.json").write_text(json.dumps(result,indent=2)+"\n");return result
