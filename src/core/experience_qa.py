@@ -33,10 +33,23 @@ def _centroid(x,sr):
     f=np.fft.rfftfreq(len(x),1/sr);mask=(f>=60)&(f<=min(7800,sr/2));w=sp[mask]
     return float(np.sum(f[mask]*w)/max(np.sum(w),1e-12))
 
-def motion_smoothness(signal:dict[str,Any],execution:dict[str,Any]):
+def motion_smoothness(signal:dict[str,Any],execution:dict[str,Any],transition_finish:dict[str,Any]|None=None):
     rows=[]
+    incoming={};outgoing={}
+    for tr in (transition_finish or {}).get("transitions",[]):
+        try:d=float(tr.get("duration_seconds") or 0)
+        except:d=0.0
+        to_id=str(tr.get("to") or "");from_id=str(tr.get("from") or "")
+        incoming[to_id]=max(incoming.get(to_id,0.0),d)
+        outgoing[from_id]=max(outgoing.get(from_id,0.0),d)
     for s in execution.get("shots",[]):
-        a,b=float(s["start_seconds"]),float(s["end_seconds"]);pad=min(.45,max(0,(b-a)*.10));lo,hi=a+pad,b-pad
+        a,b=float(s["start_seconds"]),float(s["end_seconds"])
+        base=min(.45,max(0,(b-a)*.10))
+        start_pad=max(base,incoming.get(s["id"],0.0)+.12)
+        end_pad=max(base,outgoing.get(s["id"],0.0)+.12)
+        cap=max(.20,(b-a)*.34)
+        start_pad=min(start_pad,cap);end_pad=min(end_pad,cap)
+        lo,hi=a+start_pad,b-end_pad
         v=np.array([float(x["mean_delta"]) for x in signal.get("series",[]) if lo<float(x["time_seconds"])<=hi])
         ch=np.array([float(x["changed_ratio"]) for x in signal.get("series",[]) if lo<float(x["time_seconds"])<=hi])
         if len(v)<3:
@@ -47,7 +60,8 @@ def motion_smoothness(signal:dict[str,Any],execution:dict[str,Any]):
         if jerk>.95 and mean>.003:reasons.append("irregular_motion_energy")
         if mx>8:reasons.append("isolated_motion_spikes")
         if zero>.45:reasons.append("many_near_static_samples")
-        rows.append({"shot_id":s["id"],"sample_count":len(v),"mean_delta":round(mean,6),"median_delta":round(med,6),"p95_delta":round(p95,6),
+        rows.append({"shot_id":s["id"],"sample_count":len(v),"excluded_start_seconds":round(start_pad,3),"excluded_end_seconds":round(end_pad,3),
+                     "mean_delta":round(mean,6),"median_delta":round(med,6),"p95_delta":round(p95,6),
                      "jerk_index":round(jerk,4),"spike_ratio":round(spike,3),"max_spike_ratio":round(mx,3),"near_static_ratio":round(zero,4),
                      "cadence_warning":bool(reasons),"reasons":reasons})
     return {"shots":rows,"warning_shots":[x["shot_id"] for x in rows if x.get("cadence_warning")]}
@@ -217,7 +231,8 @@ def build_iteration_compare(old_media,new_media,execution,out_dir,max_clips=12):
         changed_flag=(vd>.004 or vp95>.012 or vmax>.020 or ad>.004)
         rows.append({"shot_id":s["id"],"start_seconds":a,"duration_seconds":b-a,"visual_delta_mean":round(vd,5),
                      "visual_delta_p95":round(vp95,5),"visual_delta_max":round(vmax,5),"audio_delta_rms":round(ad,6),"changed":bool(changed_flag)})
-    changed=sorted([x for x in rows if x["changed"]],key=lambda x:x["visual_delta_max"]+x["audio_delta_rms"],reverse=True);clips=[];font="/data/data/com.termux/files/usr/share/fonts/TTF/DejaVuSans.ttf"
+    changed=sorted([x for x in rows if x["changed"]],key=lambda x:x["visual_delta_max"]+x["audio_delta_rms"],reverse=True)
+    clips=[];audio_clips=[];font="/data/data/com.termux/files/usr/share/fonts/TTF/DejaVuSans.ttf"
     for row in changed[:max_clips]:
         sid=row["shot_id"];a=row["start_seconds"];dur=row["duration_seconds"];dest=out/f"{sid}-ab.mp4"
         fc=(f"[0:v]scale=640:360,drawtext=fontfile={font}:text='BEFORE':fontcolor=white:fontsize=22:x=18:y=18[o];"
@@ -228,6 +243,18 @@ def build_iteration_compare(old_media,new_media,execution,out_dir,max_clips=12):
         clips.append({"shot_id":sid,"file":dest.name,"sha256":sha256_file(dest),
                       "visual_delta_mean":row["visual_delta_mean"],"visual_delta_p95":row["visual_delta_p95"],
                       "visual_delta_max":row["visual_delta_max"],"audio_delta_rms":row["audio_delta_rms"]})
-    result={"schema_version":1,"before_sha256":sha256_file(old),"after_sha256":sha256_file(new),"shots":rows,"changed_shot_count":len(changed),
-            "changed_shots":[x["shot_id"] for x in changed],"ab_clips":clips}
+        if row["audio_delta_rms"]>.002:
+            adest=out/f"{sid}-audio-ab.mp4"
+            afc=(f"[1:v]scale=640:360,split=2[vb][va];"
+                 f"[vb]drawtext=fontfile={font}:text='BEFORE AUDIO':fontcolor=white:fontsize=24:x=18:y=18[vb1];"
+                 f"[va]drawtext=fontfile={font}:text='AFTER AUDIO':fontcolor=white:fontsize=24:x=18:y=18[va1];"
+                 "[0:a]asetpts=PTS-STARTPTS[ab];[1:a]asetpts=PTS-STARTPTS[aa];"
+                 "[vb1][ab][va1][aa]concat=n=2:v=1:a=1[vout][aout]")
+            ar=_run(["ffmpeg","-y","-v","error","-ss",str(a),"-t",str(dur),"-i",str(old),"-ss",str(a),"-t",str(dur),"-i",str(new),
+                     "-filter_complex",afc,"-map","[vout]","-map","[aout]","-c:v","libx264","-preset","veryfast","-crf","21",
+                     "-c:a","aac","-b:a","160k",str(adest)])
+            if ar.returncode:raise ValueError((ar.stderr or b"audio A/B render failed").decode(errors="replace")[-3000:])
+            audio_clips.append({"shot_id":sid,"file":adest.name,"sha256":sha256_file(adest),"audio_delta_rms":row["audio_delta_rms"]})
+    result={"schema_version":2,"before_sha256":sha256_file(old),"after_sha256":sha256_file(new),"shots":rows,"changed_shot_count":len(changed),
+            "changed_shots":[x["shot_id"] for x in changed],"ab_clips":clips,"audio_ab_clips":audio_clips}
     (out/"iteration-compare.json").write_text(json.dumps(result,indent=2)+"\n");return result

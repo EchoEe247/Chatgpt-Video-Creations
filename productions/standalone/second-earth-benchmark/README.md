@@ -4,14 +4,14 @@ SECOND EARTH is the fresh integrated benchmark produced after the Mercy Engine w
 
 ## Final review status
 
-**Phase 7C plus the user-triggered Experience Review repair is complete.** The production is now in `USER_REVIEW` on iteration 02.
+**Phase 7C plus the user-triggered Experience Review repair is complete.** The production is now in `USER_REVIEW` on iteration 03.
 
 Final candidate:
 
 - runtime: 150.000 seconds
 - video: H.264, 1280×720, 24 fps, yuv420p
 - audio: AAC, 48 kHz stereo
-- SHA-256: `025c7fcf2ec101a6c892ed8d821fb7b6683822b7b61bb499724aa318e5a91bbd`
+- SHA-256: `653ee90a00f49393edac5938770befe244a4cfe3fbb33592753287b7513e9912`
 - technical QA: PASS
 - creative QA: PASS
 - assistant review: PASS
@@ -89,7 +89,7 @@ Experience Review v2:
 - layout violations: 0
 - candidate-bound evidence files: 131
 - 11/11 assistant criteria: PASS
-- two remaining triage warning classes explicitly dispositioned as intentional with evidence
+- one remaining context-style triage warning explicitly dispositioned as intentional with evidence
 
 ## Blender reliability architecture
 
@@ -135,9 +135,9 @@ Read these in order:
 10. `source/benchmark-acceptance.json`
 11. `render_benchmark.py`
 12. `production.json`
-13. `iterations/iteration-02/qa/technical-qa.json`
-14. `iterations/iteration-02/qa/creative-qa/creative-qa.json`
-15. `iterations/iteration-02/qa/creative-qa/assistant-review.json`
+13. `iterations/iteration-03/qa/technical-qa.json`
+14. `iterations/iteration-03/qa/creative-qa/creative-qa.json`
+15. `iterations/iteration-03/qa/creative-qa/assistant-review.json`
 16. `source/transition-finish.json`
 17. `finish_transitions.py`
 
@@ -215,3 +215,45 @@ Two triage warnings remain intentionally visible rather than hidden:
 Both warnings were explicitly dispositioned as `accepted_intentional` with candidate-bound evidence. They were not silently discarded.
 
 Production state is now `USER_REVIEW`; the user gate remains PENDING until Angel explicitly accepts this iteration.
+
+## Iteration 03 — continuity plus audio polish
+
+Iteration 03 is the candidate currently awaiting Angel's review.
+
+Candidate SHA-256:
+
+`653ee90a00f49393edac5938770befe244a4cfe3fbb33592753287b7513e9912`
+
+This refinement continued after iteration 02 rather than treating a green gate as the stopping condition.
+
+Changes:
+
+- expanded continuity finishing to the remaining cut-level discontinuity targets;
+- lengthened the two highest-contrast paper↔dark bridges;
+- separated actual cut discontinuity from broader intentional renderer-style shifts in QA;
+- made motion-cadence analysis transition-aware so authored fades are excluded from in-shot stutter detection;
+- added gentle narration-aware ducking: the score/ambience bed is reduced by about 3 dB during active speech while inactive passages are essentially unchanged;
+- kept the final master at about -17 LUFS / -2 dBTP and preserved the full 150-second timeline;
+- generated exact polished diagnostic stems so narration-vs-bed QA measures the mix actually used by the master;
+- upgraded repair comparison to generate sequential BEFORE AUDIO / AFTER AUDIO evidence when a repair changes sound.
+
+Final iteration-03 evidence:
+
+- strict decode: PASS
+- technical QA: PASS
+- freeze spans: 0
+- weak-motion shots: 0
+- interior motion-cadence warnings: 0
+- immediate visual cut-discontinuity warnings: 0
+- camera-family repeats: 0
+- audio-transition warnings: 0
+- narration-mix/pacing warnings: 0
+- authored-effect A/V sync offset warnings: 0
+- layout violations: 0
+- polished voice-to-bed margin: roughly 12–21 dB across the film
+- candidate-bound evidence files verified: 131
+- 11/11 schema-v2 assistant criteria: PASS
+
+Four context-level style shifts remain visible because they are story-semantic changes between physical reality, the illustrated inner civilization, and procedural/cosmic analysis. The transition strips show authored bridge frames and immediate-cut analysis is clean, so the single `visual_style_shift_review` warning is explicitly dispositioned as `accepted_intentional`.
+
+The user gate remains **PENDING** until Angel explicitly accepts iteration 03.

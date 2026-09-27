@@ -50,7 +50,7 @@ Do not use still frames as a substitute for this pass.
 
 ### 3. Motion-quality pass
 
-The v2 creative-QA system analyzes frame-to-frame motion inside each shot, excluding the cut/fade shoulders.
+The v2 creative-QA system analyzes frame-to-frame motion inside each shot, excluding cut/fade shoulders. When a production provides `transition-finish.json`, the exclusion window uses the actual authored transition duration plus guard time rather than a generic fixed pad.
 
 Signals include:
 
@@ -111,6 +111,8 @@ When stems are available, narration is also checked against score + ambience + e
 
 The full candidate also gets a spectrogram for manual tonal review.
 
+When the final mix uses ducking, compression, or other bus processing, QA should consume diagnostic stems emitted by that finishing stage rather than the pre-processing source stems. Otherwise the reported voice-to-bed margin does not describe the audio the viewer actually hears.
+
 This is intentionally broader than a single LUFS number. Two mixes can have the same integrated loudness while one still feels inconsistent.
 
 ### Objective effect-onset verification
@@ -156,6 +158,8 @@ The comparison:
 - identifies which authored shots materially changed;
 - measures visual and audio delta per shot;
 - produces side-by-side BEFORE / AFTER clips for the strongest changed shots;
+- samples densely enough to detect short edge-only edits such as transition finishing;
+- when sound changed, produces sequential BEFORE AUDIO / AFTER AUDIO clips so the mix can be reviewed without guessing from numbers;
 - binds the comparison to the hashes of both candidates.
 
 This catches regressions introduced by a repair and helps a new model understand exactly what changed.

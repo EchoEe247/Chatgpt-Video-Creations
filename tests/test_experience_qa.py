@@ -142,3 +142,19 @@ def test_effect_sync_signal_detects_authored_onset(tmp_path):
     assert out["available"] is True
     assert out["warnings"]==[]
     assert abs(out["events"][0]["onset_offset_ms"])<5
+
+def test_motion_smoothness_excludes_authored_transition_shoulders():
+    # The spike sits inside a declared 0.55 s outgoing transition and should
+    # not be misclassified as in-shot animation stutter.
+    signal={"series":[]}
+    for i in range(1,33):
+        t=i*.25
+        v=.002
+        if abs(t-7.5)<1e-9:
+            v=.08
+        signal["series"].append({"time_seconds":t,"mean_delta":v,"changed_ratio":.05})
+    plan={"shots":[{"id":"a","start_seconds":0,"end_seconds":8}]}
+    finish={"transitions":[{"from":"a","to":"b","duration_seconds":.55}]}
+    out=motion_smoothness(signal,plan,transition_finish=finish)
+    assert out["warning_shots"]==[]
+    assert out["shots"][0]["excluded_end_seconds"]>=.67

@@ -181,11 +181,16 @@ def verify_shots():
 
 def build_audio():
     master=A/"master.wav"
-    if valid(master,150,.10):
-        return
-    run([sys.executable,str(A/"build_audio.py")])
+    if not valid(master,150,.10):
+        run([sys.executable,str(A/"build_audio.py")])
     if not valid(master,150,.10):
         raise RuntimeError("invalid audio master")
+    polished=A/"master-polished.wav"
+    if not valid(polished,150,.10):
+        run([sys.executable,str(A/"polish_audio.py")])
+    if not valid(polished,150,.10):
+        raise RuntimeError("invalid polished audio master")
+    return polished
 
 def finish_transitions():
     run([sys.executable,str(P/"finish_transitions.py")])
@@ -204,7 +209,8 @@ def assemble():
     if not valid(silent,150,.12):
         raise RuntimeError(f"silent master duration invalid: {probe_duration(silent)}")
     master=F/"second-earth.mp4"
-    run(["ffmpeg","-y","-v","error","-i",str(silent),"-i",str(A/"master.wav"),
+    audio_master=A/"master-polished.wav"
+    run(["ffmpeg","-y","-v","error","-i",str(silent),"-i",str(audio_master),
          "-map","0:v:0","-map","1:a:0","-c:v","copy","-c:a","aac","-b:a","192k",
          "-t","150","-movflags","+faststart",str(master)])
     if not valid(master,150,.12):

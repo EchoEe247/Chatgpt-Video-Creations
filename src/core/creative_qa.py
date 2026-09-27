@@ -174,7 +174,11 @@ def build_creative_qa(media_path: str|Path, execution_path: str|Path, output_dir
         candidate=execution_path.parent.parent/"audio"
         stems_dir=candidate if candidate.is_dir() else None
 
-    smoothness=motion_smoothness(motion,execution)
+    transition_finish=None
+    transition_path=execution_path.parent/"transition-finish.json"
+    if transition_path.is_file():
+        transition_finish=json.loads(transition_path.read_text())
+    smoothness=motion_smoothness(motion,execution,transition_finish=transition_finish)
     visual_flow=visual_continuity(media,execution)
     audio_flow=audio_continuity(media,execution,stems_dir=stems_dir)
     effect_sync=effect_sync_signal(timeline_path,stems_dir)

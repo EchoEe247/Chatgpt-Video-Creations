@@ -1,14 +1,14 @@
 {
   "artifacts": {
-    "artifact_receipt": "iterations/iteration-02/qa/review-pack/artifact-receipt.json",
+    "artifact_receipt": "iterations/iteration-03/qa/review-pack/artifact-receipt.json",
     "baseline_comparison": null,
     "baseline_master": null,
-    "candidate_master": "iterations/iteration-02/candidate.mp4",
-    "candidate_sha256": "025c7fcf2ec101a6c892ed8d821fb7b6683822b7b61bb499724aa318e5a91bbd",
-    "creative_qa": "iterations/iteration-02/qa/creative-qa/creative-qa.json",
-    "creative_review": "iterations/iteration-02/qa/creative-qa/assistant-review.json",
-    "iteration_dir": "iterations/iteration-02",
-    "review_pack": "iterations/iteration-02/qa/review-pack/review-pack.json"
+    "candidate_master": "iterations/iteration-03/candidate.mp4",
+    "candidate_sha256": "653ee90a00f49393edac5938770befe244a4cfe3fbb33592753287b7513e9912",
+    "creative_qa": "iterations/iteration-03/qa/creative-qa/creative-qa.json",
+    "creative_review": "iterations/iteration-03/qa/creative-qa/assistant-review.json",
+    "iteration_dir": "iterations/iteration-03",
+    "review_pack": "iterations/iteration-03/qa/review-pack/review-pack.json"
   },
   "delivery": {
     "audio_codec": "aac",
@@ -34,13 +34,13 @@
   },
   "gates": {
     "assistant": {
-      "candidate_sha256": "025c7fcf2ec101a6c892ed8d821fb7b6683822b7b61bb499724aa318e5a91bbd",
-      "notes": "Iteration 02 passes schema-v2 experience review after user-requested continuity upgrade. Immediate cut-discontinuity warnings are now zero; remaining renderer-style shifts are explicitly bridged and dispositioned as intentional. Technical QA PASS; audio boundary/mix/A-V sync warnings zero; 11/11 assistant criteria PASS with 131 candidate-bound evidence artifacts.",
+      "candidate_sha256": "653ee90a00f49393edac5938770befe244a4cfe3fbb33592753287b7513e9912",
+      "notes": "Iteration 03 passes schema-v2 experience review after continuity finishing and audio polish. Immediate cut discontinuities: 0; interior motion-cadence warnings: 0; freeze/weak-motion/camera-repeat/layout/audio-boundary/narration-mix/A-V sync warnings: 0. Four context style shifts remain intentionally between world languages and are explicitly evidence-dispositioned. Final narration-aware mix keeps roughly 12-21 dB voice margin and about 3 dB bed ducking during speech.",
       "status": "PASS"
     },
     "technical": {
-      "candidate_sha256": "025c7fcf2ec101a6c892ed8d821fb7b6683822b7b61bb499724aa318e5a91bbd",
-      "evidence": "iterations/iteration-02/qa/technical-qa.json",
+      "candidate_sha256": "653ee90a00f49393edac5938770befe244a4cfe3fbb33592753287b7513e9912",
+      "evidence": "iterations/iteration-03/qa/technical-qa.json",
       "status": "PASS"
     },
     "user": {
@@ -135,6 +135,49 @@
       },
       "repair_cycle": 1,
       "status": "REFINEMENT_REQUIRED"
+    },
+    {
+      "artifacts": {
+        "artifact_receipt": "iterations/iteration-02/qa/review-pack/artifact-receipt.json",
+        "baseline_comparison": null,
+        "baseline_master": null,
+        "candidate_master": "iterations/iteration-02/candidate.mp4",
+        "candidate_sha256": "025c7fcf2ec101a6c892ed8d821fb7b6683822b7b61bb499724aa318e5a91bbd",
+        "creative_qa": "iterations/iteration-02/qa/creative-qa/creative-qa.json",
+        "creative_review": "iterations/iteration-02/qa/creative-qa/assistant-review.json",
+        "iteration_dir": "iterations/iteration-02",
+        "review_pack": "iterations/iteration-02/qa/review-pack/review-pack.json"
+      },
+      "at": "2026-09-27T11:48:59+00:00",
+      "gates": {
+        "assistant": {
+          "candidate_sha256": "025c7fcf2ec101a6c892ed8d821fb7b6683822b7b61bb499724aa318e5a91bbd",
+          "notes": "Iteration 02 passes schema-v2 experience review after user-requested continuity upgrade. Immediate cut-discontinuity warnings are now zero; remaining renderer-style shifts are explicitly bridged and dispositioned as intentional. Technical QA PASS; audio boundary/mix/A-V sync warnings zero; 11/11 assistant criteria PASS with 131 candidate-bound evidence artifacts.",
+          "status": "PASS"
+        },
+        "technical": {
+          "candidate_sha256": "025c7fcf2ec101a6c892ed8d821fb7b6683822b7b61bb499724aa318e5a91bbd",
+          "evidence": "iterations/iteration-02/qa/technical-qa.json",
+          "status": "PASS"
+        },
+        "user": {
+          "candidate_sha256": null,
+          "notes": null,
+          "status": "PENDING"
+        }
+      },
+      "render_job": {
+        "command": null,
+        "completed_at": null,
+        "cwd": null,
+        "exit_code": null,
+        "job_id": null,
+        "output": null,
+        "started_at": null,
+        "state": "NONE"
+      },
+      "repair_cycle": 2,
+      "status": "USER_REVIEW"
     }
   ],
   "lane": "animation",
@@ -168,8 +211,8 @@
     "escalation_reason": null,
     "last_action": {
       "action": "assistant_review_passed",
-      "at": "2026-09-27T11:40:56+00:00",
-      "candidate_sha256": "025c7fcf2ec101a6c892ed8d821fb7b6683822b7b61bb499724aa318e5a91bbd"
+      "at": "2026-09-27T12:03:35+00:00",
+      "candidate_sha256": "653ee90a00f49393edac5938770befe244a4cfe3fbb33592753287b7513e9912"
     },
     "max_autonomous_repair_cycles": 4,
     "mode": "autonomous_until_final_review",
@@ -183,7 +226,7 @@
       "started_at": null,
       "state": "NONE"
     },
-    "repair_cycle": 2,
+    "repair_cycle": 3,
     "user_review_policy": "final_candidate_only"
   }
 }
