@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "events": [
+    {
+      "id": "scene-01.narration-start",
+      "at_seconds": 1.15,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "scene-01 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "narration_entry"
+    },
+    {
+      "id": "scene-02.narration-start",
+      "at_seconds": 16.15,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "scene-02 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "narration_entry"
+    },
+    {
+      "id": "scene-03.narration-start",
+      "at_seconds": 31.15,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "scene-03 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "narration_entry"
+    },
+    {
+      "id": "scene-04.narration-start",
+      "at_seconds": 46.15,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "scene-04 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "narration_entry"
+    },
+    {
+      "id": "scene-05.narration-start",
+      "at_seconds": 61.15,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "scene-05 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "narration_entry"
+    },
+    {
+      "id": "scene-06.narration-start",
+      "at_seconds": 76.15,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "scene-06 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "narration_entry"
+    },
+    {
+      "id": "scene-07.narration-start",
+      "at_seconds": 91.15,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "scene-07 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "narration_entry"
+    },
+    {
+      "id": "scene-08.narration-start",
+      "at_seconds": 106.15,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "scene-08 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "narration_entry"
+    },
+    {
+      "id": "scene-09.narration-start",
+      "at_seconds": 121.15,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "scene-09 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "narration_entry"
+    },
+    {
+      "id": "scene-10.narration-start",
+      "at_seconds": 136.15,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "scene-10 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "narration_entry"
+    },
+    {
+      "id": "scene-11.narration-start",
+      "at_seconds": 151.15,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "scene-11 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "narration_entry"
+    },
+    {
+      "id": "scene-12.narration-start",
+      "at_seconds": 166.15,
+      "duration_seconds": 0,
+      "kind": "narration_start",
+      "label": "scene-12 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "stem": "narration",
+      "sync_role": "narration_entry"
+    }
+  ]
+}

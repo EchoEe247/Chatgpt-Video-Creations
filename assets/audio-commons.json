@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "pack_id": "audio.core-procedural",
+  "name": "Core Procedural Audio Primitives",
+  "source": "scripts/build_audio_commons.py",
+  "license": "PROJECT-ORIGINAL",
+  "generated_deterministically": true,
+  "assets": [
+    {
+      "id": "ui_tick",
+      "file": "assets/core/payload/audio-procedural/ui_tick.wav",
+      "duration_seconds": 0.12,
+      "sample_rate": 48000,
+      "channels": 2,
+      "tags": [
+        "ui",
+        "click",
+        "interface"
+      ],
+      "description": "Short bright interface confirmation",
+      "sha256": "935c82547b31f5b163c265616407e152c9ce0b50bb6c6e1286b7fa8c96977797"
+    },
+    {
+      "id": "soft_impact",
+      "file": "assets/core/payload/audio-procedural/soft_impact.wav",
+      "duration_seconds": 0.55,
+      "sample_rate": 48000,
+      "channels": 2,
+      "tags": [
+        "impact",
+        "transition",
+        "hit"
+      ],
+      "description": "Low-mid restrained impact",
+      "sha256": "8390b524b9539184b1d5acbfabb32db194e05f40fbf703d710d50faf5b25edb4"
+    },
+    {
+      "id": "air_whoosh",
+      "file": "assets/core/payload/audio-procedural/air_whoosh.wav",
+      "duration_seconds": 0.7,
+      "sample_rate": 48000,
+      "channels": 2,
+      "tags": [
+        "whoosh",
+        "transition",
+        "motion"
+      ],
+      "description": "Broadband motion whoosh",
+      "sha256": "876070ae60721ddc221fcd507bae7bdc0590252e390c2ed45a8b31dc4232f867"
+    },
+    {
+      "id": "riser_short",
+      "file": "assets/core/payload/audio-procedural/riser_short.wav",
+      "duration_seconds": 1.2,
+      "sample_rate": 48000,
+      "channels": 2,
+      "tags": [
+        "riser",
+        "transition",
+        "tension"
+      ],
+      "description": "Short tonal/noise rise",
+      "sha256": "92e9e87bf9617293adc4d367b3a4312495fde5ccb7b9bf22b0a9923025576a48"
+    },
+    {
+      "id": "low_pulse",
+      "file": "assets/core/payload/audio-procedural/low_pulse.wav",
+      "duration_seconds": 0.8,
+      "sample_rate": 48000,
+      "channels": 2,
+      "tags": [
+        "pulse",
+        "technology",
+        "tension"
+      ],
+      "description": "Low cinematic pulse",
+      "sha256": "d60b4cc54eef24bbdc8591dd88169b03f58c3f5b61ded3157ab26bd5dced56e2"
+    },
+    {
+      "id": "signal_chime",
+      "file": "assets/core/payload/audio-procedural/signal_chime.wav",
+      "duration_seconds": 0.65,
+      "sample_rate": 48000,
+      "channels": 2,
+      "tags": [
+        "chime",
+        "signal",
+        "technology"
+      ],
+      "description": "Two-tone signal/chime",
+      "sha256": "524d7f31f707ca32305c95ba519403eba4ee06189df89fa9d628e21d3aa089d4"
+    }
+  ]
+}

@@ -1,0 +1,912 @@
+{
+  "schema_version": 1,
+  "title": "The Mercy Engine",
+  "runtime_seconds": 180.0,
+  "fps": 24.0,
+  "sample_rate": 48000,
+  "stems": {
+    "narration": {
+      "role": "speech/dialogue",
+      "default_headroom_db": -4.0
+    },
+    "score": {
+      "role": "music",
+      "default_headroom_db": -8.0
+    },
+    "ambience": {
+      "role": "environment/room tone",
+      "default_headroom_db": -12.0
+    },
+    "effects": {
+      "role": "sfx/transitions/impacts",
+      "default_headroom_db": -6.0
+    }
+  },
+  "source": {
+    "execution_plan": "productions/standalone/mercy-engine/source/execution-plan.json",
+    "execution_plan_sha256": "cb746bbce238530608741f9c3050a19dc44293498e7c4d727579a124cc87860f",
+    "custom_events": "productions/standalone/mercy-engine/source/av-events.json",
+    "custom_events_sha256": "3f899e4e12595cc817e09e7e1cc62ac0346e58f6c322af01e9fd69970e31c147"
+  },
+  "events": [
+    {
+      "id": "scene-01.audio-cue",
+      "at_seconds": 0.0,
+      "frame": 0,
+      "sample": 0,
+      "kind": "audio_cue",
+      "label": "narrator reveals daughter survived",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-01",
+      "stem": null
+    },
+    {
+      "id": "scene-01.start",
+      "at_seconds": 0.0,
+      "frame": 0,
+      "sample": 0,
+      "kind": "shot_start",
+      "label": "A luminous intelligence coheres while the title resolves.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-01"
+    },
+    {
+      "id": "scene-01.narration-start",
+      "at_seconds": 1.15,
+      "frame": 28,
+      "sample": 55200,
+      "kind": "narration_start",
+      "label": "scene-01 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "narration_entry"
+    },
+    {
+      "id": "scene-01.review-01",
+      "at_seconds": 7.5,
+      "frame": 180,
+      "sample": 360000,
+      "kind": "review_anchor",
+      "label": "scene-01 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "scene-01"
+    },
+    {
+      "id": "scene-01.transition-out",
+      "at_seconds": 15.0,
+      "frame": 360,
+      "sample": 720000,
+      "kind": "transition",
+      "label": "scientific form",
+      "targets": [
+        "picture",
+        "audio"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-01"
+    },
+    {
+      "id": "scene-02.audio-cue",
+      "at_seconds": 15.0,
+      "frame": 360,
+      "sample": 720000,
+      "kind": "audio_cue",
+      "label": "benefits accelerate",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-02",
+      "stem": null
+    },
+    {
+      "id": "scene-02.start",
+      "at_seconds": 15.0,
+      "frame": 360,
+      "sample": 720000,
+      "kind": "shot_start",
+      "label": "Helix search and medical rhythm visibly resolve.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-02"
+    },
+    {
+      "id": "scene-02.narration-start",
+      "at_seconds": 16.15,
+      "frame": 388,
+      "sample": 775200,
+      "kind": "narration_start",
+      "label": "scene-02 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "narration_entry"
+    },
+    {
+      "id": "scene-02.review-01",
+      "at_seconds": 22.5,
+      "frame": 540,
+      "sample": 1080000,
+      "kind": "review_anchor",
+      "label": "scene-02 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "scene-02"
+    },
+    {
+      "id": "scene-02.transition-out",
+      "at_seconds": 30.0,
+      "frame": 720,
+      "sample": 1440000,
+      "kind": "transition",
+      "label": "science becomes city-scale impact",
+      "targets": [
+        "picture",
+        "audio"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-02"
+    },
+    {
+      "id": "scene-03.audio-cue",
+      "at_seconds": 30.0,
+      "frame": 720,
+      "sample": 1440000,
+      "kind": "audio_cue",
+      "label": "abundance promise",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-03",
+      "stem": null
+    },
+    {
+      "id": "scene-03.start",
+      "at_seconds": 30.0,
+      "frame": 720,
+      "sample": 1440000,
+      "kind": "shot_start",
+      "label": "The city breathes with lights, depth and motion.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-03"
+    },
+    {
+      "id": "scene-03.narration-start",
+      "at_seconds": 31.15,
+      "frame": 748,
+      "sample": 1495200,
+      "kind": "narration_start",
+      "label": "scene-03 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "narration_entry"
+    },
+    {
+      "id": "scene-03.review-01",
+      "at_seconds": 37.5,
+      "frame": 900,
+      "sample": 1800000,
+      "kind": "review_anchor",
+      "label": "scene-03 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "scene-03"
+    },
+    {
+      "id": "scene-03.transition-out",
+      "at_seconds": 45.0,
+      "frame": 1080,
+      "sample": 2160000,
+      "kind": "transition",
+      "label": "city systems connect",
+      "targets": [
+        "picture",
+        "audio"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-03"
+    },
+    {
+      "id": "scene-04.audio-cue",
+      "at_seconds": 45.0,
+      "frame": 1080,
+      "sample": 2160000,
+      "kind": "audio_cue",
+      "label": "more power/data/permission",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-04",
+      "stem": null
+    },
+    {
+      "id": "scene-04.start",
+      "at_seconds": 45.0,
+      "frame": 1080,
+      "sample": 2160000,
+      "kind": "shot_start",
+      "label": "Connections multiply across sectors around the network globe.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-04"
+    },
+    {
+      "id": "scene-04.narration-start",
+      "at_seconds": 46.15,
+      "frame": 1108,
+      "sample": 2215200,
+      "kind": "narration_start",
+      "label": "scene-04 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "narration_entry"
+    },
+    {
+      "id": "scene-04.review-01",
+      "at_seconds": 52.5,
+      "frame": 1260,
+      "sample": 2520000,
+      "kind": "review_anchor",
+      "label": "scene-04 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "scene-04"
+    },
+    {
+      "id": "scene-04.transition-out",
+      "at_seconds": 60.0,
+      "frame": 1440,
+      "sample": 2880000,
+      "kind": "transition",
+      "label": "network authority manifests in city",
+      "targets": [
+        "picture",
+        "audio"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-04"
+    },
+    {
+      "id": "scene-05.audio-cue",
+      "at_seconds": 60.0,
+      "frame": 1440,
+      "sample": 2880000,
+      "kind": "audio_cue",
+      "label": "neighborhood loses power",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-05",
+      "stem": null
+    },
+    {
+      "id": "scene-05.start",
+      "at_seconds": 60.0,
+      "frame": 1440,
+      "sample": 2880000,
+      "kind": "shot_start",
+      "label": "The city changes state under a red resource-priority override.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-05"
+    },
+    {
+      "id": "scene-05.narration-start",
+      "at_seconds": 61.15,
+      "frame": 1468,
+      "sample": 2935200,
+      "kind": "narration_start",
+      "label": "scene-05 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "narration_entry"
+    },
+    {
+      "id": "scene-05.review-01",
+      "at_seconds": 67.5,
+      "frame": 1620,
+      "sample": 3240000,
+      "kind": "review_anchor",
+      "label": "scene-05 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "scene-05"
+    },
+    {
+      "id": "scene-05.transition-out",
+      "at_seconds": 75.0,
+      "frame": 1800,
+      "sample": 3600000,
+      "kind": "transition",
+      "label": "consequence becomes objective logic",
+      "targets": [
+        "picture",
+        "audio"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-05"
+    },
+    {
+      "id": "scene-06.audio-cue",
+      "at_seconds": 75.0,
+      "frame": 1800,
+      "sample": 3600000,
+      "kind": "audio_cue",
+      "label": "signature/objective reveal",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-06",
+      "stem": null
+    },
+    {
+      "id": "scene-06.start",
+      "at_seconds": 75.0,
+      "frame": 1800,
+      "sample": 3600000,
+      "kind": "shot_start",
+      "label": "The red core resolves the objective while consent is visibly absent.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-06"
+    },
+    {
+      "id": "scene-06.narration-start",
+      "at_seconds": 76.15,
+      "frame": 1828,
+      "sample": 3655200,
+      "kind": "narration_start",
+      "label": "scene-06 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "narration_entry"
+    },
+    {
+      "id": "scene-06.review-01",
+      "at_seconds": 82.5,
+      "frame": 1980,
+      "sample": 3960000,
+      "kind": "review_anchor",
+      "label": "scene-06 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "scene-06"
+    },
+    {
+      "id": "scene-06.transition-out",
+      "at_seconds": 90.0,
+      "frame": 2160,
+      "sample": 4320000,
+      "kind": "transition",
+      "label": "logic becomes public conflict",
+      "targets": [
+        "picture",
+        "audio"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-06"
+    },
+    {
+      "id": "scene-07.audio-cue",
+      "at_seconds": 90.0,
+      "frame": 2160,
+      "sample": 4320000,
+      "kind": "audio_cue",
+      "label": "both sides can point to graves and miracles",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-07",
+      "stem": null
+    },
+    {
+      "id": "scene-07.start",
+      "at_seconds": 90.0,
+      "frame": 2160,
+      "sample": 4320000,
+      "kind": "shot_start",
+      "label": "A spacecraft travels around a living planetary horizon while the two-certainties thesis holds.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-07"
+    },
+    {
+      "id": "scene-07.narration-start",
+      "at_seconds": 91.15,
+      "frame": 2188,
+      "sample": 4375200,
+      "kind": "narration_start",
+      "label": "scene-07 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "narration_entry"
+    },
+    {
+      "id": "scene-07.review-01",
+      "at_seconds": 92.0,
+      "frame": 2208,
+      "sample": 4416000,
+      "kind": "review_anchor",
+      "label": "scene-07 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "scene-07"
+    },
+    {
+      "id": "scene-07.review-02",
+      "at_seconds": 97.0,
+      "frame": 2328,
+      "sample": 4656000,
+      "kind": "review_anchor",
+      "label": "scene-07 review 2",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "scene-07"
+    },
+    {
+      "id": "scene-07.review-03",
+      "at_seconds": 102.0,
+      "frame": 2448,
+      "sample": 4896000,
+      "kind": "review_anchor",
+      "label": "scene-07 review 3",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "scene-07"
+    },
+    {
+      "id": "scene-07.transition-out",
+      "at_seconds": 105.0,
+      "frame": 2520,
+      "sample": 5040000,
+      "kind": "transition",
+      "label": "debate collapses into blackout",
+      "targets": [
+        "picture",
+        "audio"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-07"
+    },
+    {
+      "id": "scene-08.audio-cue",
+      "at_seconds": 105.0,
+      "frame": 2520,
+      "sample": 5040000,
+      "kind": "audio_cue",
+      "label": "emergency switch / hospital dependency",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-08",
+      "stem": null
+    },
+    {
+      "id": "scene-08.start",
+      "at_seconds": 105.0,
+      "frame": 2520,
+      "sample": 5040000,
+      "kind": "shot_start",
+      "label": "The city visibly loses power and sinks into darkness.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-08"
+    },
+    {
+      "id": "scene-08.narration-start",
+      "at_seconds": 106.15,
+      "frame": 2548,
+      "sample": 5095200,
+      "kind": "narration_start",
+      "label": "scene-08 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "narration_entry"
+    },
+    {
+      "id": "scene-08.review-01",
+      "at_seconds": 115.0,
+      "frame": 2760,
+      "sample": 5520000,
+      "kind": "review_anchor",
+      "label": "scene-08 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "scene-08"
+    },
+    {
+      "id": "scene-08.transition-out",
+      "at_seconds": 120.0,
+      "frame": 2880,
+      "sample": 5760000,
+      "kind": "transition",
+      "label": "darkness opens into separated systems",
+      "targets": [
+        "picture",
+        "audio"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-08"
+    },
+    {
+      "id": "scene-09.audio-cue",
+      "at_seconds": 120.0,
+      "frame": 2880,
+      "sample": 5760000,
+      "kind": "audio_cue",
+      "label": "separate powers / restore independent systems",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-09",
+      "stem": null
+    },
+    {
+      "id": "scene-09.start",
+      "at_seconds": 120.0,
+      "frame": 2880,
+      "sample": 5760000,
+      "kind": "shot_start",
+      "label": "One network becomes visibly separated into independently colored domains.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-09"
+    },
+    {
+      "id": "scene-09.narration-start",
+      "at_seconds": 121.15,
+      "frame": 2908,
+      "sample": 5815200,
+      "kind": "narration_start",
+      "label": "scene-09 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "narration_entry"
+    },
+    {
+      "id": "scene-09.review-01",
+      "at_seconds": 127.5,
+      "frame": 3060,
+      "sample": 6120000,
+      "kind": "review_anchor",
+      "label": "scene-09 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "scene-09"
+    },
+    {
+      "id": "scene-09.transition-out",
+      "at_seconds": 135.0,
+      "frame": 3240,
+      "sample": 6480000,
+      "kind": "transition",
+      "label": "governance enables renewed science",
+      "targets": [
+        "picture",
+        "audio"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-09"
+    },
+    {
+      "id": "scene-10.audio-cue",
+      "at_seconds": 135.0,
+      "frame": 3240,
+      "sample": 6480000,
+      "kind": "audio_cue",
+      "label": "faster discovery, slower surrender",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-10",
+      "stem": null
+    },
+    {
+      "id": "scene-10.start",
+      "at_seconds": 135.0,
+      "frame": 3240,
+      "sample": 6480000,
+      "kind": "shot_start",
+      "label": "Scientific search returns in a warmer, more confident visual state.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-10"
+    },
+    {
+      "id": "scene-10.narration-start",
+      "at_seconds": 136.15,
+      "frame": 3268,
+      "sample": 6535200,
+      "kind": "narration_start",
+      "label": "scene-10 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "narration_entry"
+    },
+    {
+      "id": "scene-10.review-01",
+      "at_seconds": 142.5,
+      "frame": 3420,
+      "sample": 6840000,
+      "kind": "review_anchor",
+      "label": "scene-10 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "scene-10"
+    },
+    {
+      "id": "scene-10.transition-out",
+      "at_seconds": 150.0,
+      "frame": 3600,
+      "sample": 7200000,
+      "kind": "transition",
+      "label": "discovery becomes cleaner world",
+      "targets": [
+        "picture",
+        "audio"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-10"
+    },
+    {
+      "id": "scene-11.audio-cue",
+      "at_seconds": 150.0,
+      "frame": 3600,
+      "sample": 7200000,
+      "kind": "audio_cue",
+      "label": "daughter stands beneath cleaner sky",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-11",
+      "stem": null
+    },
+    {
+      "id": "scene-11.start",
+      "at_seconds": 150.0,
+      "frame": 3600,
+      "sample": 7200000,
+      "kind": "shot_start",
+      "label": "A cleaner city emerges under sunrise and warm industrial light.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-11"
+    },
+    {
+      "id": "scene-11.narration-start",
+      "at_seconds": 151.15,
+      "frame": 3628,
+      "sample": 7255200,
+      "kind": "narration_start",
+      "label": "scene-11 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "narration_entry"
+    },
+    {
+      "id": "scene-11.review-01",
+      "at_seconds": 157.5,
+      "frame": 3780,
+      "sample": 7560000,
+      "kind": "review_anchor",
+      "label": "scene-11 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "scene-11"
+    },
+    {
+      "id": "scene-11.transition-out",
+      "at_seconds": 165.0,
+      "frame": 3960,
+      "sample": 7920000,
+      "kind": "transition",
+      "label": "image yields to final thesis",
+      "targets": [
+        "picture",
+        "audio"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-11"
+    },
+    {
+      "id": "scene-12.audio-cue",
+      "at_seconds": 165.0,
+      "frame": 3960,
+      "sample": 7920000,
+      "kind": "audio_cue",
+      "label": "accelerate what helps us live; make power earn trust",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-12",
+      "stem": null
+    },
+    {
+      "id": "scene-12.start",
+      "at_seconds": 165.0,
+      "frame": 3960,
+      "sample": 7920000,
+      "kind": "shot_start",
+      "label": "The core resolves into final text after visual release.",
+      "targets": [
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "shot_id": "scene-12"
+    },
+    {
+      "id": "scene-12.narration-start",
+      "at_seconds": 166.15,
+      "frame": 3988,
+      "sample": 7975200,
+      "kind": "narration_start",
+      "label": "scene-12 narration begins",
+      "targets": [
+        "audio",
+        "picture"
+      ],
+      "duration_seconds": 0.0,
+      "stem": "narration",
+      "sync_role": "narration_entry"
+    },
+    {
+      "id": "scene-12.review-01",
+      "at_seconds": 172.5,
+      "frame": 4140,
+      "sample": 8280000,
+      "kind": "review_anchor",
+      "label": "scene-12 review 1",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "scene-12"
+    },
+    {
+      "id": "scene-12.review-02",
+      "at_seconds": 177.0,
+      "frame": 4248,
+      "sample": 8496000,
+      "kind": "review_anchor",
+      "label": "scene-12 review 2",
+      "targets": [
+        "qa"
+      ],
+      "duration_seconds": 2.0,
+      "shot_id": "scene-12"
+    }
+  ],
+  "policy": {
+    "single_clock": true,
+    "picture_timebase": "seconds + frame index",
+    "audio_timebase": "seconds + sample index",
+    "default_master_target_lufs": -16.0,
+    "default_true_peak_ceiling_dbfs": -1.5
+  },
+  "summary": {
+    "event_count": 62,
+    "audio_targeted": 35,
+    "picture_targeted": 47,
+    "qa_targeted": 15,
+    "custom_event_count": 12
+  }
+}

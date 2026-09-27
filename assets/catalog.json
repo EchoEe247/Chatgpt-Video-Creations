@@ -309,6 +309,99 @@
         "goal-pack"
       ],
       "notes": "Index/on-demand only. Never vendor or redistribute raw bundle payloads; preserve source terms."
+    },
+    {
+      "asset_id": "audio.core-procedural",
+      "name": "Core Procedural Audio Primitives",
+      "kind": "audio_pack",
+      "source": {
+        "url": "https://github.com/EchoEe247/Chatgpt-Video-Creations/blob/main/scripts/build_audio_commons.py",
+        "creator": "Chatgpt-Video-Creations project",
+        "provider": "local"
+      },
+      "license": {
+        "id": "PROJECT-ORIGINAL",
+        "name": "Project-original generated audio",
+        "commercial_use": true,
+        "modification_allowed": true,
+        "attribution_required": false,
+        "raw_redistribution": "allowed",
+        "verified_on": "2026-09-27"
+      },
+      "distribution": {
+        "mode": "core_candidate",
+        "expected_size_mb": 2,
+        "local_hint": "assets/core/payload/audio-procedural"
+      },
+      "compatibility": {
+        "renderers": [
+          "ffmpeg",
+          "canvas",
+          "python",
+          "blender",
+          "threejs"
+        ],
+        "platforms": [
+          "pixel",
+          "desktop"
+        ]
+      },
+      "tags": [
+        "audio",
+        "sfx",
+        "ui",
+        "impact",
+        "whoosh",
+        "riser",
+        "pulse",
+        "chime",
+        "procedural",
+        "core"
+      ],
+      "notes": "Tiny deterministic fallback pack generated locally. Prefer fitting free licensed real-world assets for production-specific needs; use these primitives when they are sufficient."
+    },
+    {
+      "asset_id": "provider.freesound-cc0",
+      "name": "Freesound CC0-only search source",
+      "kind": "provider",
+      "source": {
+        "url": "https://freesound.org/",
+        "creator": "Freesound contributors",
+        "provider": "Freesound"
+      },
+      "license": {
+        "id": "MIXED-FILTER-CC0",
+        "name": "Per-file licenses; Core/automatic acquisition must filter to CC0",
+        "commercial_use": true,
+        "modification_allowed": true,
+        "attribution_required": false,
+        "raw_redistribution": "unknown",
+        "verified_on": "2026-09-27"
+      },
+      "distribution": {
+        "mode": "catalog_only",
+        "expected_size_mb": null,
+        "local_hint": null
+      },
+      "compatibility": {
+        "renderers": [
+          "ffmpeg"
+        ],
+        "platforms": [
+          "pixel",
+          "desktop"
+        ]
+      },
+      "tags": [
+        "audio",
+        "sfx",
+        "foley",
+        "ambience",
+        "cc0-filter",
+        "provider",
+        "goal-pack"
+      ],
+      "notes": "Never assume site-wide CC0. Accept only per-file assets whose license was verified for the production; default automated/Core path is CC0-only."
     }
   ]
 }

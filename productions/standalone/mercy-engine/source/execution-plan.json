@@ -5,7 +5,7 @@
     "director_brief": "productions/standalone/mercy-engine/source/director-brief.json",
     "director_sha256": "6949d9182ec8db5f45f657d60c563f866ec4c59ed850199cea55cb2f043b05bd",
     "asset_catalog": "assets/catalog.json",
-    "asset_catalog_sha256": "72f4554e07a77efacff56d6d877369275df482a6745963e6929cccf4b1eb98a2"
+    "asset_catalog_sha256": "dd27a54a24835e596327bc99c66abd3341598dd4db99133495502e70b961e904"
   },
   "execution_policy": {
     "owner_mode": "single_agent_default",

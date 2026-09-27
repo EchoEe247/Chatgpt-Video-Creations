@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "events": [
+    {
+      "id": "example-impact",
+      "at_seconds": 0,
+      "duration_seconds": 0.55,
+      "kind": "sfx",
+      "label": "Example synchronized picture + sound impact",
+      "targets": ["picture", "audio"],
+      "stem": "effects",
+      "asset_id": "audio.core-procedural:soft_impact",
+      "gain_db": -6
+    }
+  ]
+}

@@ -9,3 +9,12 @@ This directory is the durable metadata/control plane for reusable production ass
 - production-specific downloads belong to a goal pack or the production package with provenance.
 
 Use `python scripts/assetctl.py validate` before accepting catalog changes. Use `search`, `list`, `status`, and `scan-local` to answer what exists before downloading or rebuilding assets.
+
+## Audio commons
+
+`audio-commons.json` is the tracked manifest for the tiny deterministic procedural fallback pack. The WAV payload lives under ignored `core/payload/audio-procedural/` and can be recreated exactly with:
+
+    python scripts/audioctl.py build-commons
+    python scripts/audioctl.py commons-status
+
+Use the asset catalog before acquiring more sound. Keep large/specialized libraries goal-specific.

@@ -12,6 +12,11 @@
       "asset_id": "code.alesha-hand-drawn-canvas",
       "state": "integrated",
       "reason": "Selective MIT runtime integrated and locally validated at 1280x720/24fps with H.264/AAC output."
+    },
+    {
+      "asset_id": "audio.core-procedural",
+      "state": "integrated",
+      "reason": "Six tiny deterministic 48kHz stereo SFX primitives generated and locally verified; rebuildable from source."
     }
   ]
 }

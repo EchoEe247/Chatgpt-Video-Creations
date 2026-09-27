@@ -66,6 +66,8 @@ For serious narrative, cinematic, launch, music, or explainer work, read `docs/D
 
 After the brief is explicit, compile it with `scripts/directorctl.py` and treat the resulting `execution-plan.json` as the operational handoff. Read `docs/DIRECTOR_EXECUTION_PLAN.md`. Do not silently guess missing renderer, timing, asset provenance, or shot intent; fix the director brief and recompile.
 
+Before final shot implementation, compile a shared audiovisual timeline with `scripts/timelinectl.py` and read `docs/AUDIO_TIMELINE_WORKFLOW.md`. Important picture and sound events should reference one authoritative time/event instead of independently typed offsets. Keep narration/dialogue, score, ambience, and effects separable when practical.
+
 The goal is to keep quality in the workflow rather than in one model's hidden reasoning. Externalize story spine, visual/camera/audio/editing grammar, hero shots, shot-level visible events, continuity constraints, review points, and forbidden patterns into durable files. A stronger model may improve the plan, but its useful decisions are not considered a workflow improvement until another agent/session can execute them successfully.
 
 Reference strong public work for pacing, camera grammar, transitions, audio structure, and other transferable methods, but do not copy protected characters, dialogue, unique compositions, or other expressive elements. Treat reference analysis as decomposition into production rules.
