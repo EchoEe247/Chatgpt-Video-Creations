@@ -64,3 +64,119 @@ def test_source_binding_detects_stale_plan():
     assert validate_source_bindings(plan)==[]
     plan["source"]["director_sha256"]="0"*64
     assert any("director_sha256 stale" in e for e in validate_source_bindings(plan))
+
+def test_asset_strategy_blocks_unresolved_high_impact_source(tmp_path):
+    brief=json.loads(BRIEF.read_text())
+    brief["asset_strategy"]={
+        "principle":"source_nouns_author_verbs",
+        "requirements":[{
+            "id":"hero-character",
+            "kind":"character",
+            "need":"A controllable biped hero",
+            "decision":"source_free",
+            "assets":[],
+            "structural_requirements":["rigged biped"],
+            "license_requirements":["commercial video permitted"],
+            "adaptation_plan":"",
+            "local_authorship":["performance","camera","lighting"],
+        }],
+    }
+    p=tmp_path/"brief.json"
+    p.write_text(json.dumps(brief))
+    plan=compile_plan(p,CATALOG)
+    req=plan["asset_strategy"]["requirements"][0]
+    assert req["resolved"] is False
+    assert "no_selected_asset" in req["blockers"]
+    assert "adaptation_plan_missing" in req["blockers"]
+    assert plan["summary"]["unresolved_asset_requirement_count"]==1
+    assert plan["summary"]["execution_ready"] is False
+    assert any(w["code"]=="asset_strategy_unresolved" for w in plan["warnings"])
+
+
+def test_asset_strategy_author_local_is_intentional_and_resolved(tmp_path):
+    brief=json.loads(BRIEF.read_text())
+    brief["asset_strategy"]={
+        "principle":"source_nouns_author_verbs",
+        "requirements":[{
+            "id":"custom-route",
+            "kind":"environment",
+            "need":"A production-specific route",
+            "decision":"author_local",
+            "assets":[],
+            "structural_requirements":["continuous world-space path"],
+            "license_requirements":[],
+            "adaptation_plan":"",
+            "local_authorship":["route geometry","world layout"],
+        }],
+    }
+    p=tmp_path/"brief.json"
+    p.write_text(json.dumps(brief))
+    plan=compile_plan(p,CATALOG)
+    req=plan["asset_strategy"]["requirements"][0]
+    assert req["resolved"] is True
+    assert req["blockers"]==[]
+    assert plan["summary"]["unresolved_asset_requirement_count"]==0
+    assert plan["summary"]["execution_ready"] is True
+
+
+def test_asset_strategy_resolves_catalogued_source_with_adaptation(tmp_path):
+    brief=json.loads(BRIEF.read_text())
+    brief["asset_strategy"]={
+        "principle":"source_nouns_author_verbs",
+        "requirements":[{
+            "id":"hero-spaceship",
+            "kind":"vehicle",
+            "need":"Controllable hero spacecraft",
+            "decision":"source_free",
+            "assets":["model.quaternius-ultimate-space-spaceship"],
+            "structural_requirements":["stable transform"],
+            "license_requirements":["commercial use","modification"],
+            "adaptation_plan":"Scale, material-match and light locally.",
+            "local_authorship":["flight path","camera","lighting"],
+        }],
+    }
+    p=tmp_path/"brief.json"
+    p.write_text(json.dumps(brief))
+    plan=compile_plan(p,CATALOG)
+    req=plan["asset_strategy"]["requirements"][0]
+    assert req["resolved"] is True
+    assert req["assets"][0]["asset_id"]=="model.quaternius-ultimate-space-spaceship"
+
+
+def test_asset_strategy_rejects_unknown_decision():
+    brief=json.loads(BRIEF.read_text())
+    brief["asset_strategy"]={
+        "requirements":[{
+            "id":"hero",
+            "kind":"character",
+            "need":"hero",
+            "decision":"magic",
+            "assets":[],
+        }]
+    }
+    errors=validate_director_brief(brief)
+    assert any("decision must be one of" in e for e in errors)
+
+def test_provider_entry_does_not_satisfy_concrete_asset_requirement(tmp_path):
+    brief=json.loads(BRIEF.read_text())
+    brief["asset_strategy"]={
+        "principle":"source_nouns_author_verbs",
+        "requirements":[{
+            "id":"hero-character",
+            "kind":"character",
+            "need":"A concrete rigged biped hero",
+            "decision":"source_free",
+            "assets":["provider.mixamo"],
+            "structural_requirements":["rigged biped"],
+            "license_requirements":["commercial video permitted"],
+            "adaptation_plan":"Retarget and direct the performance locally.",
+            "local_authorship":["performance","camera","lighting"],
+        }],
+    }
+    p=tmp_path/"brief.json"
+    p.write_text(json.dumps(brief))
+    plan=compile_plan(p,CATALOG)
+    req=plan["asset_strategy"]["requirements"][0]
+    assert req["resolved"] is False
+    assert "provider_not_concrete_asset" in req["blockers"]
+    assert req["assets"][0]["kind"]=="provider"

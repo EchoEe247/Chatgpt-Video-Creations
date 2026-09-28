@@ -134,6 +134,50 @@
       "notes": "Strong candidate for small always-local general SFX/UI and lightweight visual packs."
     },
     {
+      "asset_id": "provider.mixamo",
+      "name": "Adobe Mixamo",
+      "kind": "provider",
+      "source": {
+        "url": "https://helpx.adobe.com/creative-cloud/faq/mixamo-faq.html",
+        "creator": "Adobe",
+        "provider": "Mixamo"
+      },
+      "license": {
+        "id": "MIXAMO-CURRENT-TERMS",
+        "name": "Adobe Mixamo current usage terms / FAQ",
+        "commercial_use": true,
+        "modification_allowed": true,
+        "attribution_required": false,
+        "raw_redistribution": "prohibited",
+        "verified_on": "2026-09-28"
+      },
+      "distribution": {
+        "mode": "catalog_only",
+        "expected_size_mb": null,
+        "local_hint": null
+      },
+      "compatibility": {
+        "renderers": [
+          "blender"
+        ],
+        "platforms": [
+          "pixel",
+          "desktop"
+        ]
+      },
+      "tags": [
+        "character",
+        "rig",
+        "animation",
+        "mocap",
+        "humanoid",
+        "biped",
+        "provider",
+        "restricted-raw"
+      ],
+      "notes": "Preferred character-animation source when a bipedal humanoid fits. Adobe currently states Mixamo is free with an eligible Adobe ID and characters/animations may be used royalty-free in personal, commercial and nonprofit projects, including films. Raw Mixamo character/animation files must not be redistributed as standalone assets. Enterprise/Federated IDs and China-coded accounts are excluded by the current FAQ. Reverify the current Adobe terms when acquiring assets; keep payloads local and record production-specific provenance."
+    },
+    {
       "asset_id": "code.alesha-hand-drawn-canvas",
       "name": "hand-drawn-canvas-animation",
       "kind": "code_asset",

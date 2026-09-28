@@ -198,6 +198,12 @@ Do not use an online video-generation model as a silent replacement for the repo
 
 See `docs/RESOURCE_SOURCING.md`.
 
+## Character asset and performance path
+
+For character-heavy work, read `docs/CHARACTER_PRODUCTION.md`. Prefer suitable reusable meshes/rigs/actions before scratch-building production humans. Mixamo is an approved provider candidate for bipedal humanoid characters/rigging/animation under its current verified terms, with restricted raw-file redistribution and acquisition-time terms revalidation.
+
+The local workflow still owns the character performance: retargeting, action blending, root motion, transition poses, IK/contacts, staging, cinematography, lighting, effects, rendering and QA.
+
 ## Agent-controlled Blender animation
 
 Character animation must not depend on Angel recording motion or manually operating Blender.

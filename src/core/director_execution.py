@@ -23,6 +23,8 @@ RENDERER_ALIASES = {
     "ffmpeg": ("ffmpeg", "FFmpeg compositor"),
 }
 
+ASSET_DECISIONS = {"reuse_local", "source_free", "author_local", "hybrid", "unresolved"}
+
 ADAPTERS = {
     "python": {"ready": True, "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}", "fallback_lanes": []},
     "canvas_handdrawn": {"ready": True, "entrypoint": "python {repo}/scripts/browser_shot_adapter.py {request}", "fallback_lanes": ["python"]},
@@ -63,6 +65,7 @@ def _resolve_asset(ref: Any, assets: dict[str, dict[str, Any]]) -> dict[str, Any
             "request": ref,
             "asset_id": key,
             "name": a["name"],
+            "kind": a.get("kind"),
             "resolved": True,
             "source_url": a["source"]["url"],
             "license": a["license"]["id"],
@@ -79,12 +82,61 @@ def _resolve_asset(ref: Any, assets: dict[str, dict[str, Any]]) -> dict[str, Any
     if len(matches)==1:
         a=matches[0]
         return {
-            "request": ref, "asset_id": a["asset_id"], "name": a["name"],
+            "request": ref, "asset_id": a["asset_id"], "name": a["name"], "kind": a.get("kind"),
             "resolved": True, "source_url": a["source"]["url"],
             "license": a["license"]["id"], "distribution_mode": a["distribution"]["mode"],
             "local_hint": a["distribution"].get("local_hint"),
         }
     return {"request": ref, "asset_id": None, "name": label, "resolved": False}
+
+def _compile_asset_strategy(data: dict[str, Any], assets: dict[str, dict[str, Any]]) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    strategy=data.get("asset_strategy")
+    if strategy is None:
+        return {
+            "reviewed": False,
+            "principle": "source_nouns_author_verbs",
+            "requirements": [],
+        }, [{"code":"asset_strategy_missing","detail":"Legacy brief has no high-impact make-vs-source review. New serious productions should declare asset_strategy before rendering."}]
+    requirements=[]
+    warnings=[]
+    for req in strategy.get("requirements",[]):
+        decision=req["decision"]
+        resolved_assets=[_resolve_asset(a,assets) for a in req.get("assets",[])]
+        reasons=[]
+        if decision=="unresolved":
+            reasons.append("decision_unresolved")
+        if decision in {"reuse_local","source_free","hybrid"}:
+            if not resolved_assets:
+                reasons.append("no_selected_asset")
+            if any(not a["resolved"] for a in resolved_assets):
+                reasons.append("selected_asset_unresolved")
+            if any(a.get("kind")=="provider" for a in resolved_assets):
+                reasons.append("provider_not_concrete_asset")
+            if not str(req.get("adaptation_plan","")).strip():
+                reasons.append("adaptation_plan_missing")
+        if decision in {"author_local","hybrid"} and not req.get("local_authorship"):
+            reasons.append("local_authorship_missing")
+        compiled={
+            "id":req["id"],
+            "kind":req["kind"],
+            "need":req["need"],
+            "decision":decision,
+            "assets":resolved_assets,
+            "structural_requirements":req.get("structural_requirements",[]),
+            "license_requirements":req.get("license_requirements",[]),
+            "adaptation_plan":req.get("adaptation_plan",""),
+            "local_authorship":req.get("local_authorship",[]),
+            "resolved":not reasons,
+            "blockers":reasons,
+        }
+        requirements.append(compiled)
+        if reasons:
+            warnings.append({"requirement_id":req["id"],"code":"asset_strategy_unresolved","detail":reasons})
+    return {
+        "reviewed": True,
+        "principle": strategy.get("principle","source_nouns_author_verbs"),
+        "requirements": requirements,
+    }, warnings
 
 def validate_director_brief(data: dict[str, Any]) -> list[str]:
     errors=[]
@@ -122,6 +174,37 @@ def validate_director_brief(data: dict[str, Any]) -> list[str]:
             errors.append(f"{p}.review_points_seconds invalid")
     if isinstance(runtime,(int,float)) and abs(total-float(runtime)) > .05:
         errors.append(f"shot durations total {total:g}s but goal.runtime_seconds is {runtime:g}s")
+    strategy=data.get("asset_strategy")
+    if strategy is not None:
+        if not isinstance(strategy,dict):
+            errors.append("asset_strategy must be an object")
+        else:
+            requirements=strategy.get("requirements")
+            if not isinstance(requirements,list):
+                errors.append("asset_strategy.requirements must be a list")
+            else:
+                req_ids=set()
+                for i,req in enumerate(requirements):
+                    p=f"asset_strategy.requirements[{i}]"
+                    if not isinstance(req,dict):
+                        errors.append(f"{p} must be an object")
+                        continue
+                    rid=req.get("id")
+                    if not isinstance(rid,str) or not rid.strip():
+                        errors.append(f"{p}.id is required")
+                    elif rid in req_ids:
+                        errors.append(f"{p}.id duplicates {rid}")
+                    else:
+                        req_ids.add(rid)
+                    for key in ("kind","need"):
+                        if not isinstance(req.get(key),str) or not req.get(key).strip():
+                            errors.append(f"{p}.{key} is required")
+                    decision=req.get("decision")
+                    if decision not in ASSET_DECISIONS:
+                        errors.append(f"{p}.decision must be one of {sorted(ASSET_DECISIONS)}")
+                    for key in ("assets","structural_requirements","license_requirements","local_authorship"):
+                        if key in req and not isinstance(req.get(key),list):
+                            errors.append(f"{p}.{key} must be a list")
     heroes=data.get("hero_shots",[])
     unknown=[x for x in heroes if x not in seen]
     if unknown:
@@ -182,8 +265,9 @@ def compile_plan(brief_path: Path, catalog_path: Path, *, width=1280, height=720
     catalog=json.loads(catalog_path.read_text(encoding="utf-8"))
     assets=_asset_index(catalog)
     heroes=set(brief.get("hero_shots",[]))
+    asset_strategy, asset_warnings=_compile_asset_strategy(brief,assets)
     shots=[]
-    warnings=[]
+    warnings=list(asset_warnings)
     cursor=0.0
     for idx,s in enumerate(brief["shots"]):
         duration=float(s["duration_seconds"])
@@ -270,6 +354,7 @@ def compile_plan(brief_path: Path, catalog_path: Path, *, width=1280, height=720
             "editing":brief["editing_grammar"],
         },
         "handoff":brief.get("handoff",{}),
+        "asset_strategy":asset_strategy,
         "shots":shots,
         "warnings":warnings,
         "summary":{
@@ -277,8 +362,11 @@ def compile_plan(brief_path: Path, catalog_path: Path, *, width=1280, height=720
             "hero_shot_count":sum(1 for s in shots if s["hero"]),
             "renderer_lanes":sorted({s["renderer"]["lane"] for s in shots}),
             "unresolved_asset_count":sum(1 for s in shots for a in s["assets"] if not a["resolved"]),
+            "asset_strategy_reviewed":asset_strategy["reviewed"],
+            "unresolved_asset_requirement_count":sum(1 for r in asset_strategy["requirements"] if not r["resolved"]),
             "warning_count":len(warnings),
             "blocked_shot_count":sum(1 for s in shots if not s["renderer"]["adapter_ready"] or any(not a["resolved"] for a in s["assets"])),
+            "execution_ready":all(s["renderer"]["adapter_ready"] and all(a["resolved"] for a in s["assets"]) for s in shots) and all(r["resolved"] for r in asset_strategy["requirements"]),
         },
     }
     plan_errors=validate_execution_plan(plan)

@@ -51,6 +51,16 @@ The brief should answer:
 8. **Which shots carry the story?** Identify the hero shots that deserve extra render/review budget.
 9. **What is forbidden?** Generic idle particles, decorative motion without narrative purpose, unreadable text, accidental freeze spans, repetitive camera moves, and visual motifs that drift without explanation.
 
+## Asset-needs decomposition before renderer
+
+After the story/visual grammar is clear, identify high-impact production nouns before expensive construction. Put them in the director brief `asset_strategy` and intentionally choose `reuse_local`, `source_free`, `author_local`, `hybrid` or `unresolved`.
+
+Do not silently interpret an empty shot `assets` list as permission to build a major character, vehicle or environment from scratch. The high-impact make-vs-source decision belongs above the shot implementation.
+
+For sourced/hybrid needs, specify structural requirements, license requirements and the adaptation plan. For locally authored/hybrid needs, state what is intentionally being created locally. The compiler carries this into the execution plan and exposes unresolved requirements as blockers.
+
+Use **source nouns, author verbs**: acquire a suitable rig/car/material when that saves time and raises quality; locally direct the performance, motion, staging, camera, lighting, timing and edit.
+
 ## Storyboard before renderer
 
 The storyboard is a directorial artifact, not just a list of timestamps.

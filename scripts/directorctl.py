@@ -39,7 +39,8 @@ def main():
             print(json.dumps({"pass":False,"errors":errors},indent=2)); return 2
         pending=sum(1 for s in plan["shots"] if s["state"]=="PLANNED")
         blocked=[s["id"] for s in plan["shots"] if not s["renderer"]["adapter_ready"] or any(not a["resolved"] for a in s["assets"])]
-        print(json.dumps({"pass":True,"title":plan["title"],"runtime_seconds":plan["runtime_seconds"],"shots":len(plan["shots"]),"planned":pending,"blocked_shots":blocked,"renderer_lanes":plan["summary"]["renderer_lanes"],"warnings":plan["warnings"]},indent=2))
+        blocked_requirements=[r["id"] for r in plan.get("asset_strategy",{}).get("requirements",[]) if not r.get("resolved",False)]
+        print(json.dumps({"pass":True,"execution_ready":plan["summary"].get("execution_ready",not blocked and not blocked_requirements),"title":plan["title"],"runtime_seconds":plan["runtime_seconds"],"shots":len(plan["shots"]),"planned":pending,"blocked_shots":blocked,"blocked_asset_requirements":blocked_requirements,"renderer_lanes":plan["summary"]["renderer_lanes"],"warnings":plan["warnings"]},indent=2))
         return 0
     if errors:
         print("FAIL\n- "+"\n- ".join(errors),file=sys.stderr); return 2

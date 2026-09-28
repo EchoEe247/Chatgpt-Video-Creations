@@ -10,6 +10,30 @@ The default production order is:
 
 A scratch-built path remains valuable for capability testing and for work where no suitable resource exists. It is not an artificial ceiling on production quality.
 
+## Make-vs-source contract
+
+Use the shorthand **source nouns, author verbs**.
+
+Generic nouns such as characters, vehicles, trees, props, materials, HDRIs, buildings, footsteps, engine recordings and reusable locomotion clips should be checked for suitable existing/local or free licensed resources before substantial scratch construction.
+
+The production verbs remain locally directed: acting, accelerating, reacting, reaching, aiming, pedaling, revealing, camera movement, lighting changes, timing, cutting, compositing and story progression.
+
+For high-impact assets, record the decision in the director brief `asset_strategy`. Use one of:
+
+- `reuse_local` — use an already available catalogued asset;
+- `source_free` — acquire a fitting licensed resource;
+- `author_local` — intentionally create it locally;
+- `hybrid` — combine sourced material with substantial local construction;
+- `unresolved` — explicit blocker; do not quietly replace this with scratch work.
+
+A sourced/hybrid requirement is not resolved until an asset is selected, provenance is deterministic and an adaptation plan exists. `author_local`/hybrid requirements must state what remains locally authored.
+
+Provider catalog entries are discovery routes, not concrete production assets. A requirement such as a hero character remains unresolved if it names only `provider.mixamo`; after acquisition, record the specific selected asset/provenance so the plan binds to what will actually render.
+
+Structural suitability matters as much as resemblance. A car that cannot expose its wheels, or a character that cannot support the needed contacts/rig behavior, may be a worse production asset than a simpler but controllable alternative.
+
+See `docs/CHARACTER_PRODUCTION.md` for the character-specific ladder.
+
 ## What counts as a useful external resource
 
 Reusable resources may include:
@@ -133,6 +157,20 @@ Stop searching and build when:
 - available resources conflict with the production's originality or license requirements.
 
 Asset search is a means to a better/faster result, not another loop.
+
+## Authorship terminology
+
+Keep provenance language precise:
+
+- externally sourced asset;
+- externally generated service output;
+- locally authored asset;
+- locally adapted asset;
+- locally animated;
+- locally rendered;
+- locally assembled.
+
+A production can be locally animated/rendered/assembled while legitimately using external meshes, textures, actions or recordings. Do not imply every polygon or sample was created locally when it was not.
 
 ## Production-package expectation
 

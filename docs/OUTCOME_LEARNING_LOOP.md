@@ -85,6 +85,19 @@ The screenshots also show several issues detected after more expensive work had 
 
 These become earlier workflow gates rather than merely historical notes.
 
+## Cross-production asset and character lessons
+
+RIDGELINE, Blender Agent Action V5 and the VELOCITY recreation establish a combined lesson:
+
+| Evidence | Reusable lesson |
+| --- | --- |
+| RIDGELINE successfully authored the rider, bicycle, route, trees, cameras and motion locally, but the character/world remained visibly procedural | Local scratch construction is a valid fallback and capability proof, not the automatic quality ceiling for a finished character production. |
+| Blender Agent Action V5 replaced proxy character/corridor geometry with CC0 Quaternius assets while keeping animation assembly, staging, cameras, lighting, VFX, audio timing, rendering and QA local | Sourcing a stronger noun can raise the visual floor without outsourcing the production verbs. |
+| VELOCITY replaced malformed custom car geometry with a CC0 Kenney vehicle whose separate wheel parts could support real wheel transforms | Asset selection must test structural controllability, not only visual resemblance. |
+| Mixamo's current Adobe FAQ permits royalty-free character/animation use in films and targets bipedal humanoids, while current Adobe licensing guidance restricts raw-file redistribution | Treat Mixamo as a character-motion provider, keep payloads local, reverify terms at acquisition, and retain local ownership of performance assembly. |
+
+The resulting rule is **source nouns, author verbs**. High-impact make-vs-source decisions now belong in the director brief so a fresh agent cannot silently convert an unresolved asset need into low-quality scratch geometry.
+
 ## Revised serious-video order
 
 For cinematic/local productions, prefer this sequence when applicable:

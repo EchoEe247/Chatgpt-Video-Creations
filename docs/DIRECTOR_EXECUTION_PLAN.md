@@ -57,6 +57,18 @@ The plan distinguishes **renderer choice** from **runtime readiness**. Phase 5 n
 
 The current Pixel reports Python, Canvas, Blender, and FFmpeg ready. The Three.js/WebGL contract is standardized but the headless Chromium runtime does not currently expose a WebGL context, so that lane remains an explicit blocker with Blender/Canvas fallback lanes rather than being falsely marked ready.
 
+## Asset-strategy gate
+
+New serious director briefs should include the top-level `asset_strategy` review before rendering. Each high-impact requirement declares its need, kind, make-vs-source decision, selected assets when applicable, structural/license requirements, adaptation plan and local-authorship responsibilities.
+
+The compiler treats `unresolved` requirements as explicit blockers. `source_free`, `reuse_local` and `hybrid` requirements remain unresolved until a selected asset resolves deterministically and an adaptation plan exists. `author_local` and `hybrid` must state what is locally authored.
+
+Legacy briefs without `asset_strategy` remain compilable for compatibility but receive `asset_strategy_missing`; that warning is not a precedent for new productions.
+
+Provider entries such as `provider.mixamo` are discovery routes, not concrete selected assets, so they cannot satisfy a production requirement by themselves. `directorctl.py status` reports `blocked_asset_requirements`, and the plan summary exposes `execution_ready=false` while a concrete asset decision remains unresolved.
+
+This prevents a fresh agent from turning “we need a convincing human/car/environment” into an undocumented scratch-build simply because a renderer can generate primitives.
+
 ## Asset resolution
 
 Prefer asset IDs in new director briefs:

@@ -52,6 +52,24 @@
     "transition_rules": [],
     "avoid": []
   },
+  "asset_strategy": {
+    "principle": "source_nouns_author_verbs",
+    "requirements": [
+      {
+        "id": "example-high-impact-asset",
+        "kind": "character|vehicle|environment|prop|material|animation|audio|vfx",
+        "need": "Describe the production need, not a vendor search term.",
+        "decision": "unresolved",
+        "assets": [],
+        "structural_requirements": [],
+        "license_requirements": [
+          "Verify terms at acquisition time."
+        ],
+        "adaptation_plan": "",
+        "local_authorship": []
+      }
+    ]
+  },
   "hero_shots": [],
   "shots": [
     {
