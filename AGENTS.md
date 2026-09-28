@@ -82,6 +82,8 @@ The assistant must cite only evidence generated for the exact candidate. Missing
 
 Acceptance authority now lives in `src/core/studio_review.py`; read `docs/STUDIO_REVIEW_CONTRACT.md`. Specialized QA failures can veto legacy assistant PASS fields. `NOT_APPLICABLE` and `UNVERIFIED` are distinct, and evidence is not review-complete until it reaches `REVIEWED` in the PLANNED → GENERATED → DELIVERED → REVIEWED lifecycle. Status/reporting must use the derived promotion state rather than any one subsystem gate.
 
+Read `docs/CONTROLLED_STUDIO_VALIDATION.md` before controlled/fresh-session workflow validation. The user's withheld issue is a final holdout and must not be used to tune detectors or thresholds before benchmark findings are frozen.
+
 For productions with `workflow.studio_review_required=true`, final screening is mandatory before assistant acceptance. Record all departmental lenses, still/sampled/continuous/auditory/synchronized-A/V requirements separately, full candidate coverage for continuous modalities, opening/ending review, authored-point coverage, and any suspicion-driven second pass. Never use sampled strips as continuous-video coverage or audio metrics as proof of hearing. `productionctl assistant-pass` requires a candidate-bound `--studio-review` JSON for these productions.
 
 ## Model-independent directing
