@@ -254,6 +254,28 @@ class ProductionControllerIntegrationTests(unittest.TestCase):
         self.assertIn("changed after approval",tampered.stderr)
         previs_path.write_bytes(original_previs)
 
+    def test_quality_floor_proof_paths_follow_director_brief_when_plan_moves(self):
+        manifest = self.make_manifest("quality-floor-plan-relocation")
+        plan_path = self.build_final_quality_plan(manifest)
+        moved_dir = manifest.parent / "compiled"
+        moved_dir.mkdir()
+        moved_plan = moved_dir / "execution-plan.json"
+        plan_path.replace(moved_plan)
+
+        data = self.load(manifest)
+        data["workflow"]["quality_floor_required"] = True
+        data["workflow"]["creative_qa_required"] = True
+        data["workflow"]["studio_review_required"] = True
+        data["render"]["scene_plan"] = str(moved_plan)
+        data["delivery"]["height"] = 720
+        data["delivery"]["audio_required"] = True
+        data["delivery"]["audio_codec"] = "aac"
+        data["delivery"]["max_unintended_silence_seconds"] = 1
+        manifest.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+
+        ready = self.run_ctl("render-spec", manifest)
+        self.assertEqual(ready.returncode, 0, ready.stderr + ready.stdout)
+
     def test_studio_review_required_blocks_missing_and_accepts_complete_screening(self):
         manifest = self.make_manifest("studio-required")
         data = self.load(manifest)

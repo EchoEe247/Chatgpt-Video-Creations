@@ -2,7 +2,10 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
+import re
 import subprocess
+import urllib.request
 from pathlib import Path
 from typing import Any, Mapping
 
@@ -10,6 +13,66 @@ ROOT = Path(__file__).resolve().parents[2]
 CONTRACT_PATH = ROOT / "workflow" / "CURRENT.json"
 LANES = {"auto", "cinematic", "animation", "business"}
 
+
+
+
+def _version_tuple(value: str) -> tuple[int, ...]:
+    parts = [int(x) for x in re.findall(r"\d+", str(value or ""))]
+    return tuple(parts or [0])
+
+
+def query_live_bridge_status(url: str | None = None, *, timeout: float = 3.0) -> dict[str, Any]:
+    endpoint = url or os.environ.get("HERMES_MCP_READYZ_URL", "http://127.0.0.1:8765/readyz")
+    try:
+        with urllib.request.urlopen(endpoint, timeout=timeout) as response:
+            payload = json.load(response)
+    except Exception as exc:
+        raise ValueError(f"unable to query live Local Workspace bridge readiness at {endpoint}: {exc}") from exc
+    if not isinstance(payload, dict) or payload.get("service") != "hermes-mcp-bridge":
+        raise ValueError("live Local Workspace readiness response is not a hermes-mcp-bridge status object")
+    if payload.get("ready") is not True or payload.get("ok") is not True:
+        raise ValueError("live Local Workspace bridge is not ready")
+    return payload
+
+
+def validate_live_bridge_status(
+    live: Mapping[str, Any],
+    *,
+    requirements: Mapping[str, Any],
+    bound_compat: Mapping[str, Any],
+) -> list[str]:
+    errors: list[str] = []
+    version = str(live.get("version") or "")
+    minimum = str(requirements.get("minimum_version") or "")
+    profile = str(live.get("tool_profile") or "")
+    required_profile = str(bound_compat.get("required_profile") or "")
+    capabilities = live.get("capability_contract") if isinstance(live.get("capability_contract"), Mapping) else {}
+    active_caps = {str(x) for x in capabilities.get("capabilities") or []}
+    required_caps = {str(x) for x in requirements.get("required_capabilities") or []}
+
+    if live.get("ready") is not True or live.get("ok") is not True:
+        errors.append("live Local Workspace bridge is not ready")
+    if minimum and _version_tuple(version) < _version_tuple(minimum):
+        errors.append(f"live Local Workspace bridge version {version or 'unknown'} is below required {minimum}")
+    if required_profile and profile != required_profile:
+        errors.append(f"live Local Workspace tool profile changed since binding: {profile or 'unknown'} != {required_profile}")
+    missing_caps = sorted(required_caps - active_caps)
+    if missing_caps:
+        errors.append("live Local Workspace bridge is missing required capabilities: " + ", ".join(missing_caps))
+
+    for key, live_key in (
+        ("actual_version", "version"),
+        ("tool_names_sha256", "tool_names_sha256"),
+        ("source_commit", "source_commit"),
+    ):
+        expected = str(bound_compat.get(key) or "")
+        actual = str(live.get(live_key) or "")
+        if not expected:
+            errors.append(f"workflow.bootstrap.bridge_compatibility.{key} is missing; rebind against the live bridge")
+        elif actual != expected:
+            errors.append(f"live Local Workspace {live_key} changed since binding")
+
+    return errors
 
 def _sha256_bytes(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
@@ -229,6 +292,7 @@ def binding_status(
     repo: Path | None = None,
     refresh_remote: bool = False,
     active_bootstrap: Mapping[str, Any] | None = None,
+    live_bridge_status: Mapping[str, Any] | None = None,
     require_active_bridge: bool = False,
 ) -> dict[str, Any]:
     workflow = data.get("workflow") if isinstance(data.get("workflow"), Mapping) else {}
@@ -270,24 +334,16 @@ def binding_status(
         errors.append("workflow.bootstrap.bridge_compatibility recorded missing capabilities")
 
     if require_active_bridge:
-        if not isinstance(active_bootstrap, Mapping):
-            errors.append("active Local Workspace bootstrap result is required before render dispatch")
+        if not isinstance(live_bridge_status, Mapping):
+            errors.append("live Local Workspace bridge status is required before render dispatch")
         else:
-            active_compat = active_bootstrap.get("bridge_compatibility") if isinstance(active_bootstrap.get("bridge_compatibility"), Mapping) else {}
-            if active_bootstrap.get("ready") is not True:
-                errors.append("active Local Workspace bootstrap is not ready")
-            if active_bootstrap.get("receipt_sha256") != current.get("receipt_sha256"):
-                errors.append("active Local Workspace bootstrap receipt is stale")
-            if active_compat.get("evaluated") is not True or active_compat.get("compatible") is not True:
-                errors.append("active Local Workspace bridge compatibility is not verified")
-            if active_compat.get("actual_version") != bound_compat.get("actual_version"):
-                errors.append("active Local Workspace bridge version changed since binding")
-            if active_compat.get("active_profile") != bound_compat.get("active_profile"):
-                errors.append("active Local Workspace tool profile changed since binding")
-            if active_compat.get("missing_tools") not in ([], None):
-                errors.append("active Local Workspace bridge is missing required tools")
-            if active_compat.get("missing_capabilities") not in ([], None):
-                errors.append("active Local Workspace bridge is missing required capabilities")
+            errors.extend(
+                validate_live_bridge_status(
+                    live_bridge_status,
+                    requirements=requirements,
+                    bound_compat=bound_compat,
+                )
+            )
     return {
         "required": True,
         "ok": not errors,
@@ -340,6 +396,8 @@ def bind_manifest(
             "active_profile": compatibility.get("active_profile"),
             "missing_tools": list(compatibility.get("missing_tools") or []),
             "missing_capabilities": list(compatibility.get("missing_capabilities") or []),
+            "tool_names_sha256": compatibility.get("tool_names_sha256"),
+            "source_commit": compatibility.get("source_commit"),
         },
     }
     return data

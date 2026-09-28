@@ -29,7 +29,7 @@ Audit basis: `Chatgpt-Video-Creations-Audit-2026-09-28.md`, audited commit `071f
    - Repository-native bootstrap explicitly reports bridge compatibility as unevaluated; final binding rejects that unevaluated result.
    - Final production binding requires evaluated compatible Local Workspace bootstrap evidence.
    - `workflowctl bind --bootstrap-result <json>` persists the evaluated bridge version/profile evidence.
-   - `productionctl render-spec` and `productionctl rendering` require a current bootstrap result and fail if the active bridge/profile changed.
+   - `productionctl render-spec` and `productionctl rendering` initially rechecked supplied bootstrap evidence. **Superseded by workflow 2026.09.28.12:** dispatch now queries the running bridge readiness endpoint directly and does not treat saved bootstrap JSON as live evidence.
 
 6. **Previs/look-dev/proof integrity**
    - Execution-plan compilation records SHA-256 for available approved visual-development artifacts and asset-proof artifacts.
@@ -52,7 +52,7 @@ New adversarial tests cover:
 
 - Complete pytest suite after final audit repairs and adjacent cinematic-lane consistency fix: **186 passed**.
 - Test collection before the adjacent lane regression was added: **185 tests collected**; final suite contains **186** passing tests.
-- Live Local Workspace bridge-binding smoke: evaluated core-production bridge evidence bound successfully and `productionctl render-spec --bootstrap-result` passed.
+- Initial live bridge-binding smoke passed with evaluated core-production evidence. Astra's follow-up correctly found that dispatch could still reuse a stale bootstrap file; workflow 2026.09.28.12 replaces that liveness claim with direct runtime readiness queries.
 - The live smoke also exposed and fixed an adjacent stale schema mismatch: production manifests now accept the canonical `cinematic` lane used by workflow bootstrap.
 - Production v2 template validation: **PASS**.
 - Markdown local-link audit: **0 broken links**.
@@ -60,3 +60,15 @@ New adversarial tests cover:
 - `git diff --check`: **clean**.
 
 Canonical workflow version: **2026.09.28.10**.
+
+## Follow-up review closure — workflow 2026.09.28.12
+
+Astra independently re-reviewed commit `6b4b11c` and identified four remaining issues. This section supersedes the earlier claim that all original gaps were fully closed:
+
+1. **Dispatch liveness** — `workflowctl bind` now queries the running bridge readiness endpoint and records runtime identity (bridge version/profile/tool-set hash/source commit). `productionctl render-spec` and `productionctl rendering` query the running endpoint again. Reusing an old bootstrap JSON cannot mask current bridge/profile drift.
+2. **CI dependencies** — `requirements-test.txt` explicitly declares `numpy`, `pillow`, and `pytest`; media-runtime CI installs that file and changes to it trigger the workflow.
+3. **Development-artifact path base** — relative previs/look-dev/proof paths are resolved against the bound director-brief directory at both compilation and preflight. Relocating the execution-plan JSON no longer changes evidence resolution.
+4. **RIDGELINE identity** — the actual current master hashes to `348de54393756c5d7e28b9c9fb64383242e56fa76ea336cc92203de34ea99e56`. The `846454e8...` paragraph is explicitly historical/superseded.
+
+GitHub-hosted CI success must not be claimed while Actions execution is blocked by the separate account billing/spending-limit condition. Local test results and live runtime smokes are reported separately.
+Current canonical workflow after follow-up: **2026.09.28.12**.

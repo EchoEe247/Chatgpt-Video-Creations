@@ -105,21 +105,47 @@ def test_native_bootstrap_cannot_bind_final_production_without_bridge_evidence(t
         raise AssertionError("native unverified bootstrap unexpectedly bound production")
 
 
-def test_render_dispatch_revalidates_active_bridge_profile(tmp_path, monkeypatch):
+def test_render_dispatch_revalidates_running_bridge_profile(tmp_path, monkeypatch):
     repo = _fixture_repo(tmp_path)
     monkeypatch.setattr(workflow_contract, "_git", _fake_git)
     native = workflow_contract.bootstrap(repo=repo, lane="cinematic", refresh_remote=False, allow_unverified_remote=True)
     compatible = _with_compatible_bridge(native)
+    compatible["bridge_compatibility"]["tool_names_sha256"] = "tools-hash"
+    compatible["bridge_compatibility"]["source_commit"] = "bridge-commit"
     data = {"lane": "cinematic", "workflow": {"bootstrap_required": True, "bootstrap": {}}}
     workflow_contract.bind_manifest(data, compatible, allow_unverified_remote=True)
+
+    live = {
+        "ok": True,
+        "ready": True,
+        "service": "hermes-mcp-bridge",
+        "version": "0.10.0",
+        "tool_profile": "core-production",
+        "tool_names_sha256": "tools-hash",
+        "source_commit": "bridge-commit",
+        "capability_contract": {"capabilities": ["bridge-compat-contract-v1"]},
+    }
     status = workflow_contract.binding_status(
-        data, repo=repo, refresh_remote=False, active_bootstrap=compatible, require_active_bridge=True
+        data, repo=repo, refresh_remote=False, live_bridge_status=live, require_active_bridge=True
     )
     assert status["ok"] is True
-    changed = _with_compatible_bridge(native)
-    changed["bridge_compatibility"]["active_profile"] = "core"
+
+    changed = dict(live)
+    changed["tool_profile"] = "core"
     stale = workflow_contract.binding_status(
-        data, repo=repo, refresh_remote=False, active_bootstrap=changed, require_active_bridge=True
+        data, repo=repo, refresh_remote=False, live_bridge_status=changed, require_active_bridge=True
     )
     assert stale["ok"] is False
     assert any("tool profile changed" in error for error in stale["errors"])
+
+    # Reusing an old compatible bootstrap object cannot mask current runtime drift.
+    old_bootstrap = _with_compatible_bridge(native)
+    still_stale = workflow_contract.binding_status(
+        data,
+        repo=repo,
+        refresh_remote=False,
+        active_bootstrap=old_bootstrap,
+        live_bridge_status=changed,
+        require_active_bridge=True,
+    )
+    assert still_stale["ok"] is False

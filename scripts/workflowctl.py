@@ -9,7 +9,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from src.core.workflow_contract import bootstrap, bind_manifest
+from src.core.workflow_contract import bootstrap, bind_manifest, query_live_bridge_status, validate_live_bridge_status
 
 
 def main() -> int:
@@ -46,6 +46,29 @@ def main() -> int:
     if args.bootstrap_result:
         bootstrap_path = Path(args.bootstrap_result).expanduser().resolve()
         result = json.loads(bootstrap_path.read_text(encoding="utf-8"))
+
+    compatibility = result.get("bridge_compatibility")
+    requirements = result.get("bridge_compatibility_requirements")
+    if not isinstance(compatibility, dict) or compatibility.get("evaluated") is not True:
+        raise ValueError("production binding requires an evaluated Local Workspace bootstrap result")
+    if not isinstance(requirements, dict):
+        raise ValueError("bootstrap result is missing bridge compatibility requirements")
+
+    live = query_live_bridge_status()
+    live_errors = validate_live_bridge_status(
+        live,
+        requirements=requirements,
+        bound_compat={
+            **compatibility,
+            "tool_names_sha256": live.get("tool_names_sha256"),
+            "source_commit": live.get("source_commit"),
+        },
+    )
+    if live_errors:
+        raise ValueError("live Local Workspace bridge does not match bootstrap evidence: " + "; ".join(live_errors))
+    compatibility["tool_names_sha256"] = live.get("tool_names_sha256")
+    compatibility["source_commit"] = live.get("source_commit")
+    compatibility["boot_id_at_bind"] = live.get("boot_id")
 
     path = Path(args.manifest).expanduser().resolve()
     data = json.loads(path.read_text(encoding="utf-8"))

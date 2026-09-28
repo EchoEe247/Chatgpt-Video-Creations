@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "workflow_id": "chatgpt-video-production",
-  "workflow_version": "2026.09.28.11",
+  "workflow_version": "2026.09.28.12",
   "canonical_entrypoint": "AGENTS.md",
   "required_tool_profile": "core-production",
   "policy": {

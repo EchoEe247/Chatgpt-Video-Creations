@@ -10,6 +10,7 @@ on:
       - 'workflow/**'
       - 'docs/**'
       - '.github/workflows/**'
+      - 'requirements-test.txt'
   pull_request:
     paths:
       - 'src/**'
@@ -19,6 +20,7 @@ on:
       - 'workflow/**'
       - 'docs/**'
       - '.github/workflows/**'
+      - 'requirements-test.txt'
 
 jobs:
   media-runtime:
@@ -32,7 +34,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y ffmpeg
-          python -m pip install pillow pytest
+          python -m pip install -r requirements-test.txt
       - name: Run regression tests
         run: |
           python -m pytest --collect-only -q tests

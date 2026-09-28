@@ -37,7 +37,7 @@ from src.core.production_runtime import (
 from src.core.review_pack import build_review_pack
 from src.core.creative_qa import validate_assistant_review, validate_report_evidence
 from src.core.studio_review import ASSISTANT_ACCEPTED, promotion_diagnostics
-from src.core.workflow_contract import binding_status
+from src.core.workflow_contract import binding_status, query_live_bridge_status
 from src.core.director_execution import validate_execution_plan, validate_source_bindings
 
 
@@ -296,7 +296,13 @@ def _quality_floor_preflight(manifest: Path, data: dict[str, Any], *, require_fi
     qf=plan.get("quality_floor") or {}
     if not qf.get("reviewed"):
         raise ValueError("quality-floor production requires a reviewed execution-plan quality_floor")
-    plan_root=plan_path.parent
+    source_brief = str((plan.get("source") or {}).get("director_brief") or "").strip()
+    if not source_brief:
+        raise ValueError("execution plan source.director_brief is required for proof path resolution")
+    director_path = Path(source_brief).expanduser()
+    if not director_path.is_absolute():
+        director_path = ROOT / director_path
+    proof_root = director_path.parent
     if require_final:
         for gate_name,gate in (plan.get("visual_development") or {}).get("gates",{}).items():
             if gate.get("decision")=="required":
@@ -305,7 +311,7 @@ def _quality_floor_preflight(manifest: Path, data: dict[str, Any], *, require_fi
                     raise ValueError(f"required visual-development gate {gate_name} has no artifact")
                 artifact_path=Path(artifact).expanduser()
                 if not artifact_path.is_absolute():
-                    artifact_path=plan_root/artifact_path
+                    artifact_path=proof_root/artifact_path
                 if not artifact_path.is_file():
                     raise FileNotFoundError(f"required visual-development artifact is missing: {artifact_path}")
                 expected_hash = str(gate.get("artifact_sha256") or "").strip()
@@ -324,7 +330,7 @@ def _quality_floor_preflight(manifest: Path, data: dict[str, Any], *, require_fi
             if proof:
                 proof_path=Path(proof).expanduser()
                 if not proof_path.is_absolute():
-                    proof_path=plan_root/proof_path
+                    proof_path=proof_root/proof_path
                 if not proof_path.is_file():
                     raise FileNotFoundError(f"asset proof artifact is missing for {req.get('id')}: {proof_path}")
                 expected_hash = str(req.get("proof_sha256") or "").strip()
@@ -472,6 +478,7 @@ def command_render_spec(args) -> int:
         data,
         refresh_remote=True,
         active_bootstrap=_active_bootstrap_result(args),
+        live_bridge_status=query_live_bridge_status() if (data.get("workflow") or {}).get("bootstrap_required") else None,
         require_active_bridge=bool((data.get("workflow") or {}).get("bootstrap_required")),
     )
     if not binding.get("ok"):
@@ -516,6 +523,7 @@ def command_rendering(args) -> int:
         data,
         refresh_remote=True,
         active_bootstrap=_active_bootstrap_result(args),
+        live_bridge_status=query_live_bridge_status() if (data.get("workflow") or {}).get("bootstrap_required") else None,
         require_active_bridge=bool((data.get("workflow") or {}).get("bootstrap_required")),
     )
     if not binding.get("ok"):

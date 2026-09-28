@@ -23,7 +23,9 @@ Current candidate SHA-256: `348de54393756c5d7e28b9c9fb64383242e56fa76ea336cc9220
 
 This is a visibly computer-rendered, game-like 3D result. It does not achieve the requested photorealism. The terrain, fir silhouettes and procedural rider need higher-quality meshes/materials and more sophisticated lighting for that standard. This file must not be presented as proof of photorealistic local video capability.
 
-Preview stills were inspected and the neck gap / helmet-in-POV defects were corrected. The final candidate (SHA-256 `846454e86350267cb24142735f629c9b2ed9925cda8df07dc0743eb91742f803`) passes technical QA and automated creative QA. No freezes, weak-motion shots, repeated-camera warnings, visual-cut warnings, audio-transition warnings, AV-sync warnings, or layout violations remain. Two cadence points (shots 01 and 08) remain explicit review notes rather than automated failures. Automated measurements and still/sequence inspection still do not replace a complete human audiovisual watch, so user review remains the final perceptual gate.
+### Historical prior candidate (superseded)
+
+An earlier candidate, SHA-256 `846454e86350267cb24142735f629c9b2ed9925cda8df07dc0743eb91742f803`, followed the neck-gap / helmet-in-POV correction pass and had its own technical/automated QA notes. It is **not the current candidate**. The current candidate identity is the `348de543...` hash recorded above; do not use this historical paragraph as current delivery or QA state.
 
 ## Reproduce locally
 
