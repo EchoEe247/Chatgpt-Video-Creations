@@ -130,6 +130,7 @@ See [`docs/SCENE_GEOMETRY.md`](docs/SCENE_GEOMETRY.md) and [`docs/VISUAL_QA_STAN
 - [`docs/VISION.md`](docs/VISION.md) — what this repository is for and why the two production lanes stay separate.
 - [`docs/OPERATING_MODEL.md`](docs/OPERATING_MODEL.md) — discovery → formalization → validation → baseline → operation, including agent autonomy gates.
 - [`docs/PRODUCTION_WORKFLOW.md`](docs/PRODUCTION_WORKFLOW.md) — shared build, render, review, repair, and acceptance flow.
+- [`docs/OUTCOME_LEARNING_LOOP.md`](docs/OUTCOME_LEARNING_LOOP.md) — converts respectful-quality outcomes into model-independent workflow lessons and fresh-agent replay requirements.
 - [`docs/BUSINESS_RELEASE_MARKETING.md`](docs/BUSINESS_RELEASE_MARKETING.md) — version-grounded OSS/business marketing.
 - [`docs/ANIMATION_SHOW_WORKFLOW.md`](docs/ANIMATION_SHOW_WORKFLOW.md) — show, season, and episode lifecycle.
 - [`docs/CONTINUITY_SYSTEM.md`](docs/CONTINUITY_SYSTEM.md) — accepted canon and episode-to-episode state.

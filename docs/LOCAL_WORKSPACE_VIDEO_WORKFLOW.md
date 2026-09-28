@@ -299,6 +299,14 @@ If a defect is found:
 
 Keep iterating internally while the next step is objectively diagnosable.
 
+## Outcome learning after a respectful-quality result
+
+When the user says a production is broadly good and mainly needs refinement/detail, run the outcome-learning loop in `docs/OUTCOME_LEARNING_LOOP.md`. This is distinct from final acceptance and baseline promotion.
+
+Capture which actions materially improved the candidate, which failures were discovered too late, and what would let a fresh agent reproduce the same quality floor independently. Add earlier representative-preview, timeline, numerical-scene, or final-encode gates where the evidence supports them. Do not treat a stronger model finishing an interrupted run as sufficient proof that the workflow itself is reusable.
+
+The later validation target is a fresh-session/different-agent replay using the repository contracts rather than the original chat or undocumented reasoning.
+
 ## Final user review
 
 The normal user-facing handoff is a candidate that already passed deterministic and assistant review.

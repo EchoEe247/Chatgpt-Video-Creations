@@ -135,6 +135,14 @@ Read `docs/OPERATING_MODEL.md` before making a broad architectural or automation
 
 Do not formalize a coordinate, safe zone, scale, timing rule, camera preset, or other constraint merely because it would be convenient to have a number. Formalize what is understood and reusable. Leave unresolved visual/creative choices interactive until evidence is strong enough.
 
+## Outcome learning after a respectful result
+
+When the user describes a result as respectful—broadly good with remaining work mainly in refinements/details—treat that as a workflow-learning trigger, not merely praise and not automatic final acceptance.
+
+Read `docs/OUTCOME_LEARNING_LOOP.md`. Reconstruct which durable actions produced the result, which defects were found too late, and which state made takeover/recovery reliable. Move reusable relationships into the shared workflow and add earlier gates for avoidable late discoveries. Do not canonize one production's coordinates, thresholds, asset choices, or encoder settings just because they worked there.
+
+A workflow improvement is not considered validated merely because the same strong model can repeat it or another model can finish its half-completed run. The target is independent reproducibility: a fresh Astra, GPT-5.6 Sol, Hermes, or other capable agent should be able to start from the goal + repository + durable production contracts and make the same class of good decisions without undocumented reasoning from the prior model. Use `templates/outcome-learning.json` when a compact learning record is warranted.
+
 ## Agent autonomy
 
 Long local-agent loops are appropriate only when the repository is mature enough for the task.

@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "production": {
+    "id": "velocity-recreation",
+    "candidate_sha256": "04b4deecfae582695a8f9c9d0eb4f5e358ce7faf171107950748e7199397f0ec",
+    "goal_summary": "Locally recreate a 120-second cinematic highway-driving film with a dark-blue performance coupe, believable traffic, acceleration/release structure, dusk-to-night progression, and candidate-bound QA."
+  },
+  "user_quality_signal": {
+    "label": "respectful",
+    "meaning": "Overall mostly good; remaining improvements are refinements/details rather than a foundational failure.",
+    "received_at": "2026-09-28T00:47:00-05:00"
+  },
+  "effective_actions": [
+    {
+      "stage": "capability_preflight",
+      "observed_action": "Checked Blender/FFmpeg and explicitly tested whether audio/continuous audiovisual perception was available before making review claims.",
+      "evidence": "Work-session progress screenshots and final review state.",
+      "reusable_relationship": "Declare rendering, measurement and perception modalities before production/review; unavailable listening or continuous A/V remains UNVERIFIED rather than becoming a metric-derived PASS."
+    },
+    {
+      "stage": "inherited_state_audit",
+      "observed_action": "Inspected the existing renderer and found inconsistent vehicle scaling, a side camera switching sides mid-shot, and missing traffic collision checks before reusing it.",
+      "evidence": "Work-session progress screenshots.",
+      "reusable_relationship": "Audit inherited production source before cloning it into a remake; preserve the reference and build corrected work separately."
+    },
+    {
+      "stage": "resource_sourcing",
+      "observed_action": "Selected a CC0 vehicle kit with separate wheel meshes and verified licensing before adapting it.",
+      "evidence": "Work-session progress screenshots.",
+      "reusable_relationship": "Free-resource selection must include provenance, structural suitability and adaptation needs, not visual resemblance alone."
+    },
+    {
+      "stage": "preview_development",
+      "observed_action": "Used previews to catch open sky below the road, tire palette errors, bonnet-camera obstruction, side-camera sightline problems, vehicle-fit issues and wheel-motion presentation.",
+      "evidence": "Work-session progress screenshots.",
+      "reusable_relationship": "Representative risk previews should precede expensive rendering and intentionally cover camera, geometry, contact, material and motion extremes."
+    },
+    {
+      "stage": "shared_motion_model",
+      "observed_action": "Drove hero displacement, wheel rotation, acceleration peaks, engine/wind behavior and traffic pass-by timing from shared motion/trajectory state.",
+      "evidence": "Production source plus work-session progress screenshots.",
+      "reusable_relationship": "Picture and sound events tied to motion should share an authoritative model/event clock rather than independently guessed timings."
+    },
+    {
+      "stage": "numerical_scene_preflight",
+      "observed_action": "Detected camera paths intersecting traffic, moved them into lane gaps and verified no vehicle/camera intersections.",
+      "evidence": "Work-session progress screenshots and cinematic QA.",
+      "reusable_relationship": "Run collision, trajectory and camera-clearance checks before full rendering, then visually verify the corrected geometry."
+    },
+    {
+      "stage": "resumable_rendering",
+      "observed_action": "Preserved completed shots, reconciled render jobs and resumed only unfinished/repaired work instead of starting over.",
+      "evidence": "Work-session progress screenshots and production source.",
+      "reusable_relationship": "Independent shots/stages should be restart-safe and narrowly invalidated."
+    },
+    {
+      "stage": "candidate_bound_review",
+      "observed_action": "Bound technical, creative and screening evidence to the exact encoded candidate; inspected authored/text points and all 19 cuts while keeping unavailable perceptual modalities explicit.",
+      "evidence": "review/ artifacts and final master SHA.",
+      "reusable_relationship": "Review the encoded candidate, not source intent; candidate hash and modality-specific evidence control the claim."
+    },
+    {
+      "stage": "stage_local_repair",
+      "observed_action": "The follow-on session diagnosed the remaining late-detail failure as a finishing/encode problem and repaired that stage without rebuilding the 3D shots.",
+      "evidence": "Final cinematic QA and finishing source.",
+      "reusable_relationship": "Diagnose the failing stage before changing upstream work; source/animation/lighting/mix/assembly/encode failures require different repairs."
+    }
+  ],
+  "late_findings": [
+    {
+      "finding": "A review timestamp extended beyond the 120-second master and stopped assembly.",
+      "detected_stage": "assembly",
+      "avoidable_rework": "Assembly failed after all 20 shots were already rendered.",
+      "new_earlier_gate": "Compile and clamp all authored/review timestamps, transitions and text intervals against the legal master duration before rendering."
+    },
+    {
+      "finding": "Night streetlight pools created visible bands across distant terrain and tire contact needed refinement.",
+      "detected_stage": "night-shot inspection after major rendering",
+      "avoidable_rework": "A repaired night-lighting pass required shot rerendering.",
+      "new_earlier_gate": "Representative risk previews must include the darkest/night state, distant terrain and contact-shadow views before full rendering."
+    },
+    {
+      "finding": "Foreground-car overlap/camera clearance required late inspection.",
+      "detected_stage": "late candidate review",
+      "avoidable_rework": "Potential camera/subject competition survived until late QA.",
+      "new_earlier_gate": "Include high-density/foreground occlusion risk views in the representative preview pack and numerical clearance checks."
+    },
+    {
+      "finding": "Late-night detail passed at source/preview level but final H.264 finishing reduced detail below the unchanged 0.020 gate.",
+      "detected_stage": "final cinematic QA",
+      "avoidable_rework": "The final candidate required an additional finishing/encode repair cycle.",
+      "new_earlier_gate": "Encode a short low-light/fine-detail proof using the intended final filter/codec settings and run the same relevant metric before full master encoding."
+    },
+    {
+      "finding": "Some status/review actions were repeated with near-duplicate progress entries.",
+      "detected_stage": "long-job monitoring",
+      "avoidable_rework": "Extra agent/tool turns without new evidence.",
+      "new_earlier_gate": "Use multi-job polling, distinguish intentional verification from duplicate inspection, and prefer causal finding→repair→recheck updates."
+    }
+  ],
+  "handoff_quality": {
+    "persisted_job_ids": true,
+    "completed_outputs_reused": true,
+    "candidate_hash_bound": true,
+    "exact_next_action_persisted": true,
+    "modality_limits_explicit": true
+  },
+  "do_not_generalize": [
+    "120-second duration",
+    "960x540 at 24 fps",
+    "specific vehicle kit",
+    "specific speed peaks or travel distance",
+    "0.020 late-detail threshold outside this production",
+    "specific camera placements or traffic spacing",
+    "H.264 CRF 15 plus grain tuning as a universal encode preset"
+  ],
+  "workflow_changes": [
+    "Added docs/OUTCOME_LEARNING_LOOP.md.",
+    "Added templates/outcome-learning.json.",
+    "Added representative risk-preview and final encode-proof guidance.",
+    "Added fresh-agent independent reproducibility as the validation standard for workflow learning.",
+    "Added respectful-result learning trigger to AGENTS.md and docs/PRODUCTION_WORKFLOW.md."
+  ],
+  "fresh_agent_replay": {
+    "required_for_validation": true,
+    "agent_or_model": "",
+    "task": "Use the revised shared workflow on a future serious local video without relying on this chat or undocumented VELOCITY reasoning.",
+    "result": "NOT_RUN",
+    "evidence": ""
+  },
+  "promotion": {
+    "workflow_lesson_recorded": true,
+    "validated_reusable": false,
+    "baseline_promotion": "NOT_IMPLIED"
+  }
+}

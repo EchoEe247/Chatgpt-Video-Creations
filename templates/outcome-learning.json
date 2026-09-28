@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "production": {
+    "id": "",
+    "candidate_sha256": "",
+    "goal_summary": ""
+  },
+  "user_quality_signal": {
+    "label": "respectful",
+    "meaning": "Broadly good; remaining issues are refinement/detail rather than foundational failure.",
+    "received_at": ""
+  },
+  "effective_actions": [
+    {
+      "stage": "",
+      "observed_action": "",
+      "evidence": "",
+      "reusable_relationship": ""
+    }
+  ],
+  "late_findings": [
+    {
+      "finding": "",
+      "detected_stage": "",
+      "avoidable_rework": "",
+      "new_earlier_gate": ""
+    }
+  ],
+  "handoff_quality": {
+    "persisted_job_ids": true,
+    "completed_outputs_reused": true,
+    "candidate_hash_bound": true,
+    "exact_next_action_persisted": true,
+    "modality_limits_explicit": true
+  },
+  "do_not_generalize": [],
+  "workflow_changes": [],
+  "fresh_agent_replay": {
+    "required_for_validation": true,
+    "agent_or_model": "",
+    "task": "",
+    "result": "NOT_RUN",
+    "evidence": ""
+  },
+  "promotion": {
+    "workflow_lesson_recorded": false,
+    "validated_reusable": false,
+    "baseline_promotion": "NOT_IMPLIED"
+  }
+}

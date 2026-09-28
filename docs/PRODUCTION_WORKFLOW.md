@@ -180,6 +180,14 @@ For work intended for reuse, publication, or future releases, keep the source sn
 
 Later sessions should be able to continue from the accepted production state instead of reconstructing it from chat history.
 
+## 11.5. Learn from a respectful-quality result
+
+When the user says the result is broadly good and remaining work is mainly refinement/detail, extract workflow learning before moving on. This is not automatic acceptance or baseline promotion.
+
+Use `docs/OUTCOME_LEARNING_LOOP.md` to distinguish the productive sequence from accidental one-off choices, move late-found defects into earlier gates, and record how a fresh agent could reproduce the same quality floor independently. Cross-model takeover is useful recovery evidence; it does not by itself prove that the workflow is model-independent.
+
+For cinematic work, explicitly consider whether representative risk previews, numerical scene checks, timeline bounds, and a short final-encode proof could have caught expensive defects before the full render/master.
+
 ## 12. Promote a validated baseline only when useful
 
 Not every accepted video needs a new B-series baseline.
