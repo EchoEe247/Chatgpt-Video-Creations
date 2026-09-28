@@ -7,6 +7,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from src.core.final_screening import DEPARTMENTS
+
 ROOT = Path(__file__).resolve().parents[1]
 TEMPLATE = json.loads((ROOT / "templates/production-v2.json").read_text())
 
@@ -146,6 +148,86 @@ class ProductionControllerIntegrationTests(unittest.TestCase):
         review_path = root / "assistant-review.json"
         review_path.write_text(json.dumps(review, indent=2) + "\n", encoding="utf-8")
         return report_path, review_path
+
+    def test_studio_review_required_blocks_missing_and_accepts_complete_screening(self):
+        manifest = self.make_manifest("studio-required")
+        data = self.load(manifest)
+        data["workflow"]["studio_review_required"] = True
+        manifest.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+        self.assertEqual(self.run_ctl("candidate", manifest, self.source).returncode, 0)
+        prepared = self.run_ctl("prepare-review", manifest)
+        self.assertEqual(prepared.returncode, 0, prepared.stderr + prepared.stdout)
+        blocked = self.run_ctl("assistant-pass", manifest)
+        self.assertNotEqual(blocked.returncode, 0)
+        self.assertIn("--studio-review", blocked.stderr)
+
+        data = self.load(manifest)
+        digest = data["artifacts"]["candidate_sha256"]
+        departments = {
+            name: {
+                "applicability": "APPLICABLE",
+                "status": "PASS",
+                "evidence": ["ev-main"],
+                "observations": ["reviewed exact final candidate"],
+                "claim_types": ["perceived"],
+            }
+            for name in DEPARTMENTS
+        }
+        review = {
+            "schema_version": 2,
+            "required": True,
+            "candidate_sha256": digest,
+            "criteria": {
+                "final_screening": {
+                    "applicability": "APPLICABLE",
+                    "status": "PASS",
+                    "blocking": True,
+                    "evidence": ["ev-main"],
+                }
+            },
+            "evidence": {
+                "ev-main": {"state": "REVIEWED"},
+                "ev-continuous": {"state": "REVIEWED"},
+            },
+            "final_screening": {
+                "candidate_sha256": digest,
+                "duration_seconds": 1.0,
+                "departments": departments,
+                "modalities": {
+                    "still_image": {"applicability": "APPLICABLE", "status": "PASS", "evidence": ["ev-main"]},
+                    "sampled_temporal": {"applicability": "APPLICABLE", "status": "PASS", "evidence": ["ev-main"]},
+                    "continuous_video": {"applicability": "APPLICABLE", "status": "PASS", "evidence": ["ev-continuous"]},
+                    "auditory": {"applicability": "NOT_APPLICABLE", "status": None, "reason": "silent delivery", "evidence": []},
+                    "synchronized_av": {"applicability": "NOT_APPLICABLE", "status": None, "reason": "silent delivery", "evidence": []},
+                },
+                "coverage": {
+                    "still_image": [{"start_seconds": 0, "end_seconds": 0.1}],
+                    "sampled_temporal": [{"start_seconds": 0, "end_seconds": 1.0}],
+                    "continuous_video": [{"start_seconds": 0, "end_seconds": 1.0}],
+                    "auditory": [],
+                    "synchronized_av": [],
+                },
+                "evidence_ids": ["ev-main", "ev-continuous"],
+                "opening_reviewed": True,
+                "ending_reviewed": True,
+                "authored_points": {"planned_ids": [], "reviewed_ids": []},
+                "second_pass": {"required": False, "status": "NOT_REQUIRED", "targets": [], "disposed_ids": []},
+                "declaration": {
+                    "reviewer": "model_plus_human",
+                    "reviewed_at": "2026-09-28T00:00:00Z",
+                    "modalities_actually_perceived": ["still_image", "sampled_temporal", "continuous_video"],
+                    "candidate_sha256": digest,
+                },
+            },
+        }
+        review_path = manifest.parent / "studio-review-input.json"
+        review_path.write_text(json.dumps(review, indent=2) + "\n", encoding="utf-8")
+        passed = self.run_ctl("assistant-pass", manifest, "--studio-review", review_path)
+        self.assertEqual(passed.returncode, 0, passed.stderr + passed.stdout)
+        final = self.load(manifest)
+        self.assertEqual(final["status"], "USER_REVIEW")
+        self.assertTrue(final["artifacts"]["studio_review"]
+        )
 
     def test_creative_qa_required_blocks_unbound_assistant_pass(self):
         manifest = self.make_manifest("creative-required", creative_required=True)

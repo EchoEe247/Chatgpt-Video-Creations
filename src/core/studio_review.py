@@ -3,6 +3,8 @@ from __future__ import annotations
 from copy import deepcopy
 from typing import Any, Mapping
 
+from src.core.final_screening import final_screening_findings
+
 APPLICABLE = "APPLICABLE"
 NOT_APPLICABLE = "NOT_APPLICABLE"
 APPLICABILITY_STATES = {APPLICABLE, NOT_APPLICABLE}
@@ -64,6 +66,7 @@ def normalized_studio_review(data: Mapping[str, Any]) -> dict[str, Any]:
         "candidate_sha256": raw.get("candidate_sha256"),
         "criteria": deepcopy(dict(_mapping(raw.get("criteria")))),
         "evidence": deepcopy(dict(_mapping(raw.get("evidence")))),
+        "final_screening": deepcopy(dict(_mapping(raw.get("final_screening")))),
         "notes": raw.get("notes"),
     }
 
@@ -109,6 +112,7 @@ def validate_studio_review(
     review: Mapping[str, Any],
     *,
     candidate_sha256: str | None = None,
+    require_complete: bool = True,
 ) -> list[str]:
     errors: list[str] = []
     normalized = normalized_studio_review({"studio_review": review})
@@ -131,7 +135,7 @@ def validate_studio_review(
         errors.extend(validate_evidence_item(item_id, item))
 
     criteria = normalized["criteria"]
-    if required and not criteria:
+    if required and require_complete and not criteria:
         errors.append("studio_review.required review must contain criteria")
 
     for criterion_id, item in criteria.items():
@@ -232,6 +236,10 @@ def _studio_findings(data: Mapping[str, Any]) -> tuple[list[str], list[str]]:
                 for ref in refs
             ):
                 unverified.append(f"criterion:{criterion_id}:evidence_not_reviewed")
+
+    screening_failures, screening_unverified = final_screening_findings(data, review)
+    failures.extend(screening_failures)
+    unverified.extend(screening_unverified)
 
     return sorted(set(failures)), sorted(set(unverified))
 

@@ -59,3 +59,21 @@ Only the central promotion derivation may produce assistant or user acceptance. 
 Never report “PASS” because one subsystem passed. Report the authoritative promotion state plus blocking failures/unverified requirements.
 
 For serious productions, later workflow packages will set `workflow.studio_review_required=true` and populate departmental criteria/evidence. Historical and lightweight manifests remain readable with the default disabled until migrated deliberately.
+
+## Professional final-screening contract
+
+When `workflow.studio_review_required=true`, assistant acceptance now requires a candidate-bound `studio_review.final_screening` record in addition to ordinary criterion/evidence records.
+
+Final screening contains all eleven departmental lenses: director/story, cinematography, animation/physics, continuity, editing, VFX, sound, music, dialogue/narration, mix/master, and delivery. Every department must be explicitly `APPLICABLE` with `PASS|FAIL|UNVERIFIED` or `NOT_APPLICABLE` with a reason. Applicable PASS records carry observations, claim types (`perceived|measured|inferred`), and evidence IDs.
+
+The modality contract is independent from departments. It records still-image, sampled-temporal, continuous-video, auditory, and synchronized-A/V review separately. Sampled temporal evidence never satisfies continuous-video coverage, and audio measurements never satisfy auditory perception. Continuous-video PASS must cover the full candidate. For deliveries with required audio, auditory and synchronized-A/V may not be marked not-applicable.
+
+The final screening declaration records the reviewer type, review timestamp, candidate SHA-256, and the modalities actually perceived. A modality cannot be PASS unless the declaration says that modality was actually perceived.
+
+Opening and ending review are mandatory. Authored points must have complete planned-versus-reviewed ID accounting. When suspicion-driven triage produces second-pass targets, assistant acceptance remains VERIFICATION_REQUIRED until every target is dispositioned and the second pass is PASS.
+
+`productionctl assistant-pass` now requires `--studio-review <json>` whenever studio review is required. The supplied record is candidate-bound and copied into the immutable iteration QA directory before promotion. A missing, stale, incomplete, or modality-inconsistent final screening cannot open USER_REVIEW.
+
+## Controlled blind-audit preparation
+
+The neutral blind-audit package contains only candidate identity, neutral requirements, and evidence IDs. It explicitly excludes prior audit findings, repair history, triage findings, answer keys, and the user-held final issue. Contamination status begins UNKNOWN and findings are not considered frozen until the future controlled validation run explicitly records that state.

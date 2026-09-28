@@ -579,6 +579,30 @@ def command_assistant_pass(args) -> int:
         data["artifacts"]["creative_review"] = _relative(manifest, review_path)
     integrity = _verify_review_evidence(manifest, data)
 
+    if data["workflow"].get("studio_review_required"):
+        if not args.studio_review:
+            raise ValueError(
+                "assistant PASS requires --studio-review when workflow.studio_review_required is true"
+            )
+        source_review = Path(args.studio_review).expanduser().resolve()
+        if not source_review.is_file():
+            raise FileNotFoundError("studio review file is missing")
+        payload = json.loads(source_review.read_text(encoding="utf-8"))
+        if not isinstance(payload, dict):
+            raise ValueError("studio review must contain a JSON object")
+        payload["required"] = True
+        if payload.get("candidate_sha256") != integrity["candidate_sha256"]:
+            raise ValueError("studio review is not bound to the current candidate")
+        qa_dir = _iteration_dir(manifest, data) / "qa"
+        qa_dir.mkdir(parents=True, exist_ok=True)
+        destination = qa_dir / "studio-review.json"
+        encoded = (json.dumps(payload, indent=2, sort_keys=True) + "\n").encode("utf-8")
+        if destination.exists() and destination.read_bytes() != encoded:
+            raise ValueError("immutable studio-review artifact already exists with different bytes")
+        destination.write_bytes(encoded)
+        data["studio_review"] = payload
+        data["artifacts"]["studio_review"] = _relative(manifest, destination)
+
     data["gates"]["assistant"] = {
         "status": PASS,
         "notes": args.notes or "Assistant technical/visual/audio review passed.",
@@ -747,6 +771,7 @@ def build_parser() -> argparse.ArgumentParser:
         if name == "assistant-pass":
             p.add_argument("--creative-qa")
             p.add_argument("--creative-review")
+            p.add_argument("--studio-review")
         if name == "repair-start":
             p.add_argument("--reason", required=True)
         if name == "block":

@@ -8,6 +8,7 @@ from src.core.studio_review import (
     ASSISTANT_ACCEPTED, USER_ACCEPTED, derive_promotion_state,
     legacy_review_aliases, validate_studio_review,
 )
+from src.core.final_screening import validate_final_screening
 
 LANES = {"animation", "business"}
 STATUSES = {
@@ -221,8 +222,18 @@ def validate_production_v2(data: Mapping[str, Any]) -> list[str]:
                 validate_studio_review(
                     studio_review,
                     candidate_sha256=candidate_sha if isinstance(candidate_sha, str) else None,
+                    require_complete=status in {"USER_REVIEW", "DONE"},
                 )
             )
+            if workflow.get("studio_review_required") and status in {"USER_REVIEW", "DONE"}:
+                errors.extend(
+                    validate_final_screening(
+                        studio_review,
+                        candidate_sha256=candidate_sha if isinstance(candidate_sha, str) else None,
+                        duration_seconds=delivery.get("expected_duration_seconds"),
+                        audio_required=delivery.get("audio_required") if isinstance(delivery.get("audio_required"), bool) else None,
+                    )
+                )
     elif workflow.get("studio_review_required"):
         errors.append("workflow.studio_review_required requires studio_review")
 

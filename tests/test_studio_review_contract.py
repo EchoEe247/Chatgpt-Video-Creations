@@ -168,8 +168,8 @@ def test_reviewed_evidence_can_support_blocking_pass():
     data = candidate_base()
     data["workflow"]["studio_review_required"] = True
     data["studio_review"] = review
-    assert derive_promotion_state(data) == ASSISTANT_ACCEPTED
-    assert ready_for_user_review(data)
+    assert derive_promotion_state(data) == VERIFICATION_REQUIRED
+    assert not ready_for_user_review(data)
 
 
 def test_stale_studio_review_binding_is_verification_required():

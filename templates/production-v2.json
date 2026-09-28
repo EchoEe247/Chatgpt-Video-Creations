@@ -62,7 +62,8 @@
     "baseline_master": null,
     "baseline_comparison": null,
     "creative_qa": null,
-    "creative_review": null
+    "creative_review": null,
+    "studio_review": null
   },
   "gates": {
     "technical": {
@@ -86,11 +87,12 @@
     "user": "PENDING"
   },
   "studio_review": {
-    "schema_version": 1,
+    "schema_version": 2,
     "required": false,
     "candidate_sha256": null,
     "criteria": {},
     "evidence": {},
-    "notes": null
+    "notes": null,
+    "final_screening": {}
   }
 }
