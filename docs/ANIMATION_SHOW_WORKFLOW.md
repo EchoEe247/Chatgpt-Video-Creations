@@ -51,15 +51,21 @@ Once the season foundation is approved, implementation becomes intentionally nar
 2. load current accepted canon and unresolved threads;
 3. finalize that episode's script/dialogue;
 4. build and validate the detailed scene plan, including important review points;
-5. render scenes independently;
-6. assemble the master;
-7. run deterministic technical/audio QA and build the review pack;
-8. run assistant visual, acting, continuity, scene-boundary, and story review;
-9. when assistant review finds a defect, repair and re-QA internally without handing that intermediate candidate to the user;
-10. repeat within the configured autonomous repair budget until the assistant gate passes;
-11. present the final candidate for user acceptance;
-12. if the user requests refinement, return to the autonomous repair/re-QA loop;
-13. only after technical, assistant, and user gates pass, mark the episode `DONE ✅` and update canon.
+5. resolve the episode's high-impact asset strategy and, for serious 3D work, complete the required visual-development gates: moving previs for timing/blocking/camera/screen geography, representative look-dev for materials/lighting/integration, and a deliberate Blender compositing strategy;
+6. prove any multipass/hybrid path on a representative frame or short range before committing to an expensive sequence render;
+7. render scenes independently;
+8. assemble the master;
+9. run deterministic technical/audio QA and build the review pack;
+10. run assistant visual, acting, continuity, scene-boundary, and story review on the actual final candidate;
+11. when assistant review finds a defect, repair and re-QA internally without handing that intermediate candidate to the user;
+12. repeat within the configured autonomous repair budget until the assistant gate passes;
+13. present the final candidate for user acceptance;
+14. if the user requests refinement, return to the autonomous repair/re-QA loop;
+15. only after technical, assistant, and user gates pass, mark the episode `DONE ✅` and update canon.
+
+Previs/look-dev approval is development evidence, not episode acceptance. It only proves that specific upstream decisions are ready for production. Final creative QA still binds to the encoded episode candidate.
+
+See `docs/VISUAL_DEVELOPMENT.md` for the visual-development contract and `docs/CHARACTER_PRODUCTION.md` for character/rig/action sourcing and performance assembly.
 
 Do not start the next episode while the current one is still `REFINEMENT_REQUIRED`. Finishing one accepted episode is more useful than spreading unresolved defects across several unfinished episodes.
 
@@ -100,6 +106,10 @@ episode-01/
 ├── scene-plan.json
 ├── continuity-in.json
 ├── assets/
+├── development/
+│   ├── previs/
+│   ├── lookdev/
+│   └── compositing-proof/
 ├── renders/scenes/
 ├── qa/
 ├── final/

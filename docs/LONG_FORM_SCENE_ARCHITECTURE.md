@@ -20,6 +20,20 @@ Before individual rendering starts, define the whole episode or video:
 
 Each scene then receives its own timeline range and continuity input. That keeps independently rendered scenes connected to one production rather than becoming unrelated clips that happen to be concatenated later.
 
+## Visual development before expensive scene rendering
+
+For serious 3D scenes, independent rendering does not mean immediately launching final-quality frames.
+
+Resolve the relevant director-level visual-development gates first:
+
+- **moving previs** for episode/sequence timing, blocking, camera grammar, screen direction and scene-to-scene geography;
+- **look development** on representative assets/conditions for materials, lighting, reflections, grounding, atmosphere and environment integration;
+- **compositing proof** when a Blender scene uses `multipass` or `hybrid`, using a representative frame or short range to prove the selected passes and reconstruction/finishing path.
+
+A scene should not consume its full render budget merely to discover a problem that the shared previs or look-dev could have exposed. Development artifacts are upstream evidence; they do not replace final scene or master QA.
+
+See `docs/VISUAL_DEVELOPMENT.md`.
+
 ## Independent scene rendering
 
 Typical working ranges:
@@ -31,6 +45,8 @@ Typical working ranges:
 These are production guidance, not hard caps. Use the duration that lets the scene keep the needed quality and remain practical to inspect and replace.
 
 Each scene should render at the appropriate FPS and resolution instead of inheriting an unnecessary whole-video quality compromise.
+
+When a Blender scene declares `multipass` or `hybrid`, keep its high-fidelity pass/AOV outputs and compositor metadata with that scene's production artifacts. Do not force the master assembler to infer or reconstruct missing per-scene finishing state. Final assembly should consume the accepted scene result, while the pass data remains available for targeted repair without rerendering unrelated scenes.
 
 ## Scene handles
 

@@ -6,6 +6,20 @@ Phase 6 adds automated **triage signals** and a stronger evidence bundle before 
 
 The inherited experience signals were introduced in **schema v2**. Schema v2 keeps the original freeze/motion/camera/layout checks and adds the experience-level review system in [EXPERIENCE_REVIEW_WORKFLOW.md](EXPERIENCE_REVIEW_WORKFLOW.md): interior motion cadence, every-cut transition evidence, visual-style continuity, audio boundary/spectral/stem/pacing checks, A/V sync clips, explicit warning dispositions, and before/after repair comparison.
 
+## Development evidence is not final-candidate QA
+
+For serious 3D work, the workflow may already contain approved previs, look-dev frames, or a multipass/compositing proof before final rendering. Those artifacts answer upstream questions:
+
+- previs: does timing, blocking, camera grammar and screen geography work?
+- look-dev: do representative materials, lighting, reflections, contact and environment integration work?
+- compositing proof: can the selected pass/AOV strategy produce the intended controllable finish?
+
+They do **not** certify the final film. Creative QA remains bound to the actual encoded candidate and must still review normal-speed motion, composition, continuity, story read, audio-picture behavior and the final finishing result.
+
+A later final render can invalidate an earlier visual-development assumption. If candidate review exposes a material, lighting, camera or compositing problem, repair the appropriate upstream stage and then produce a new candidate; do not treat an old look-dev/previs approval as evidence that the new candidate must be correct.
+
+See [Visual Development](VISUAL_DEVELOPMENT.md).
+
 ## Command
 
 Build a creative-QA bundle:
