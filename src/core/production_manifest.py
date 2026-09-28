@@ -169,6 +169,12 @@ def validate_production_v2(data: Mapping[str, Any]) -> list[str]:
             value = bootstrap.get(key)
             if not isinstance(value, str) or not value:
                 errors.append(f"workflow.bootstrap.{key} is required after PLANNED")
+        bridge = bootstrap.get("bridge_compatibility")
+        if not isinstance(bridge, Mapping):
+            errors.append("workflow.bootstrap.bridge_compatibility is required after PLANNED")
+        else:
+            if bridge.get("evaluated") is not True or bridge.get("compatible") is not True:
+                errors.append("workflow.bootstrap.bridge_compatibility must record an evaluated compatible bridge")
     max_cycles = workflow.get("max_autonomous_repair_cycles")
     creative_required = workflow.get("creative_qa_required")
     if not isinstance(creative_required, bool):
@@ -233,9 +239,11 @@ def validate_production_v2(data: Mapping[str, Any]) -> list[str]:
         if not isinstance(studio_review, Mapping):
             errors.append("studio_review must be an object")
         else:
+            effective_studio_review = dict(studio_review)
+            effective_studio_review["required"] = bool(workflow.get("studio_review_required"))
             errors.extend(
                 validate_studio_review(
-                    studio_review,
+                    effective_studio_review,
                     candidate_sha256=candidate_sha if isinstance(candidate_sha, str) else None,
                     require_complete=status in {"USER_REVIEW", "DONE"},
                 )

@@ -87,9 +87,9 @@ A provider catalog entry such as Mixamo is not the proof. The selected/acquired 
 
 ## Visual-development artifacts must exist
 
-The compiler checks the declared decisions. The production controller checks the actual files.
+The compiler checks the declared decisions and records SHA-256 bindings for development/proof artifacts that exist when the plan is compiled. The production controller checks the actual files.
 
-For `workflow.quality_floor_required=true`, final `render-spec`, `rendering`, `prepare-review`, `assistant-pass`, and `user-accept` verify the bound execution plan and its source hashes. Required previs/look-dev artifacts and asset proof artifacts must still exist.
+For `workflow.quality_floor_required=true`, final `render-spec`, `rendering`, `prepare-review`, `assistant-pass`, and `user-accept` verify the bound execution plan and its source hashes. Required previs/look-dev artifacts and asset proof artifacts must still exist **and match their compiled hashes**. Previs must also decode as video; look-dev must validate as image/video media. Empty, replaced, truncated, or otherwise changed evidence invalidates the approval and requires recompilation/review.
 
 This prevents a session from typing `status: approved` around a nonexistent preview.
 

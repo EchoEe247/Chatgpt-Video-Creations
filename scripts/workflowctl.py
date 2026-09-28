@@ -27,6 +27,10 @@ def main() -> int:
     bind.add_argument("--goal", default="")
     bind.add_argument("--lane", default="auto", choices=["auto", "cinematic", "animation", "business"])
     bind.add_argument("--allow-unverified-remote", action="store_true")
+    bind.add_argument(
+        "--bootstrap-result",
+        help="JSON file containing the current Local Workspace video_workflow_bootstrap result; required for production binding.",
+    )
 
     args = p.parse_args()
     result = bootstrap(
@@ -38,6 +42,10 @@ def main() -> int:
     if args.command == "bootstrap":
         print(json.dumps(result, indent=2, sort_keys=True))
         return 0 if result.get("ready") else 2
+
+    if args.bootstrap_result:
+        bootstrap_path = Path(args.bootstrap_result).expanduser().resolve()
+        result = json.loads(bootstrap_path.read_text(encoding="utf-8"))
 
     path = Path(args.manifest).expanduser().resolve()
     data = json.loads(path.read_text(encoding="utf-8"))

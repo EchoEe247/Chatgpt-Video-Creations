@@ -93,8 +93,17 @@ class ProductionControllerIntegrationTests(unittest.TestCase):
         package=manifest.parent
         development=package/"development"
         development.mkdir(parents=True,exist_ok=True)
-        (development/"previs.mp4").write_bytes(b"previs")
-        (development/"lookdev.png").write_bytes(b"lookdev")
+        shutil.copy2(self.source, development/"previs.mp4")
+        subprocess.run(
+            [
+                "ffmpeg", "-y", "-v", "error", "-f", "lavfi",
+                "-i", "color=c=gray:s=64x64:d=0.1", "-frames:v", "1",
+                str(development/"lookdev.png"),
+            ],
+            check=True,
+            stdin=subprocess.DEVNULL,
+            capture_output=True,
+        )
         brief={
             "schema_version":1,
             "title":"quality-floor-controller",
@@ -218,12 +227,14 @@ class ProductionControllerIntegrationTests(unittest.TestCase):
         manifest.write_text(json.dumps(data,indent=2)+"\n",encoding="utf-8")
 
         # Missing on-disk look-dev evidence blocks before rendering.
-        (manifest.parent/"development"/"lookdev.png").unlink()
+        lookdev_path = manifest.parent/"development"/"lookdev.png"
+        lookdev_bytes = lookdev_path.read_bytes()
+        lookdev_path.unlink()
         missing=self.run_ctl("render-spec",manifest)
         self.assertNotEqual(missing.returncode,0)
         self.assertIn("visual-development artifact is missing",missing.stderr)
 
-        (manifest.parent/"development"/"lookdev.png").write_bytes(b"lookdev")
+        lookdev_path.write_bytes(lookdev_bytes)
         blocked=self.run_ctl("render-spec",manifest)
         self.assertNotEqual(blocked.returncode,0)
         self.assertIn("studio_review_required=true",blocked.stderr)
@@ -233,6 +244,15 @@ class ProductionControllerIntegrationTests(unittest.TestCase):
         manifest.write_text(json.dumps(data,indent=2)+"\n",encoding="utf-8")
         ready=self.run_ctl("render-spec",manifest)
         self.assertEqual(ready.returncode,0,ready.stderr+ready.stdout)
+
+        # Approved development evidence is hash-bound; replacement invalidates preflight.
+        previs_path = manifest.parent/"development"/"previs.mp4"
+        original_previs = previs_path.read_bytes()
+        previs_path.write_bytes(b"")
+        tampered=self.run_ctl("render-spec",manifest)
+        self.assertNotEqual(tampered.returncode,0)
+        self.assertIn("changed after approval",tampered.stderr)
+        previs_path.write_bytes(original_previs)
 
     def test_studio_review_required_blocks_missing_and_accepts_complete_screening(self):
         manifest = self.make_manifest("studio-required")
@@ -271,8 +291,16 @@ class ProductionControllerIntegrationTests(unittest.TestCase):
                 }
             },
             "evidence": {
-                "ev-main": {"state": "REVIEWED"},
-                "ev-continuous": {"state": "REVIEWED"},
+                "ev-main": {
+                    "state": "REVIEWED",
+                    "candidate_sha256": digest,
+                    "modalities": ["still_image", "sampled_temporal"],
+                },
+                "ev-continuous": {
+                    "state": "REVIEWED",
+                    "candidate_sha256": digest,
+                    "modalities": ["continuous_video"],
+                },
             },
             "final_screening": {
                 "candidate_sha256": digest,
@@ -306,6 +334,15 @@ class ProductionControllerIntegrationTests(unittest.TestCase):
             },
         }
         review_path = manifest.parent / "studio-review-input.json"
+        invalid_review = copy.deepcopy(review)
+        invalid_review["final_screening"]["ending_reviewed"] = False
+        review_path.write_text(json.dumps(invalid_review, indent=2) + "\n", encoding="utf-8")
+        rejected = self.run_ctl("assistant-pass", manifest, "--studio-review", review_path)
+        self.assertNotEqual(rejected.returncode, 0)
+        after_reject = self.load(manifest)
+        review_dest = manifest.parent / after_reject["artifacts"]["iteration_dir"] / "qa" / "studio-review.json"
+        self.assertFalse(review_dest.exists(), "rejected studio review must not occupy immutable accepted path")
+
         review_path.write_text(json.dumps(review, indent=2) + "\n", encoding="utf-8")
         passed = self.run_ctl("assistant-pass", manifest, "--studio-review", review_path)
         self.assertEqual(passed.returncode, 0, passed.stderr + passed.stdout)

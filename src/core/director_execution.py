@@ -519,6 +519,27 @@ def compile_plan(brief_path: Path, catalog_path: Path, *, width=1280, height=720
     heroes=set(brief.get("hero_shots",[]))
     asset_strategy, asset_warnings=_compile_asset_strategy(brief,assets)
     visual_development, development_warnings=_compile_visual_development(brief)
+
+    # Bind approved development/proof artifacts to the exact bytes present when
+    # the execution plan is compiled. Final preflight rechecks these hashes.
+    proof_root = brief_path.parent
+    for gate in visual_development.get("gates", {}).values():
+        artifact = str(gate.get("artifact") or "").strip()
+        artifact_path = Path(artifact).expanduser() if artifact else None
+        if artifact_path is not None and not artifact_path.is_absolute():
+            artifact_path = proof_root / artifact_path
+        gate["artifact_sha256"] = (
+            _sha(artifact_path) if artifact_path is not None and artifact_path.is_file() else None
+        )
+    for requirement in asset_strategy.get("requirements", []):
+        proof = str(requirement.get("proof_artifact") or "").strip()
+        proof_path = Path(proof).expanduser() if proof else None
+        if proof_path is not None and not proof_path.is_absolute():
+            proof_path = proof_root / proof_path
+        requirement["proof_sha256"] = (
+            _sha(proof_path) if proof_path is not None and proof_path.is_file() else None
+        )
+
     shots=[]
     warnings=list(asset_warnings)+list(development_warnings)
     cursor=0.0

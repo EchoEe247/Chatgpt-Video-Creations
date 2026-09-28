@@ -17,6 +17,8 @@ sys.path.insert(0, str(ROOT))
 from src.core.media import (
     MediaToolError,
     compare_video,
+    decode_check,
+    probe_media,
     sha256_file,
     validate_master,
 )
@@ -243,6 +245,37 @@ def _verify_review_evidence(manifest: Path, data: dict[str, Any]) -> dict[str, A
     }
 
 
+def _validate_development_artifact(path: Path, gate_name: str) -> None:
+    if path.stat().st_size <= 0:
+        raise ValueError(f"required visual-development artifact is empty: {path}")
+    suffix = path.suffix.lower()
+    if gate_name == "previs":
+        info = probe_media(path)
+        if info.get("video_streams", 0) < 1 or not (info.get("duration_seconds") or 0):
+            raise ValueError(f"required previs artifact is not a decodable video: {path}")
+        decoded = decode_check(path)
+        if not decoded.get("success"):
+            raise ValueError(f"required previs artifact fails decode check: {path}")
+        return
+    if suffix in {".png", ".jpg", ".jpeg", ".webp", ".bmp", ".tif", ".tiff"}:
+        try:
+            from PIL import Image
+            with Image.open(path) as image:
+                image.verify()
+            with Image.open(path) as image:
+                if image.width <= 0 or image.height <= 0:
+                    raise ValueError("invalid image dimensions")
+        except Exception as exc:
+            raise ValueError(f"required look-dev artifact is not a valid image: {path}: {exc}") from exc
+        return
+    info = probe_media(path)
+    if info.get("video_streams", 0) < 1:
+        raise ValueError(f"required look-dev artifact is not valid image/video media: {path}")
+    decoded = decode_check(path)
+    if not decoded.get("success"):
+        raise ValueError(f"required look-dev artifact fails decode check: {path}")
+
+
 def _quality_floor_preflight(manifest: Path, data: dict[str, Any], *, require_final: bool) -> dict[str, Any]:
     workflow=data.get("workflow") or {}
     if not workflow.get("quality_floor_required"):
@@ -275,6 +308,17 @@ def _quality_floor_preflight(manifest: Path, data: dict[str, Any], *, require_fi
                     artifact_path=plan_root/artifact_path
                 if not artifact_path.is_file():
                     raise FileNotFoundError(f"required visual-development artifact is missing: {artifact_path}")
+                expected_hash = str(gate.get("artifact_sha256") or "").strip()
+                if not expected_hash:
+                    raise ValueError(
+                        f"required visual-development gate {gate_name} is approved but not hash-bound; recompile the execution plan"
+                    )
+                actual_hash = sha256_file(artifact_path)
+                if actual_hash != expected_hash:
+                    raise ValueError(
+                        f"required visual-development artifact changed after approval: {artifact_path}"
+                    )
+                _validate_development_artifact(artifact_path, gate_name)
         for req in (plan.get("asset_strategy") or {}).get("requirements",[]):
             proof=str(req.get("proof_artifact") or "").strip()
             if proof:
@@ -283,6 +327,15 @@ def _quality_floor_preflight(manifest: Path, data: dict[str, Any], *, require_fi
                     proof_path=plan_root/proof_path
                 if not proof_path.is_file():
                     raise FileNotFoundError(f"asset proof artifact is missing for {req.get('id')}: {proof_path}")
+                expected_hash = str(req.get("proof_sha256") or "").strip()
+                if not expected_hash:
+                    raise ValueError(
+                        f"asset proof artifact for {req.get('id')} is not hash-bound; recompile the execution plan"
+                    )
+                if sha256_file(proof_path) != expected_hash:
+                    raise ValueError(
+                        f"asset proof artifact changed after plan compilation for {req.get('id')}: {proof_path}"
+                    )
     if require_final and not qf.get("final_delivery_ready"):
         blockers=qf.get("blockers") or []
         raise ValueError("quality floor does not permit final delivery: "+", ".join(map(str,blockers)))
@@ -402,9 +455,25 @@ def command_status(args) -> int:
     return 0 if summary.get("artifact_integrity", {"pass": True})["pass"] else 1
 
 
+def _active_bootstrap_result(args) -> dict[str, Any] | None:
+    value = getattr(args, "bootstrap_result", None) or os.environ.get("CHATGPT_VIDEO_BOOTSTRAP_RESULT")
+    if not value:
+        return None
+    path = Path(value).expanduser().resolve()
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(payload, dict):
+        raise ValueError("active bootstrap result must be a JSON object")
+    return payload
+
+
 def command_render_spec(args) -> int:
     manifest, data = _load(args.manifest)
-    binding = binding_status(data, refresh_remote=True)
+    binding = binding_status(
+        data,
+        refresh_remote=True,
+        active_bootstrap=_active_bootstrap_result(args),
+        require_active_bridge=bool((data.get("workflow") or {}).get("bootstrap_required")),
+    )
     if not binding.get("ok"):
         raise ValueError(
             "current video workflow is not bound/verified; run workflowctl bind first: "
@@ -443,7 +512,12 @@ def command_render_spec(args) -> int:
 
 def command_rendering(args) -> int:
     manifest, data = _load(args.manifest)
-    binding = binding_status(data, refresh_remote=True)
+    binding = binding_status(
+        data,
+        refresh_remote=True,
+        active_bootstrap=_active_bootstrap_result(args),
+        require_active_bridge=bool((data.get("workflow") or {}).get("bootstrap_required")),
+    )
     if not binding.get("ok"):
         raise ValueError(
             "refusing to enter RENDERING with a stale/unbound workflow: "
@@ -679,12 +753,11 @@ def command_assistant_pass(args) -> int:
         if payload.get("candidate_sha256") != integrity["candidate_sha256"]:
             raise ValueError("studio review is not bound to the current candidate")
         qa_dir = _iteration_dir(manifest, data) / "qa"
-        qa_dir.mkdir(parents=True, exist_ok=True)
         destination = qa_dir / "studio-review.json"
         encoded = (json.dumps(payload, indent=2, sort_keys=True) + "\n").encode("utf-8")
-        if destination.exists() and destination.read_bytes() != encoded:
-            raise ValueError("immutable studio-review artifact already exists with different bytes")
-        destination.write_bytes(encoded)
+        already_published = bool(data.get("artifacts", {}).get("studio_review"))
+        if destination.exists() and destination.read_bytes() != encoded and already_published:
+            raise ValueError("immutable accepted studio-review artifact already exists with different bytes")
         data["studio_review"] = payload
         data["artifacts"]["studio_review"] = _relative(manifest, destination)
 
@@ -700,6 +773,15 @@ def command_assistant_pass(args) -> int:
         raise ValueError(
             "assistant PASS cannot promote candidate: " + ", ".join(blockers)
         )
+
+    # Publish immutable studio review only after the complete prospective state
+    # has passed promotion diagnostics. Failed submissions leave no poison file.
+    if data["workflow"].get("studio_review_required"):
+        qa_dir.mkdir(parents=True, exist_ok=True)
+        tmp_review = destination.with_suffix(destination.suffix + ".tmp")
+        tmp_review.write_bytes(encoded)
+        os.replace(tmp_review, destination)
+
     data["status"] = "USER_REVIEW"
     data["workflow"]["last_action"] = {
         "action": "assistant_review_passed",
@@ -858,6 +940,8 @@ def build_parser() -> argparse.ArgumentParser:
             p.add_argument("--creative-qa")
             p.add_argument("--creative-review")
             p.add_argument("--studio-review")
+        if name == "render-spec":
+            p.add_argument("--bootstrap-result")
         if name == "repair-start":
             p.add_argument("--reason", required=True)
         if name == "block":
@@ -867,6 +951,7 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("rendering", help="Persist a Local Workspace render job identity.")
     p.add_argument("manifest")
     p.add_argument("--job-id", required=True)
+    p.add_argument("--bootstrap-result")
     p.set_defaults(func=command_rendering)
 
     p = sub.add_parser("reconcile-render", help="Reconcile the persisted Local Workspace render job after resume/poll.")

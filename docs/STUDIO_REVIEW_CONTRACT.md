@@ -24,6 +24,8 @@ Each studio criterion is either:
 
 A blocking `PASS` must cite evidence that has reached `REVIEWED`.
 
+Final-screening evidence IDs are not self-authenticating labels. Every department/modality reference must resolve to an authoritative `studio_review.evidence` record that is `REVIEWED`, bound to the current candidate SHA, and—when used by a modality—explicitly bound to that modality. Unknown, stale, generated-only, or modality-mismatched IDs keep promotion at `VERIFICATION_REQUIRED`.
+
 ## Evidence lifecycle
 
 Evidence has a monotonic lifecycle:
@@ -72,7 +74,7 @@ The final screening declaration records the reviewer type, review timestamp, can
 
 Opening and ending review are mandatory. Authored points must have complete planned-versus-reviewed ID accounting. When suspicion-driven triage produces second-pass targets, assistant acceptance remains VERIFICATION_REQUIRED until every target is dispositioned and the second pass is PASS.
 
-`productionctl assistant-pass` now requires `--studio-review <json>` whenever studio review is required. The supplied record is candidate-bound and copied into the immutable iteration QA directory before promotion. A missing, stale, incomplete, or modality-inconsistent final screening cannot open USER_REVIEW.
+`productionctl assistant-pass` requires `--studio-review <json>` whenever studio review is required. The supplied record is candidate-bound and is validated against the complete prospective promotion state **before** the immutable accepted review artifact is published. Rejected attempts therefore remain correctable within the same candidate iteration; they do not occupy the accepted immutable path. A missing, stale, incomplete, or modality-inconsistent final screening cannot open USER_REVIEW.
 
 ## Controlled blind-audit preparation
 

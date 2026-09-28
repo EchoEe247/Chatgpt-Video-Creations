@@ -46,7 +46,8 @@
       "receipt_sha256": null,
       "repo_head": null,
       "freshness_at_bind": null,
-      "allow_unverified_remote": false
+      "allow_unverified_remote": false,
+      "bridge_compatibility": null
     },
     "max_autonomous_repair_cycles": 4,
     "repair_cycle": 0,
@@ -101,7 +102,7 @@
   },
   "studio_review": {
     "schema_version": 2,
-    "required": false,
+    "required": true,
     "candidate_sha256": null,
     "criteria": {},
     "evidence": {},

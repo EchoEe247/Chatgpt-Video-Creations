@@ -240,6 +240,36 @@ def validate_final_screening(
                 )
 
     allowed_ids = set(map(str, evidence_ids))
+    evidence_map = _mapping(review.get("evidence"))
+
+    def validate_screening_evidence(ref: str, *, modality: str | None = None) -> None:
+        item = evidence_map.get(ref)
+        if not isinstance(item, Mapping):
+            errors.append(
+                f"studio_review.final_screening evidence {ref} is missing from authoritative studio_review.evidence"
+            )
+            return
+        if item.get("state") != "REVIEWED":
+            errors.append(
+                f"studio_review.final_screening evidence {ref} must be REVIEWED"
+            )
+        if item.get("candidate_sha256") != candidate_sha256:
+            errors.append(
+                f"studio_review.final_screening evidence {ref} candidate binding is stale or missing"
+            )
+        if modality is not None:
+            item_modalities = item.get("modalities")
+            if (
+                not isinstance(item_modalities, list)
+                or modality not in {str(x) for x in item_modalities}
+            ):
+                errors.append(
+                    f"studio_review.final_screening evidence {ref} is not bound to modality {modality}"
+                )
+
+    for ref in sorted(allowed_ids):
+        validate_screening_evidence(ref)
+
     for name, record in departments.items():
         if isinstance(record, Mapping) and record.get("applicability", APPLICABLE) == APPLICABLE and record.get("status") == PASS:
             missing_refs = sorted(set(map(str, record.get("evidence") or [])) - allowed_ids)
@@ -248,6 +278,9 @@ def validate_final_screening(
                     f"studio_review.final_screening department {name} references evidence outside screening evidence_ids: "
                     + ", ".join(missing_refs)
                 )
+            for ref in map(str, record.get("evidence") or []):
+                if ref in allowed_ids:
+                    validate_screening_evidence(ref)
     for name, record in modalities.items():
         if isinstance(record, Mapping) and record.get("applicability", APPLICABLE) == APPLICABLE and record.get("status") == PASS:
             missing_refs = sorted(set(map(str, record.get("evidence") or [])) - allowed_ids)
@@ -256,6 +289,9 @@ def validate_final_screening(
                     f"studio_review.final_screening modality {name} references evidence outside screening evidence_ids: "
                     + ", ".join(missing_refs)
                 )
+            for ref in map(str, record.get("evidence") or []):
+                if ref in allowed_ids:
+                    validate_screening_evidence(ref, modality=name)
 
     return errors
 

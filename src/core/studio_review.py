@@ -55,11 +55,10 @@ def _legacy_gate(data: Mapping[str, Any], name: str) -> dict[str, Any]:
 def normalized_studio_review(data: Mapping[str, Any]) -> dict[str, Any]:
     workflow = _mapping(data.get("workflow"))
     raw = _mapping(data.get("studio_review"))
-    required = bool(
-        raw.get("required")
-        if "required" in raw
-        else workflow.get("studio_review_required", False)
-    )
+    if "studio_review_required" in workflow:
+        required = bool(workflow.get("studio_review_required"))
+    else:
+        required = bool(raw.get("required", False))
     return {
         "schema_version": int(raw.get("schema_version") or 1),
         "required": required,
@@ -119,7 +118,7 @@ def validate_studio_review(
     required = normalized["required"]
     bound = normalized["candidate_sha256"]
 
-    if required and not bound:
+    if required and require_complete and not bound:
         errors.append("studio_review.required review must bind candidate_sha256")
     if candidate_sha256 and bound and bound != candidate_sha256:
         errors.append("studio_review candidate_sha256 does not match current candidate")

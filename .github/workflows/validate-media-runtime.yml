@@ -3,58 +3,22 @@ name: Validate media runtime
 on:
   push:
     paths:
-      - 'src/core/media.py'
-      - 'src/core/fonts.py'
-      - 'src/core/production_manifest.py'
-      - 'src/core/production_runtime.py'
-      - 'src/core/review_pack.py'
-      - 'src/core/scene_plan.py'
-      - 'scripts/videoctl.py'
-      - 'scripts/productionctl.py'
-      - 'scripts/validate-scene-plan.py'
-      - 'scripts/assemble-scenes.py'
-      - 'scripts/render-2d-geometry-candidate*.py'
-      - 'scripts/validate-production-v2.py'
-      - 'tests/test_media.py'
-      - 'tests/test_assembly.py'
-      - 'tests/test_production_controller.py'
-      - 'tests/test_production_manifest.py'
-      - 'tests/test_production_runtime.py'
-      - 'tests/test_scene_plan.py'
-      - 'templates/production-v2.json'
-      - 'templates/scene-assembly.json'
-      - 'shows/wrong-shift/season-01/episode-01/production-v2.json'
-      - 'shows/wrong-shift/season-01/episode-01/scene-plan.json'
-      - 'templates/new-episode/scene-plan.json'
-      - 'docs/LOCAL_WORKSPACE_VIDEO_WORKFLOW.md'
-      - '.github/workflows/validate-media-runtime.yml'
+      - 'src/**'
+      - 'scripts/**'
+      - 'tests/**'
+      - 'templates/**'
+      - 'workflow/**'
+      - 'docs/**'
+      - '.github/workflows/**'
   pull_request:
     paths:
-      - 'src/core/media.py'
-      - 'src/core/fonts.py'
-      - 'src/core/production_manifest.py'
-      - 'src/core/production_runtime.py'
-      - 'src/core/review_pack.py'
-      - 'src/core/scene_plan.py'
-      - 'scripts/videoctl.py'
-      - 'scripts/productionctl.py'
-      - 'scripts/validate-scene-plan.py'
-      - 'scripts/assemble-scenes.py'
-      - 'scripts/render-2d-geometry-candidate*.py'
-      - 'scripts/validate-production-v2.py'
-      - 'tests/test_media.py'
-      - 'tests/test_assembly.py'
-      - 'tests/test_production_controller.py'
-      - 'tests/test_production_manifest.py'
-      - 'tests/test_production_runtime.py'
-      - 'tests/test_scene_plan.py'
-      - 'templates/production-v2.json'
-      - 'templates/scene-assembly.json'
-      - 'shows/wrong-shift/season-01/episode-01/production-v2.json'
-      - 'shows/wrong-shift/season-01/episode-01/scene-plan.json'
-      - 'templates/new-episode/scene-plan.json'
-      - 'docs/LOCAL_WORKSPACE_VIDEO_WORKFLOW.md'
-      - '.github/workflows/validate-media-runtime.yml'
+      - 'src/**'
+      - 'scripts/**'
+      - 'tests/**'
+      - 'templates/**'
+      - 'workflow/**'
+      - 'docs/**'
+      - '.github/workflows/**'
 
 jobs:
   media-runtime:
@@ -68,9 +32,11 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y ffmpeg
-          python -m pip install pillow
+          python -m pip install pillow pytest
       - name: Run regression tests
-        run: python -m unittest discover -s tests -v
+        run: |
+          python -m pytest --collect-only -q tests
+          python -m pytest -q tests
       - name: Validate production v2 template
         run: python scripts/validate-production-v2.py templates/production-v2.json
       - name: Validate episode scene-plan template

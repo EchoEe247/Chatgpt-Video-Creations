@@ -203,6 +203,12 @@ def bootstrap(
         "manifest_sha256": manifest_sha,
         "required_tool_profile": contract.get("required_tool_profile"),
         "bridge_compatibility_requirements": dict(contract.get("bridge_compatibility") or {}),
+        "bridge_compatibility": {
+            "evaluated": False,
+            "compatible": False,
+            "reason": "repository-native bootstrap cannot inspect the active Local Workspace bridge",
+        },
+        "production_ready": False,
         "required_docs": doc_records,
         "docs_sha256": docs_sha,
         "workflow_dirty_paths": workflow_dirty,
@@ -223,6 +229,8 @@ def binding_status(
     *,
     repo: Path | None = None,
     refresh_remote: bool = False,
+    active_bootstrap: Mapping[str, Any] | None = None,
+    require_active_bridge: bool = False,
 ) -> dict[str, Any]:
     workflow = data.get("workflow") if isinstance(data.get("workflow"), Mapping) else {}
     required = bool(workflow.get("bootstrap_required"))
@@ -248,6 +256,39 @@ def binding_status(
         errors.append("workflow.bootstrap.receipt_sha256 is stale or missing")
     if not current.get("ready"):
         errors.extend(str(x) for x in current.get("blockers") or [])
+
+    requirements = current.get("bridge_compatibility_requirements") or {}
+    bound_compat = bound.get("bridge_compatibility") if isinstance(bound.get("bridge_compatibility"), Mapping) else {}
+    if bound_compat.get("evaluated") is not True or bound_compat.get("compatible") is not True:
+        errors.append("workflow.bootstrap.bridge_compatibility is missing or was not evaluated by Local Workspace")
+    if bound_compat.get("minimum_version") != requirements.get("minimum_version"):
+        errors.append("workflow.bootstrap.bridge_compatibility.minimum_version is stale")
+    if bound_compat.get("required_profile") != current.get("required_tool_profile"):
+        errors.append("workflow.bootstrap.bridge_compatibility.required_profile is stale")
+    if bound_compat.get("missing_tools") not in ([], None):
+        errors.append("workflow.bootstrap.bridge_compatibility recorded missing tools")
+    if bound_compat.get("missing_capabilities") not in ([], None):
+        errors.append("workflow.bootstrap.bridge_compatibility recorded missing capabilities")
+
+    if require_active_bridge:
+        if not isinstance(active_bootstrap, Mapping):
+            errors.append("active Local Workspace bootstrap result is required before render dispatch")
+        else:
+            active_compat = active_bootstrap.get("bridge_compatibility") if isinstance(active_bootstrap.get("bridge_compatibility"), Mapping) else {}
+            if active_bootstrap.get("ready") is not True:
+                errors.append("active Local Workspace bootstrap is not ready")
+            if active_bootstrap.get("receipt_sha256") != current.get("receipt_sha256"):
+                errors.append("active Local Workspace bootstrap receipt is stale")
+            if active_compat.get("evaluated") is not True or active_compat.get("compatible") is not True:
+                errors.append("active Local Workspace bridge compatibility is not verified")
+            if active_compat.get("actual_version") != bound_compat.get("actual_version"):
+                errors.append("active Local Workspace bridge version changed since binding")
+            if active_compat.get("active_profile") != bound_compat.get("active_profile"):
+                errors.append("active Local Workspace tool profile changed since binding")
+            if active_compat.get("missing_tools") not in ([], None):
+                errors.append("active Local Workspace bridge is missing required tools")
+            if active_compat.get("missing_capabilities") not in ([], None):
+                errors.append("active Local Workspace bridge is missing required capabilities")
     return {
         "required": True,
         "ok": not errors,
@@ -262,6 +303,7 @@ def binding_status(
             "receipt_sha256": current.get("receipt_sha256"),
             "freshness": current.get("freshness"),
             "repo_head": current.get("repo_head"),
+            "bridge_compatibility_requirements": current.get("bridge_compatibility_requirements"),
         },
     }
 
@@ -277,6 +319,11 @@ def bind_manifest(
     receipt = dict(bootstrap_result.get("receipt") or {})
     if not receipt or not bootstrap_result.get("receipt_sha256"):
         raise ValueError("workflow bootstrap result has no receipt")
+    compatibility = bootstrap_result.get("bridge_compatibility")
+    if not isinstance(compatibility, Mapping) or compatibility.get("evaluated") is not True or compatibility.get("compatible") is not True:
+        raise ValueError(
+            "workflow binding requires a Local Workspace bootstrap result with evaluated compatible bridge evidence"
+        )
     workflow = data.setdefault("workflow", {})
     workflow["bootstrap_required"] = True
     workflow["bootstrap"] = {
@@ -285,5 +332,15 @@ def bind_manifest(
         "repo_head": bootstrap_result.get("repo_head"),
         "freshness_at_bind": bootstrap_result.get("freshness"),
         "allow_unverified_remote": bool(allow_unverified_remote),
+        "bridge_compatibility": {
+            "evaluated": True,
+            "compatible": True,
+            "minimum_version": compatibility.get("minimum_version"),
+            "actual_version": compatibility.get("actual_version"),
+            "required_profile": compatibility.get("required_profile"),
+            "active_profile": compatibility.get("active_profile"),
+            "missing_tools": list(compatibility.get("missing_tools") or []),
+            "missing_capabilities": list(compatibility.get("missing_capabilities") or []),
+        },
     }
     return data

@@ -1,3 +1,4 @@
+import copy
 import json
 
 from src.core import workflow_contract
@@ -41,6 +42,24 @@ def _fake_git(repo, *args, timeout=15.0):
     return 0, "", ""
 
 
+
+
+def _with_compatible_bridge(boot):
+    result = copy.deepcopy(boot)
+    result["bridge_compatibility"] = {
+        "evaluated": True,
+        "compatible": True,
+        "minimum_version": "0.10.0",
+        "actual_version": "0.10.0",
+        "required_profile": "core-production",
+        "active_profile": "core-production",
+        "missing_tools": [],
+        "missing_capabilities": [],
+    }
+    result["production_ready"] = True
+    return result
+
+
 def test_bootstrap_receipt_is_deterministic_and_lane_scoped(tmp_path, monkeypatch):
     repo = _fixture_repo(tmp_path)
     monkeypatch.setattr(workflow_contract, "_git", _fake_git)
@@ -62,8 +81,9 @@ def test_bound_production_detects_workflow_drift(tmp_path, monkeypatch):
     repo = _fixture_repo(tmp_path)
     monkeypatch.setattr(workflow_contract, "_git", _fake_git)
     boot = workflow_contract.bootstrap(repo=repo, lane="cinematic", refresh_remote=False, allow_unverified_remote=True)
+    compatible = _with_compatible_bridge(boot)
     data = {"lane": "animation", "workflow": {"bootstrap_required": True, "bootstrap": {}}}
-    workflow_contract.bind_manifest(data, boot, allow_unverified_remote=True)
+    workflow_contract.bind_manifest(data, compatible, allow_unverified_remote=True)
     status = workflow_contract.binding_status(data, repo=repo, refresh_remote=False)
     assert status["ok"] is True
 
@@ -71,3 +91,35 @@ def test_bound_production_detects_workflow_drift(tmp_path, monkeypatch):
     stale = workflow_contract.binding_status(data, repo=repo, refresh_remote=False)
     assert stale["ok"] is False
     assert any("docs_sha256" in item for item in stale["errors"])
+
+def test_native_bootstrap_cannot_bind_final_production_without_bridge_evidence(tmp_path, monkeypatch):
+    repo = _fixture_repo(tmp_path)
+    monkeypatch.setattr(workflow_contract, "_git", _fake_git)
+    boot = workflow_contract.bootstrap(repo=repo, lane="cinematic", refresh_remote=False, allow_unverified_remote=True)
+    data = {"lane": "cinematic", "workflow": {"bootstrap_required": True, "bootstrap": {}}}
+    try:
+        workflow_contract.bind_manifest(data, boot, allow_unverified_remote=True)
+    except ValueError as exc:
+        assert "evaluated compatible bridge evidence" in str(exc)
+    else:
+        raise AssertionError("native unverified bootstrap unexpectedly bound production")
+
+
+def test_render_dispatch_revalidates_active_bridge_profile(tmp_path, monkeypatch):
+    repo = _fixture_repo(tmp_path)
+    monkeypatch.setattr(workflow_contract, "_git", _fake_git)
+    native = workflow_contract.bootstrap(repo=repo, lane="cinematic", refresh_remote=False, allow_unverified_remote=True)
+    compatible = _with_compatible_bridge(native)
+    data = {"lane": "cinematic", "workflow": {"bootstrap_required": True, "bootstrap": {}}}
+    workflow_contract.bind_manifest(data, compatible, allow_unverified_remote=True)
+    status = workflow_contract.binding_status(
+        data, repo=repo, refresh_remote=False, active_bootstrap=compatible, require_active_bridge=True
+    )
+    assert status["ok"] is True
+    changed = _with_compatible_bridge(native)
+    changed["bridge_compatibility"]["active_profile"] = "core"
+    stale = workflow_contract.binding_status(
+        data, repo=repo, refresh_remote=False, active_bootstrap=changed, require_active_bridge=True
+    )
+    assert stale["ok"] is False
+    assert any("tool profile changed" in error for error in stale["errors"])

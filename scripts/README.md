@@ -5,7 +5,7 @@ Use the narrowest entry point that matches the task.
 - `directorctl.py` — validates director briefs and compiles hash-bound, agent-independent execution plans with renderer lanes, asset resolution, timing, review points, and explicit blockers.
 - `timelinectl.py` — compiles execution plans plus production-specific events into one hash-bound seconds/frame/sample timeline shared by picture, audio, and QA.
 - `audioctl.py` — builds/verifies the tiny procedural Core Audio Commons and applies explicit loudness/true-peak/silence master checks.
-- `productionctl.py` — restart-safe production controller. Persists Local Workspace render-job identity, copies candidates into immutable iteration directories, binds technical/creative/final-screening evidence to candidate SHA-256, reconciles interrupted jobs, tracks repair history/budget, and requires a complete candidate-bound `--studio-review` record before assistant acceptance when studio review is enabled.
+- `productionctl.py` — restart-safe production controller. Persists Local Workspace render-job identity, copies candidates into immutable iteration directories, binds technical/creative/final-screening evidence to candidate SHA-256, reconciles interrupted jobs, tracks repair history/budget, validates studio review transactionally before immutable publication, and requires a fresh Local Workspace bootstrap result for bound render dispatch.
 - `videoctl.py` — media inspection/QA primitives: probe, strict decode, loudness/silence analysis, frames, contact sheets, full-runtime baseline comparison, codec/pixel/audio delivery checks, receipts, and review packs.
 - `canvas_handdrawn_adapter.py` — stable Pixel/Termux setup, browser discovery, preview, and full-render entry point for the integrated Canvas2D hand-drawn renderer.
 - `rendererctl.py` — reports standardized renderer lanes versus actual device runtime readiness, including the current WebGL degradation/fallback state.
@@ -14,7 +14,7 @@ Use the narrowest entry point that matches the task.
 - `studiovalidate.py` — freezes opaque seeded-defect/clean-control media benchmarks with a concealed answer key, freezes findings before reveal, scores detection/localization/false alarms, and generates a separate neutral operational fresh-session handoff.
 - `python_shot_adapter.py`, `browser_shot_adapter.py`, `blender_termux_adapter.py`, `ffmpeg_shot_adapter.py` — common `{request}` frame-render contract used by `shotctl` across the major local renderer lanes.
 - `assemble-scenes.py` — assembles only the explicit ordered scenes listed in an assembly manifest. It rejects missing/duplicate inputs, output-as-input collisions, stream incompatibility, optional SHA mismatches, and duration mismatches before concat-copy and master decode verification.
-- `validate-production-v2.py` — production package schema/gate validation.
+- `workflowctl.py` — workflow freshness/binding entry point. Repository-native bootstrap is discovery/CI only for bridge compatibility; final production binding consumes the evaluated Local Workspace bootstrap JSON via `--bootstrap-result`.\n- `validate-production-v2.py` — production package schema/gate validation.
 - `validate-scene-plan.py` — scene timeline/review-point validation.
 - `validate-continuity.py` — episode continuity-state validation.
 - `validate-scene-alignment.py` — structural shared-geometry validation.

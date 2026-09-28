@@ -114,8 +114,16 @@ def _production():
             }
         },
         "evidence": {
-            "ev-main": {"state": "REVIEWED"},
-            "ev-continuous": {"state": "REVIEWED"},
+            "ev-main": {
+                "state": "REVIEWED",
+                "candidate_sha256": "a" * 64,
+                "modalities": ["still_image", "sampled_temporal"],
+            },
+            "ev-continuous": {
+                "state": "REVIEWED",
+                "candidate_sha256": "a" * 64,
+                "modalities": ["continuous_video"],
+            },
         },
         "final_screening": _screening(),
         "notes": None,
@@ -186,6 +194,19 @@ def test_missing_department_is_not_silently_ignored():
     )
     assert any("departments.continuity is required" in error for error in errors)
 
+
+
+
+def test_screening_evidence_id_must_resolve_to_reviewed_authoritative_record():
+    data = _production()
+    del data["studio_review"]["evidence"]["ev-continuous"]
+    errors = validate_final_screening(
+        data["studio_review"],
+        candidate_sha256="a" * 64,
+        duration_seconds=10.0,
+    )
+    assert any("ev-continuous is missing from authoritative studio_review.evidence" in error for error in errors)
+    assert derive_promotion_state(data) == VERIFICATION_REQUIRED
 
 def test_blind_audit_package_excludes_prior_findings_and_repairs():
     package = make_blind_audit_package(

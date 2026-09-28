@@ -22,6 +22,7 @@ def candidate_base():
     data["production_id"] = "studio-contract-test"
     data["source"]["show"] = "test-show"
     data["workflow"]["creative_qa_required"] = False
+    data["workflow"]["studio_review_required"] = False
     data["artifacts"].update(
         {
             "candidate_master": "candidate.mp4",
@@ -62,6 +63,22 @@ def test_required_studio_review_missing_is_verification_required():
     assert derive_promotion_state(data) == VERIFICATION_REQUIRED
     assert not ready_for_user_review(data)
 
+
+
+
+def test_workflow_required_cannot_be_downgraded_by_nested_required_false():
+    data = candidate_base()
+    data["workflow"]["studio_review_required"] = True
+    data["studio_review"] = {
+        "schema_version": 2,
+        "required": False,
+        "candidate_sha256": "a" * 64,
+        "criteria": {},
+        "evidence": {},
+        "final_screening": {},
+    }
+    assert derive_promotion_state(data) == VERIFICATION_REQUIRED
+    assert not ready_for_user_review(data)
 
 def test_not_applicable_is_distinct_from_unverified():
     review = {

@@ -2,7 +2,9 @@
 
 ## Fresh-session bootstrap
 
-For serious video creation, call `video_workflow_bootstrap` first. It is exposed even in the normal Local Workspace core profile so a fresh ChatGPT session does not need to already know which production tools to enable. The tool resolves `workflow/CURRENT.json`, checks Git/upstream freshness, identifies the lane-specific required documents, validates the active bridge version/tool profile/tool names/stable capability IDs against `bridge_compatibility`, and returns a deterministic receipt.
+For serious video creation, call `video_workflow_bootstrap` first. It is exposed even in the normal Local Workspace core profile so a fresh ChatGPT session does not need to already know which production tools to enable. The tool resolves `workflow/CURRENT.json`, checks Git/upstream freshness, identifies the lane-specific required documents, validates the active bridge version/tool profile/tool names/stable capability IDs against `bridge_compatibility`, and returns a deterministic receipt plus evaluated bridge evidence.
+
+Repository-native `workflowctl bootstrap` can validate files/Git requirements but cannot inspect the active Local Workspace bridge. Its bridge state is therefore explicitly unevaluated and is **not sufficient for final production binding**. Persist the current Local Workspace bootstrap JSON and pass it to `workflowctl bind --bootstrap-result <json>`. The same current bootstrap JSON must be supplied again to `productionctl render-spec --bootstrap-result <json>` and `productionctl rendering ... --bootstrap-result <json>`; render dispatch fails closed if the active bridge/profile no longer matches the bound evidence.
 
 Read those documents before planning. New manifests from `templates/production-v2.json` set `workflow.bootstrap_required=true`; bind the receipt with `python scripts/workflowctl.py bind <production.json> --lane <lane>`. The production controller refuses render specification/start when that binding is missing or stale. Studio preflight also requires the current receipt SHA, giving the review path an independent stale-workflow check.
 
