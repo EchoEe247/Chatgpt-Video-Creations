@@ -33,6 +33,9 @@ productions/standalone/*/source/av-events.json
 productions/standalone/*/source/av-timeline.json
 productions/standalone/*/source/motion-telemetry.json
 
+# Paused/rejected local production retained for possible rebuild; quality lessons are tracked in docs/receipts.
+productions/standalone/lax-arrival/
+
 # Machine-local asset payload/state. Catalog, schemas and manifests are tracked.
 assets/local-state.json
 assets/core/payload/
