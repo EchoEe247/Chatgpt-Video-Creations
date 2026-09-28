@@ -31,6 +31,7 @@ def test_renderer_adapter_scripts_exist():
         "scripts/browser_shot_adapter.py",
         "scripts/blender_termux_adapter.py",
         "scripts/blender_shot_adapter.py",
+        "scripts/blender_multipass_smoke.py",
         "scripts/ffmpeg_shot_adapter.py",
         "scripts/rendererctl.py",
         "src/renderers/canvas_handdrawn/request-render.mjs",

@@ -80,6 +80,36 @@ def blender_ready() -> tuple[bool,str]:
     first=(p.stdout or p.stderr or "").strip().splitlines()
     return p.returncode==0,(first[0] if first else "Blender unavailable")
 
+def blender_multipass_smoke() -> int:
+    if not shutil.which("proot-distro"):
+        print(json.dumps({"pass":False,"error":"proot-distro missing"},indent=2)); return 2
+    base=ROOT/".runtime"/"renderer-doctor"/"blender-multipass"
+    base.mkdir(parents=True,exist_ok=True)
+    out=base/"multipass-smoke.exr"
+    report=base/"multipass-smoke.json"
+    script=ROOT/"scripts"/"blender_multipass_smoke.py"
+    try:
+        p=subprocess.run([
+            "proot-distro","login","hermes-ubuntu","--","blender","--background",
+            "--python-exit-code","1","--python",str(script),"--",
+            "--output",str(out),"--report",str(report)
+        ],cwd=ROOT,capture_output=True,text=True,timeout=90)
+    except subprocess.TimeoutExpired:
+        print(json.dumps({"pass":False,"error":"Blender multipass smoke timed out"},indent=2)); return 2
+    data={}
+    if report.is_file():
+        try: data=json.loads(report.read_text(encoding="utf-8"))
+        except Exception: data={}
+    result={
+        "pass":p.returncode==0 and out.is_file() and out.stat().st_size>0 and bool(data.get("output_exists")),
+        "returncode":p.returncode,
+        "report":data,
+        "output":str(out),
+        "stderr_tail":"\n".join((p.stderr or "").splitlines()[-8:]),
+    }
+    print(json.dumps(result,indent=2))
+    return 0 if result["pass"] else 2
+
 def doctor() -> int:
     python_ok=bool(shutil.which("python"))
     ffmpeg_ok=bool(shutil.which("ffmpeg") and shutil.which("ffprobe"))
@@ -110,7 +140,9 @@ def main():
         print(json.dumps(LANES,indent=2)); return 0
     if cmd=="doctor":
         return doctor()
-    raise SystemExit("usage: rendererctl.py [doctor|list]")
+    if cmd=="multipass-smoke":
+        return blender_multipass_smoke()
+    raise SystemExit("usage: rendererctl.py [doctor|list|multipass-smoke]")
 
 if __name__=="__main__":
     raise SystemExit(main())

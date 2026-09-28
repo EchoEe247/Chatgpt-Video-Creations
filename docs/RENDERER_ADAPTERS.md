@@ -86,6 +86,10 @@ The wrapper owns the environment-specific call into `hermes-ubuntu` and Blender.
 
 Current validated runtime: Blender 4.0.2.
 
+For serious Blender shots, the director plan also carries a compositing strategy. The standard shot adapter still owes `shotctl` inspectable RGB preview frames. Production-owned Blender scene/scripts may additionally write declared AOV/pass artifacts for a `multipass` or `hybrid` shot. Those pass outputs are production artifacts, not a substitute for the adapter's normal preview contract.
+
+Before a long pass render, prove one representative frame/short range, verify the intended compositor can reconstruct the shot, and keep pass data in a suitable high-fidelity intermediate rather than prematurely encoding it as lossy delivery media. See `docs/VISUAL_DEVELOPMENT.md`.
+
 ### FFmpeg / existing media
 
 Entry point:
@@ -139,6 +143,7 @@ Validated locally on the Pixel environment:
 - Canvas browser adapter: three requested 320×180 frames — PASS.
 - FFmpeg adapter: three exact frames sampled from a generated H.264 source — PASS.
 - Blender wrapper: one 320×180 Workbench frame through `hermes-ubuntu`, Blender 4.0.2 — PASS.
+- Blender multilayer EXR smoke: Eevee, 96×64, `OPEN_EXR_MULTILAYER`, with depth/normal/diffuse/glossy/emission/shadow/mist/AO/Cryptomatte pass flags enabled — PASS. Re-run with `scripts/blender_multipass_smoke.py` when the Blender runtime changes.
 - Three.js/WebGL contract: standardized, but runtime probe — DEGRADED (`WebGL unavailable`).
 
 This is adapter/recovery validation, not a visual-quality baseline.

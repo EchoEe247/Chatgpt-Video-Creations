@@ -98,6 +98,20 @@ RIDGELINE, Blender Agent Action V5 and the VELOCITY recreation establish a combi
 
 The resulting rule is **source nouns, author verbs**. High-impact make-vs-source decisions now belong in the director brief so a fresh agent cannot silently convert an unresolved asset need into low-quality scratch geometry.
 
+## Reference-study visual-development lessons
+
+Three Blender references reviewed on 2026-09-28 reinforced production relationships worth encoding rather than copying stylistically:
+
+- `https://youtube.com/shorts/hYcQ5gGHxxg` — a strong car asset becomes convincing through look development: material response, reflections, lighting, grounding, camera and finishing matter as much as base geometry.
+- `https://youtu.be/4nPSwmwsa7g` — compositing/render-pass workflows demonstrate why a baked beauty frame should not be the only possible finishing representation when depth, emission, masks, reflections or atmosphere need controlled adjustment.
+- `https://youtu.be/UXqq0ZvbOnk` — polished Blender narrative work reinforces the value of moving previs before final animation/lighting and of separating blocking/editorial decisions from final pixels.
+
+These references do not become style targets or asset sources by default. The transferable workflow is:
+
+**source/adapt assets → moving previs → representative look-dev → deliberate pass/compositing proof → expensive render → final composite/encode → candidate-bound QA**
+
+The full render should not be the first time the workflow discovers a bad camera move, unreadable blocking, weak material response or an inflexible finishing path.
+
 ## Revised serious-video order
 
 For cinematic/local productions, prefer this sequence when applicable:

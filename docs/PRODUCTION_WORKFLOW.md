@@ -70,6 +70,16 @@ If implementation is stuck on a production technique, research established pract
 
 See `docs/RESOURCE_SOURCING.md`.
 
+## 2.75. Previs and look-dev before expensive 3D rendering
+
+For serious 3D/cinematic work, decide whether previs and look development are required and record the decision in the director brief `visual_development` contract.
+
+When required, approve a cheap moving previs for timing/blocking/camera/screen geography before final animation/rendering, then approve representative look-dev frames for materials, lighting, reflections, grounding and environment integration.
+
+For Blender shots, also choose an intentional compositing mode: `beauty_only`, `multipass`, or `hybrid`. Prove a representative pass/composite path before a costly sequence render.
+
+See `docs/VISUAL_DEVELOPMENT.md`.
+
 ## 3. Plan the master before individual scenes
 
 Define scene timestamp ranges, camera/framing, action, dialogue or on-screen text, audio cues, transitions, continuity state, and the purpose of each scene.

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "workflow_id": "chatgpt-video-production",
-  "workflow_version": "2026.09.28.5",
+  "workflow_version": "2026.09.28.6",
   "canonical_entrypoint": "AGENTS.md",
   "required_tool_profile": "core-production",
   "policy": {
@@ -20,6 +20,7 @@
   "lane_docs": {
     "cinematic": [
       "docs/CHARACTER_PRODUCTION.md",
+      "docs/VISUAL_DEVELOPMENT.md",
       "docs/DIRECTOR_SPEC_WORKFLOW.md",
       "docs/DIRECTOR_EXECUTION_PLAN.md",
       "docs/AUDIO_TIMELINE_WORKFLOW.md",
@@ -33,6 +34,7 @@
       "docs/CONTINUITY_SYSTEM.md",
       "docs/LONG_FORM_SCENE_ARCHITECTURE.md",
       "docs/CHARACTER_PRODUCTION.md",
+      "docs/VISUAL_DEVELOPMENT.md",
       "docs/DIRECTOR_SPEC_WORKFLOW.md",
       "docs/AUDIO_TIMELINE_WORKFLOW.md",
       "docs/CREATIVE_QA_WORKFLOW.md",

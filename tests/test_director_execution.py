@@ -180,3 +180,172 @@ def test_provider_entry_does_not_satisfy_concrete_asset_requirement(tmp_path):
     assert req["resolved"] is False
     assert "provider_not_concrete_asset" in req["blockers"]
     assert req["assets"][0]["kind"]=="provider"
+
+def _resolved_asset_strategy():
+    return {
+        "principle":"source_nouns_author_verbs",
+        "requirements":[{
+            "id":"custom-world",
+            "kind":"environment",
+            "need":"Production-specific world",
+            "decision":"author_local",
+            "assets":[],
+            "structural_requirements":[],
+            "license_requirements":[],
+            "adaptation_plan":"",
+            "local_authorship":["world layout"],
+        }],
+    }
+
+
+def test_visual_development_required_gates_block_execution(tmp_path):
+    brief=json.loads(BRIEF.read_text())
+    brief["asset_strategy"]=_resolved_asset_strategy()
+    brief["visual_development"]={
+        "previs":{
+            "decision":"required",
+            "status":"pending",
+            "artifact":"",
+            "review_focus":["timing","camera"],
+            "notes":"",
+        },
+        "lookdev":{
+            "decision":"required",
+            "status":"pending",
+            "artifact":"",
+            "review_focus":["materials","lighting"],
+            "notes":"",
+        },
+    }
+    p=tmp_path/"brief.json"
+    p.write_text(json.dumps(brief))
+    plan=compile_plan(p,CATALOG)
+    assert plan["summary"]["unresolved_development_gate_count"]==2
+    assert plan["summary"]["execution_ready"] is False
+    assert "not_approved" in plan["visual_development"]["gates"]["previs"]["blockers"]
+    assert "artifact_missing" in plan["visual_development"]["gates"]["lookdev"]["blockers"]
+
+
+def test_visual_development_approved_gates_allow_execution(tmp_path):
+    brief=json.loads(BRIEF.read_text())
+    brief["asset_strategy"]=_resolved_asset_strategy()
+    brief["visual_development"]={
+        "previs":{
+            "decision":"required",
+            "status":"approved",
+            "artifact":"development/previs.mp4",
+            "review_focus":["timing","camera","screen geography"],
+            "notes":"",
+        },
+        "lookdev":{
+            "decision":"required",
+            "status":"approved",
+            "artifact":"development/lookdev/hero-night.png",
+            "review_focus":["materials","lighting","reflections","contact"],
+            "notes":"",
+        },
+    }
+    p=tmp_path/"brief.json"
+    p.write_text(json.dumps(brief))
+    plan=compile_plan(p,CATALOG)
+    assert plan["summary"]["unresolved_development_gate_count"]==0
+    assert plan["summary"]["execution_ready"] is True
+
+
+def test_blender_multipass_requires_passes_and_goals(tmp_path):
+    brief=json.loads(BRIEF.read_text())
+    brief["asset_strategy"]=_resolved_asset_strategy()
+    brief["visual_development"]={
+        "previs":{"decision":"not_required","status":"not_required","artifact":"","review_focus":[],"notes":""},
+        "lookdev":{"decision":"not_required","status":"not_required","artifact":"","review_focus":[],"notes":""},
+    }
+    brief["shots"][0]["renderer"]="blender"
+    brief["shots"][0]["compositing"]={"mode":"multipass","passes":[],"goals":[],"output":"","notes":""}
+    p=tmp_path/"brief.json"
+    p.write_text(json.dumps(brief))
+    plan=compile_plan(p,CATALOG)
+    comp=plan["shots"][0]["compositing"]
+    assert comp["resolved"] is False
+    assert "passes_missing" in comp["blockers"]
+    assert "goals_missing" in comp["blockers"]
+    assert plan["summary"]["unresolved_compositing_shot_count"]==1
+    assert plan["summary"]["execution_ready"] is False
+
+
+def test_blender_hybrid_compositing_contract_resolves(tmp_path):
+    brief=json.loads(BRIEF.read_text())
+    brief["asset_strategy"]=_resolved_asset_strategy()
+    brief["visual_development"]={
+        "previs":{"decision":"not_required","status":"not_required","artifact":"","review_focus":[],"notes":""},
+        "lookdev":{"decision":"not_required","status":"not_required","artifact":"","review_focus":[],"notes":""},
+    }
+    brief["shots"][0]["renderer"]="blender"
+    brief["shots"][0]["compositing"]={
+        "mode":"hybrid",
+        "passes":["beauty","depth","cryptomatte_object","emission"],
+        "goals":["depth atmosphere","hero isolation","emission control"],
+        "output":"composite/shot-01.exr",
+        "notes":"",
+    }
+    p=tmp_path/"brief.json"
+    p.write_text(json.dumps(brief))
+    plan=compile_plan(p,CATALOG)
+    assert plan["shots"][0]["compositing"]["resolved"] is True
+    assert plan["summary"]["unresolved_compositing_shot_count"]==0
+    assert plan["summary"]["execution_ready"] is True
+
+
+def test_visual_development_and_compositing_enums_are_validated():
+    brief=json.loads(BRIEF.read_text())
+    brief["visual_development"]={
+        "previs":{"decision":"sometimes","status":"pending","review_focus":[]},
+        "lookdev":{"decision":"required","status":"maybe","review_focus":[]},
+    }
+    brief["shots"][0]["compositing"]={"mode":"magic","passes":[],"goals":[]}
+    errors=validate_director_brief(brief)
+    assert any("visual_development.previs.decision" in e for e in errors)
+    assert any("visual_development.lookdev.status" in e for e in errors)
+    assert any("shots[0].compositing.mode" in e for e in errors)
+
+def test_blender_compositing_rejects_unknown_pass_name(tmp_path):
+    brief=json.loads(BRIEF.read_text())
+    brief["asset_strategy"]=_resolved_asset_strategy()
+    brief["visual_development"]={
+        "previs":{"decision":"not_required","status":"not_required","artifact":"","review_focus":[],"notes":""},
+        "lookdev":{"decision":"not_required","status":"not_required","artifact":"","review_focus":[],"notes":""},
+    }
+    brief["shots"][0]["renderer"]="blender"
+    brief["shots"][0]["compositing"]={
+        "mode":"multipass",
+        "passes":["beauty","magic_pass"],
+        "goals":["control finishing"],
+        "output":"composite/shot-01.exr",
+        "notes":"",
+    }
+    p=tmp_path/"brief.json"
+    p.write_text(json.dumps(brief))
+    plan=compile_plan(p,CATALOG)
+    blockers=plan["shots"][0]["compositing"]["blockers"]
+    assert any(b.startswith("unsupported_passes:") for b in blockers)
+    assert plan["summary"]["execution_ready"] is False
+
+
+def test_blender_custom_aov_namespace_is_allowed(tmp_path):
+    brief=json.loads(BRIEF.read_text())
+    brief["asset_strategy"]=_resolved_asset_strategy()
+    brief["visual_development"]={
+        "previs":{"decision":"not_required","status":"not_required","artifact":"","review_focus":[],"notes":""},
+        "lookdev":{"decision":"not_required","status":"not_required","artifact":"","review_focus":[],"notes":""},
+    }
+    brief["shots"][0]["renderer"]="blender"
+    brief["shots"][0]["compositing"]={
+        "mode":"multipass",
+        "passes":["beauty","depth","aov:hero_edge"],
+        "goals":["depth atmosphere","hero edge control"],
+        "output":"composite/shot-01.exr",
+        "notes":"",
+    }
+    p=tmp_path/"brief.json"
+    p.write_text(json.dumps(brief))
+    plan=compile_plan(p,CATALOG)
+    assert plan["shots"][0]["compositing"]["resolved"] is True

@@ -69,6 +69,18 @@ Provider entries such as `provider.mixamo` are discovery routes, not concrete se
 
 This prevents a fresh agent from turning “we need a convincing human/car/environment” into an undocumented scratch-build simply because a renderer can generate primitives.
 
+## Visual-development gate
+
+The compiled plan carries `visual_development` and each shot's compositing contract.
+
+For new briefs, a required previs/look-dev gate is unresolved until its status is `approved` and a reviewable artifact is declared. A deliberate `not_required` decision must use matching `not_required` status. `directorctl.py status` reports blocked development gates.
+
+New Blender shots also remain execution-blocked while `compositing.mode` is `unresolved`. Multipass/hybrid shots require both a non-empty pass list and explicit goals. Status reports blocked compositing shots separately.
+
+Legacy briefs without these fields receive compatibility warnings and remain compilable.
+
+See `docs/VISUAL_DEVELOPMENT.md`.
+
 ## Asset resolution
 
 Prefer asset IDs in new director briefs:

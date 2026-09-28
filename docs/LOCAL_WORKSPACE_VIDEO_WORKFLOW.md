@@ -198,6 +198,12 @@ Do not use an online video-generation model as a silent replacement for the repo
 
 See `docs/RESOURCE_SOURCING.md`.
 
+## Previs, look-dev, and pass-compositing path
+
+For serious 3D/cinematic work, read `docs/VISUAL_DEVELOPMENT.md` before full-resolution rendering. The director contract now carries explicit previs/look-dev gates and per-shot Blender compositing decisions.
+
+Use cheap moving previs to prove editorial/spatial intent, representative look-dev frames to prove pixels/material/light integration, and a short pass/compositor proof before a costly multipass sequence. Keep final delivery QA separate from these development gates.
+
 ## Character asset and performance path
 
 For character-heavy work, read `docs/CHARACTER_PRODUCTION.md`. Prefer suitable reusable meshes/rigs/actions before scratch-building production humans. Mixamo is an approved provider candidate for bipedal humanoid characters/rigging/animation under its current verified terms, with restricted raw-file redistribution and acquisition-time terms revalidation.

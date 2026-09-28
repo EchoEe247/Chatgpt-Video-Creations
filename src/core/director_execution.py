@@ -24,6 +24,17 @@ RENDERER_ALIASES = {
 }
 
 ASSET_DECISIONS = {"reuse_local", "source_free", "author_local", "hybrid", "unresolved"}
+DEVELOPMENT_DECISIONS = {"required", "not_required", "unresolved"}
+DEVELOPMENT_STATUSES = {"pending", "approved", "not_required"}
+COMPOSITING_MODES = {"beauty_only", "multipass", "hybrid", "not_applicable", "unresolved"}
+BLENDER_PASS_NAMES = {
+    "beauty", "depth", "normal", "vector",
+    "diffuse_direct", "diffuse_indirect",
+    "glossy_direct", "glossy_indirect",
+    "emission", "shadow", "mist",
+    "ambient_occlusion", "object_index", "material_index",
+    "cryptomatte_object", "cryptomatte_material",
+}
 
 ADAPTERS = {
     "python": {"ready": True, "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}", "fallback_lanes": []},
@@ -138,6 +149,92 @@ def _compile_asset_strategy(data: dict[str, Any], assets: dict[str, dict[str, An
         "requirements": requirements,
     }, warnings
 
+def _compile_visual_development(data: dict[str, Any]) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    vd=data.get("visual_development")
+    if vd is None:
+        return {
+            "reviewed": False,
+            "gates": {},
+        }, [{"code":"visual_development_missing","detail":"Legacy brief has no explicit previs/look-dev gate. New serious 3D productions should declare visual_development before expensive rendering."}]
+    gates={}
+    warnings=[]
+    for name in ("previs","lookdev"):
+        src=vd.get(name,{})
+        decision=src.get("decision","unresolved")
+        status=src.get("status","pending")
+        blockers=[]
+        if decision=="unresolved":
+            blockers.append("decision_unresolved")
+        elif decision=="required":
+            if status!="approved":
+                blockers.append("not_approved")
+            if not str(src.get("artifact","")).strip():
+                blockers.append("artifact_missing")
+            if name=="lookdev" and not src.get("review_focus"):
+                blockers.append("review_focus_missing")
+        elif decision=="not_required" and status!="not_required":
+            blockers.append("status_must_be_not_required")
+        gate={
+            "decision":decision,
+            "status":status,
+            "artifact":src.get("artifact",""),
+            "review_focus":src.get("review_focus",[]),
+            "notes":src.get("notes",""),
+            "resolved":not blockers,
+            "blockers":blockers,
+        }
+        gates[name]=gate
+        if blockers:
+            warnings.append({"gate":name,"code":"visual_development_unresolved","detail":blockers})
+    return {"reviewed":True,"gates":gates}, warnings
+
+def _compile_compositing(shot: dict[str, Any], lane: str) -> tuple[dict[str, Any], list[str]]:
+    src=shot.get("compositing")
+    if src is None:
+        if lane=="blender":
+            return {
+                "reviewed":False,
+                "mode":"legacy_unspecified",
+                "passes":[],
+                "goals":[],
+                "resolved":True,
+                "blockers":[],
+            }, ["blender_compositing_strategy_missing"]
+        return {
+            "reviewed":False,
+            "mode":"not_applicable",
+            "passes":[],
+            "goals":[],
+            "resolved":True,
+            "blockers":[],
+        }, []
+    mode=src.get("mode","unresolved")
+    passes=src.get("passes",[])
+    goals=src.get("goals",[])
+    blockers=[]
+    if lane=="blender":
+        if mode=="unresolved":
+            blockers.append("mode_unresolved")
+        if mode in {"multipass","hybrid"} and not passes:
+            blockers.append("passes_missing")
+        unknown=[p for p in passes if p not in BLENDER_PASS_NAMES and not str(p).startswith("aov:")]
+        if unknown:
+            blockers.append("unsupported_passes:"+",".join(sorted(map(str,unknown))))
+        if mode in {"multipass","hybrid"} and not goals:
+            blockers.append("goals_missing")
+    elif mode=="unresolved":
+        mode="not_applicable"
+    return {
+        "reviewed":True,
+        "mode":mode,
+        "passes":passes,
+        "goals":goals,
+        "output":src.get("output",""),
+        "notes":src.get("notes",""),
+        "resolved":not blockers,
+        "blockers":blockers,
+    }, []
+
 def validate_director_brief(data: dict[str, Any]) -> list[str]:
     errors=[]
     if data.get("schema_version") != 1:
@@ -205,6 +302,35 @@ def validate_director_brief(data: dict[str, Any]) -> list[str]:
                     for key in ("assets","structural_requirements","license_requirements","local_authorship"):
                         if key in req and not isinstance(req.get(key),list):
                             errors.append(f"{p}.{key} must be a list")
+    vd=data.get("visual_development")
+    if vd is not None:
+        if not isinstance(vd,dict):
+            errors.append("visual_development must be an object")
+        else:
+            for name in ("previs","lookdev"):
+                gate=vd.get(name)
+                p=f"visual_development.{name}"
+                if not isinstance(gate,dict):
+                    errors.append(f"{p} must be an object")
+                    continue
+                if gate.get("decision") not in DEVELOPMENT_DECISIONS:
+                    errors.append(f"{p}.decision must be one of {sorted(DEVELOPMENT_DECISIONS)}")
+                if gate.get("status") not in DEVELOPMENT_STATUSES:
+                    errors.append(f"{p}.status must be one of {sorted(DEVELOPMENT_STATUSES)}")
+                if "review_focus" in gate and not isinstance(gate.get("review_focus"),list):
+                    errors.append(f"{p}.review_focus must be a list")
+    for i,s in enumerate(shots):
+        comp=s.get("compositing")
+        if comp is not None:
+            p=f"shots[{i}].compositing"
+            if not isinstance(comp,dict):
+                errors.append(f"{p} must be an object")
+            else:
+                if comp.get("mode") not in COMPOSITING_MODES:
+                    errors.append(f"{p}.mode must be one of {sorted(COMPOSITING_MODES)}")
+                for key in ("passes","goals"):
+                    if key in comp and not isinstance(comp.get(key),list):
+                        errors.append(f"{p}.{key} must be a list")
     heroes=data.get("hero_shots",[])
     unknown=[x for x in heroes if x not in seen]
     if unknown:
@@ -266,8 +392,9 @@ def compile_plan(brief_path: Path, catalog_path: Path, *, width=1280, height=720
     assets=_asset_index(catalog)
     heroes=set(brief.get("hero_shots",[]))
     asset_strategy, asset_warnings=_compile_asset_strategy(brief,assets)
+    visual_development, development_warnings=_compile_visual_development(brief)
     shots=[]
-    warnings=list(asset_warnings)
+    warnings=list(asset_warnings)+list(development_warnings)
     cursor=0.0
     for idx,s in enumerate(brief["shots"]):
         duration=float(s["duration_seconds"])
@@ -286,6 +413,11 @@ def compile_plan(brief_path: Path, catalog_path: Path, *, width=1280, height=720
             })
         if not adapter["ready"]:
             warnings.append({"shot_id":s["id"],"code":"adapter_not_standardized","detail":lane})
+        compositing, comp_warnings=_compile_compositing(s,lane)
+        for code in comp_warnings:
+            warnings.append({"shot_id":s["id"],"code":code,"detail":"Declare beauty_only, multipass, or hybrid for new Blender shots."})
+        if not compositing["resolved"]:
+            warnings.append({"shot_id":s["id"],"code":"compositing_unresolved","detail":compositing["blockers"]})
         reviews=[]
         for t in s.get("review_points_seconds",[]):
             reviews.append({"local_seconds":float(t),"absolute_seconds":cursor+float(t),"clip_seconds":2.0})
@@ -322,6 +454,7 @@ def compile_plan(brief_path: Path, catalog_path: Path, *, width=1280, height=720
                 "runtime_note":adapter.get("runtime_note"),
             },
             "assets":resolved_assets,
+            "compositing":compositing,
             "continuity_dependencies":s.get("continuity_dependencies",[]),
             "review_points":reviews,
             "failure_modes":s.get("failure_modes",[]),
@@ -355,6 +488,7 @@ def compile_plan(brief_path: Path, catalog_path: Path, *, width=1280, height=720
         },
         "handoff":brief.get("handoff",{}),
         "asset_strategy":asset_strategy,
+        "visual_development":visual_development,
         "shots":shots,
         "warnings":warnings,
         "summary":{
@@ -364,9 +498,12 @@ def compile_plan(brief_path: Path, catalog_path: Path, *, width=1280, height=720
             "unresolved_asset_count":sum(1 for s in shots for a in s["assets"] if not a["resolved"]),
             "asset_strategy_reviewed":asset_strategy["reviewed"],
             "unresolved_asset_requirement_count":sum(1 for r in asset_strategy["requirements"] if not r["resolved"]),
+            "visual_development_reviewed":visual_development["reviewed"],
+            "unresolved_development_gate_count":sum(1 for g in visual_development["gates"].values() if not g["resolved"]),
+            "unresolved_compositing_shot_count":sum(1 for s in shots if not s["compositing"]["resolved"]),
             "warning_count":len(warnings),
-            "blocked_shot_count":sum(1 for s in shots if not s["renderer"]["adapter_ready"] or any(not a["resolved"] for a in s["assets"])),
-            "execution_ready":all(s["renderer"]["adapter_ready"] and all(a["resolved"] for a in s["assets"]) for s in shots) and all(r["resolved"] for r in asset_strategy["requirements"]),
+            "blocked_shot_count":sum(1 for s in shots if not s["renderer"]["adapter_ready"] or any(not a["resolved"] for a in s["assets"]) or not s["compositing"]["resolved"]),
+            "execution_ready":all(s["renderer"]["adapter_ready"] and all(a["resolved"] for a in s["assets"]) and s["compositing"]["resolved"] for s in shots) and all(r["resolved"] for r in asset_strategy["requirements"]) and all(g["resolved"] for g in visual_development["gates"].values()),
         },
     }
     plan_errors=validate_execution_plan(plan)

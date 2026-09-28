@@ -70,6 +70,35 @@
       }
     ]
   },
+  "visual_development": {
+    "previs": {
+      "decision": "unresolved",
+      "status": "pending",
+      "artifact": "",
+      "review_focus": [
+        "timing",
+        "blocking",
+        "camera grammar",
+        "screen geography",
+        "shot transitions"
+      ],
+      "notes": ""
+    },
+    "lookdev": {
+      "decision": "unresolved",
+      "status": "pending",
+      "artifact": "",
+      "review_focus": [
+        "materials",
+        "lighting",
+        "reflections",
+        "contact/shadows",
+        "environment integration",
+        "depth/atmosphere"
+      ],
+      "notes": ""
+    }
+  },
   "hero_shots": [],
   "shots": [
     {
@@ -89,7 +118,14 @@
       "assets": [],
       "continuity_dependencies": [],
       "review_points_seconds": [],
-      "failure_modes": []
+      "failure_modes": [],
+      "compositing": {
+        "mode": "unresolved",
+        "passes": [],
+        "goals": [],
+        "output": "",
+        "notes": ""
+      }
     }
   ],
   "handoff": {

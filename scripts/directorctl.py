@@ -40,7 +40,9 @@ def main():
         pending=sum(1 for s in plan["shots"] if s["state"]=="PLANNED")
         blocked=[s["id"] for s in plan["shots"] if not s["renderer"]["adapter_ready"] or any(not a["resolved"] for a in s["assets"])]
         blocked_requirements=[r["id"] for r in plan.get("asset_strategy",{}).get("requirements",[]) if not r.get("resolved",False)]
-        print(json.dumps({"pass":True,"execution_ready":plan["summary"].get("execution_ready",not blocked and not blocked_requirements),"title":plan["title"],"runtime_seconds":plan["runtime_seconds"],"shots":len(plan["shots"]),"planned":pending,"blocked_shots":blocked,"blocked_asset_requirements":blocked_requirements,"renderer_lanes":plan["summary"]["renderer_lanes"],"warnings":plan["warnings"]},indent=2))
+        blocked_development=[name for name,g in plan.get("visual_development",{}).get("gates",{}).items() if not g.get("resolved",False)]
+        blocked_compositing=[s["id"] for s in plan["shots"] if not s.get("compositing",{}).get("resolved",True)]
+        print(json.dumps({"pass":True,"execution_ready":plan["summary"].get("execution_ready",not blocked and not blocked_requirements and not blocked_development and not blocked_compositing),"title":plan["title"],"runtime_seconds":plan["runtime_seconds"],"shots":len(plan["shots"]),"planned":pending,"blocked_shots":blocked,"blocked_asset_requirements":blocked_requirements,"blocked_development_gates":blocked_development,"blocked_compositing_shots":blocked_compositing,"renderer_lanes":plan["summary"]["renderer_lanes"],"warnings":plan["warnings"]},indent=2))
         return 0
     if errors:
         print("FAIL\n- "+"\n- ".join(errors),file=sys.stderr); return 2

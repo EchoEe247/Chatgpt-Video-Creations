@@ -61,6 +61,16 @@ For sourced/hybrid needs, specify structural requirements, license requirements 
 
 Use **source nouns, author verbs**: acquire a suitable rig/car/material when that saves time and raises quality; locally direct the performance, motion, staging, camera, lighting, timing and edit.
 
+## Previs, look-dev, and compositing decisions
+
+For serious 3D work, the director brief must decide whether moving previs and representative look-dev are required. New templates start these decisions unresolved so a fresh session cannot jump directly to expensive rendering by omission.
+
+Previs proves timing, blocking, camera grammar and screen geography. Look-dev proves representative materials, lighting, reflections, contact and environment integration. These are different questions and need different evidence.
+
+For Blender shots, declare `compositing.mode`. Use multipass/hybrid only when the named AOVs solve a real finishing need; use `beauty_only` intentionally when extra passes would add cost without useful control.
+
+See `docs/VISUAL_DEVELOPMENT.md`.
+
 ## Storyboard before renderer
 
 The storyboard is a directorial artifact, not just a list of timestamps.

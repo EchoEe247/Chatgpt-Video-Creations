@@ -36,6 +36,8 @@ If a technique is weak or repeated local experiments are not converging, researc
 
 Read `docs/RESOURCE_SOURCING.md` before substantial asset acquisition or external-service integration.
 
+For serious 3D/cinematic work, also read `docs/VISUAL_DEVELOPMENT.md`. Do not make the full render the first moving test of camera/blocking or the first serious test of materials/lighting. Resolve the director brief's previs/look-dev gates and Blender compositing strategy first.
+
 For high-impact characters, vehicles, environments and similar production assets, use the director brief `asset_strategy` instead of silently deciding to scratch-build. The default shorthand is **source nouns, author verbs**. Read `docs/CHARACTER_PRODUCTION.md` for character-heavy work; Mixamo is a provider candidate for bipedal humanoid rigs/actions under current verified terms, but restricted raw payloads stay local and terms are rechecked at acquisition time.
 
 Before downloading or rebuilding common resources, query the durable asset control plane:

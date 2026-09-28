@@ -37,6 +37,8 @@ External assets can include rigs, animation clips, environments, props, textures
 
 External online video-generation models do **not** replace the repository's production workflow. Reliable external audio/image resources are acceptable when their free usage is genuinely useful and the workflow still owns the production. When a technique is weak, research practitioner workflows and tutorials rather than brute-forcing the same failed approach.
 
+For serious 3D work, the director brief also records **previs → look-dev → compositing** gates so final rendering is not the first place camera/blocking, materials/lighting, or finishing strategy are tested. See [`docs/VISUAL_DEVELOPMENT.md`](docs/VISUAL_DEVELOPMENT.md).
+
 For high-impact assets, the director brief records a make-vs-source `asset_strategy`: **source nouns, author verbs**. Generic characters/vehicles/materials/actions are candidates for licensed reuse; acting, movement, staging, cinematography, lighting, effects, edit and storytelling remain under local production control. Character-heavy work follows [`docs/CHARACTER_PRODUCTION.md`](docs/CHARACTER_PRODUCTION.md), including the Mixamo bipedal-humanoid path and its restricted raw-file redistribution rule.
 
 See [`docs/RESOURCE_SOURCING.md`](docs/RESOURCE_SOURCING.md).
@@ -147,6 +149,7 @@ See [`docs/SCENE_GEOMETRY.md`](docs/SCENE_GEOMETRY.md) and [`docs/VISUAL_QA_STAN
 - [`docs/LOCAL_WORKSPACE_VIDEO_WORKFLOW.md`](docs/LOCAL_WORKSPACE_VIDEO_WORKFLOW.md) — Local Workspace execution, media QA, provider automation, and artifact-review workflow.
 - [`docs/RESOURCE_SOURCING.md`](docs/RESOURCE_SOURCING.md) — free-asset sourcing, make-vs-source decisions, licensing/provenance, external-service reliability, and learn-before-brute-forcing policy.
 - [`docs/CHARACTER_PRODUCTION.md`](docs/CHARACTER_PRODUCTION.md) — character/rig/action sourcing ladder, Mixamo constraints, local performance authorship, and character QA.
+- [`docs/VISUAL_DEVELOPMENT.md`](docs/VISUAL_DEVELOPMENT.md) — moving previs, representative look-dev, Blender AOV/pass strategy, compositor proof, and pre-render gates.
 - [`assets/`](assets/) — portable asset catalog, Core Commons manifest, license/provenance metadata, and machine-local install-state contract.
 - `scripts/assetctl.py` — validate/query the asset catalog and detect known local payloads before downloading or rebuilding resources.
 - [`docs/DIRECTOR_SPEC_WORKFLOW.md`](docs/DIRECTOR_SPEC_WORKFLOW.md) — model-independent directing contract: reference decomposition, story/visual/camera/audio grammar, shot events, and cross-model handoff.
