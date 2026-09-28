@@ -36,6 +36,18 @@
   "workflow": {
     "mode": "autonomous_until_final_review",
     "user_review_policy": "final_candidate_only",
+    "bootstrap_required": true,
+    "bootstrap": {
+      "workflow_id": null,
+      "workflow_version": null,
+      "manifest_sha256": null,
+      "docs_sha256": null,
+      "lane": null,
+      "receipt_sha256": null,
+      "repo_head": null,
+      "freshness_at_bind": null,
+      "allow_unverified_remote": false
+    },
     "max_autonomous_repair_cycles": 4,
     "repair_cycle": 0,
     "escalation_reason": null,

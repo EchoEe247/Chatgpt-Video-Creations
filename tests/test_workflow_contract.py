@@ -1,0 +1,66 @@
+import json
+
+from src.core import workflow_contract
+
+
+def _fixture_repo(tmp_path):
+    (tmp_path / "workflow").mkdir()
+    (tmp_path / "docs").mkdir()
+    (tmp_path / "AGENTS.md").write_text("agents\n")
+    (tmp_path / "docs" / "PRODUCTION_WORKFLOW.md").write_text("workflow\n")
+    (tmp_path / "docs" / "DIRECTOR_SPEC_WORKFLOW.md").write_text("director\n")
+    (tmp_path / "workflow" / "CURRENT.json").write_text(json.dumps({
+        "schema_version": 1,
+        "workflow_id": "wf",
+        "workflow_version": "1",
+        "required_tool_profile": "core-production",
+        "core_docs": ["AGENTS.md", "docs/PRODUCTION_WORKFLOW.md"],
+        "lane_docs": {"cinematic": ["docs/DIRECTOR_SPEC_WORKFLOW.md"], "animation": [], "business": []},
+    }))
+    return tmp_path
+
+
+def _fake_git(repo, *args, timeout=15.0):
+    if args[:2] == ("rev-parse", "HEAD"):
+        return 0, "abc123", ""
+    if args[:2] == ("branch", "--show-current"):
+        return 0, "main", ""
+    if args[:3] == ("rev-parse", "--abbrev-ref", "--symbolic-full-name"):
+        return 0, "origin/main", ""
+    if args and args[0] == "rev-list":
+        return 0, "0\t0", ""
+    if args[:2] == ("status", "--porcelain"):
+        return 0, "", ""
+    if args and args[0] == "fetch":
+        return 0, "", ""
+    return 0, "", ""
+
+
+def test_bootstrap_receipt_is_deterministic_and_lane_scoped(tmp_path, monkeypatch):
+    repo = _fixture_repo(tmp_path)
+    monkeypatch.setattr(workflow_contract, "_git", _fake_git)
+    a = workflow_contract.bootstrap(repo=repo, goal="highway film", refresh_remote=False, allow_unverified_remote=True)
+    b = workflow_contract.bootstrap(repo=repo, lane="cinematic", refresh_remote=False, allow_unverified_remote=True)
+    assert a["ready"] is True
+    assert a["lane"] == "cinematic"
+    assert a["receipt_sha256"] == b["receipt_sha256"]
+    assert [x["path"] for x in a["required_docs"]] == [
+        "AGENTS.md",
+        "docs/PRODUCTION_WORKFLOW.md",
+        "docs/DIRECTOR_SPEC_WORKFLOW.md",
+    ]
+
+
+def test_bound_production_detects_workflow_drift(tmp_path, monkeypatch):
+    repo = _fixture_repo(tmp_path)
+    monkeypatch.setattr(workflow_contract, "_git", _fake_git)
+    boot = workflow_contract.bootstrap(repo=repo, lane="cinematic", refresh_remote=False, allow_unverified_remote=True)
+    data = {"lane": "animation", "workflow": {"bootstrap_required": True, "bootstrap": {}}}
+    workflow_contract.bind_manifest(data, boot, allow_unverified_remote=True)
+    status = workflow_contract.binding_status(data, repo=repo, refresh_remote=False)
+    assert status["ok"] is True
+
+    (repo / "docs" / "DIRECTOR_SPEC_WORKFLOW.md").write_text("changed\n")
+    stale = workflow_contract.binding_status(data, repo=repo, refresh_remote=False)
+    assert stale["ok"] is False
+    assert any("docs_sha256" in item for item in stale["errors"])

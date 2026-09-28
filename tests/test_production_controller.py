@@ -51,6 +51,10 @@ class ProductionControllerIntegrationTests(unittest.TestCase):
         package.mkdir(parents=True, exist_ok=True)
         data = copy.deepcopy(TEMPLATE)
         data["production_id"] = name
+        # Most controller tests exercise legacy/runtime behavior unrelated to the
+        # fresh-session bootstrap gate. Dedicated workflow-contract tests cover
+        # the required-binding path.
+        data["workflow"]["bootstrap_required"] = False
         data["workflow"]["creative_qa_required"] = creative_required
         data["source"]["show"] = "test-show"
         data["delivery"].update(

@@ -41,7 +41,9 @@ See [`docs/RESOURCE_SOURCING.md`](docs/RESOURCE_SOURCING.md).
 
 ## Local Workspace runtime
 
-This repository now assumes the Local Workspace plugin is available for normal ChatGPT production work. Long renders use persisted background jobs whose IDs are recorded in the production manifest and reconciled after interruption. Candidate media is copied into immutable iteration directories and bound to SHA-256 before QA.
+This repository now assumes the Local Workspace plugin is available for normal ChatGPT production work.
+
+For a fresh video session, the first production action is `video_workflow_bootstrap`. The canonical pointer is `workflow/CURRENT.json`; the bootstrap checks upstream freshness, resolves the relevant lane documents, and returns a deterministic receipt. New v2 production manifests require that receipt before rendering, so a session cannot silently fall back to stale workflow knowledge. Use `scripts/workflowctl.py bind` to bind the current receipt to a production manifest. Long renders use persisted background jobs whose IDs are recorded in the production manifest and reconciled after interruption. Candidate media is copied into immutable iteration directories and bound to SHA-256 before QA.
 
 The repository mirrors native media checks in `scripts/videoctl.py` and tracks autonomous production state with `scripts/productionctl.py`. The default policy is internal technical/assistant QA and repair until a final candidate is ready, followed by one user acceptance review. Acceptance fails closed if the candidate/evidence files are missing or no longer match the reviewed hash. New serious productions use the v2 contract in `templates/production-v2.json`.
 

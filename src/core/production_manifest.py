@@ -157,6 +157,17 @@ def validate_production_v2(data: Mapping[str, Any]) -> list[str]:
         errors.append("workflow.mode must be autonomous_until_final_review")
     if workflow.get("user_review_policy") not in USER_REVIEW_POLICIES:
         errors.append("workflow.user_review_policy must be final_candidate_only")
+    if not isinstance(workflow.get("bootstrap_required"), bool):
+        errors.append("workflow.bootstrap_required must be boolean")
+    bootstrap = workflow.get("bootstrap")
+    if not isinstance(bootstrap, Mapping):
+        errors.append("workflow.bootstrap must be an object")
+        bootstrap = {}
+    if workflow.get("bootstrap_required") and status != "PLANNED":
+        for key in ("workflow_id", "workflow_version", "manifest_sha256", "docs_sha256", "lane", "receipt_sha256"):
+            value = bootstrap.get(key)
+            if not isinstance(value, str) or not value:
+                errors.append(f"workflow.bootstrap.{key} is required after PLANNED")
     max_cycles = workflow.get("max_autonomous_repair_cycles")
     creative_required = workflow.get("creative_qa_required")
     if not isinstance(creative_required, bool):

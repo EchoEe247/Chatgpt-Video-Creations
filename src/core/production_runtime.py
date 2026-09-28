@@ -37,6 +37,8 @@ DEFAULT_RENDER_JOB = {
 DEFAULT_WORKFLOW = {
     "mode": "autonomous_until_final_review",
     "user_review_policy": "final_candidate_only",
+    "bootstrap_required": False,
+    "bootstrap": {},
     "max_autonomous_repair_cycles": 4,
     "creative_qa_required": False,
     "studio_review_required": False,
@@ -61,6 +63,8 @@ def normalized_runtime(data: Mapping[str, Any]) -> dict[str, Any]:
         for key, value in raw_workflow.items():
             if key == "render_job" and isinstance(value, Mapping):
                 workflow["render_job"].update(value)
+            elif key == "bootstrap" and isinstance(value, Mapping):
+                workflow["bootstrap"].update(value)
             else:
                 workflow[key] = value
 

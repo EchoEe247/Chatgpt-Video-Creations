@@ -35,6 +35,7 @@ from src.core.production_runtime import (
 from src.core.review_pack import build_review_pack
 from src.core.creative_qa import validate_assistant_review, validate_report_evidence
 from src.core.studio_review import ASSISTANT_ACCEPTED, promotion_diagnostics
+from src.core.workflow_contract import binding_status
 
 
 def _now() -> str:
@@ -335,6 +336,12 @@ def command_status(args) -> int:
 
 def command_render_spec(args) -> int:
     manifest, data = _load(args.manifest)
+    binding = binding_status(data, refresh_remote=True)
+    if not binding.get("ok"):
+        raise ValueError(
+            "current video workflow is not bound/verified; run workflowctl bind first: "
+            + "; ".join(binding.get("errors") or [])
+        )
     render = data.get("render") or {}
     delivery = data.get("delivery") or {}
     command = render.get("command") or []
@@ -367,6 +374,12 @@ def command_render_spec(args) -> int:
 
 def command_rendering(args) -> int:
     manifest, data = _load(args.manifest)
+    binding = binding_status(data, refresh_remote=True)
+    if not binding.get("ok"):
+        raise ValueError(
+            "refusing to enter RENDERING with a stale/unbound workflow: "
+            + "; ".join(binding.get("errors") or [])
+        )
     render = data.get("render") or {}
     cwd = _resolve(manifest, render.get("cwd") or ".")
     output = _resolve(manifest, render.get("output"))

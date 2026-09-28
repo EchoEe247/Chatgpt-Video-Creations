@@ -2,6 +2,14 @@
 
 This file is the operating handoff for fresh ChatGPT or agent sessions working in this repository.
 
+## Fresh-session video bootstrap is mandatory
+
+Before planning or rendering a serious video, call Local Workspace `video_workflow_bootstrap` with the user's goal. It resolves `workflow/CURRENT.json`, selects the current lane docs, refreshes/checks upstream Git state, detects dirty/stale workflow files, and returns a deterministic workflow receipt.
+
+Read the returned `required_docs` before committing to the production plan. New production manifests created from `templates/production-v2.json` require that receipt to be bound with `python scripts/workflowctl.py bind <production.json> --lane <lane>`. `productionctl render-spec` and `productionctl rendering` fail closed on a stale or missing binding.
+
+Do not substitute memory, an older chat handoff, or a stale local document for this bootstrap. An intentional workflow experiment must be explicitly treated as discovery mode rather than accidental drift.
+
 ## Local Workspace is the default execution layer
 
 This repository predates Local Workspace, but current sessions should not operate as if the old limitation still exists.

@@ -14,9 +14,11 @@ The same operations are available through `scripts/videoctl.py`. `scripts/produc
 
 See `docs/LOCAL_WORKSPACE_VIDEO_WORKFLOW.md`.
 
-## 0. Determine the maturity state
+## 0. Bootstrap the current workflow, then determine maturity
 
-Before changing an area, decide whether it is still being discovered or is mature enough to operate from established rules.
+For a fresh serious-video session, call Local Workspace `video_workflow_bootstrap` before planning. Treat `workflow/CURRENT.json` as the single canonical pointer, read the returned lane-specific `required_docs`, and bind the deterministic receipt into new production manifests with `scripts/workflowctl.py bind`. Rendering is blocked when the required binding is missing or no longer matches the current workflow files.
+
+Then decide whether the production area is still being discovered or is mature enough to operate from established rules.
 
 Use interactive discovery when visual judgment, creative direction, architecture, timing, or measurements are unresolved.
 

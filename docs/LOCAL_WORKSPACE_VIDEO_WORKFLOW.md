@@ -1,5 +1,13 @@
 # Local Workspace Video Workflow
 
+## Fresh-session bootstrap
+
+For serious video creation, call `video_workflow_bootstrap` first. It is exposed even in the normal Local Workspace core profile so a fresh ChatGPT session does not need to already know which production tools to enable. The tool resolves `workflow/CURRENT.json`, checks Git/upstream freshness, identifies the lane-specific required documents, and returns a deterministic receipt.
+
+Read those documents before planning. New manifests from `templates/production-v2.json` set `workflow.bootstrap_required=true`; bind the receipt with `python scripts/workflowctl.py bind <production.json> --lane <lane>`. The production controller refuses render specification/start when that binding is missing or stale. Studio preflight also requires the current receipt SHA, giving the review path an independent stale-workflow check.
+
+Remote freshness can be explicitly overridden only when necessary; the override remains recorded. Do not silently treat an offline/unverified checkout as current.
+
 Current default: **schema v3**. Read [Evidence-first review](EVIDENCE_FIRST_REVIEW.md) for complete review-point coverage, source timestamps, full transition shoulders, authored-silence checks and modality-bound review. The schema-v2 sections below describe the inherited checks; v3 adds the stricter requirements.
 
 This repository predates the Local Workspace plugin. The old workflow assumed ChatGPT could plan and create files but could not reliably inspect the local runtime, persist long jobs, drive provider websites, or inspect rendered media directly.

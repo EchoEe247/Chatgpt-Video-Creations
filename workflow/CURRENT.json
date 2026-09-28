@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "workflow_id": "chatgpt-video-production",
+  "workflow_version": "2026.09.28.2",
+  "canonical_entrypoint": "AGENTS.md",
+  "required_tool_profile": "core-production",
+  "policy": {
+    "fresh_session_bootstrap_required": true,
+    "remote_freshness_required": true,
+    "new_production_binding_required": true,
+    "experimental_override_name": "discovery_mode"
+  },
+  "core_docs": [
+    "AGENTS.md",
+    "docs/PRODUCTION_WORKFLOW.md",
+    "docs/LOCAL_WORKSPACE_VIDEO_WORKFLOW.md",
+    "docs/RESOURCE_SOURCING.md",
+    "docs/OUTCOME_LEARNING_LOOP.md"
+  ],
+  "lane_docs": {
+    "cinematic": [
+      "docs/DIRECTOR_SPEC_WORKFLOW.md",
+      "docs/DIRECTOR_EXECUTION_PLAN.md",
+      "docs/AUDIO_TIMELINE_WORKFLOW.md",
+      "docs/RENDERER_ADAPTERS.md",
+      "docs/CREATIVE_QA_WORKFLOW.md",
+      "docs/EXPERIENCE_REVIEW_WORKFLOW.md",
+      "docs/EVIDENCE_FIRST_REVIEW.md"
+    ],
+    "animation": [
+      "docs/ANIMATION_SHOW_WORKFLOW.md",
+      "docs/CONTINUITY_SYSTEM.md",
+      "docs/LONG_FORM_SCENE_ARCHITECTURE.md",
+      "docs/DIRECTOR_SPEC_WORKFLOW.md",
+      "docs/AUDIO_TIMELINE_WORKFLOW.md",
+      "docs/CREATIVE_QA_WORKFLOW.md",
+      "docs/EXPERIENCE_REVIEW_WORKFLOW.md"
+    ],
+    "business": [
+      "docs/BUSINESS_RELEASE_MARKETING.md",
+      "docs/DIRECTOR_SPEC_WORKFLOW.md",
+      "docs/AUDIO_TIMELINE_WORKFLOW.md",
+      "docs/CREATIVE_QA_WORKFLOW.md",
+      "docs/EXPERIENCE_REVIEW_WORKFLOW.md"
+    ]
+  }
+}
