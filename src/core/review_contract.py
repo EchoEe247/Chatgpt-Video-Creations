@@ -106,10 +106,17 @@ def active_speech_windows(voice, bed, sr, start_seconds=0, window_seconds=.20, m
             "note":"A level-margin risk is a listening target, not proof of audible masking."}
 
 def validate_perceptual_review(report, review):
-    """Schema-v3 prevents metrics/stills being labeled as watching/listening."""
+    """Schema-v4 prevents measurements/transport from impersonating direct perception."""
     errors=[];criteria=review.get("criteria") or {}
     playback={"visible_motion","camera_variety","normal_speed_story_read","motion_smoothness","transition_coherence"}
     listening={"audio_continuity","narration_clarity"}
+    receipt=review.get("perception_receipt") or {}
+    capabilities=receipt.get("capabilities") or {}
+    receipt_sha=str(receipt.get("capability_receipt_sha256") or "")
+    receipt_bound=bool(str(receipt.get("route_id") or "").strip() and str(receipt.get("bridge_fingerprint") or "").strip() and len(receipt_sha)==64)
+    def capability_available(modality):
+        row=capabilities.get(modality) or {}
+        return receipt_bound and row.get("state")=="AVAILABLE"
     for key,item in criteria.items():
         if not item.get("pass"):continue
         method=item.get("method")
@@ -118,6 +125,15 @@ def validate_perceptual_review(report, review):
         if key in listening:allowed={"audio_listening","audiovisual_playback"}
         if key=="av_sync":allowed={"audiovisual_playback"}
         if method not in allowed:errors.append(f"{key}: PASS requires direct inspection with appropriate modality")
+        if method=="audio_listening" and not capability_available("auditory"):
+            errors.append(f"{key}: PASS requires an AVAILABLE route-bound auditory perception receipt")
+        if method=="audiovisual_playback":
+            if key in playback and not capability_available("continuous_video"):
+                errors.append(f"{key}: PASS requires an AVAILABLE route-bound continuous-video perception receipt")
+            if key in listening and not capability_available("auditory"):
+                errors.append(f"{key}: PASS requires an AVAILABLE route-bound auditory perception receipt")
+            if key=="av_sync" and not capability_available("synchronized_av"):
+                errors.append("av_sync: PASS requires an AVAILABLE route-bound synchronized-A/V perception receipt")
         if key in playback|listening|{"av_sync"}:
             refs=item.get("evidence") or []
             if not any(str(x).endswith((".mp4",".wav",".m4a")) for x in refs):
@@ -145,5 +161,11 @@ def validate_perceptual_review(report, review):
             errors.append("full-film review must bind candidate")
         if replay.get("method")!="audiovisual_playback" or replay.get("completed") is not True:
             errors.append("overall PASS requires completed audiovisual full-film review")
+        if not capability_available("continuous_video"):
+            errors.append("overall PASS requires AVAILABLE continuous-video perception capability")
+        if not capability_available("auditory"):
+            errors.append("overall PASS requires AVAILABLE auditory perception capability")
+        if not capability_available("synchronized_av"):
+            errors.append("overall PASS requires AVAILABLE synchronized-A/V perception capability")
         if not str(replay.get("observed","")).strip():errors.append("full-film review requires findings")
     return errors

@@ -8,7 +8,7 @@ The broader operating model is documented in `docs/OPERATING_MODEL.md`.
 
 ## Local Workspace-era verification
 
-Current ChatGPT sessions should use Local Workspace during the entire render/review loop rather than waiting for the user to discover media defects. Probe and decode-check each candidate, inspect audio continuity, compare against a known-good baseline when available, generate a whole-video contact sheet, inspect declared review points, and inspect exact scene seams.
+Current ChatGPT sessions should use Local Workspace during the entire render/review loop rather than waiting for the user to discover media defects. Probe and decode-check each candidate, inspect audio continuity, compare against a known-good baseline when available, generate a whole-video contact sheet, inspect declared review points, and inspect exact scene seams. Objective audio measurements do not substitute for hearing: subjective listening claims require the current route to pass the blinded auditory perception benchmark and use the gated `media_audio_listen_clip` path; synchronized A/V claims require their own capability proof.
 
 The same operations are available through `scripts/videoctl.py`. `scripts/productionctl.py` owns production state, persisted render-job identity, immutable candidate iterations, deterministic gates bound to candidate SHA-256, repair history, and the final-user-review transition.
 

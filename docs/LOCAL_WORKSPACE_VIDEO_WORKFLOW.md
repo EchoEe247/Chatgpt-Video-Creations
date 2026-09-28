@@ -171,6 +171,8 @@ The Local Workspace bridge exposes the same read-only inspection surface:
 - `media_audio_analyze`
 - `media_motion_analyze` — find freeze spans, black spans, scene-cut candidates, and aggregate blur using local FFmpeg
 - `media_audio_forensics` — inspect loud windows, clipping, DC offset, and coarse frequency-band energy without a cloud service
+- `perception_capabilities`, `perception_fixture`, `perception_score` — route-bound blinded capability proof; protocol transport support alone never counts as perception
+- `media_audio_listen_clip` — deliver a bounded WAV for direct model listening only after the exact route+bridge fingerprint passes the auditory benchmark
 - `media_preview_range` — render a small bounded MP4 around a suspicious beat for fast motion/audio review
 - `media_compare`
 
@@ -297,6 +299,16 @@ that playback happened; they do not prove that the movement, acting, composition
 or cuts are good. A contact sheet does not substitute for continuous playback
 when this browser is available. The browser connector does not establish audible
 sound, so audio listening must not be claimed from browser playback alone.
+
+### Auditory perception gate
+
+Objective audio QA and subjective listening are separate evidence classes. Loudness, clipping, silence, spectra, stereo statistics, waveform boards, transcripts, and browser playback telemetry remain useful even when the model cannot hear the payload, but none of them authorize `audio_listening`.
+
+Before making any subjective listening claim, call `perception_capabilities` for the current route. If auditory state is `UNKNOWN`, complete four concealed `perception_fixture` trials with explicit kinds `pan`, `pitch`, `count`, and `silence`. Answer only from the delivered audio and then call `perception_score`. If the host/tool wrapper does not actually expose the audio to the model, score the trial with `unavailable_reason`; never guess an answer merely to unlock the workflow.
+
+Auditory state becomes `AVAILABLE` only when all four distinct kinds pass for the same route + bridge fingerprint. `media_audio_listen_clip` is fail-closed behind that state. It extracts at most 12 seconds of the real candidate as WAV and returns the route, bridge fingerprint, candidate hash, and capability receipt SHA. Copy the current `perception_capabilities` receipt into the assistant review as `perception_receipt` when claiming direct listening.
+
+Synchronized picture/audio perception is a separate capability. An `av_sync` PASS or an overall end-to-end audiovisual PASS requires the `synchronized_av` capability to be independently validated; auditory capability alone is insufficient.
 
 If a defect is found:
 

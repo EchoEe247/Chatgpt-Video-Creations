@@ -102,6 +102,16 @@ def test_v3_complete_direct_review_can_pass_contract():
             "review_coverage":{"required_points":[{"id":"a"}],"missing_point_ids":[]},
             "evidence":{"review_points":[{"id":"a","phone_frame":"a.jpg","normal_speed_clip":"a.mp4"}]}}
     review={"criteria":{"narration_clarity":{"pass":True,"method":"audio_listening","evidence":["a.mp4"]}},
+            "perception_receipt":{"route_id":"route","bridge_fingerprint":"bridge","capability_receipt_sha256":"b"*64,
+                                  "capabilities":{"auditory":{"state":"AVAILABLE"},"continuous_video":{"state":"AVAILABLE"},"synchronized_av":{"state":"AVAILABLE"}}},
             "observations":[{"point_id":"a","observed":"The message resolves fully.","intent_match":True,"evidence":["a.jpg"]}],
             "full_film_review":{"candidate_sha256":"a"*64,"method":"audiovisual_playback","completed":True,"observed":"Read and heard the full sequence."}}
     assert validate_perceptual_review(report,review)==[]
+
+
+def test_audio_listening_pass_requires_route_bound_perception_receipt():
+    report={"review_coverage":{"required_points":[],"missing_point_ids":[]},"evidence":{"review_points":[]}}
+    review={"criteria":{"narration_clarity":{"pass":True,"method":"audio_listening","evidence":["a.wav"]}},
+            "observations":[]}
+    errors=validate_perceptual_review(report,review)
+    assert any("auditory perception receipt" in e for e in errors)
