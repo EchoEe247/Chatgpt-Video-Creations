@@ -1,0 +1,47 @@
+{
+  "assets": [
+    {
+      "path": "assets",
+      "title": "Car Kit 3.1",
+      "creator": "Kenney",
+      "source_url": "https://kenney.nl/assets/car-kit",
+      "license": "CC0-1.0",
+      "retrieved_at": "2026-09-28",
+      "archive_sha256": "fac7dacac5c7874348cf19729af3ef205f3d366493edaf0a827d93f4fdf3d0c4",
+      "modifications": "Palette remapped to dark blue in linear light; single fixed spatial adaptation to 4.65m length, approximately 1.9m width and 1.35m height; 2.72m wheelbase; 0.34m tire radius; five rotating spokes; all shots share the identical adapted mesh."
+    },
+    {
+      "path": "source/render_3d.py",
+      "origin": "Adapted original local VELOCITY software 3D renderer"
+    },
+    {
+      "path": "audio",
+      "origin": "Original local deterministic synthesis; no external recordings"
+    },
+    {
+      "path": "audio/opening.png and closing.png",
+      "origin": "Android system Roboto Regular font used for rendered title graphics",
+      "license": "Apache-2.0 (Roboto)",
+      "source": "/system/fonts/Roboto-Regular.ttf; font file not redistributed"
+    }
+  ],
+  "sourcing": "Asset catalog car search returned no matches; downloaded and checked Kenney CC0 license.",
+  "vendored_asset_hashes": {
+    "assets/Kenney-License.txt": "c33b7f6453d134deae7b1b8493717d9ccfa754c25ab97f6de89b88f8fda19b00",
+    "assets/colormap.png": "f3622a03a20c6696065cae9cbe391351be873508af190c2ebd1d420c055787a5",
+    "assets/sedan-sports.glb": "2889c428ca1dd9c975c3ff760eb8757883490410555ab60b818f712f583826d6",
+    "assets/sedan.glb": "b532ea7d2c59f7f6b22b138cf1955218a2c1898f1cea932af4d3fd563c3959b7",
+    "assets/suv-luxury.glb": "9e2a79dc050189d4555a88d2e9da0f30ff946ba74f1d43b5b3bda3c193d1f7d7"
+  },
+  "production_source_hashes": {
+    "source/build_audio.py": "b99955b31fceb1c497fdb8b8c450a338543fb2da9f633a2652f49e41b1bdf195",
+    "source/check_delivery.py": "41a7065538911b0e76b411c6fa7d23ec3d524a19b17c334b912fa3dceb3ce14e",
+    "source/cinematic_qa.py": "9e199fa1f9b68d62b505b027635a6b1244bf6c8bd338322be499ec37f16ed32b",
+    "source/collect_review.py": "ce4b9cb71cef4122aed7be16b689ec0a49924a143950df0085ba4c10372f1328",
+    "source/complete_delivery.py": "8805e27df0032354ae66a01d8083d474ef33ed38b57cee27e94885106fde52e2",
+    "source/finish.py": "3eea99fa43535e35b50b23aa1e2782430354f8260271152275721733e7896946",
+    "source/package_delivery.py": "56e9da32b11aa3f6fa596eb2048595e35f37b3cc29eb20ae9949f2664a361487",
+    "source/render_3d.py": "7d67ab0266c6930d1e0fa576ea4e97725a479c3467dc3a436a334c3d6b7f0f6b",
+    "source/verify_motion.py": "cc0eee77f9750204629110ca4c5f8a74baecd362d4b400b03e11ca47b0b6c448"
+  }
+}

@@ -1,0 +1,903 @@
+{
+  "schema_version": 1,
+  "title": "VELOCITY \u2014 A Highway Study / Recreation",
+  "goal": {
+    "audience": "Angel",
+    "runtime_seconds": 120,
+    "one_sentence_promise": "An observational highway cruise accelerates twice into night and releases.",
+    "ending_takeaway": "Speed gives way to controlled flow."
+  },
+  "story": {
+    "setup": "A dark-blue performance coupe joins steady evening highway traffic at ordinary speed.",
+    "escalation": "The road opens and the hero car accelerates while surrounding traffic remains lane-disciplined and believable.",
+    "turn": "Blue hour becomes night as speed, parallax, headlights and traffic density intensify.",
+    "resolution": "The car settles back into a normal cruise among regular traffic under city lights.",
+    "emotional_arc": [
+      "observation",
+      "flow",
+      "acceleration",
+      "focus",
+      "release"
+    ]
+  },
+  "reference_decomposition": [
+    {
+      "reference": "Existing local VELOCITY",
+      "use_for": [
+        "story",
+        "20-shot pacing",
+        "dusk-to-night"
+      ],
+      "transferable_rules": [
+        "straight cuts",
+        "two acceleration phases"
+      ],
+      "do_not_copy": [
+        "malformed car",
+        "side-switch camera",
+        "random traffic intersections"
+      ]
+    }
+  ],
+  "visual_grammar": {
+    "style": "Stylized 3D automotive short with CC0 Kenney vehicles; no photorealism claim.",
+    "palette_arc": [
+      "warm sunset asphalt",
+      "cool blue hour",
+      "deep night with practical lights"
+    ],
+    "lighting": "Sunset key progressing into cool night ambience with practical streetlights and vehicle lamps",
+    "depth_rules": [
+      "World-space connected divided highway with persistent lane geometry",
+      "Near asphalt/reflectors, hero and traffic vehicles, roadside infrastructure, skyline and atmosphere"
+    ],
+    "typography_rules": [
+      "Readable opening title and restrained ending credit; no debug overlays"
+    ],
+    "texture_rules": [
+      "Procedural asphalt grain and repair strips",
+      "Authored reflective road furniture, vehicle trim and building-window emission",
+      "No claim of external texture assets unless provenance records them"
+    ],
+    "forbidden_patterns": [
+      "Real driving footage",
+      "Loops",
+      "Still-image slideshow",
+      "Cars clipping through each other",
+      "Random lane weaving",
+      "Unmotivated airborne vehicles"
+    ]
+  },
+  "camera_grammar": {
+    "default_behavior": "Variable-duration cinematic coverage tied to speed phase; avoid periodic camera cycles",
+    "allowed_moves": [
+      "rear chase",
+      "front lead",
+      "side tracking",
+      "hood POV",
+      "low wheel detail",
+      "aerial",
+      "long-lens chase"
+    ],
+    "physical_camera_assumptions": [
+      "Ground clearance",
+      "Restrained vibration"
+    ],
+    "intentional_imperfections": [
+      "Small inertial shake"
+    ],
+    "avoid": [
+      "Camera inside car body",
+      "Random orbital motion",
+      "Traffic occluding the entire frame"
+    ]
+  },
+  "audio_grammar": {
+    "narration_or_dialogue": "None",
+    "score_arc": [
+      "restrained sunset pulse",
+      "stronger acceleration drive",
+      "night-time release"
+    ],
+    "ambience": [
+      "locally synthesized wind, road noise and traffic bed"
+    ],
+    "effects": [
+      "locally synthesized engine harmonics, expansion joints and passing-car whooshes"
+    ],
+    "silence_rules": [
+      "No extended silence; controlled opening and ending fades only"
+    ],
+    "sync_rules": [
+      "Picture displacement and audio engine/wind derive from the same source/speed-profile.json continuous speed curve",
+      "Traffic pass-bys are authored stereo events"
+    ]
+  },
+  "editing_grammar": {
+    "pace_arc": [
+      "longer observational sunset shots",
+      "shorter first acceleration coverage",
+      "breathing-space cruise reset",
+      "shorter second acceleration coverage",
+      "longer night release"
+    ],
+    "cut_motivations": [
+      "speed-phase changes",
+      "camera-scale contrast",
+      "traffic relationships",
+      "dusk-to-night progression"
+    ],
+    "transition_rules": [
+      "Straight cuts preserve action timeline",
+      "No repetitive color fades"
+    ],
+    "avoid": [
+      "Reused footage",
+      "Looped motion",
+      "Artificial slow motion interpolation"
+    ]
+  },
+  "hero_shots": [
+    "shot-04",
+    "shot-08",
+    "shot-16"
+  ],
+  "shots": [
+    {
+      "id": "shot-01",
+      "duration_seconds": 8,
+      "narrative_purpose": "observation",
+      "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in rear chase.",
+      "camera": "rear chase",
+      "subject_motion": "Integrated shared continuous world-speed curve",
+      "environment_motion": "Static world, independent traffic flow",
+      "depth_layers": [
+        "road",
+        "cars",
+        "furniture",
+        "skyline"
+      ],
+      "palette": "continuous sunset to night",
+      "transition_in": "straight cut",
+      "transition_out": "straight cut",
+      "audio_cue": "speed-driven engine and wind",
+      "renderer": "python",
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points_seconds": [
+        0.2,
+        4.0,
+        7.8
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ]
+    },
+    {
+      "id": "shot-02",
+      "duration_seconds": 7,
+      "narrative_purpose": "observation",
+      "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in rear three-quarter.",
+      "camera": "rear three-quarter",
+      "subject_motion": "Integrated shared continuous world-speed curve",
+      "environment_motion": "Static world, independent traffic flow",
+      "depth_layers": [
+        "road",
+        "cars",
+        "furniture",
+        "skyline"
+      ],
+      "palette": "continuous sunset to night",
+      "transition_in": "straight cut",
+      "transition_out": "straight cut",
+      "audio_cue": "speed-driven engine and wind",
+      "renderer": "python",
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points_seconds": [
+        0.2,
+        3.5,
+        6.8
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ]
+    },
+    {
+      "id": "shot-03",
+      "duration_seconds": 6,
+      "narrative_purpose": "observation",
+      "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in elevated highway.",
+      "camera": "elevated highway",
+      "subject_motion": "Integrated shared continuous world-speed curve",
+      "environment_motion": "Static world, independent traffic flow",
+      "depth_layers": [
+        "road",
+        "cars",
+        "furniture",
+        "skyline"
+      ],
+      "palette": "continuous sunset to night",
+      "transition_in": "straight cut",
+      "transition_out": "straight cut",
+      "audio_cue": "speed-driven engine and wind",
+      "renderer": "python",
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points_seconds": [
+        0.2,
+        3.0,
+        5.8
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ]
+    },
+    {
+      "id": "shot-04",
+      "duration_seconds": 5,
+      "narrative_purpose": "observation",
+      "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in side tracking.",
+      "camera": "side tracking",
+      "subject_motion": "Integrated shared continuous world-speed curve",
+      "environment_motion": "Static world, independent traffic flow",
+      "depth_layers": [
+        "road",
+        "cars",
+        "furniture",
+        "skyline"
+      ],
+      "palette": "continuous sunset to night",
+      "transition_in": "straight cut",
+      "transition_out": "straight cut",
+      "audio_cue": "speed-driven engine and wind",
+      "renderer": "python",
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points_seconds": [
+        0.2,
+        2.5,
+        4.8
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ]
+    },
+    {
+      "id": "shot-05",
+      "duration_seconds": 4,
+      "narrative_purpose": "first acceleration",
+      "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in low rear chase.",
+      "camera": "low rear chase",
+      "subject_motion": "Integrated shared continuous world-speed curve",
+      "environment_motion": "Static world, independent traffic flow",
+      "depth_layers": [
+        "road",
+        "cars",
+        "furniture",
+        "skyline"
+      ],
+      "palette": "continuous sunset to night",
+      "transition_in": "straight cut",
+      "transition_out": "straight cut",
+      "audio_cue": "speed-driven engine and wind",
+      "renderer": "python",
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points_seconds": [
+        0.2,
+        2.0,
+        3.8
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ]
+    },
+    {
+      "id": "shot-06",
+      "duration_seconds": 4,
+      "narrative_purpose": "first acceleration",
+      "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in front lead.",
+      "camera": "front lead",
+      "subject_motion": "Integrated shared continuous world-speed curve",
+      "environment_motion": "Static world, independent traffic flow",
+      "depth_layers": [
+        "road",
+        "cars",
+        "furniture",
+        "skyline"
+      ],
+      "palette": "continuous sunset to night",
+      "transition_in": "straight cut",
+      "transition_out": "straight cut",
+      "audio_cue": "speed-driven engine and wind",
+      "renderer": "python",
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points_seconds": [
+        0.2,
+        2.0,
+        3.8
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ]
+    },
+    {
+      "id": "shot-07",
+      "duration_seconds": 4,
+      "narrative_purpose": "first acceleration",
+      "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in wide chase.",
+      "camera": "wide chase",
+      "subject_motion": "Integrated shared continuous world-speed curve",
+      "environment_motion": "Static world, independent traffic flow",
+      "depth_layers": [
+        "road",
+        "cars",
+        "furniture",
+        "skyline"
+      ],
+      "palette": "continuous sunset to night",
+      "transition_in": "straight cut",
+      "transition_out": "straight cut",
+      "audio_cue": "speed-driven engine and wind",
+      "renderer": "python",
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points_seconds": [
+        0.2,
+        2.0,
+        3.8
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ]
+    },
+    {
+      "id": "shot-08",
+      "duration_seconds": 5,
+      "narrative_purpose": "first acceleration",
+      "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in left wheel detail.",
+      "camera": "left wheel detail",
+      "subject_motion": "Integrated shared continuous world-speed curve",
+      "environment_motion": "Static world, independent traffic flow",
+      "depth_layers": [
+        "road",
+        "cars",
+        "furniture",
+        "skyline"
+      ],
+      "palette": "continuous sunset to night",
+      "transition_in": "straight cut",
+      "transition_out": "straight cut",
+      "audio_cue": "speed-driven engine and wind",
+      "renderer": "python",
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points_seconds": [
+        0.2,
+        2.5,
+        4.8
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ]
+    },
+    {
+      "id": "shot-09",
+      "duration_seconds": 8,
+      "narrative_purpose": "flow reset",
+      "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in long-lens chase.",
+      "camera": "long-lens chase",
+      "subject_motion": "Integrated shared continuous world-speed curve",
+      "environment_motion": "Static world, independent traffic flow",
+      "depth_layers": [
+        "road",
+        "cars",
+        "furniture",
+        "skyline"
+      ],
+      "palette": "continuous sunset to night",
+      "transition_in": "straight cut",
+      "transition_out": "straight cut",
+      "audio_cue": "speed-driven engine and wind",
+      "renderer": "python",
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points_seconds": [
+        0.2,
+        4.0,
+        7.8
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ]
+    },
+    {
+      "id": "shot-10",
+      "duration_seconds": 7,
+      "narrative_purpose": "flow reset",
+      "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in elevated cruise.",
+      "camera": "elevated cruise",
+      "subject_motion": "Integrated shared continuous world-speed curve",
+      "environment_motion": "Static world, independent traffic flow",
+      "depth_layers": [
+        "road",
+        "cars",
+        "furniture",
+        "skyline"
+      ],
+      "palette": "continuous sunset to night",
+      "transition_in": "straight cut",
+      "transition_out": "straight cut",
+      "audio_cue": "speed-driven engine and wind",
+      "renderer": "python",
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points_seconds": [
+        0.2,
+        3.5,
+        6.8
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ]
+    },
+    {
+      "id": "shot-11",
+      "duration_seconds": 8,
+      "narrative_purpose": "flow reset",
+      "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in left side tracking.",
+      "camera": "left side tracking",
+      "subject_motion": "Integrated shared continuous world-speed curve",
+      "environment_motion": "Static world, independent traffic flow",
+      "depth_layers": [
+        "road",
+        "cars",
+        "furniture",
+        "skyline"
+      ],
+      "palette": "continuous sunset to night",
+      "transition_in": "straight cut",
+      "transition_out": "straight cut",
+      "audio_cue": "speed-driven engine and wind",
+      "renderer": "python",
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points_seconds": [
+        0.2,
+        4.0,
+        7.8
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ]
+    },
+    {
+      "id": "shot-12",
+      "duration_seconds": 7,
+      "narrative_purpose": "peak acceleration",
+      "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in aerial.",
+      "camera": "aerial",
+      "subject_motion": "Integrated shared continuous world-speed curve",
+      "environment_motion": "Static world, independent traffic flow",
+      "depth_layers": [
+        "road",
+        "cars",
+        "furniture",
+        "skyline"
+      ],
+      "palette": "continuous sunset to night",
+      "transition_in": "straight cut",
+      "transition_out": "straight cut",
+      "audio_cue": "speed-driven engine and wind",
+      "renderer": "python",
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points_seconds": [
+        0.2,
+        3.5,
+        6.8
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ]
+    },
+    {
+      "id": "shot-13",
+      "duration_seconds": 5,
+      "narrative_purpose": "peak acceleration",
+      "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in front lead.",
+      "camera": "front lead",
+      "subject_motion": "Integrated shared continuous world-speed curve",
+      "environment_motion": "Static world, independent traffic flow",
+      "depth_layers": [
+        "road",
+        "cars",
+        "furniture",
+        "skyline"
+      ],
+      "palette": "continuous sunset to night",
+      "transition_in": "straight cut",
+      "transition_out": "straight cut",
+      "audio_cue": "speed-driven engine and wind",
+      "renderer": "python",
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points_seconds": [
+        0.2,
+        2.5,
+        4.8
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ]
+    },
+    {
+      "id": "shot-14",
+      "duration_seconds": 4,
+      "narrative_purpose": "peak acceleration",
+      "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in bonnet POV.",
+      "camera": "bonnet POV",
+      "subject_motion": "Integrated shared continuous world-speed curve",
+      "environment_motion": "Static world, independent traffic flow",
+      "depth_layers": [
+        "road",
+        "cars",
+        "furniture",
+        "skyline"
+      ],
+      "palette": "continuous sunset to night",
+      "transition_in": "straight cut",
+      "transition_out": "straight cut",
+      "audio_cue": "speed-driven engine and wind",
+      "renderer": "python",
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points_seconds": [
+        0.2,
+        2.0,
+        3.8
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ]
+    },
+    {
+      "id": "shot-15",
+      "duration_seconds": 4,
+      "narrative_purpose": "peak acceleration",
+      "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in low rear three-quarter.",
+      "camera": "low rear three-quarter",
+      "subject_motion": "Integrated shared continuous world-speed curve",
+      "environment_motion": "Static world, independent traffic flow",
+      "depth_layers": [
+        "road",
+        "cars",
+        "furniture",
+        "skyline"
+      ],
+      "palette": "continuous sunset to night",
+      "transition_in": "straight cut",
+      "transition_out": "straight cut",
+      "audio_cue": "speed-driven engine and wind",
+      "renderer": "python",
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points_seconds": [
+        0.2,
+        2.0,
+        3.8
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ]
+    },
+    {
+      "id": "shot-16",
+      "duration_seconds": 4,
+      "narrative_purpose": "peak acceleration",
+      "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in right wheel detail.",
+      "camera": "right wheel detail",
+      "subject_motion": "Integrated shared continuous world-speed curve",
+      "environment_motion": "Static world, independent traffic flow",
+      "depth_layers": [
+        "road",
+        "cars",
+        "furniture",
+        "skyline"
+      ],
+      "palette": "continuous sunset to night",
+      "transition_in": "straight cut",
+      "transition_out": "straight cut",
+      "audio_cue": "speed-driven engine and wind",
+      "renderer": "python",
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points_seconds": [
+        0.2,
+        2.0,
+        3.8
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ]
+    },
+    {
+      "id": "shot-17",
+      "duration_seconds": 5,
+      "narrative_purpose": "peak acceleration",
+      "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in long-lens peak.",
+      "camera": "long-lens peak",
+      "subject_motion": "Integrated shared continuous world-speed curve",
+      "environment_motion": "Static world, independent traffic flow",
+      "depth_layers": [
+        "road",
+        "cars",
+        "furniture",
+        "skyline"
+      ],
+      "palette": "continuous sunset to night",
+      "transition_in": "straight cut",
+      "transition_out": "straight cut",
+      "audio_cue": "speed-driven engine and wind",
+      "renderer": "python",
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points_seconds": [
+        0.2,
+        2.5,
+        4.8
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ]
+    },
+    {
+      "id": "shot-18",
+      "duration_seconds": 7,
+      "narrative_purpose": "night release",
+      "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in night chase.",
+      "camera": "night chase",
+      "subject_motion": "Integrated shared continuous world-speed curve",
+      "environment_motion": "Static world, independent traffic flow",
+      "depth_layers": [
+        "road",
+        "cars",
+        "furniture",
+        "skyline"
+      ],
+      "palette": "continuous sunset to night",
+      "transition_in": "straight cut",
+      "transition_out": "straight cut",
+      "audio_cue": "speed-driven engine and wind",
+      "renderer": "python",
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points_seconds": [
+        0.2,
+        3.5,
+        6.8
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ]
+    },
+    {
+      "id": "shot-19",
+      "duration_seconds": 8,
+      "narrative_purpose": "night release",
+      "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in night side.",
+      "camera": "night side",
+      "subject_motion": "Integrated shared continuous world-speed curve",
+      "environment_motion": "Static world, independent traffic flow",
+      "depth_layers": [
+        "road",
+        "cars",
+        "furniture",
+        "skyline"
+      ],
+      "palette": "continuous sunset to night",
+      "transition_in": "straight cut",
+      "transition_out": "straight cut",
+      "audio_cue": "speed-driven engine and wind",
+      "renderer": "python",
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points_seconds": [
+        0.2,
+        4.0,
+        7.8
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ]
+    },
+    {
+      "id": "shot-20",
+      "duration_seconds": 10,
+      "narrative_purpose": "night release",
+      "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in night release.",
+      "camera": "night release",
+      "subject_motion": "Integrated shared continuous world-speed curve",
+      "environment_motion": "Static world, independent traffic flow",
+      "depth_layers": [
+        "road",
+        "cars",
+        "furniture",
+        "skyline"
+      ],
+      "palette": "continuous sunset to night",
+      "transition_in": "straight cut",
+      "transition_out": "fade to black",
+      "audio_cue": "speed-driven engine and wind",
+      "renderer": "python",
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points_seconds": [
+        0.2,
+        5,
+        8
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ]
+    }
+  ],
+  "handoff": {
+    "critical_files": [
+      "render_3d.py",
+      "build_audio.py",
+      "speed-profile.json"
+    ],
+    "known_limits": [
+      "Stylized low-poly licensed models",
+      "Direct listening and continuous video perception require available modality"
+    ],
+    "acceptance_focus": [
+      "shape consistency",
+      "actual acceleration",
+      "full 120s native motion"
+    ]
+  }
+}

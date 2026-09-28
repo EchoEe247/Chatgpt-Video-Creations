@@ -1,0 +1,1830 @@
+{
+  "schema_version": 1,
+  "title": "VELOCITY \u2014 A Highway Study / Recreation",
+  "source": {
+    "director_brief": "productions/standalone/velocity-recreation/source/director-brief.json",
+    "director_sha256": "4727a301ebc253854535989ede7ea759d28a1f57ffe942c89a84b7555c28d7bf",
+    "asset_catalog": "assets/catalog.json",
+    "asset_catalog_sha256": "dd27a54a24835e596327bc99c66abd3341598dd4db99133495502e70b961e904"
+  },
+  "execution_policy": {
+    "owner_mode": "single_agent_default",
+    "cooperation_required": false,
+    "parallelism": "optional_only_when_beneficial",
+    "state_authority": "repository_files"
+  },
+  "delivery": {
+    "width": 1280,
+    "height": 720,
+    "fps": 24
+  },
+  "runtime_seconds": 120.0,
+  "story": {
+    "setup": "A dark-blue performance coupe joins steady evening highway traffic at ordinary speed.",
+    "escalation": "The road opens and the hero car accelerates while surrounding traffic remains lane-disciplined and believable.",
+    "turn": "Blue hour becomes night as speed, parallax, headlights and traffic density intensify.",
+    "resolution": "The car settles back into a normal cruise among regular traffic under city lights.",
+    "emotional_arc": [
+      "observation",
+      "flow",
+      "acceleration",
+      "focus",
+      "release"
+    ]
+  },
+  "global_grammar": {
+    "visual": {
+      "style": "Stylized 3D automotive short with CC0 Kenney vehicles; no photorealism claim.",
+      "palette_arc": [
+        "warm sunset asphalt",
+        "cool blue hour",
+        "deep night with practical lights"
+      ],
+      "lighting": "Sunset key progressing into cool night ambience with practical streetlights and vehicle lamps",
+      "depth_rules": [
+        "World-space connected divided highway with persistent lane geometry",
+        "Near asphalt/reflectors, hero and traffic vehicles, roadside infrastructure, skyline and atmosphere"
+      ],
+      "typography_rules": [
+        "Readable opening title and restrained ending credit; no debug overlays"
+      ],
+      "texture_rules": [
+        "Procedural asphalt grain and repair strips",
+        "Authored reflective road furniture, vehicle trim and building-window emission",
+        "No claim of external texture assets unless provenance records them"
+      ],
+      "forbidden_patterns": [
+        "Real driving footage",
+        "Loops",
+        "Still-image slideshow",
+        "Cars clipping through each other",
+        "Random lane weaving",
+        "Unmotivated airborne vehicles"
+      ]
+    },
+    "camera": {
+      "default_behavior": "Variable-duration cinematic coverage tied to speed phase; avoid periodic camera cycles",
+      "allowed_moves": [
+        "rear chase",
+        "front lead",
+        "side tracking",
+        "hood POV",
+        "low wheel detail",
+        "aerial",
+        "long-lens chase"
+      ],
+      "physical_camera_assumptions": [
+        "Ground clearance",
+        "Restrained vibration"
+      ],
+      "intentional_imperfections": [
+        "Small inertial shake"
+      ],
+      "avoid": [
+        "Camera inside car body",
+        "Random orbital motion",
+        "Traffic occluding the entire frame"
+      ]
+    },
+    "audio": {
+      "narration_or_dialogue": "None",
+      "score_arc": [
+        "restrained sunset pulse",
+        "stronger acceleration drive",
+        "night-time release"
+      ],
+      "ambience": [
+        "locally synthesized wind, road noise and traffic bed"
+      ],
+      "effects": [
+        "locally synthesized engine harmonics, expansion joints and passing-car whooshes"
+      ],
+      "silence_rules": [
+        "No extended silence; controlled opening and ending fades only"
+      ],
+      "sync_rules": [
+        "Picture displacement and audio engine/wind derive from the same source/speed-profile.json continuous speed curve",
+        "Traffic pass-bys are authored stereo events"
+      ]
+    },
+    "editing": {
+      "pace_arc": [
+        "longer observational sunset shots",
+        "shorter first acceleration coverage",
+        "breathing-space cruise reset",
+        "shorter second acceleration coverage",
+        "longer night release"
+      ],
+      "cut_motivations": [
+        "speed-phase changes",
+        "camera-scale contrast",
+        "traffic relationships",
+        "dusk-to-night progression"
+      ],
+      "transition_rules": [
+        "Straight cuts preserve action timeline",
+        "No repetitive color fades"
+      ],
+      "avoid": [
+        "Reused footage",
+        "Looped motion",
+        "Artificial slow motion interpolation"
+      ]
+    }
+  },
+  "handoff": {
+    "critical_files": [
+      "render_3d.py",
+      "build_audio.py",
+      "speed-profile.json"
+    ],
+    "known_limits": [
+      "Stylized low-poly licensed models",
+      "Direct listening and continuous video perception require available modality"
+    ],
+    "acceptance_focus": [
+      "shape consistency",
+      "actual acceleration",
+      "full 120s native motion"
+    ]
+  },
+  "shots": [
+    {
+      "id": "shot-01",
+      "order": 1,
+      "start_seconds": 0.0,
+      "duration_seconds": 8.0,
+      "end_seconds": 8.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "observation",
+        "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in rear chase.",
+        "viewer_reads": [
+          "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in rear chase."
+        ]
+      },
+      "motion": {
+        "subject": "Integrated shared continuous world-speed curve",
+        "environment": "Static world, independent traffic flow",
+        "camera": "rear chase"
+      },
+      "look": {
+        "palette": "continuous sunset to night",
+        "depth_layers": [
+          "road",
+          "cars",
+          "furniture",
+          "skyline"
+        ]
+      },
+      "transition": {
+        "in": "straight cut",
+        "out": "straight cut"
+      },
+      "audio": {
+        "cue": "speed-driven engine and wind",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 0.2,
+          "absolute_seconds": 0.2,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.0,
+          "absolute_seconds": 4.0,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 7.8,
+          "absolute_seconds": 7.8,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-02",
+      "order": 2,
+      "start_seconds": 8.0,
+      "duration_seconds": 7.0,
+      "end_seconds": 15.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "observation",
+        "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in rear three-quarter.",
+        "viewer_reads": [
+          "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in rear three-quarter."
+        ]
+      },
+      "motion": {
+        "subject": "Integrated shared continuous world-speed curve",
+        "environment": "Static world, independent traffic flow",
+        "camera": "rear three-quarter"
+      },
+      "look": {
+        "palette": "continuous sunset to night",
+        "depth_layers": [
+          "road",
+          "cars",
+          "furniture",
+          "skyline"
+        ]
+      },
+      "transition": {
+        "in": "straight cut",
+        "out": "straight cut"
+      },
+      "audio": {
+        "cue": "speed-driven engine and wind",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 0.2,
+          "absolute_seconds": 8.2,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 3.5,
+          "absolute_seconds": 11.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 6.8,
+          "absolute_seconds": 14.8,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-03",
+      "order": 3,
+      "start_seconds": 15.0,
+      "duration_seconds": 6.0,
+      "end_seconds": 21.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "observation",
+        "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in elevated highway.",
+        "viewer_reads": [
+          "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in elevated highway."
+        ]
+      },
+      "motion": {
+        "subject": "Integrated shared continuous world-speed curve",
+        "environment": "Static world, independent traffic flow",
+        "camera": "elevated highway"
+      },
+      "look": {
+        "palette": "continuous sunset to night",
+        "depth_layers": [
+          "road",
+          "cars",
+          "furniture",
+          "skyline"
+        ]
+      },
+      "transition": {
+        "in": "straight cut",
+        "out": "straight cut"
+      },
+      "audio": {
+        "cue": "speed-driven engine and wind",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 0.2,
+          "absolute_seconds": 15.2,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 3.0,
+          "absolute_seconds": 18.0,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 5.8,
+          "absolute_seconds": 20.8,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-04",
+      "order": 4,
+      "start_seconds": 21.0,
+      "duration_seconds": 5.0,
+      "end_seconds": 26.0,
+      "hero": true,
+      "intent": {
+        "narrative_purpose": "observation",
+        "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in side tracking.",
+        "viewer_reads": [
+          "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in side tracking."
+        ]
+      },
+      "motion": {
+        "subject": "Integrated shared continuous world-speed curve",
+        "environment": "Static world, independent traffic flow",
+        "camera": "side tracking"
+      },
+      "look": {
+        "palette": "continuous sunset to night",
+        "depth_layers": [
+          "road",
+          "cars",
+          "furniture",
+          "skyline"
+        ]
+      },
+      "transition": {
+        "in": "straight cut",
+        "out": "straight cut"
+      },
+      "audio": {
+        "cue": "speed-driven engine and wind",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 0.2,
+          "absolute_seconds": 21.2,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 2.5,
+          "absolute_seconds": 23.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.8,
+          "absolute_seconds": 25.8,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-05",
+      "order": 5,
+      "start_seconds": 26.0,
+      "duration_seconds": 4.0,
+      "end_seconds": 30.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "first acceleration",
+        "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in low rear chase.",
+        "viewer_reads": [
+          "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in low rear chase."
+        ]
+      },
+      "motion": {
+        "subject": "Integrated shared continuous world-speed curve",
+        "environment": "Static world, independent traffic flow",
+        "camera": "low rear chase"
+      },
+      "look": {
+        "palette": "continuous sunset to night",
+        "depth_layers": [
+          "road",
+          "cars",
+          "furniture",
+          "skyline"
+        ]
+      },
+      "transition": {
+        "in": "straight cut",
+        "out": "straight cut"
+      },
+      "audio": {
+        "cue": "speed-driven engine and wind",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 0.2,
+          "absolute_seconds": 26.2,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 2.0,
+          "absolute_seconds": 28.0,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 3.8,
+          "absolute_seconds": 29.8,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-06",
+      "order": 6,
+      "start_seconds": 30.0,
+      "duration_seconds": 4.0,
+      "end_seconds": 34.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "first acceleration",
+        "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in front lead.",
+        "viewer_reads": [
+          "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in front lead."
+        ]
+      },
+      "motion": {
+        "subject": "Integrated shared continuous world-speed curve",
+        "environment": "Static world, independent traffic flow",
+        "camera": "front lead"
+      },
+      "look": {
+        "palette": "continuous sunset to night",
+        "depth_layers": [
+          "road",
+          "cars",
+          "furniture",
+          "skyline"
+        ]
+      },
+      "transition": {
+        "in": "straight cut",
+        "out": "straight cut"
+      },
+      "audio": {
+        "cue": "speed-driven engine and wind",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 0.2,
+          "absolute_seconds": 30.2,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 2.0,
+          "absolute_seconds": 32.0,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 3.8,
+          "absolute_seconds": 33.8,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-07",
+      "order": 7,
+      "start_seconds": 34.0,
+      "duration_seconds": 4.0,
+      "end_seconds": 38.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "first acceleration",
+        "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in wide chase.",
+        "viewer_reads": [
+          "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in wide chase."
+        ]
+      },
+      "motion": {
+        "subject": "Integrated shared continuous world-speed curve",
+        "environment": "Static world, independent traffic flow",
+        "camera": "wide chase"
+      },
+      "look": {
+        "palette": "continuous sunset to night",
+        "depth_layers": [
+          "road",
+          "cars",
+          "furniture",
+          "skyline"
+        ]
+      },
+      "transition": {
+        "in": "straight cut",
+        "out": "straight cut"
+      },
+      "audio": {
+        "cue": "speed-driven engine and wind",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 0.2,
+          "absolute_seconds": 34.2,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 2.0,
+          "absolute_seconds": 36.0,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 3.8,
+          "absolute_seconds": 37.8,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-08",
+      "order": 8,
+      "start_seconds": 38.0,
+      "duration_seconds": 5.0,
+      "end_seconds": 43.0,
+      "hero": true,
+      "intent": {
+        "narrative_purpose": "first acceleration",
+        "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in left wheel detail.",
+        "viewer_reads": [
+          "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in left wheel detail."
+        ]
+      },
+      "motion": {
+        "subject": "Integrated shared continuous world-speed curve",
+        "environment": "Static world, independent traffic flow",
+        "camera": "left wheel detail"
+      },
+      "look": {
+        "palette": "continuous sunset to night",
+        "depth_layers": [
+          "road",
+          "cars",
+          "furniture",
+          "skyline"
+        ]
+      },
+      "transition": {
+        "in": "straight cut",
+        "out": "straight cut"
+      },
+      "audio": {
+        "cue": "speed-driven engine and wind",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 0.2,
+          "absolute_seconds": 38.2,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 2.5,
+          "absolute_seconds": 40.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.8,
+          "absolute_seconds": 42.8,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-09",
+      "order": 9,
+      "start_seconds": 43.0,
+      "duration_seconds": 8.0,
+      "end_seconds": 51.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "flow reset",
+        "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in long-lens chase.",
+        "viewer_reads": [
+          "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in long-lens chase."
+        ]
+      },
+      "motion": {
+        "subject": "Integrated shared continuous world-speed curve",
+        "environment": "Static world, independent traffic flow",
+        "camera": "long-lens chase"
+      },
+      "look": {
+        "palette": "continuous sunset to night",
+        "depth_layers": [
+          "road",
+          "cars",
+          "furniture",
+          "skyline"
+        ]
+      },
+      "transition": {
+        "in": "straight cut",
+        "out": "straight cut"
+      },
+      "audio": {
+        "cue": "speed-driven engine and wind",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 0.2,
+          "absolute_seconds": 43.2,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.0,
+          "absolute_seconds": 47.0,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 7.8,
+          "absolute_seconds": 50.8,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-10",
+      "order": 10,
+      "start_seconds": 51.0,
+      "duration_seconds": 7.0,
+      "end_seconds": 58.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "flow reset",
+        "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in elevated cruise.",
+        "viewer_reads": [
+          "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in elevated cruise."
+        ]
+      },
+      "motion": {
+        "subject": "Integrated shared continuous world-speed curve",
+        "environment": "Static world, independent traffic flow",
+        "camera": "elevated cruise"
+      },
+      "look": {
+        "palette": "continuous sunset to night",
+        "depth_layers": [
+          "road",
+          "cars",
+          "furniture",
+          "skyline"
+        ]
+      },
+      "transition": {
+        "in": "straight cut",
+        "out": "straight cut"
+      },
+      "audio": {
+        "cue": "speed-driven engine and wind",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 0.2,
+          "absolute_seconds": 51.2,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 3.5,
+          "absolute_seconds": 54.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 6.8,
+          "absolute_seconds": 57.8,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-11",
+      "order": 11,
+      "start_seconds": 58.0,
+      "duration_seconds": 8.0,
+      "end_seconds": 66.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "flow reset",
+        "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in left side tracking.",
+        "viewer_reads": [
+          "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in left side tracking."
+        ]
+      },
+      "motion": {
+        "subject": "Integrated shared continuous world-speed curve",
+        "environment": "Static world, independent traffic flow",
+        "camera": "left side tracking"
+      },
+      "look": {
+        "palette": "continuous sunset to night",
+        "depth_layers": [
+          "road",
+          "cars",
+          "furniture",
+          "skyline"
+        ]
+      },
+      "transition": {
+        "in": "straight cut",
+        "out": "straight cut"
+      },
+      "audio": {
+        "cue": "speed-driven engine and wind",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 0.2,
+          "absolute_seconds": 58.2,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.0,
+          "absolute_seconds": 62.0,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 7.8,
+          "absolute_seconds": 65.8,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-12",
+      "order": 12,
+      "start_seconds": 66.0,
+      "duration_seconds": 7.0,
+      "end_seconds": 73.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "peak acceleration",
+        "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in aerial.",
+        "viewer_reads": [
+          "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in aerial."
+        ]
+      },
+      "motion": {
+        "subject": "Integrated shared continuous world-speed curve",
+        "environment": "Static world, independent traffic flow",
+        "camera": "aerial"
+      },
+      "look": {
+        "palette": "continuous sunset to night",
+        "depth_layers": [
+          "road",
+          "cars",
+          "furniture",
+          "skyline"
+        ]
+      },
+      "transition": {
+        "in": "straight cut",
+        "out": "straight cut"
+      },
+      "audio": {
+        "cue": "speed-driven engine and wind",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 0.2,
+          "absolute_seconds": 66.2,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 3.5,
+          "absolute_seconds": 69.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 6.8,
+          "absolute_seconds": 72.8,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-13",
+      "order": 13,
+      "start_seconds": 73.0,
+      "duration_seconds": 5.0,
+      "end_seconds": 78.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "peak acceleration",
+        "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in front lead.",
+        "viewer_reads": [
+          "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in front lead."
+        ]
+      },
+      "motion": {
+        "subject": "Integrated shared continuous world-speed curve",
+        "environment": "Static world, independent traffic flow",
+        "camera": "front lead"
+      },
+      "look": {
+        "palette": "continuous sunset to night",
+        "depth_layers": [
+          "road",
+          "cars",
+          "furniture",
+          "skyline"
+        ]
+      },
+      "transition": {
+        "in": "straight cut",
+        "out": "straight cut"
+      },
+      "audio": {
+        "cue": "speed-driven engine and wind",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 0.2,
+          "absolute_seconds": 73.2,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 2.5,
+          "absolute_seconds": 75.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.8,
+          "absolute_seconds": 77.8,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-14",
+      "order": 14,
+      "start_seconds": 78.0,
+      "duration_seconds": 4.0,
+      "end_seconds": 82.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "peak acceleration",
+        "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in bonnet POV.",
+        "viewer_reads": [
+          "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in bonnet POV."
+        ]
+      },
+      "motion": {
+        "subject": "Integrated shared continuous world-speed curve",
+        "environment": "Static world, independent traffic flow",
+        "camera": "bonnet POV"
+      },
+      "look": {
+        "palette": "continuous sunset to night",
+        "depth_layers": [
+          "road",
+          "cars",
+          "furniture",
+          "skyline"
+        ]
+      },
+      "transition": {
+        "in": "straight cut",
+        "out": "straight cut"
+      },
+      "audio": {
+        "cue": "speed-driven engine and wind",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 0.2,
+          "absolute_seconds": 78.2,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 2.0,
+          "absolute_seconds": 80.0,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 3.8,
+          "absolute_seconds": 81.8,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-15",
+      "order": 15,
+      "start_seconds": 82.0,
+      "duration_seconds": 4.0,
+      "end_seconds": 86.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "peak acceleration",
+        "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in low rear three-quarter.",
+        "viewer_reads": [
+          "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in low rear three-quarter."
+        ]
+      },
+      "motion": {
+        "subject": "Integrated shared continuous world-speed curve",
+        "environment": "Static world, independent traffic flow",
+        "camera": "low rear three-quarter"
+      },
+      "look": {
+        "palette": "continuous sunset to night",
+        "depth_layers": [
+          "road",
+          "cars",
+          "furniture",
+          "skyline"
+        ]
+      },
+      "transition": {
+        "in": "straight cut",
+        "out": "straight cut"
+      },
+      "audio": {
+        "cue": "speed-driven engine and wind",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 0.2,
+          "absolute_seconds": 82.2,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 2.0,
+          "absolute_seconds": 84.0,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 3.8,
+          "absolute_seconds": 85.8,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-16",
+      "order": 16,
+      "start_seconds": 86.0,
+      "duration_seconds": 4.0,
+      "end_seconds": 90.0,
+      "hero": true,
+      "intent": {
+        "narrative_purpose": "peak acceleration",
+        "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in right wheel detail.",
+        "viewer_reads": [
+          "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in right wheel detail."
+        ]
+      },
+      "motion": {
+        "subject": "Integrated shared continuous world-speed curve",
+        "environment": "Static world, independent traffic flow",
+        "camera": "right wheel detail"
+      },
+      "look": {
+        "palette": "continuous sunset to night",
+        "depth_layers": [
+          "road",
+          "cars",
+          "furniture",
+          "skyline"
+        ]
+      },
+      "transition": {
+        "in": "straight cut",
+        "out": "straight cut"
+      },
+      "audio": {
+        "cue": "speed-driven engine and wind",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 0.2,
+          "absolute_seconds": 86.2,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 2.0,
+          "absolute_seconds": 88.0,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 3.8,
+          "absolute_seconds": 89.8,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-17",
+      "order": 17,
+      "start_seconds": 90.0,
+      "duration_seconds": 5.0,
+      "end_seconds": 95.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "peak acceleration",
+        "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in long-lens peak.",
+        "viewer_reads": [
+          "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in long-lens peak."
+        ]
+      },
+      "motion": {
+        "subject": "Integrated shared continuous world-speed curve",
+        "environment": "Static world, independent traffic flow",
+        "camera": "long-lens peak"
+      },
+      "look": {
+        "palette": "continuous sunset to night",
+        "depth_layers": [
+          "road",
+          "cars",
+          "furniture",
+          "skyline"
+        ]
+      },
+      "transition": {
+        "in": "straight cut",
+        "out": "straight cut"
+      },
+      "audio": {
+        "cue": "speed-driven engine and wind",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 0.2,
+          "absolute_seconds": 90.2,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 2.5,
+          "absolute_seconds": 92.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.8,
+          "absolute_seconds": 94.8,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-18",
+      "order": 18,
+      "start_seconds": 95.0,
+      "duration_seconds": 7.0,
+      "end_seconds": 102.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "night release",
+        "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in night chase.",
+        "viewer_reads": [
+          "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in night chase."
+        ]
+      },
+      "motion": {
+        "subject": "Integrated shared continuous world-speed curve",
+        "environment": "Static world, independent traffic flow",
+        "camera": "night chase"
+      },
+      "look": {
+        "palette": "continuous sunset to night",
+        "depth_layers": [
+          "road",
+          "cars",
+          "furniture",
+          "skyline"
+        ]
+      },
+      "transition": {
+        "in": "straight cut",
+        "out": "straight cut"
+      },
+      "audio": {
+        "cue": "speed-driven engine and wind",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 0.2,
+          "absolute_seconds": 95.2,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 3.5,
+          "absolute_seconds": 98.5,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 6.8,
+          "absolute_seconds": 101.8,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-19",
+      "order": 19,
+      "start_seconds": 102.0,
+      "duration_seconds": 8.0,
+      "end_seconds": 110.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "night release",
+        "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in night side.",
+        "viewer_reads": [
+          "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in night side."
+        ]
+      },
+      "motion": {
+        "subject": "Integrated shared continuous world-speed curve",
+        "environment": "Static world, independent traffic flow",
+        "camera": "night side"
+      },
+      "look": {
+        "palette": "continuous sunset to night",
+        "depth_layers": [
+          "road",
+          "cars",
+          "furniture",
+          "skyline"
+        ]
+      },
+      "transition": {
+        "in": "straight cut",
+        "out": "straight cut"
+      },
+      "audio": {
+        "cue": "speed-driven engine and wind",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 0.2,
+          "absolute_seconds": 102.2,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 4.0,
+          "absolute_seconds": 106.0,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 7.8,
+          "absolute_seconds": 109.8,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    },
+    {
+      "id": "shot-20",
+      "order": 20,
+      "start_seconds": 110.0,
+      "duration_seconds": 10.0,
+      "end_seconds": 120.0,
+      "hero": false,
+      "intent": {
+        "narrative_purpose": "night release",
+        "visible_event": "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in night release.",
+        "viewer_reads": [
+          "Fixed-shape dark-blue coupe advances and changes relative position against lane traffic in night release."
+        ]
+      },
+      "motion": {
+        "subject": "Integrated shared continuous world-speed curve",
+        "environment": "Static world, independent traffic flow",
+        "camera": "night release"
+      },
+      "look": {
+        "palette": "continuous sunset to night",
+        "depth_layers": [
+          "road",
+          "cars",
+          "furniture",
+          "skyline"
+        ]
+      },
+      "transition": {
+        "in": "straight cut",
+        "out": "fade to black"
+      },
+      "audio": {
+        "cue": "speed-driven engine and wind",
+        "sync_required": true
+      },
+      "renderer": {
+        "requested": "python",
+        "lane": "python",
+        "description": "Python/Pillow/NumPy deterministic renderer",
+        "adapter_ready": true,
+        "entrypoint": "python {repo}/scripts/python_shot_adapter.py {request}",
+        "fallback_lanes": [],
+        "runtime_note": null
+      },
+      "assets": [],
+      "continuity_dependencies": [
+        "speed-profile.json",
+        "Kenney vehicle meshes",
+        "persistent road"
+      ],
+      "review_points": [
+        {
+          "local_seconds": 0.2,
+          "absolute_seconds": 110.2,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 5.0,
+          "absolute_seconds": 115.0,
+          "clip_seconds": 2.0
+        },
+        {
+          "local_seconds": 8.0,
+          "absolute_seconds": 118.0,
+          "clip_seconds": 2.0
+        }
+      ],
+      "failure_modes": [
+        "clipping",
+        "camera intersection",
+        "wheel geometry",
+        "traffic occlusion"
+      ],
+      "qa_required": [
+        "composition",
+        "phone_scale_readability",
+        "visible_motion",
+        "continuity",
+        "normal_speed_review"
+      ],
+      "state": "PLANNED"
+    }
+  ],
+  "warnings": [
+    {
+      "shot_id": "shot-20",
+      "code": "shot_density_review",
+      "detail": "10s exceeds 8s heuristic; keep only if viewer reads justify the hold, otherwise subdivide in the director brief."
+    }
+  ],
+  "summary": {
+    "shot_count": 20,
+    "hero_shot_count": 3,
+    "renderer_lanes": [
+      "python"
+    ],
+    "unresolved_asset_count": 0,
+    "warning_count": 1,
+    "blocked_shot_count": 0
+  }
+}

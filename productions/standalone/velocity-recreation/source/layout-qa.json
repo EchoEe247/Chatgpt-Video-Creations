@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "text_items": [
+    {
+      "id": "opening-0",
+      "text": "VELOCITY",
+      "start_seconds": 1,
+      "end_seconds": 5,
+      "bbox_norm": [
+        0.371875,
+        0.13703703703703704,
+        0.25625,
+        0.07407407407407407
+      ],
+      "font_px": 54
+    },
+    {
+      "id": "opening-1",
+      "text": "A HIGHWAY STUDY",
+      "start_seconds": 1,
+      "end_seconds": 5,
+      "bbox_norm": [
+        0.346875,
+        0.25925925925925924,
+        0.30625,
+        0.044444444444444446
+      ],
+      "font_px": 34
+    },
+    {
+      "id": "closing-0",
+      "text": "VELOCITY",
+      "start_seconds": 116,
+      "end_seconds": 120,
+      "bbox_norm": [
+        0.371875,
+        0.6703703703703704,
+        0.25625,
+        0.07407407407407407
+      ],
+      "font_px": 54
+    },
+    {
+      "id": "closing-1",
+      "text": "LOCAL / ORIGINAL PRODUCTION",
+      "start_seconds": 116,
+      "end_seconds": 120,
+      "bbox_norm": [
+        0.240625,
+        0.7814814814814814,
+        0.51875,
+        0.04814814814814815
+      ],
+      "font_px": 34
+    }
+  ]
+}

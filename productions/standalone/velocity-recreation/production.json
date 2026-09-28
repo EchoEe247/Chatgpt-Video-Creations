@@ -1,0 +1,105 @@
+{
+  "schema_version": 2,
+  "production_id": "velocity-recreation",
+  "lane": "animation",
+  "status": "VERIFICATION_REQUIRED",
+  "source": {
+    "title": "VELOCITY \u2014 A Highway Study / Recreation",
+    "director_brief": "source/director-brief.json"
+  },
+  "render": {
+    "command": [
+      "python",
+      "source/complete_delivery.py"
+    ],
+    "cwd": "/data/data/com.termux/files/home/MainWorkspace/Chatgpt-Video-Creations/productions/standalone/velocity-recreation",
+    "output": "final/velocity.mp4",
+    "scene_plan": "source/execution-plan.json",
+    "scene_directory": null,
+    "master_recipe": null
+  },
+  "delivery": {
+    "profile": "h264_web",
+    "width": 960,
+    "height": 540,
+    "fps": 24,
+    "video_codec": "h264",
+    "pixel_format": "yuv420p",
+    "audio_required": true,
+    "audio_codec": "aac",
+    "expected_duration_seconds": 120,
+    "duration_tolerance_seconds": 0.15,
+    "silence_threshold_db": -55,
+    "silence_min_duration_seconds": 0.5,
+    "max_unintended_silence_seconds": 1,
+    "intentional_silence_intervals": [],
+    "baseline_compare_fps": 2
+  },
+  "workflow": {
+    "mode": "autonomous_until_final_review",
+    "user_review_policy": "final_candidate_only",
+    "max_autonomous_repair_cycles": 4,
+    "repair_cycle": 1,
+    "escalation_reason": "This route cannot hear audio or perceive continuous video; assistant perceptual approval remains pending.",
+    "last_action": "Master and evidence delivered; explicit perceptual verification gaps retained",
+    "render_job": {
+      "job_id": null,
+      "state": "NONE",
+      "command": null,
+      "cwd": null,
+      "output": null,
+      "started_at": null,
+      "completed_at": null,
+      "exit_code": null
+    },
+    "creative_qa_required": true,
+    "studio_review_required": true
+  },
+  "artifacts": {
+    "candidate_master": "/data/data/com.termux/files/home/MainWorkspace/Chatgpt-Video-Creations/productions/standalone/velocity-recreation/final/velocity.mp4",
+    "candidate_sha256": "04b4deecfae582695a8f9c9d0eb4f5e358ce7faf171107950748e7199397f0ec",
+    "iteration_dir": null,
+    "artifact_receipt": null,
+    "review_pack": "/data/data/com.termux/files/home/MainWorkspace/Chatgpt-Video-Creations/productions/standalone/velocity-recreation/review",
+    "baseline_master": null,
+    "baseline_comparison": null,
+    "creative_qa": "/data/data/com.termux/files/home/MainWorkspace/Chatgpt-Video-Creations/productions/standalone/velocity-recreation/review/experience/creative-qa.json",
+    "creative_review": null,
+    "studio_review": "/data/data/com.termux/files/home/MainWorkspace/Chatgpt-Video-Creations/productions/standalone/velocity-recreation/review/final-screening.json"
+  },
+  "gates": {
+    "technical": {
+      "status": "PASS",
+      "evidence": "/data/data/com.termux/files/home/MainWorkspace/Chatgpt-Video-Creations/productions/standalone/velocity-recreation/review/technical-qa.json",
+      "candidate_sha256": "04b4deecfae582695a8f9c9d0eb4f5e358ce7faf171107950748e7199397f0ec"
+    },
+    "assistant": {
+      "status": "PENDING",
+      "notes": "No assistant perceptual PASS: continuous video, auditory and synchronized A/V remain unavailable on this route; see the cinematic gate for measured image status.",
+      "candidate_sha256": "04b4deecfae582695a8f9c9d0eb4f5e358ce7faf171107950748e7199397f0ec"
+    },
+    "user": {
+      "status": "PENDING",
+      "notes": null,
+      "candidate_sha256": null
+    },
+    "cinematic": {
+      "status": "PASS",
+      "candidate_sha256": "04b4deecfae582695a8f9c9d0eb4f5e358ce7faf171107950748e7199397f0ec",
+      "evidence": "/data/data/com.termux/files/home/MainWorkspace/Chatgpt-Video-Creations/productions/standalone/velocity-recreation/review/cinematic-qa.json"
+    }
+  },
+  "review": {
+    "assistant": "PENDING",
+    "user": "PENDING"
+  },
+  "studio_review": {
+    "schema_version": 2,
+    "required": true,
+    "candidate_sha256": "04b4deecfae582695a8f9c9d0eb4f5e358ce7faf171107950748e7199397f0ec",
+    "criteria": {},
+    "evidence": {},
+    "notes": "See candidate-bound review/final-review.md and final-screening.json; no end-to-end screening claimed.",
+    "final_screening": {}
+  }
+}
