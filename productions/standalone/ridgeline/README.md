@@ -1,5 +1,7 @@
 # RIDGELINE — A Descent
 
+**User quality status (latest reviewed candidate): respectful.** Worth preserving and continuing to improve; potentially releasable later, but not declared finished or promoted as a realistic/cinematic baseline.
+
 A 132-second original 3D mountain-bike film built and rendered entirely through Local Workspace on the Pixel. All rider/bicycle/environment motion is authored geometry and animation. No real riding footage or online video-generation model is used.
 
 ## Deliverable

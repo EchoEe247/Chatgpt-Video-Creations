@@ -319,7 +319,7 @@ last assistant review step. Generate a review page with
 play it from the start at normal speed through the end, and inspect the actual
 browser viewport. Revisit suspicious motion at 0.5x and at explicit timestamps.
 
-The user-facing/local review page must expose normal HTML5 playback controls and practical seeking/scrubbing. Rewind, jump-forward/back and timeline seeking must work before the page is handed off. An autoplay-only or effectively linear page that forces the entire film to replay before revisiting a moment is a review-delivery defect.
+The user-facing/local review page must expose normal HTML5 playback controls and a **working, unlocked seek bar/scrubber/timeline**. The reviewer must be able to drag the playhead freely to any timestamp, rewind, jump forward/back, pause and revisit a section without replaying the film linearly. A locked/nonfunctional scrubber, autoplay-only page, or effectively linear player is a review-delivery defect.
 
 Record the browser playback state (duration, ended event, decoded/dropped frames)
 and the visual observations from the viewport separately. Decode counters prove

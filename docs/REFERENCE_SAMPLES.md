@@ -176,7 +176,27 @@ Those are now hard rules in `docs/VISUAL_QA_STANDARDS.md` and the set-anchor tem
 
 ---
 
-## I. Severance-style cinematic candidate — rejected / failed
+## Current respectful cinematic work-in-progress references
+
+### RIDGELINE — A Descent — latest mountain-bike candidate
+
+Production: `productions/standalone/ridgeline`
+
+User quality judgment: **respectful**.
+
+This is the latest mountain-bike candidate the user means when referring to the respectful MTB video. It is worth keeping on-device, continuing to improve, and potentially releasing later. It is **not** declared finished and is not automatically a realistic/cinematic baseline.
+
+### VELOCITY — A Highway Study — latest highway-driving recreation
+
+Latest reviewed production: `productions/standalone/velocity-recreation`
+
+User quality judgment: **respectful**.
+
+This is the latest highway-driving candidate the user means when referring to the respectful car video. It is worth preserving, continuing to improve, and potentially releasing later. The user-facing film title remains **VELOCITY — A Highway Study**; the repository production is the recreation package. Respectful does not mean finished or baseline-promoted.
+
+---
+
+## I. THE EIGHTH HOUR — Severance-inspired candidate — rejected / failed
 
 User quality judgment: **trash / failed**.
 
@@ -188,32 +208,35 @@ The production audit found that the candidate had regressed below the establishe
 
 ---
 
-## J. Alien / Avatar concept candidate — not promoted
+## J. AETHERFALL — THE LAST LIGHT — Avatar/alien concept candidate — not promoted
+
+File: `aetherfall-last-light.mp4`
 
 User quality judgment: **medium-bad**.
 
-The candidate is useful only as evidence of what the current local workflow could assemble at that point. It did not reach an impressive enough cinematic bar to become a reference baseline.
+The environment was stronger than the current LAX environment, but the Avatar-replication concept itself did not land for the user, the characters needed to be better, and the audio needed improvement.
 
-**Decision:** do not promote it. A future production may reuse validated workflow pieces, but not treat this candidate's visual result as the target.
+**Decision:** do not promote it. A future production may reuse validated workflow pieces, but not treat this candidate's concept, character quality or audio result as the target.
 
 ---
 
-## K. LAX landing candidate — paused, not promoted
+## K. LAX — Final Approach — airplane candidate — paused, not promoted
 
 Production: `productions/standalone/lax-arrival`
 
-User quality judgment: **medium-bad, currently closer to bad**.
+User quality judgment: **below respectful / currently closer to bad, but potentially salvageable**.
 
-The final technical package reached 120 seconds, 1280×720 H.264/AAC and passed decode/audio checks, but user review identified two foundational visual failures:
+The final technical package reached 120 seconds, 1280×720 H.264/AAC and passed decode/audio checks. The user did not identify the base airplane itself as the main failure; the larger problems are environment completion, believable landing mechanics/motion, audio matching and sustained visual quality:
 
-- the LAX/airport environment reads unfinished;
-- the aircraft motion/orientation can read as if the plane is moving backward.
+- the LAX/airport environment reads unfinished and is missing the density/detail needed to feel realistic;
+- aircraft direction/orientation can read as if the plane is moving backward;
+- the transition from flying to touchdown/ground roll needs more believable landing-gear and wheel mechanics;
+- aviation audio needs to track approach, flare, touchdown and rollout convincingly;
+- visual quality needs to remain impressive throughout, not merely technically valid.
 
-The second defect is especially important because automated motion analysis can detect that pixels change without understanding whether the motion means the correct thing.
+**Decision:** production paused. It is not respectful yet, but the user considers it potentially worth working on if those stated issues are corrected. Do not use the current candidate as a visual baseline. If resumed, rebuild the weak environment and re-prove aircraft kinematics/landing mechanics in moving previs before another expensive final render.
 
-**Decision:** production paused. Do not call this accepted and do not use it as a visual baseline. If resumed, rebuild the weak environment and re-prove aircraft kinematics in moving previs before another expensive final render.
-
-**Reusable lessons:** motion magnitude is not semantic motion; environment asset presence is not production completeness; internal green QA does not supersede the user's visual acceptance judgment.
+**Reusable lessons:** motion magnitude is not semantic motion; environment asset presence is not production completeness; technical validity is not visual impressiveness; internal green QA does not supersede the user's visual acceptance judgment.
 
 ---
 
@@ -228,4 +251,4 @@ The second defect is especially important because automated motion analysis can 
 
 The baseline is the floor only for the style/capability it actually demonstrates. Real productions should improve composition, acting, spatial anchoring, audio, pacing, and platform fit when the improvement is actually visible or useful.
 
-There is currently **no accepted realistic/cinematic visual baseline**. The Severance-style, Alien/Avatar, and LAX candidates above are failure/non-promotion evidence, not realism targets.
+There is currently **no accepted realistic/cinematic visual baseline**. **RIDGELINE — A Descent** and the latest reviewed **VELOCITY — A Highway Study** recreation are respectful work-in-progress references, not finished/promoted realism baselines. **LAX — Final Approach**, **AETHERFALL — THE LAST LIGHT**, and **THE EIGHTH HOUR** are below that threshold in their current preserved/reported states.

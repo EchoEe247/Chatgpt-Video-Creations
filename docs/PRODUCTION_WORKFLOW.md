@@ -204,7 +204,7 @@ Later sessions should be able to continue from the accepted production state ins
 
 ## 11.5. Learn from a decisive quality outcome
 
-When the user gives a clear quality outcome, extract workflow learning before moving on. A broadly good/respectful result teaches what should be repeated; a bad, medium-bad, unfinished or rejected result teaches which earlier gate failed. Neither is automatic acceptance or baseline promotion.
+When the user gives a clear quality outcome, extract workflow learning before moving on. A **respectful** result means the exact candidate is worth preserving and continuing and may become releasable later; it does **not** mean finished, release-ready or baseline-promoted. A bad, medium-bad, unfinished or rejected result teaches which earlier gate failed. Neither is automatic acceptance or baseline promotion.
 
 Use `docs/OUTCOME_LEARNING_LOOP.md` to distinguish the productive sequence from accidental one-off choices, move late-found defects into earlier gates, and record how a fresh agent could reproduce the same quality floor independently or avoid the same failure. Cross-model takeover is useful recovery evidence; it does not by itself prove that the workflow is model-independent.
 

@@ -1,6 +1,6 @@
 # Outcome Learning Loop
 
-A production that reaches a user-described **respectful** result has crossed an important positive threshold: the result is broadly good enough that remaining issues are refinements, detail, polish, or taste rather than a foundational failure.
+A production that reaches a user-described **respectful** result has crossed an important positive threshold: the exact candidate is worth keeping, worth continuing to work on, and potentially worth releasing later. **Respectful does not mean finished, release-ready, accepted canon, or baseline-worthy**, and it can still contain meaningful work that should be repaired before release.
 
 A clear negative outcome is equally important workflow evidence. A user-described **trash/failed**, **bad**, **medium-bad**, or **unfinished** result triggers failure learning: preserve what failed, identify which earlier gate should have caught it, and prevent technical completion from being mistaken for production quality.
 
@@ -43,15 +43,17 @@ After a respectful or clearly rejected result:
 
 Use `templates/outcome-learning.json` for a compact record when a production warrants one.
 
-## 2026-09-28 user-evaluated cinematic failures
+## 2026-09-28 user-evaluated cinematic status
 
-Three recent outputs must not be treated as accepted cinematic baselines:
+Use the exact latest/current productions below. Do not substitute stale earlier attempts when applying these lessons.
 
-- **Severance-style show candidate — user: trash / failed.** The preserved audit found a regression to scratch proxy humans/environments, skipped meaningful visual development, a primitive final-render path, and weak audio. This is the primary rejected-regression example behind the strict final quality floor.
-- **Alien/Avatar concept candidate — user: medium-bad.** Keep it as a non-promoted result. Technical completion did not establish an impressive cinematic bar.
-- **LAX landing candidate — user: medium-bad, currently closer to bad.** Two concrete foundational defects were identified: the airport/environment reads unfinished, and the aircraft motion/orientation can read as if the plane is moving backward. The production is paused rather than promoted.
+- **RIDGELINE — A Descent** — latest mountain-bike candidate: **respectful**. It is worth preserving and continuing to improve and may become release-worthy later; the label does not mean the film is finished.
+- **VELOCITY — A Highway Study** — latest reviewed highway-driving recreation (`productions/standalone/velocity-recreation`): **respectful**. It is worth preserving and continuing to improve and may become release-worthy later; it is not declared finished.
+- **LAX — Final Approach** — current airplane candidate (`productions/standalone/lax-arrival`): **below respectful / currently closer to bad, but potentially salvageable**. The airport environment is visibly incomplete; aircraft direction/kinematics need to read correctly; the flight-to-touchdown transition needs more believable landing-gear/wheel behavior; aviation audio must match the physical phases; and the picture needs to remain visually impressive throughout. If those are solved well, the film can cross into respectful.
+- **AETHERFALL — THE LAST LIGHT** (`aetherfall-last-light.mp4`) — Avatar/alien concept candidate: **medium-bad**. Its environment was not as weak as the current LAX environment, but the Avatar-replication concept did not land for the user, the characters needed to be better, and the audio needed improvement. Do not promote it as a target.
+- **THE EIGHTH HOUR** — Severance-inspired candidate: **trash / failed**. The preserved audit found a regression to scratch proxy humans/environments, skipped meaningful visual development, a primitive final-render path, and weak audio. Treat it as failure evidence only.
 
-The LAX result adds two durable rules:
+The LAX result adds durable rules:
 
 1. **Motion amount is not motion semantics.** Previs must prove the hero's forward axis, travel vector, screen direction, camera relation and contact phases agree before the expensive render.
 2. **Environment asset presence is not environment completion.** Look-dev must prove the actual world density, landmarks/background structure, material integration and depth from representative final cameras.
@@ -78,7 +80,7 @@ A handoff that succeeds because the incoming model reverse-engineers undocumente
 
 ## Phase gates learned from VELOCITY
 
-The VELOCITY recreation on 2026-09-28 reached a respectful result through a useful Astra → GPT-5.6 Sol sequence. The process exposed both strong practices and late checks worth moving earlier.
+The latest reviewed **VELOCITY — A Highway Study** recreation on 2026-09-28 reached the user's respectful threshold through a useful Astra → GPT-5.6 Sol sequence. That means it is worth preserving and continuing, not that it is finished or a promoted realistic/cinematic baseline. The process exposed both strong practices and late checks worth moving earlier.
 
 ### What worked and should generalize
 
@@ -110,7 +112,7 @@ These become earlier workflow gates rather than merely historical notes.
 
 ## Cross-production asset and character lessons
 
-RIDGELINE, Blender Agent Action V5 and the VELOCITY recreation establish a combined lesson:
+The latest **RIDGELINE — A Descent**, Blender Agent Action V5 and the latest reviewed **VELOCITY — A Highway Study** recreation establish a combined lesson:
 
 | Evidence | Reusable lesson |
 | --- | --- |

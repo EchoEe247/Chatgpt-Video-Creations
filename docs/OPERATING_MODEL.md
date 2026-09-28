@@ -12,6 +12,10 @@ The maturity progression underneath that is:
 
 This is not a reason to turn creative video work into a rigid engineering exercise. The point is narrower: keep judgment where judgment is useful, and remove repeated guesswork from relationships we have already learned well enough to preserve.
 
+The order matters. Do not jump from **experiment** to **formalize**, or from **technically reproducible** to **baseline**. A creative production method earns operating-mode status only when the relevant behavior is understood and its output quality has actually survived review. Tests, hashes, deterministic rendering and reproducibility can prove control of a process; they cannot by themselves prove that the resulting film is good.
+
+For user quality language, **respectful** is a useful intermediate milestone: preserve the candidate and continue investing in it because it is worth working on and could become releasable. It does not mean finished, accepted canon, release-ready, or baseline-worthy.
+
 ## Discovery mode and operating mode
 
 ### Discovery mode
@@ -67,6 +71,20 @@ Promote a relationship into repository structure when most of these are true:
 Appropriate representations include dimensions, coordinates, formulas, anchors, geometry, schemas, timing rules, safe regions, scaling rules, templates, examples, tests, and documentation.
 
 The representation should be as small as the problem allows.
+
+## Current realistic/cinematic maturity state
+
+The realistic/cinematic lane is **not yet at a trusted visual baseline**. Keep the engineering controls that have been validated, but keep the creative production method in discovery/validation until repeated user-reviewed results justify promotion.
+
+Current exact user-evaluated examples:
+
+- **RIDGELINE — A Descent** — latest mountain-bike candidate: **respectful**; keep and continue, but not finished.
+- **VELOCITY — A Highway Study** — latest reviewed `velocity-recreation` highway-driving candidate: **respectful**; keep and continue, but not finished.
+- **LAX — Final Approach** — below respectful but potentially salvageable after major environment, landing-mechanics, motion-direction, aviation-audio and visual-quality improvements.
+- **AETHERFALL — THE LAST LIGHT** — medium-bad; concept/character/audio result not promoted.
+- **THE EIGHTH HOUR** — trash/failed; failure evidence only.
+
+The two respectful candidates are evidence that parts of the process are becoming useful. They are **not** permission to declare the entire cinematic method solved. The weak/rejected candidates are evidence about what still needs to be discovered or gated earlier.
 
 ## Current maturity map
 

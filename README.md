@@ -2,12 +2,13 @@
 
 This repository is the production system I use for videos created through ChatGPT sessions. I do not want every video request to become another one-off experiment where the capability has to be rediscovered from scratch. Once a production method is actually understood and accepted, future work should build from it instead of guessing again.
 
-There are two main lanes, and I want them kept separate because they have different goals:
+There are three main lanes, and I want them kept separate because they have different goals:
 
 1. **Business / OSS release marketing** — videos that explain and market useful public projects based on the exact release being promoted.
 2. **Original animation production** — original scenes, shows, seasons, and episodes built as an actual production system rather than unrelated generated clips.
+3. **Cinematic production** — standalone realistic/cinematic shorts and studies where physical motion, environment completeness, camera language, look development, audio and final visual impact need a stricter film-production path.
 
-The existing professional motion-graphics, 2D, and 3D capability baselines are the rendering engines underneath both lanes. They are starting points, not ceilings.
+The existing professional motion-graphics, 2D, stylized-3D and long-form references are capability foundations, not universal visual-quality targets. In particular, the stylized 3D baseline does not establish an accepted realistic/cinematic quality bar.
 
 ## Operating philosophy
 
@@ -22,6 +23,10 @@ And, at the implementation level:
 The point is not to turn creative work into a rigid geometry exercise. Creative composition, storytelling, acting, hooks, and visual judgment stay flexible where they genuinely need judgment.
 
 What should become less flexible is repeated guesswork around relationships we already understand: release provenance, continuity, scene geometry, anchors, timing, render settings, and other reusable constraints.
+
+The maturity sequence is deliberately evidence-driven. **Reproducible is not the same as understood, technically valid is not the same as accepted, and automated is not the same as mature.** Formalize stable facts early; promote a creative production method into a trusted baseline only after its output quality has actually been demonstrated and accepted. Failed or mediocre films are learning evidence, not capability milestones.
+
+A user-described **respectful** result is an intermediate production-quality threshold, not a synonym for finished or release-ready. It means the exact candidate is worth keeping, worth continuing to improve, and potentially worth releasing later. The current latest examples are **RIDGELINE — A Descent** and the latest reviewed **VELOCITY — A Highway Study** recreation. Neither label means no further work is needed.
 
 See [`docs/OPERATING_MODEL.md`](docs/OPERATING_MODEL.md).
 
@@ -91,6 +96,18 @@ Episodes are produced one at a time. The user is the final acceptance gate, not 
 
 See [`docs/ANIMATION_SHOW_WORKFLOW.md`](docs/ANIMATION_SHOW_WORKFLOW.md) and [`docs/CONTINUITY_SYSTEM.md`](docs/CONTINUITY_SYSTEM.md).
 
+## Cinematic production
+
+Cinematic work is currently a **discovery/validation lane**, not a solved visual-quality baseline. The repo should preserve what is already understood—provenance, spatial continuity, motion semantics, previs/look-dev separation, review evidence, candidate hashes, audio/video synchronization and reproducible execution—without pretending that those controls alone guarantee an impressive film.
+
+The quality target must be learned from actual user-reviewed productions. A method should not move into `baseline → operate` just because it renders reliably or passes technical QA. The latest **RIDGELINE — A Descent** and latest reviewed **VELOCITY — A Highway Study** recreation are respectful work worth continuing; they are not declared finished. **LAX — Final Approach** is a current salvageable-but-below-respectful case that still needs substantial environment, landing-mechanics, audio and visual-quality work. **AETHERFALL — THE LAST LIGHT** and **THE EIGHTH HOUR** remain non-promoted failure/weak-result evidence.
+
+The working cinematic flow is:
+
+**goal → source/adapt useful assets → moving previs → representative look-dev → prove motion/environment risks → final spatial render → audio/finishing → encoded-candidate review → user quality judgment → learn → only then consider baseline promotion**
+
+See [`docs/QUALITY_FLOOR.md`](docs/QUALITY_FLOOR.md), [`docs/VISUAL_DEVELOPMENT.md`](docs/VISUAL_DEVELOPMENT.md), and [`docs/OUTCOME_LEARNING_LOOP.md`](docs/OUTCOME_LEARNING_LOOP.md).
+
 ## Capability baselines and validated baselines
 
 The repository now keeps these concepts separate.
@@ -99,7 +116,17 @@ The repository now keeps these concepts separate.
 
 **Validated B-series baselines** are stronger regression/recovery checkpoints tied to an exact commit, exact artifact, conditions, validation scope, and known limitations.
 
-The older business, stylized-3D, and long-form references remain capability baselines unless a formal registry entry says otherwise. The stylized 3D reference proves production capability only; it is not an accepted realistic/cinematic visual baseline. Recent realistic/cinematic Severance-style, Alien/Avatar, and LAX candidates were not promoted.
+The older business, stylized-3D, and long-form references remain capability baselines unless a formal registry entry says otherwise. The stylized 3D reference proves production capability only; it is not an accepted realistic/cinematic visual baseline.
+
+Current user-evaluated cinematic production status is intentionally more specific:
+
+- **RIDGELINE — A Descent** — latest mountain-bike candidate: **respectful**; worth preserving and continuing, not declared finished.
+- **VELOCITY — A Highway Study** — latest reviewed highway-driving recreation: **respectful**; worth preserving and continuing, not declared finished.
+- **LAX — Final Approach** — current airplane candidate: below respectful / currently closer to bad, but potentially salvageable. The airplane itself is not the main failure; the unfinished airport environment, flight-to-touchdown/gear-wheel mechanics, direction/kinematics, synchronized aviation audio and overall visual impressiveness need material improvement.
+- **AETHERFALL — THE LAST LIGHT** — Avatar/alien concept candidate: **medium-bad**; the environment was stronger than LAX's current environment, but the concept/Avatar replication did not land, character quality needed improvement, and audio needed improvement.
+- **THE EIGHTH HOUR** — Severance-inspired candidate: **trash / failed**; failure evidence only.
+
+None of those labels alone promotes a realistic/cinematic baseline. There is currently no accepted realistic/cinematic visual baseline.
 
 The repository now has **B1**, a narrowly scoped validated 2D geometry/composition baseline with exact commit, artifacts, hashes, conditions, technical validation, visual validation, user acceptance, and a durable receipt. Do not generalize B1 beyond the behaviors named in `baselines/registry.json`.
 

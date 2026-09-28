@@ -54,8 +54,9 @@ for motion analysis and targeted frame sequences/preview clips. If the dedicated
 Local Workspace browser is available, generate a local review page with
 `scripts/make_browser_review.py`, play the motion candidate at 1x through the end,
 inspect the live viewport, and revisit suspicious beats at 0.5x. The review page
-must expose working controls and seeking/scrubbing so a reviewer can rewind or jump
-to exact timestamps without replaying the full candidate. Only then make a
+must expose a working, unlocked seek bar/scrubber so a reviewer can drag the
+playhead freely, rewind, jump forward, pause, or jump to exact timestamps without
+replaying the full candidate. Only then make a
 continuous-motion judgment. If audiovisual playback is unavailable, say what was
 actually inspected; do not claim listening or continuous playback from stills and
 statistics.

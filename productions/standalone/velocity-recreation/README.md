@@ -1,5 +1,7 @@
 # VELOCITY — A Highway Study / Recreation
 
+**User quality status (latest reviewed highway-driving candidate): respectful.** The user-facing film title is **VELOCITY — A Highway Study**. This latest recreation is worth preserving and continuing to improve; potentially releasable later, but not declared finished or promoted as a realistic/cinematic baseline.
+
 A 120-second, 20-shot local 3D driving film. This is a separate recreation; the original VELOCITY and its frozen audit have not been altered.
 
 ## Playback
