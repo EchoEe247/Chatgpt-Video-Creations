@@ -30,7 +30,7 @@ class ProductionManifestTests(unittest.TestCase):
         }
         data["status"] = "DONE"
         errors = validate_production_v2(data)
-        self.assertTrue(any("review PASS" in error for error in errors))
+        self.assertTrue(any("authoritative USER_ACCEPTED" in error for error in errors))
         self.assertTrue(any("candidate_master" in error for error in errors))
 
     def test_rendering_requires_persisted_job_identity(self):

@@ -4,6 +4,10 @@ import re
 from typing import Any, Mapping
 
 from src.core.production_runtime import GATE_STATES, normalized_runtime
+from src.core.studio_review import (
+    ASSISTANT_ACCEPTED, USER_ACCEPTED, derive_promotion_state,
+    legacy_review_aliases, validate_studio_review,
+)
 
 LANES = {"animation", "business"}
 STATUSES = {
@@ -13,6 +17,7 @@ STATUSES = {
     "ASSISTANT_REVIEW",
     "USER_REVIEW",
     "REFINEMENT_REQUIRED",
+    "VERIFICATION_REQUIRED",
     "BLOCKED",
     "DONE",
 }
@@ -155,6 +160,9 @@ def validate_production_v2(data: Mapping[str, Any]) -> list[str]:
     creative_required = workflow.get("creative_qa_required")
     if not isinstance(creative_required, bool):
         errors.append("workflow.creative_qa_required must be boolean")
+    studio_required = workflow.get("studio_review_required")
+    if not isinstance(studio_required, bool):
+        errors.append("workflow.studio_review_required must be boolean")
     current_cycle = workflow.get("repair_cycle")
     if not isinstance(max_cycles, int) or isinstance(max_cycles, bool) or max_cycles < 1:
         errors.append("workflow.max_autonomous_repair_cycles must be an integer >= 1")
@@ -204,15 +212,32 @@ def validate_production_v2(data: Mapping[str, Any]) -> list[str]:
         if user_sha != candidate_sha:
             errors.append("DONE requires user gate bound to artifacts.candidate_sha256")
 
+    studio_review = data.get("studio_review")
+    if studio_review is not None:
+        if not isinstance(studio_review, Mapping):
+            errors.append("studio_review must be an object")
+        else:
+            errors.extend(
+                validate_studio_review(
+                    studio_review,
+                    candidate_sha256=candidate_sha if isinstance(candidate_sha, str) else None,
+                )
+            )
+    elif workflow.get("studio_review_required"):
+        errors.append("workflow.studio_review_required requires studio_review")
+
     review = data.get("review")
     if not isinstance(review, Mapping):
         errors.append("review must be an object")
         review = {}
+    aliases = legacy_review_aliases(data)
     for key in ("assistant", "user"):
         if review.get(key) not in REVIEWS:
             errors.append(f"review.{key} must be PENDING, PASS, or FAIL")
-        elif review.get(key) != gates[key]["status"]:
-            errors.append(f"review.{key} must mirror gates.{key}.status")
+        elif review.get(key) != aliases[key]:
+            errors.append(
+                f"review.{key} must mirror authoritative promotion state alias"
+            )
 
     if status in {"CANDIDATE", "ASSISTANT_REVIEW", "USER_REVIEW", "DONE"}:
         for key in ("candidate_master", "candidate_sha256", "iteration_dir"):
@@ -222,8 +247,8 @@ def validate_production_v2(data: Mapping[str, Any]) -> list[str]:
     if status == "USER_REVIEW":
         if gates["technical"]["status"] != "PASS":
             errors.append("USER_REVIEW requires technical gate PASS")
-        if gates["assistant"]["status"] != "PASS":
-            errors.append("USER_REVIEW requires assistant gate PASS")
+        if derive_promotion_state(data) not in {ASSISTANT_ACCEPTED, USER_ACCEPTED}:
+            errors.append("USER_REVIEW requires authoritative assistant acceptance")
         required_artifacts = ["artifact_receipt", "review_pack"]
         if workflow.get("creative_qa_required"):
             required_artifacts += ["creative_qa", "creative_review"]
@@ -234,8 +259,8 @@ def validate_production_v2(data: Mapping[str, Any]) -> list[str]:
     if status == "DONE":
         if gates["technical"]["status"] != "PASS":
             errors.append("DONE requires technical gate PASS")
-        if gates["assistant"]["status"] != "PASS" or gates["user"]["status"] != "PASS":
-            errors.append("DONE requires assistant and user review PASS")
+        if derive_promotion_state(data) != USER_ACCEPTED:
+            errors.append("DONE requires authoritative USER_ACCEPTED promotion state")
         required_artifacts = ["artifact_receipt", "review_pack"]
         if workflow.get("creative_qa_required"):
             required_artifacts += ["creative_qa", "creative_review"]

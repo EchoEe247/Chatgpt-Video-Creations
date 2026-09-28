@@ -50,7 +50,8 @@
       "completed_at": null,
       "exit_code": null
     },
-    "creative_qa_required": true
+    "creative_qa_required": true,
+    "studio_review_required": false
   },
   "artifacts": {
     "candidate_master": null,
@@ -83,5 +84,13 @@
   "review": {
     "assistant": "PENDING",
     "user": "PENDING"
+  },
+  "studio_review": {
+    "schema_version": 1,
+    "required": false,
+    "candidate_sha256": null,
+    "criteria": {},
+    "evidence": {},
+    "notes": null
   }
 }

@@ -112,6 +112,17 @@ class ProductionRuntimeTests(unittest.TestCase):
         self.assertEqual(data["gates"]["assistant"]["status"], "PENDING")
         self.assertEqual(data["review"]["assistant"], "PENDING")
 
+    def test_legacy_final_candidate_migrates_to_verification_required(self):
+        data = self.make()
+        data["status"] = "FINAL_CANDIDATE"
+        data["gates"]["assistant"]["status"] = "PASS_WITH_REVIEW_NOTES"
+        data["review"]["assistant"] = "PASS_WITH_REVIEW_NOTES"
+        apply_runtime_defaults(data)
+        self.assertEqual(data["status"], "VERIFICATION_REQUIRED")
+        self.assertEqual(data["gates"]["assistant"]["status"], "PENDING")
+        self.assertEqual(data["review"]["assistant"], "PENDING")
+        self.assertEqual(data["workflow"]["legacy_migration"]["original_status"], "FINAL_CANDIDATE")
+
     def test_older_v2_manifest_gets_runtime_defaults(self):
         old = {
             "schema_version": 2,

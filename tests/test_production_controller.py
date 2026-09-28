@@ -174,6 +174,24 @@ class ProductionControllerIntegrationTests(unittest.TestCase):
         self.assertTrue(data["artifacts"]["creative_qa"])
         self.assertTrue(data["artifacts"]["creative_review"])
 
+    def test_specialized_failure_blocks_legacy_assistant_pass(self):
+        manifest = self.make_manifest("specialized-veto")
+        self.assertEqual(self.run_ctl("candidate", manifest, self.source).returncode, 0)
+        self.assertEqual(self.run_ctl("prepare-review", manifest).returncode, 0)
+        data = self.load(manifest)
+        digest = data["artifacts"]["candidate_sha256"]
+        data["gates"]["cinematic"] = {
+            "status": "REFINEMENT_REQUIRED",
+            "candidate_sha256": digest,
+            "evidence": "qa/cinematic.json",
+        }
+        manifest.write_text(json.dumps(data, indent=2) + "\n", encoding="utf-8")
+        blocked = self.run_ctl("assistant-pass", manifest, "--notes", "legacy pass must not win")
+        self.assertNotEqual(blocked.returncode, 0)
+        self.assertIn("gate:cinematic", blocked.stderr)
+        after = self.load(manifest)
+        self.assertNotEqual(after["status"], "USER_REVIEW")
+
     def test_creative_bundle_tampering_breaks_user_review_integrity(self):
         manifest = self.make_manifest("creative-tamper", creative_required=True)
         self.assertEqual(self.run_ctl("candidate", manifest, self.source).returncode, 0)

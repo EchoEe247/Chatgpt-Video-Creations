@@ -80,6 +80,8 @@ Automated signals are triage evidence, not aesthetic verdicts. Every schema-v2 w
 
 The assistant must cite only evidence generated for the exact candidate. Missing text-layout metadata means manual readability review is required; never convert missing evidence into a fake automated pass.
 
+Acceptance authority now lives in `src/core/studio_review.py`; read `docs/STUDIO_REVIEW_CONTRACT.md`. Specialized QA failures can veto legacy assistant PASS fields. `NOT_APPLICABLE` and `UNVERIFIED` are distinct, and evidence is not review-complete until it reaches `REVIEWED` in the PLANNED → GENERATED → DELIVERED → REVIEWED lifecycle. Status/reporting must use the derived promotion state rather than any one subsystem gate.
+
 ## Model-independent directing
 
 For serious narrative, cinematic, launch, music, or explainer work, read `docs/DIRECTOR_SPEC_WORKFLOW.md` and create a production-specific director brief from `templates/director-brief.json` before expensive rendering.

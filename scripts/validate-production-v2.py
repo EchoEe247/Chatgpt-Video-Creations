@@ -9,6 +9,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from src.core.production_manifest import validate_production_v2
+from src.core.production_runtime import apply_runtime_defaults
 
 
 def main(path: str) -> int:
@@ -20,6 +21,7 @@ def main(path: str) -> int:
         print("-", exc)
         return 1
 
+    apply_runtime_defaults(data)
     errors = validate_production_v2(data)
     if errors:
         print("FAIL production v2")

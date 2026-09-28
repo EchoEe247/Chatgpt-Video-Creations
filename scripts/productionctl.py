@@ -34,6 +34,7 @@ from src.core.production_runtime import (
 )
 from src.core.review_pack import build_review_pack
 from src.core.creative_qa import validate_assistant_review, validate_report_evidence
+from src.core.studio_review import ASSISTANT_ACCEPTED, promotion_diagnostics
 
 
 def _now() -> str:
@@ -584,6 +585,12 @@ def command_assistant_pass(args) -> int:
         "candidate_sha256": integrity["candidate_sha256"],
     }
     data["gates"]["user"] = {"status": PENDING, "notes": None}
+    promotion = promotion_diagnostics(data)
+    if promotion["state"] != ASSISTANT_ACCEPTED:
+        blockers = promotion["blocking_failures"] + promotion["unverified_requirements"]
+        raise ValueError(
+            "assistant PASS cannot promote candidate: " + ", ".join(blockers)
+        )
     data["status"] = "USER_REVIEW"
     data["workflow"]["last_action"] = {
         "action": "assistant_review_passed",

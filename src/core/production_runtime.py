@@ -3,10 +3,25 @@ from __future__ import annotations
 from copy import deepcopy
 from typing import Any, Mapping
 
+from src.core.studio_review import (
+    ASSISTANT_ACCEPTED,
+    REFINEMENT_REQUIRED as PROMOTION_REFINEMENT_REQUIRED,
+    USER_ACCEPTED,
+    VERIFICATION_REQUIRED,
+    derive_promotion_state,
+    legacy_review_aliases,
+    promotion_diagnostics,
+)
+
 PASS = "PASS"
 FAIL = "FAIL"
 PENDING = "PENDING"
 GATE_STATES = {PASS, FAIL, PENDING}
+LEGACY_STATUS_MAP = {"FINAL_CANDIDATE": "VERIFICATION_REQUIRED"}
+LEGACY_GATE_STATUS_MAP = {
+    "PASS_WITH_REVIEW_NOTES": PENDING,
+    "PASS_WITH_CINEMATIC_REFINEMENT_REQUIRED": PENDING,
+}
 
 DEFAULT_RENDER_JOB = {
     "job_id": None,
@@ -24,6 +39,7 @@ DEFAULT_WORKFLOW = {
     "user_review_policy": "final_candidate_only",
     "max_autonomous_repair_cycles": 4,
     "creative_qa_required": False,
+    "studio_review_required": False,
     "repair_cycle": 0,
     "escalation_reason": None,
     "last_action": None,
@@ -56,6 +72,9 @@ def normalized_runtime(data: Mapping[str, Any]) -> dict[str, Any]:
             raw_gate = raw_gates.get(name)
             if isinstance(raw_gate, Mapping):
                 gates[name].update(raw_gate)
+                legacy_status = LEGACY_GATE_STATUS_MAP.get(str(gates[name].get("status") or ""))
+                if legacy_status:
+                    gates[name]["status"] = legacy_status
 
     # Backward compatibility with the earliest v2 shape. Once explicit gates
     # exist they are authoritative; legacy aliases must never resurrect a
@@ -72,23 +91,55 @@ def normalized_runtime(data: Mapping[str, Any]) -> dict[str, Any]:
     return {"workflow": workflow, "gates": gates}
 
 
+def _with_normalized_runtime(data: Mapping[str, Any]) -> dict[str, Any]:
+    merged = deepcopy(dict(data))
+    runtime = normalized_runtime(data)
+    merged["workflow"] = runtime["workflow"]
+    raw_gates = deepcopy(dict(data.get("gates") or {})) if isinstance(data.get("gates"), Mapping) else {}
+    for name, value in runtime["gates"].items():
+        existing = raw_gates.get(name)
+        if isinstance(existing, Mapping):
+            combined = deepcopy(dict(existing))
+            combined.update(value)
+            raw_gates[name] = combined
+        else:
+            raw_gates[name] = deepcopy(value)
+    merged["gates"] = raw_gates
+    return merged
+
+
 def apply_runtime_defaults(data: dict[str, Any]) -> dict[str, Any]:
+    raw_status = str(data.get("status") or "")
+    if raw_status in LEGACY_STATUS_MAP:
+        workflow = data.setdefault("workflow", {})
+        migration = workflow.setdefault("legacy_migration", {})
+        migration.setdefault("original_status", raw_status)
+        data["status"] = LEGACY_STATUS_MAP[raw_status]
+    delivery = data.get("delivery")
+    if isinstance(delivery, dict):
+        delivery.setdefault("baseline_compare_fps", 2.0)
     runtime = normalized_runtime(data)
     data["workflow"] = runtime["workflow"]
-    data["gates"] = runtime["gates"]
+    raw_gates = data.get("gates")
+    extras = {
+        key: deepcopy(value)
+        for key, value in (raw_gates.items() if isinstance(raw_gates, Mapping) else [])
+        if key not in runtime["gates"]
+    }
+    data["gates"] = {**runtime["gates"], **extras}
+    aliases = legacy_review_aliases(data)
     review = data.setdefault("review", {})
-    review["assistant"] = runtime["gates"]["assistant"]["status"]
-    review["user"] = runtime["gates"]["user"]["status"]
+    review["assistant"] = aliases["assistant"]
+    review["user"] = aliases["user"]
     return data
 
 
 def sync_review_aliases(data: dict[str, Any]) -> None:
-    runtime = normalized_runtime(data)
-    data["workflow"] = runtime["workflow"]
-    data["gates"] = runtime["gates"]
+    apply_runtime_defaults(data)
+    aliases = legacy_review_aliases(data)
     review = data.setdefault("review", {})
-    review["assistant"] = data["gates"]["assistant"]["status"]
-    review["user"] = data["gates"]["user"]["status"]
+    review["assistant"] = aliases["assistant"]
+    review["user"] = aliases["user"]
 
 
 def technical_passed(data: Mapping[str, Any]) -> bool:
@@ -96,11 +147,14 @@ def technical_passed(data: Mapping[str, Any]) -> bool:
 
 
 def assistant_passed(data: Mapping[str, Any]) -> bool:
-    return normalized_runtime(data)["gates"]["assistant"]["status"] == PASS
+    return derive_promotion_state(_with_normalized_runtime(data)) in {
+        ASSISTANT_ACCEPTED,
+        USER_ACCEPTED,
+    }
 
 
 def user_passed(data: Mapping[str, Any]) -> bool:
-    return normalized_runtime(data)["gates"]["user"]["status"] == PASS
+    return derive_promotion_state(_with_normalized_runtime(data)) == USER_ACCEPTED
 
 
 def artifact_evidence_complete(data: Mapping[str, Any]) -> bool:
@@ -134,6 +188,37 @@ def should_escalate(data: Mapping[str, Any]) -> bool:
     return bool(workflow.get("escalation_reason")) or repair_budget_remaining(data) <= 0
 
 
+def _specialized_review_action(data: Mapping[str, Any]) -> str | None:
+    merged = _with_normalized_runtime(data)
+    diagnostics = promotion_diagnostics(merged)
+    failures = diagnostics["blocking_failures"]
+    unverified = diagnostics["unverified_requirements"]
+
+    specialized_failures = [
+        item for item in failures
+        if item not in {"gate:technical", "gate:assistant", "gate:user"}
+    ]
+    if specialized_failures:
+        return "repair" if repair_budget_remaining(data) > 0 else "human_decision"
+
+    if normalized_runtime(data)["workflow"].get("studio_review_required"):
+        if any(
+            item.startswith("criterion:")
+            or item.startswith("studio review")
+            for item in unverified
+        ):
+            return "studio_review"
+
+    specialized_unverified = [
+        item for item in unverified
+        if item.startswith("gate:")
+        and item not in {"gate:technical", "gate:assistant", "gate:user"}
+    ]
+    if specialized_unverified:
+        return "verification_required"
+    return None
+
+
 def next_action(data: Mapping[str, Any]) -> str:
     status = data.get("status")
     runtime = normalized_runtime(data)
@@ -141,7 +226,11 @@ def next_action(data: Mapping[str, Any]) -> str:
     artifacts = data.get("artifacts") if isinstance(data.get("artifacts"), Mapping) else {}
 
     if status == "DONE":
-        return "none"
+        return "none" if user_passed(data) else (
+            "repair_integrity"
+            if derive_promotion_state(_with_normalized_runtime(data)) == PROMOTION_REFINEMENT_REQUIRED
+            else "verification_required"
+        )
     if status == "BLOCKED" or runtime["workflow"].get("escalation_reason"):
         return "human_decision"
     if status == "PLANNED":
@@ -160,6 +249,8 @@ def next_action(data: Mapping[str, Any]) -> str:
         return "reconcile_render_job"
     if status == "REFINEMENT_REQUIRED" and not artifacts.get("candidate_master"):
         return "repair" if repair_budget_remaining(data) > 0 else "human_decision"
+    if status == "VERIFICATION_REQUIRED" and not artifacts.get("candidate_master"):
+        return "record_candidate"
     if not artifacts.get("candidate_master"):
         return "record_candidate"
     if gates["technical"]["status"] == PENDING:
@@ -172,6 +263,11 @@ def next_action(data: Mapping[str, Any]) -> str:
         not artifacts.get("creative_qa") or not artifacts.get("creative_review")
     ):
         return "creative_qa"
+
+    specialized = _specialized_review_action(data)
+    if specialized:
+        return specialized
+
     if gates["assistant"]["status"] == PENDING:
         return "assistant_review"
     if gates["assistant"]["status"] == FAIL:
@@ -181,19 +277,24 @@ def next_action(data: Mapping[str, Any]) -> str:
     if gates["user"]["status"] == FAIL:
         return "repair" if repair_budget_remaining(data) > 0 else "human_decision"
     if gates["user"]["status"] == PASS:
-        return "finalize"
+        return "finalize" if user_passed(data) else "verification_required"
     return "inspect_state"
 
 
 def status_summary(data: Mapping[str, Any]) -> dict[str, Any]:
     runtime = normalized_runtime(data)
+    merged = _with_normalized_runtime(data)
+    promotion = promotion_diagnostics(merged)
     return {
         "production_id": data.get("production_id"),
         "status": data.get("status"),
+        "promotion_state": promotion["state"],
+        "promotion_diagnostics": promotion,
         "next_action": next_action(data),
         "ready_for_user_review": ready_for_user_review(data),
         "repair_budget_remaining": repair_budget_remaining(data),
         "workflow": runtime["workflow"],
-        "gates": runtime["gates"],
+        "gates": merged["gates"],
+        "legacy_review_aliases": legacy_review_aliases(merged),
         "artifacts_complete": artifact_evidence_complete(data),
     }
