@@ -2,11 +2,17 @@
 
 ## Fresh-session bootstrap
 
-For serious video creation, call `video_workflow_bootstrap` first. It is exposed even in the normal Local Workspace core profile so a fresh ChatGPT session does not need to already know which production tools to enable. The tool resolves `workflow/CURRENT.json`, checks Git/upstream freshness, identifies the lane-specific required documents, and returns a deterministic receipt.
+For serious video creation, call `video_workflow_bootstrap` first. It is exposed even in the normal Local Workspace core profile so a fresh ChatGPT session does not need to already know which production tools to enable. The tool resolves `workflow/CURRENT.json`, checks Git/upstream freshness, identifies the lane-specific required documents, validates the active bridge version/tool profile/tool names/stable capability IDs against `bridge_compatibility`, and returns a deterministic receipt.
 
 Read those documents before planning. New manifests from `templates/production-v2.json` set `workflow.bootstrap_required=true`; bind the receipt with `python scripts/workflowctl.py bind <production.json> --lane <lane>`. The production controller refuses render specification/start when that binding is missing or stale. Studio preflight also requires the current receipt SHA, giving the review path an independent stale-workflow check.
 
 Remote freshness can be explicitly overridden only when necessary; the override remains recorded. Do not silently treat an offline/unverified checkout as current.
+
+### Local Workspace compatibility boundary
+
+`workflow/CURRENT.json` owns the consumer-side compatibility declaration. It specifies a minimum bridge version plus required tool names and stable capability IDs. Tool names answer “is the concrete operation exposed in this profile?” while capability IDs answer “does this bridge generation implement the semantic contract the workflow depends on?” They are intentionally separate so a renamed/replaced implementation cannot silently masquerade as an older behavior contract.
+
+`bridge_status` exposes the bridge capability contract. `video_workflow_bootstrap` compares the two sides before production. Missing tools, missing capability IDs, an old bridge, or the wrong tool profile make the bootstrap not ready and produce explicit blockers. `studio_preflight` rechecks the same compatibility state later in the review path.
 
 Current default: **schema v3**. Read [Evidence-first review](EVIDENCE_FIRST_REVIEW.md) for complete review-point coverage, source timestamps, full transition shoulders, authored-silence checks and modality-bound review. The schema-v2 sections below describe the inherited checks; v3 adds the stricter requirements.
 

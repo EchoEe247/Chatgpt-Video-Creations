@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "workflow_id": "chatgpt-video-production",
-  "workflow_version": "2026.09.28.3",
+  "workflow_version": "2026.09.28.4",
   "canonical_entrypoint": "AGENTS.md",
   "required_tool_profile": "core-production",
   "policy": {
@@ -42,6 +42,32 @@
       "docs/AUDIO_TIMELINE_WORKFLOW.md",
       "docs/CREATIVE_QA_WORKFLOW.md",
       "docs/EXPERIENCE_REVIEW_WORKFLOW.md"
+    ]
+  },
+  "bridge_compatibility": {
+    "minimum_version": "0.10.0",
+    "required_tools": [
+      "video_workflow_bootstrap",
+      "studio_preflight",
+      "media_probe",
+      "media_decode_check",
+      "media_review_bundle",
+      "media_cinematic_triage",
+      "media_audio_board",
+      "media_temporal_strip",
+      "media_transition_board",
+      "perception_capabilities",
+      "perception_fixture",
+      "perception_score",
+      "media_audio_listen_clip"
+    ],
+    "required_capabilities": [
+      "bridge-compat-contract-v1",
+      "video-workflow-bootstrap-v1",
+      "studio-preflight-v2",
+      "media-review-bundle-v1",
+      "perception-benchmark-v2",
+      "direct-audio-listening-gate-v1"
     ]
   }
 }

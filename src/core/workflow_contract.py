@@ -56,6 +56,15 @@ def _load_contract(repo: Path) -> dict[str, Any]:
         raise ValueError("workflow/CURRENT.json schema_version must be 1")
     if not data.get("workflow_id") or not data.get("workflow_version"):
         raise ValueError("workflow/CURRENT.json requires workflow_id and workflow_version")
+    compat = data.get("bridge_compatibility")
+    if not isinstance(compat, Mapping):
+        raise ValueError("workflow/CURRENT.json requires bridge_compatibility")
+    if not isinstance(compat.get("minimum_version"), str) or not compat.get("minimum_version"):
+        raise ValueError("bridge_compatibility.minimum_version is required")
+    for key in ("required_tools", "required_capabilities"):
+        value = compat.get(key)
+        if not isinstance(value, list) or not value or not all(isinstance(x, str) and x for x in value):
+            raise ValueError(f"bridge_compatibility.{key} must be a non-empty string list")
     return data
 
 
@@ -193,6 +202,7 @@ def bootstrap(
         "manifest_path": str(contract_path),
         "manifest_sha256": manifest_sha,
         "required_tool_profile": contract.get("required_tool_profile"),
+        "bridge_compatibility_requirements": dict(contract.get("bridge_compatibility") or {}),
         "required_docs": doc_records,
         "docs_sha256": docs_sha,
         "workflow_dirty_paths": workflow_dirty,

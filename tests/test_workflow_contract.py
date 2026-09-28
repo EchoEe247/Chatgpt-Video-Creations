@@ -14,6 +14,11 @@ def _fixture_repo(tmp_path):
         "workflow_id": "wf",
         "workflow_version": "1",
         "required_tool_profile": "core-production",
+        "bridge_compatibility": {
+            "minimum_version": "0.10.0",
+            "required_tools": ["video_workflow_bootstrap"],
+            "required_capabilities": ["bridge-compat-contract-v1"],
+        },
         "core_docs": ["AGENTS.md", "docs/PRODUCTION_WORKFLOW.md"],
         "lane_docs": {"cinematic": ["docs/DIRECTOR_SPEC_WORKFLOW.md"], "animation": [], "business": []},
     }))
@@ -44,6 +49,8 @@ def test_bootstrap_receipt_is_deterministic_and_lane_scoped(tmp_path, monkeypatc
     assert a["ready"] is True
     assert a["lane"] == "cinematic"
     assert a["receipt_sha256"] == b["receipt_sha256"]
+    assert a["bridge_compatibility_requirements"]["minimum_version"] == "0.10.0"
+    assert a["bridge_compatibility_requirements"]["required_capabilities"] == ["bridge-compat-contract-v1"]
     assert [x["path"] for x in a["required_docs"]] == [
         "AGENTS.md",
         "docs/PRODUCTION_WORKFLOW.md",
