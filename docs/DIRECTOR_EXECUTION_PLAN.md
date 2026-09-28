@@ -57,6 +57,16 @@ The plan distinguishes **renderer choice** from **runtime readiness**. Phase 5 n
 
 The current Pixel reports Python, Canvas, Blender, and FFmpeg ready. The Three.js/WebGL contract is standardized but the headless Chromium runtime does not currently expose a WebGL context, so that lane remains an explicit blocker with Blender/Canvas fallback lanes rather than being falsely marked ready.
 
+## Quality-floor gate
+
+The compiled plan carries a `quality_floor` and reports both `execution_ready` and `final_delivery_ready`.
+
+Final cinematic-3D plans fail closed when they waive required previs/look-dev, allow final proxies, lack a Blender lane, omit required character/environment asset classes, omit high-impact `proof_artifact`, or compile below the declared delivery height. Prototype plans may execute for development but never report final-delivery ready.
+
+`directorctl.py status` exposes `quality_floor_blockers`. New production manifests set `workflow.quality_floor_required=true`, so `productionctl` independently revalidates the plan and checks that required development/proof artifacts exist on disk before final rendering or review.
+
+See `docs/QUALITY_FLOOR.md`.
+
 ## Asset-strategy gate
 
 New serious director briefs should include the top-level `asset_strategy` review before rendering. Each high-impact requirement declares its need, kind, make-vs-source decision, selected assets when applicable, structural/license requirements, adaptation plan and local-authorship responsibilities.

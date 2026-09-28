@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "workflow_id": "chatgpt-video-production",
-  "workflow_version": "2026.09.28.7",
+  "workflow_version": "2026.09.28.8",
   "canonical_entrypoint": "AGENTS.md",
   "required_tool_profile": "core-production",
   "policy": {
@@ -19,6 +19,8 @@
   ],
   "lane_docs": {
     "cinematic": [
+      "docs/STUDIO_REVIEW_CONTRACT.md",
+      "docs/QUALITY_FLOOR.md",
       "docs/CHARACTER_PRODUCTION.md",
       "docs/VISUAL_DEVELOPMENT.md",
       "docs/DIRECTOR_SPEC_WORKFLOW.md",
@@ -30,6 +32,8 @@
       "docs/EVIDENCE_FIRST_REVIEW.md"
     ],
     "animation": [
+      "docs/STUDIO_REVIEW_CONTRACT.md",
+      "docs/QUALITY_FLOOR.md",
       "docs/ANIMATION_SHOW_WORKFLOW.md",
       "docs/CONTINUITY_SYSTEM.md",
       "docs/LONG_FORM_SCENE_ARCHITECTURE.md",
@@ -41,6 +45,8 @@
       "docs/EXPERIENCE_REVIEW_WORKFLOW.md"
     ],
     "business": [
+      "docs/STUDIO_REVIEW_CONTRACT.md",
+      "docs/QUALITY_FLOOR.md",
       "docs/BUSINESS_RELEASE_MARKETING.md",
       "docs/DIRECTOR_SPEC_WORKFLOW.md",
       "docs/AUDIO_TIMELINE_WORKFLOW.md",

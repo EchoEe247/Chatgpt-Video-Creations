@@ -27,6 +27,10 @@ ASSET_DECISIONS = {"reuse_local", "source_free", "author_local", "hybrid", "unre
 DEVELOPMENT_DECISIONS = {"required", "not_required", "unresolved"}
 DEVELOPMENT_STATUSES = {"pending", "approved", "not_required"}
 COMPOSITING_MODES = {"beauty_only", "multipass", "hybrid", "not_applicable", "unresolved"}
+QUALITY_DELIVERY_LEVELS = {"final", "prototype", "unresolved"}
+QUALITY_VISUAL_MODES = {"cinematic_3d", "stylized_2d", "motion_graphics", "unresolved"}
+QUALITY_CHARACTER_MODES = {"none", "incidental", "performance", "unresolved"}
+QUALITY_ENVIRONMENT_MODES = {"graphic", "spatial", "unresolved"}
 BLENDER_PASS_NAMES = {
     "beauty", "depth", "normal", "vector",
     "diffuse_direct", "diffuse_indirect",
@@ -137,6 +141,7 @@ def _compile_asset_strategy(data: dict[str, Any], assets: dict[str, dict[str, An
             "license_requirements":req.get("license_requirements",[]),
             "adaptation_plan":req.get("adaptation_plan",""),
             "local_authorship":req.get("local_authorship",[]),
+            "proof_artifact":req.get("proof_artifact",""),
             "resolved":not reasons,
             "blockers":reasons,
         }
@@ -187,6 +192,107 @@ def _compile_visual_development(data: dict[str, Any]) -> tuple[dict[str, Any], l
         if blockers:
             warnings.append({"gate":name,"code":"visual_development_unresolved","detail":blockers})
     return {"reviewed":True,"gates":gates}, warnings
+
+def _compile_quality_floor(
+    data: dict[str, Any],
+    asset_strategy: dict[str, Any],
+    visual_development: dict[str, Any],
+    shots: list[dict[str, Any]],
+    *,
+    height: int,
+) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+    src=data.get("quality_floor")
+    if src is None:
+        return {
+            "reviewed":False,
+            "delivery_level":"legacy_unspecified",
+            "visual_mode":"legacy_unspecified",
+            "character_mode":"legacy_unspecified",
+            "environment_mode":"legacy_unspecified",
+            "proxy_assets_allowed":None,
+            "minimum_delivery_height":None,
+            "resolved":True,
+            "final_delivery_ready":False,
+            "blockers":[],
+        }, [{"code":"quality_floor_missing","detail":"Legacy brief has no explicit quality floor. New user-facing productions must declare one before final rendering."}]
+    delivery=src.get("delivery_level","unresolved")
+    visual=src.get("visual_mode","unresolved")
+    character=src.get("character_mode","unresolved")
+    environment=src.get("environment_mode","unresolved")
+    proxy=src.get("proxy_assets_allowed")
+    min_height=src.get("minimum_delivery_height",720)
+    blockers=[]
+    for name,value in (("delivery_level",delivery),("visual_mode",visual),("character_mode",character),("environment_mode",environment)):
+        if value=="unresolved":
+            blockers.append(name+"_unresolved")
+    if not isinstance(proxy,bool):
+        blockers.append("proxy_assets_allowed_unresolved")
+    if not isinstance(min_height,int) or isinstance(min_height,bool) or min_height<=0:
+        blockers.append("minimum_delivery_height_invalid")
+    requirements=asset_strategy.get("requirements",[])
+    char_reqs=[r for r in requirements if r.get("kind")=="character"]
+    env_reqs=[r for r in requirements if r.get("kind")=="environment"]
+    gates=visual_development.get("gates",{})
+    if delivery=="final":
+        if proxy is not False:
+            blockers.append("final_proxy_assets_not_allowed")
+        if isinstance(min_height,int) and height<min_height:
+            blockers.append("delivery_height_below_floor")
+        if character=="performance":
+            if not char_reqs:
+                blockers.append("character_requirement_missing")
+            elif not any(r.get("resolved") for r in char_reqs):
+                blockers.append("character_requirement_unresolved")
+            if char_reqs and not any(str(r.get("proof_artifact","")).strip() for r in char_reqs):
+                blockers.append("character_asset_proof_missing")
+        if environment=="spatial":
+            if not env_reqs:
+                blockers.append("environment_requirement_missing")
+            elif not any(r.get("resolved") for r in env_reqs):
+                blockers.append("environment_requirement_unresolved")
+            if env_reqs and not any(str(r.get("proof_artifact","")).strip() for r in env_reqs):
+                blockers.append("environment_asset_proof_missing")
+        if visual=="cinematic_3d":
+            for name in ("previs","lookdev"):
+                gate=gates.get(name,{})
+                if gate.get("decision")!="required":
+                    blockers.append(name+"_required_for_cinematic_3d")
+                elif gate.get("status")!="approved" or not gate.get("artifact"):
+                    blockers.append(name+"_not_approved_for_cinematic_3d")
+            if not any(s.get("renderer",{}).get("lane")=="blender" for s in shots):
+                blockers.append("blender_lane_required_for_cinematic_3d")
+        if visual=="stylized_2d":
+            gate=gates.get("lookdev",{})
+            if gate.get("decision")!="required":
+                blockers.append("lookdev_required_for_stylized_2d")
+            elif gate.get("status")!="approved" or not gate.get("artifact"):
+                blockers.append("lookdev_not_approved_for_stylized_2d")
+            if float(data.get("goal",{}).get("runtime_seconds") or 0)>30:
+                pg=gates.get("previs",{})
+                if pg.get("decision")!="required":
+                    blockers.append("previs_required_for_long_stylized_2d")
+                elif pg.get("status")!="approved" or not pg.get("artifact"):
+                    blockers.append("previs_not_approved_for_long_stylized_2d")
+    unresolved_enums=any(b.endswith("_unresolved") for b in blockers)
+    resolved=not blockers if delivery=="final" else not unresolved_enums
+    final_ready=delivery=="final" and not blockers
+    compiled={
+        "reviewed":True,
+        "delivery_level":delivery,
+        "visual_mode":visual,
+        "character_mode":character,
+        "environment_mode":environment,
+        "proxy_assets_allowed":proxy,
+        "minimum_delivery_height":min_height,
+        "notes":src.get("notes",""),
+        "resolved":resolved,
+        "final_delivery_ready":final_ready,
+        "blockers":blockers,
+    }
+    warnings=[]
+    if blockers:
+        warnings.append({"code":"quality_floor_blocked","detail":blockers})
+    return compiled,warnings
 
 def _compile_compositing(shot: dict[str, Any], lane: str) -> tuple[dict[str, Any], list[str]]:
     src=shot.get("compositing")
@@ -302,6 +408,26 @@ def validate_director_brief(data: dict[str, Any]) -> list[str]:
                     for key in ("assets","structural_requirements","license_requirements","local_authorship"):
                         if key in req and not isinstance(req.get(key),list):
                             errors.append(f"{p}.{key} must be a list")
+                    if "proof_artifact" in req and not isinstance(req.get("proof_artifact"),str):
+                        errors.append(f"{p}.proof_artifact must be a string")
+    qf=data.get("quality_floor")
+    if qf is not None:
+        if not isinstance(qf,dict):
+            errors.append("quality_floor must be an object")
+        else:
+            if qf.get("delivery_level") not in QUALITY_DELIVERY_LEVELS:
+                errors.append(f"quality_floor.delivery_level must be one of {sorted(QUALITY_DELIVERY_LEVELS)}")
+            if qf.get("visual_mode") not in QUALITY_VISUAL_MODES:
+                errors.append(f"quality_floor.visual_mode must be one of {sorted(QUALITY_VISUAL_MODES)}")
+            if qf.get("character_mode") not in QUALITY_CHARACTER_MODES:
+                errors.append(f"quality_floor.character_mode must be one of {sorted(QUALITY_CHARACTER_MODES)}")
+            if qf.get("environment_mode") not in QUALITY_ENVIRONMENT_MODES:
+                errors.append(f"quality_floor.environment_mode must be one of {sorted(QUALITY_ENVIRONMENT_MODES)}")
+            if not isinstance(qf.get("proxy_assets_allowed"),bool):
+                errors.append("quality_floor.proxy_assets_allowed must be boolean")
+            mh=qf.get("minimum_delivery_height")
+            if not isinstance(mh,int) or isinstance(mh,bool) or mh<=0:
+                errors.append("quality_floor.minimum_delivery_height must be a positive integer")
     vd=data.get("visual_development")
     if vd is not None:
         if not isinstance(vd,dict):
@@ -462,6 +588,10 @@ def compile_plan(brief_path: Path, catalog_path: Path, *, width=1280, height=720
             "state":"PLANNED",
         })
         cursor += duration
+    quality_floor, quality_warnings=_compile_quality_floor(
+        brief, asset_strategy, visual_development, shots, height=height
+    )
+    warnings.extend(quality_warnings)
     plan={
         "schema_version":1,
         "title":brief["title"],
@@ -489,6 +619,7 @@ def compile_plan(brief_path: Path, catalog_path: Path, *, width=1280, height=720
         "handoff":brief.get("handoff",{}),
         "asset_strategy":asset_strategy,
         "visual_development":visual_development,
+        "quality_floor":quality_floor,
         "shots":shots,
         "warnings":warnings,
         "summary":{
@@ -501,9 +632,12 @@ def compile_plan(brief_path: Path, catalog_path: Path, *, width=1280, height=720
             "visual_development_reviewed":visual_development["reviewed"],
             "unresolved_development_gate_count":sum(1 for g in visual_development["gates"].values() if not g["resolved"]),
             "unresolved_compositing_shot_count":sum(1 for s in shots if not s["compositing"]["resolved"]),
+            "quality_floor_reviewed":quality_floor["reviewed"],
+            "quality_floor_blocker_count":len(quality_floor["blockers"]),
+            "final_delivery_ready":quality_floor["final_delivery_ready"],
             "warning_count":len(warnings),
             "blocked_shot_count":sum(1 for s in shots if not s["renderer"]["adapter_ready"] or any(not a["resolved"] for a in s["assets"]) or not s["compositing"]["resolved"]),
-            "execution_ready":all(s["renderer"]["adapter_ready"] and all(a["resolved"] for a in s["assets"]) and s["compositing"]["resolved"] for s in shots) and all(r["resolved"] for r in asset_strategy["requirements"]) and all(g["resolved"] for g in visual_development["gates"].values()),
+            "execution_ready":all(s["renderer"]["adapter_ready"] and all(a["resolved"] for a in s["assets"]) and s["compositing"]["resolved"] for s in shots) and all(r["resolved"] for r in asset_strategy["requirements"]) and all(g["resolved"] for g in visual_development["gates"].values()) and quality_floor["resolved"],
         },
     }
     plan_errors=validate_execution_plan(plan)

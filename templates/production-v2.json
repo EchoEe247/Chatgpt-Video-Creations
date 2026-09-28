@@ -63,7 +63,8 @@
       "exit_code": null
     },
     "creative_qa_required": true,
-    "studio_review_required": false
+    "studio_review_required": true,
+    "quality_floor_required": true
   },
   "artifacts": {
     "candidate_master": null,

@@ -198,6 +198,12 @@ Do not use an online video-generation model as a silent replacement for the repo
 
 See `docs/RESOURCE_SOURCING.md`.
 
+## Final-production quality preflight
+
+For new user-facing productions, read `docs/QUALITY_FLOOR.md`. The production controller now binds final execution to an execution plan whose quality floor is actually final-delivery ready. It rechecks source hashes, required previs/look-dev artifacts, high-impact asset proof, delivery height, creative-QA requirement, and mandatory studio review for audio-required final work.
+
+This means a session cannot legitimately replace a character-heavy cinematic with proxy silhouettes/Pillow, mark development not required, and proceed merely because the MP4 decodes.
+
 ## Previs, look-dev, and pass-compositing path
 
 For serious 3D/cinematic work, read `docs/VISUAL_DEVELOPMENT.md` before full-resolution rendering. The director contract now carries explicit previs/look-dev gates and per-shot Blender compositing decisions.

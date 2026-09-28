@@ -8,6 +8,7 @@ import unittest
 from pathlib import Path
 
 from src.core.final_screening import DEPARTMENTS
+from src.core.director_execution import compile_plan
 
 ROOT = Path(__file__).resolve().parents[1]
 TEMPLATE = json.loads((ROOT / "templates/production-v2.json").read_text())
@@ -55,6 +56,8 @@ class ProductionControllerIntegrationTests(unittest.TestCase):
         # fresh-session bootstrap gate. Dedicated workflow-contract tests cover
         # the required-binding path.
         data["workflow"]["bootstrap_required"] = False
+        data["workflow"]["quality_floor_required"] = False
+        data["workflow"]["studio_review_required"] = False
         data["workflow"]["creative_qa_required"] = creative_required
         data["source"]["show"] = "test-show"
         data["delivery"].update(
@@ -85,6 +88,53 @@ class ProductionControllerIntegrationTests(unittest.TestCase):
 
     def load(self, manifest: Path) -> dict:
         return json.loads(manifest.read_text(encoding="utf-8"))
+
+    def build_final_quality_plan(self, manifest: Path) -> Path:
+        package=manifest.parent
+        development=package/"development"
+        development.mkdir(parents=True,exist_ok=True)
+        (development/"previs.mp4").write_bytes(b"previs")
+        (development/"lookdev.png").write_bytes(b"lookdev")
+        brief={
+            "schema_version":1,
+            "title":"quality-floor-controller",
+            "goal":{"audience":"test","runtime_seconds":1,"one_sentence_promise":"test","ending_takeaway":""},
+            "quality_floor":{
+                "delivery_level":"final",
+                "visual_mode":"cinematic_3d",
+                "character_mode":"none",
+                "environment_mode":"graphic",
+                "proxy_assets_allowed":False,
+                "minimum_delivery_height":720,
+                "notes":""
+            },
+            "story":{"setup":"A","escalation":"B","turn":"C","resolution":"D","emotional_arc":[]},
+            "reference_decomposition":[],
+            "visual_grammar":{"style":"3D","palette_arc":[],"lighting":"lit","depth_rules":[],"typography_rules":[],"texture_rules":[],"forbidden_patterns":[]},
+            "camera_grammar":{"default_behavior":"camera","allowed_moves":[],"physical_camera_assumptions":[],"intentional_imperfections":[],"avoid":[]},
+            "audio_grammar":{"narration_or_dialogue":"","score_arc":[],"ambience":[],"effects":[],"silence_rules":[],"sync_rules":[]},
+            "editing_grammar":{"pace_arc":[],"cut_motivations":[],"transition_rules":[],"avoid":[]},
+            "asset_strategy":{"principle":"source_nouns_author_verbs","requirements":[]},
+            "visual_development":{
+                "previs":{"decision":"required","status":"approved","artifact":"development/previs.mp4","review_focus":["timing"],"notes":""},
+                "lookdev":{"decision":"required","status":"approved","artifact":"development/lookdev.png","review_focus":["materials","lighting"],"notes":""}
+            },
+            "hero_shots":["shot-01"],
+            "shots":[{
+                "id":"shot-01","duration_seconds":1,"narrative_purpose":"test","visible_event":"object moves",
+                "camera":"locked","subject_motion":"move","environment_motion":"light","depth_layers":[],"palette":"",
+                "transition_in":"cut","transition_out":"cut","audio_cue":"tone","renderer":"blender","assets":[],
+                "continuity_dependencies":[],"review_points_seconds":[0.5],"failure_modes":[],
+                "compositing":{"mode":"beauty_only","passes":[],"goals":[],"output":"","notes":""}
+            }],
+            "handoff":{"critical_files":[],"known_limits":[],"acceptance_focus":[]}
+        }
+        director=package/"director-brief.json"
+        director.write_text(json.dumps(brief,indent=2)+"\n",encoding="utf-8")
+        plan=compile_plan(director,ROOT/"assets/catalog.json",width=1280,height=720,fps=24)
+        plan_path=package/"execution-plan.json"
+        plan_path.write_text(json.dumps(plan,indent=2)+"\n",encoding="utf-8")
+        return plan_path
 
     def prepare_to_user_review(self, manifest: Path) -> dict:
         self.assertEqual(self.run_ctl("candidate", manifest, self.source).returncode, 0)
@@ -152,6 +202,37 @@ class ProductionControllerIntegrationTests(unittest.TestCase):
         review_path = root / "assistant-review.json"
         review_path.write_text(json.dumps(review, indent=2) + "\n", encoding="utf-8")
         return report_path, review_path
+
+    def test_quality_floor_render_preflight_requires_real_artifacts_and_studio_review(self):
+        manifest=self.make_manifest("quality-floor-preflight")
+        plan_path=self.build_final_quality_plan(manifest)
+        data=self.load(manifest)
+        data["workflow"]["quality_floor_required"]=True
+        data["workflow"]["creative_qa_required"]=True
+        data["workflow"]["studio_review_required"]=False
+        data["render"]["scene_plan"]=str(plan_path)
+        data["delivery"]["height"]=720
+        data["delivery"]["audio_required"]=True
+        data["delivery"]["audio_codec"]="aac"
+        data["delivery"]["max_unintended_silence_seconds"]=1
+        manifest.write_text(json.dumps(data,indent=2)+"\n",encoding="utf-8")
+
+        # Missing on-disk look-dev evidence blocks before rendering.
+        (manifest.parent/"development"/"lookdev.png").unlink()
+        missing=self.run_ctl("render-spec",manifest)
+        self.assertNotEqual(missing.returncode,0)
+        self.assertIn("visual-development artifact is missing",missing.stderr)
+
+        (manifest.parent/"development"/"lookdev.png").write_bytes(b"lookdev")
+        blocked=self.run_ctl("render-spec",manifest)
+        self.assertNotEqual(blocked.returncode,0)
+        self.assertIn("studio_review_required=true",blocked.stderr)
+
+        data=self.load(manifest)
+        data["workflow"]["studio_review_required"]=True
+        manifest.write_text(json.dumps(data,indent=2)+"\n",encoding="utf-8")
+        ready=self.run_ctl("render-spec",manifest)
+        self.assertEqual(ready.returncode,0,ready.stderr+ready.stdout)
 
     def test_studio_review_required_blocks_missing_and_accepts_complete_screening(self):
         manifest = self.make_manifest("studio-required")

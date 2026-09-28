@@ -7,6 +7,15 @@
     "one_sentence_promise": "",
     "ending_takeaway": ""
   },
+  "quality_floor": {
+    "delivery_level": "unresolved",
+    "visual_mode": "unresolved",
+    "character_mode": "unresolved",
+    "environment_mode": "unresolved",
+    "proxy_assets_allowed": false,
+    "minimum_delivery_height": 720,
+    "notes": "Choose the production class from the actual user goal. Prototype may render for development but is not final-delivery ready."
+  },
   "story": {
     "setup": "",
     "escalation": "",
@@ -66,7 +75,8 @@
           "Verify terms at acquisition time."
         ],
         "adaptation_plan": "",
-        "local_authorship": []
+        "local_authorship": [],
+        "proof_artifact": ""
       }
     ]
   },

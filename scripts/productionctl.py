@@ -36,6 +36,7 @@ from src.core.review_pack import build_review_pack
 from src.core.creative_qa import validate_assistant_review, validate_report_evidence
 from src.core.studio_review import ASSISTANT_ACCEPTED, promotion_diagnostics
 from src.core.workflow_contract import binding_status
+from src.core.director_execution import validate_execution_plan, validate_source_bindings
 
 
 def _now() -> str:
@@ -242,6 +243,64 @@ def _verify_review_evidence(manifest: Path, data: dict[str, Any]) -> dict[str, A
     }
 
 
+def _quality_floor_preflight(manifest: Path, data: dict[str, Any], *, require_final: bool) -> dict[str, Any]:
+    workflow=data.get("workflow") or {}
+    if not workflow.get("quality_floor_required"):
+        return {"required":False,"pass":True}
+    render=data.get("render") or {}
+    plan_path=_resolve(manifest,render.get("scene_plan"))
+    if plan_path is None:
+        raise ValueError("quality-floor production requires render.scene_plan execution plan")
+    if not plan_path.is_file():
+        raise FileNotFoundError(f"quality-floor execution plan is missing: {plan_path}")
+    plan=json.loads(plan_path.read_text(encoding="utf-8"))
+    errors=validate_execution_plan(plan)+validate_source_bindings(plan)
+    if errors:
+        raise ValueError("quality-floor execution plan is invalid/stale: "+"; ".join(errors))
+    if not (plan.get("summary") or {}).get("execution_ready"):
+        blockers=(plan.get("quality_floor") or {}).get("blockers") or []
+        raise ValueError("execution plan is not execution-ready under the quality floor: "+", ".join(map(str,blockers)))
+    qf=plan.get("quality_floor") or {}
+    if not qf.get("reviewed"):
+        raise ValueError("quality-floor production requires a reviewed execution-plan quality_floor")
+    plan_root=plan_path.parent
+    if require_final:
+        for gate_name,gate in (plan.get("visual_development") or {}).get("gates",{}).items():
+            if gate.get("decision")=="required":
+                artifact=str(gate.get("artifact") or "").strip()
+                if not artifact:
+                    raise ValueError(f"required visual-development gate {gate_name} has no artifact")
+                artifact_path=Path(artifact).expanduser()
+                if not artifact_path.is_absolute():
+                    artifact_path=plan_root/artifact_path
+                if not artifact_path.is_file():
+                    raise FileNotFoundError(f"required visual-development artifact is missing: {artifact_path}")
+        for req in (plan.get("asset_strategy") or {}).get("requirements",[]):
+            proof=str(req.get("proof_artifact") or "").strip()
+            if proof:
+                proof_path=Path(proof).expanduser()
+                if not proof_path.is_absolute():
+                    proof_path=plan_root/proof_path
+                if not proof_path.is_file():
+                    raise FileNotFoundError(f"asset proof artifact is missing for {req.get('id')}: {proof_path}")
+    if require_final and not qf.get("final_delivery_ready"):
+        blockers=qf.get("blockers") or []
+        raise ValueError("quality floor does not permit final delivery: "+", ".join(map(str,blockers)))
+    min_height=qf.get("minimum_delivery_height")
+    height=(data.get("delivery") or {}).get("height")
+    if require_final and isinstance(min_height,int) and isinstance(height,int) and height<min_height:
+        raise ValueError(f"delivery height {height} is below quality floor {min_height}")
+    if require_final and (data.get("delivery") or {}).get("audio_required") and not workflow.get("studio_review_required"):
+        raise ValueError("final audio-required quality-floor production requires workflow.studio_review_required=true")
+    if require_final and not workflow.get("creative_qa_required"):
+        raise ValueError("final quality-floor production requires workflow.creative_qa_required=true")
+    return {
+        "required":True,
+        "pass":True,
+        "execution_plan":str(plan_path),
+        "quality_floor":qf,
+    }
+
 def _record_candidate(manifest: Path, data: dict[str, Any], source: Path) -> None:
     candidate, digest = _copy_candidate_immutable(manifest, data, source)
     artifacts = data.setdefault("artifacts", {})
@@ -320,6 +379,15 @@ def command_status(args) -> int:
     manifest, data = _load(args.manifest)
     summary = status_summary(data)
     summary["valid"] = True
+    if (data.get("workflow") or {}).get("quality_floor_required"):
+        try:
+            summary["quality_floor_preflight"]=_quality_floor_preflight(
+                manifest,data,require_final=data.get("status") not in {"PLANNED","RENDERING"}
+            )
+        except (OSError,ValueError,json.JSONDecodeError) as exc:
+            summary["quality_floor_preflight"]={"required":True,"pass":False,"error":str(exc)}
+            if data.get("status")=="PLANNED":
+                summary["next_action"]="quality_floor_preflight"
     if data.get("status") in {"ASSISTANT_REVIEW", "USER_REVIEW", "DONE"}:
         try:
             summary["artifact_integrity"] = {
@@ -342,6 +410,7 @@ def command_render_spec(args) -> int:
             "current video workflow is not bound/verified; run workflowctl bind first: "
             + "; ".join(binding.get("errors") or [])
         )
+    _quality_floor_preflight(manifest,data,require_final=True)
     render = data.get("render") or {}
     delivery = data.get("delivery") or {}
     command = render.get("command") or []
@@ -380,6 +449,7 @@ def command_rendering(args) -> int:
             "refusing to enter RENDERING with a stale/unbound workflow: "
             + "; ".join(binding.get("errors") or [])
         )
+    _quality_floor_preflight(manifest,data,require_final=True)
     render = data.get("render") or {}
     cwd = _resolve(manifest, render.get("cwd") or ".")
     output = _resolve(manifest, render.get("output"))
@@ -467,6 +537,7 @@ def command_candidate(args) -> int:
 
 def command_prepare_review(args) -> int:
     manifest, data = _load(args.manifest)
+    _quality_floor_preflight(manifest,data,require_final=True)
     candidate, digest = _verify_candidate_binding(manifest, data)
     artifacts = data["artifacts"]
     delivery = data["delivery"]
@@ -579,6 +650,7 @@ def command_prepare_review(args) -> int:
 
 def command_assistant_pass(args) -> int:
     manifest, data = _load(args.manifest)
+    _quality_floor_preflight(manifest,data,require_final=True)
     if data["gates"]["technical"]["status"] != PASS:
         raise ValueError("assistant PASS requires technical gate PASS")
     if data["workflow"].get("creative_qa_required"):
@@ -688,6 +760,7 @@ def command_repair_start(args) -> int:
 
 def command_user_accept(args) -> int:
     manifest, data = _load(args.manifest)
+    _quality_floor_preflight(manifest,data,require_final=True)
     if not ready_for_user_review(data):
         raise ValueError("production is not ready for final user review")
     integrity = _verify_review_evidence(manifest, data)

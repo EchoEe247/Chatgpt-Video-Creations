@@ -20,6 +20,7 @@ STATUSES = {
     "REFINEMENT_REQUIRED",
     "VERIFICATION_REQUIRED",
     "BLOCKED",
+    "REJECTED_USER_QUALITY",
     "DONE",
 }
 REVIEWS = {"PENDING", "PASS", "FAIL"}
@@ -175,6 +176,9 @@ def validate_production_v2(data: Mapping[str, Any]) -> list[str]:
     studio_required = workflow.get("studio_review_required")
     if not isinstance(studio_required, bool):
         errors.append("workflow.studio_review_required must be boolean")
+    quality_floor_required = workflow.get("quality_floor_required")
+    if not isinstance(quality_floor_required, bool):
+        errors.append("workflow.quality_floor_required must be boolean")
     current_cycle = workflow.get("repair_cycle")
     if not isinstance(max_cycles, int) or isinstance(max_cycles, bool) or max_cycles < 1:
         errors.append("workflow.max_autonomous_repair_cycles must be an integer >= 1")
@@ -274,6 +278,8 @@ def validate_production_v2(data: Mapping[str, Any]) -> list[str]:
         required_artifacts = ["artifact_receipt", "review_pack"]
         if workflow.get("creative_qa_required"):
             required_artifacts += ["creative_qa", "creative_review"]
+        if workflow.get("studio_review_required"):
+            required_artifacts += ["studio_review"]
         for key in required_artifacts:
             if not artifacts.get(key):
                 errors.append(f"USER_REVIEW requires artifacts.{key}")
@@ -286,6 +292,8 @@ def validate_production_v2(data: Mapping[str, Any]) -> list[str]:
         required_artifacts = ["artifact_receipt", "review_pack"]
         if workflow.get("creative_qa_required"):
             required_artifacts += ["creative_qa", "creative_review"]
+        if workflow.get("studio_review_required"):
+            required_artifacts += ["studio_review"]
         for key in required_artifacts:
             if not artifacts.get(key):
                 errors.append(f"DONE requires artifacts.{key}")

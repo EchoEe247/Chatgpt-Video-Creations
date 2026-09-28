@@ -42,6 +42,7 @@ DEFAULT_WORKFLOW = {
     "max_autonomous_repair_cycles": 4,
     "creative_qa_required": False,
     "studio_review_required": False,
+    "quality_floor_required": False,
     "repair_cycle": 0,
     "escalation_reason": None,
     "last_action": None,
@@ -169,6 +170,8 @@ def artifact_evidence_complete(data: Mapping[str, Any]) -> bool:
     workflow = normalized_runtime(data)["workflow"]
     if workflow.get("creative_qa_required"):
         required += ["creative_qa", "creative_review"]
+    if workflow.get("studio_review_required"):
+        required += ["studio_review"]
     return all(artifacts.get(key) for key in required)
 
 
@@ -229,6 +232,8 @@ def next_action(data: Mapping[str, Any]) -> str:
     gates = runtime["gates"]
     artifacts = data.get("artifacts") if isinstance(data.get("artifacts"), Mapping) else {}
 
+    if status == "REJECTED_USER_QUALITY":
+        return "rebuild_from_quality_floor"
     if status == "DONE":
         return "none" if user_passed(data) else (
             "repair_integrity"

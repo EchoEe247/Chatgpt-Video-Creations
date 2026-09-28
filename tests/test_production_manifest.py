@@ -10,6 +10,11 @@ TEMPLATE = json.loads((ROOT / "templates/production-v2.json").read_text())
 
 
 class ProductionManifestTests(unittest.TestCase):
+    def test_new_template_enables_fail_closed_quality_and_studio_review(self):
+        self.assertTrue(TEMPLATE["workflow"]["quality_floor_required"])
+        self.assertTrue(TEMPLATE["workflow"]["creative_qa_required"])
+        self.assertTrue(TEMPLATE["workflow"]["studio_review_required"])
+
     def test_template_is_valid(self):
         data = copy.deepcopy(TEMPLATE)
         data["production_id"] = "wrong-shift-s01e01-v2"

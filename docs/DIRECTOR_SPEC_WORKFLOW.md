@@ -51,6 +51,14 @@ The brief should answer:
 8. **Which shots carry the story?** Identify the hero shots that deserve extra render/review budget.
 9. **What is forbidden?** Generic idle particles, decorative motion without narrative purpose, unreadable text, accidental freeze spans, repetitive camera moves, and visual motifs that drift without explanation.
 
+## Quality-floor declaration
+
+Before asset or renderer decisions, classify the actual requested output with the top-level `quality_floor`. New briefs begin unresolved rather than assuming the cheapest viable architecture.
+
+For final cinematic 3D, the compiler requires real previs/look-dev approval, a Blender lane, no final proxy assets, and concrete character/environment proof when those modes are applicable. A `prototype` may be cheap, but it cannot become final-delivery ready.
+
+See `docs/QUALITY_FLOOR.md`.
+
 ## Asset-needs decomposition before renderer
 
 After the story/visual grammar is clear, identify high-impact production nouns before expensive construction. Put them in the director brief `asset_strategy` and intentionally choose `reuse_local`, `source_free`, `author_local`, `hybrid` or `unresolved`.

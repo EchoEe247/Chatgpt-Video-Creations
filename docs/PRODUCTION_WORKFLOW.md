@@ -70,6 +70,14 @@ If implementation is stuck on a production technique, research established pract
 
 See `docs/RESOURCE_SOURCING.md`.
 
+## 2.6. Lock the final-production quality floor
+
+Before a user-facing final render, compile a director brief with the correct `quality_floor`. New final productions are fail-closed: unresolved production class, forbidden final proxies, missing character/environment proof, inappropriate renderer architecture, skipped required visual development, or delivery below the declared floor block final execution.
+
+`productionctl render-spec` rechecks the bound execution plan, source hashes and actual development/proof files before a full render can start. New production manifests also require creative QA and studio review by default. Audio-required final work cannot disable studio review.
+
+See `docs/QUALITY_FLOOR.md`.
+
 ## 2.75. Previs and look-dev before expensive 3D rendering
 
 For serious 3D/cinematic work, decide whether previs and look development are required and record the decision in the director brief `visual_development` contract.

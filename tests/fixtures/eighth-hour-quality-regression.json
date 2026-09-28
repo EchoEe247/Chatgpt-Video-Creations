@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "title": "Rejected quality-floor regression",
+  "goal": {
+    "audience": "cinematic viewers",
+    "runtime_seconds": 60,
+    "one_sentence_promise": "Character-led workplace mystery.",
+    "ending_takeaway": ""
+  },
+  "quality_floor": {
+    "delivery_level": "final",
+    "visual_mode": "cinematic_3d",
+    "character_mode": "performance",
+    "environment_mode": "spatial",
+    "proxy_assets_allowed": false,
+    "minimum_delivery_height": 720,
+    "notes": "Regression fixture modeled on the rejected primitive character/environment path."
+  },
+  "story": {
+    "setup": "A worker enters.",
+    "escalation": "The office changes.",
+    "turn": "She discovers a hidden interval.",
+    "resolution": "She escapes.",
+    "emotional_arc": [
+      "order",
+      "dread"
+    ]
+  },
+  "reference_decomposition": [],
+  "visual_grammar": {
+    "style": "cinematic character-heavy workplace science fiction",
+    "palette_arc": [],
+    "lighting": "fluorescent office",
+    "depth_rules": [],
+    "typography_rules": [],
+    "texture_rules": [],
+    "forbidden_patterns": [
+      "proxy humans"
+    ]
+  },
+  "camera_grammar": {
+    "default_behavior": "measured cinematic coverage",
+    "allowed_moves": [
+      "push"
+    ],
+    "physical_camera_assumptions": [],
+    "intentional_imperfections": [],
+    "avoid": []
+  },
+  "audio_grammar": {
+    "narration_or_dialogue": "dialogue and ambience",
+    "score_arc": [],
+    "ambience": [
+      "office"
+    ],
+    "effects": [],
+    "silence_rules": [],
+    "sync_rules": []
+  },
+  "editing_grammar": {
+    "pace_arc": [],
+    "cut_motivations": [],
+    "transition_rules": [],
+    "avoid": []
+  },
+  "asset_strategy": {
+    "principle": "source_nouns_author_verbs",
+    "requirements": [
+      {
+        "id": "visual-world",
+        "kind": "environment",
+        "need": "Office/corridor plus a readable human silhouette.",
+        "decision": "author_local",
+        "assets": [],
+        "structural_requirements": [
+          "perspective"
+        ],
+        "license_requirements": [],
+        "adaptation_plan": "Build primitive geometry directly.",
+        "local_authorship": [
+          "design",
+          "layout",
+          "camera",
+          "animation"
+        ],
+        "proof_artifact": ""
+      }
+    ]
+  },
+  "visual_development": {
+    "previs": {
+      "decision": "not_required",
+      "status": "not_required",
+      "artifact": "",
+      "review_focus": [
+        "timing",
+        "blocking"
+      ],
+      "notes": "Cheap renderer."
+    },
+    "lookdev": {
+      "decision": "not_required",
+      "status": "not_required",
+      "artifact": "",
+      "review_focus": [
+        "palette"
+      ],
+      "notes": "No shading stage."
+    }
+  },
+  "hero_shots": [
+    "shot-01"
+  ],
+  "shots": [
+    {
+      "id": "shot-01",
+      "duration_seconds": 60,
+      "narrative_purpose": "Tell the whole story",
+      "visible_event": "A human silhouette moves through a procedural office.",
+      "camera": "slow push",
+      "subject_motion": "walk and react",
+      "environment_motion": "lights change",
+      "depth_layers": [
+        "foreground",
+        "subject",
+        "background"
+      ],
+      "palette": "office",
+      "transition_in": "fade",
+      "transition_out": "fade",
+      "audio_cue": "thin tonal bed",
+      "renderer": "Python/Pillow/NumPy deterministic renderer",
+      "assets": [],
+      "continuity_dependencies": [
+        "same silhouette"
+      ],
+      "review_points_seconds": [
+        30
+      ],
+      "failure_modes": [
+        "proxy look"
+      ],
+      "compositing": {
+        "mode": "not_applicable",
+        "passes": [],
+        "goals": [],
+        "output": "",
+        "notes": "direct render"
+      }
+    }
+  ],
+  "handoff": {
+    "critical_files": [],
+    "known_limits": [],
+    "acceptance_focus": []
+  }
+}

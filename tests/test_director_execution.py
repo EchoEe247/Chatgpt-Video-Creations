@@ -349,3 +349,96 @@ def test_blender_custom_aov_namespace_is_allowed(tmp_path):
     p.write_text(json.dumps(brief))
     plan=compile_plan(p,CATALOG)
     assert plan["shots"][0]["compositing"]["resolved"] is True
+
+def test_rejected_eighth_hour_pattern_is_blocked_by_quality_floor():
+    fixture=ROOT/"tests/fixtures/eighth-hour-quality-regression.json"
+    plan=compile_plan(fixture,CATALOG)
+    blockers=plan["quality_floor"]["blockers"]
+    assert plan["summary"]["execution_ready"] is False
+    assert plan["summary"]["final_delivery_ready"] is False
+    assert "previs_required_for_cinematic_3d" in blockers
+    assert "lookdev_required_for_cinematic_3d" in blockers
+    assert "blender_lane_required_for_cinematic_3d" in blockers
+    assert "character_requirement_missing" in blockers
+    assert "environment_asset_proof_missing" in blockers
+
+
+def test_final_cinematic_quality_floor_passes_only_with_real_production_decisions(tmp_path):
+    brief=json.loads((ROOT/"templates/director-brief.json").read_text())
+    brief["title"]="quality-floor-pass"
+    brief["goal"]={
+        "audience":"test",
+        "runtime_seconds":6,
+        "one_sentence_promise":"A finished cinematic character shot.",
+        "ending_takeaway":""
+    }
+    brief["story"]={"setup":"A","escalation":"B","turn":"C","resolution":"D","emotional_arc":[]}
+    brief["quality_floor"]={
+        "delivery_level":"final",
+        "visual_mode":"cinematic_3d",
+        "character_mode":"performance",
+        "environment_mode":"spatial",
+        "proxy_assets_allowed":False,
+        "minimum_delivery_height":720,
+        "notes":""
+    }
+    brief["asset_strategy"]={
+        "principle":"source_nouns_author_verbs",
+        "requirements":[
+            {
+                "id":"hero-character","kind":"character","need":"Rigged hero",
+                "decision":"author_local","assets":[],"structural_requirements":["rigged"],
+                "license_requirements":[],"adaptation_plan":"",
+                "local_authorship":["rig","performance"],"proof_artifact":"development/hero-proof.blend"
+            },
+            {
+                "id":"hero-environment","kind":"environment","need":"Spatial office",
+                "decision":"author_local","assets":[],"structural_requirements":["spatial"],
+                "license_requirements":[],"adaptation_plan":"",
+                "local_authorship":["set","lighting"],"proof_artifact":"development/office-proof.blend"
+            }
+        ]
+    }
+    brief["visual_development"]={
+        "previs":{
+            "decision":"required","status":"approved","artifact":"development/previs.mp4",
+            "review_focus":["timing","blocking","camera"],"notes":""
+        },
+        "lookdev":{
+            "decision":"required","status":"approved","artifact":"development/lookdev.png",
+            "review_focus":["materials","lighting","reflections","contact"],"notes":""
+        }
+    }
+    brief["hero_shots"]=["shot-01"]
+    brief["shots"]=[{
+        "id":"shot-01","duration_seconds":6,"narrative_purpose":"hero action",
+        "visible_event":"Hero crosses office","camera":"dolly","subject_motion":"walk",
+        "environment_motion":"practicals react","depth_layers":["fg","hero","bg"],"palette":"neutral",
+        "transition_in":"cut","transition_out":"cut","audio_cue":"room tone",
+        "renderer":"blender","assets":[],"continuity_dependencies":[],
+        "review_points_seconds":[3],"failure_modes":[],
+        "compositing":{"mode":"beauty_only","passes":[],"goals":[],"output":"","notes":""}
+    }]
+    path=tmp_path/"director.json"
+    path.write_text(json.dumps(brief))
+    plan=compile_plan(path,CATALOG)
+    assert plan["quality_floor"]["blockers"]==[]
+    assert plan["summary"]["execution_ready"] is True
+    assert plan["summary"]["final_delivery_ready"] is True
+
+
+def test_prototype_quality_floor_never_reports_final_delivery_ready(tmp_path):
+    brief=json.loads((ROOT/"tests/fixtures/eighth-hour-quality-regression.json").read_text())
+    brief["quality_floor"].update({
+        "delivery_level":"prototype",
+        "visual_mode":"stylized_2d",
+        "character_mode":"incidental",
+        "environment_mode":"graphic",
+        "proxy_assets_allowed":True,
+    })
+    path=tmp_path/"director.json"
+    path.write_text(json.dumps(brief))
+    plan=compile_plan(path,CATALOG)
+    assert plan["quality_floor"]["resolved"] is True
+    assert plan["summary"]["execution_ready"] is True
+    assert plan["summary"]["final_delivery_ready"] is False

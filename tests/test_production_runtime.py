@@ -20,6 +20,8 @@ class ProductionRuntimeTests(unittest.TestCase):
         data["production_id"] = "test-production"
         data["source"]["show"] = "test-show"
         data["workflow"]["creative_qa_required"] = False
+        data["workflow"]["quality_floor_required"] = False
+        data["workflow"]["studio_review_required"] = False
         return data
 
     def test_planned_starts_at_render(self):

@@ -136,3 +136,11 @@ Its actual final MP4 passes the Phase 4 audio QA at the production-specific targ
 - unintended silence: 0 seconds.
 
 This is a back-test of the new timing/QA architecture, not a claim that the old film was originally authored from the new timeline.
+
+## Quality-floor final audio gate
+
+New user-facing production manifests require studio review by default. When a final quality-floor production has `delivery.audio_required=true`, `productionctl` refuses final execution if `workflow.studio_review_required` is disabled.
+
+The final studio screening must preserve the distinction between audio measurement and auditory perception. For audio-required delivery, auditory and synchronized-A/V modalities are required by the studio-review contract; objective loudness/spectrum/silence checks cannot replace actual listening.
+
+See `docs/QUALITY_FLOOR.md`, `docs/STUDIO_REVIEW_CONTRACT.md`, and the auditory perception gate in `docs/LOCAL_WORKSPACE_VIDEO_WORKFLOW.md`.
