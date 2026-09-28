@@ -208,7 +208,6 @@ def bootstrap(
             "compatible": False,
             "reason": "repository-native bootstrap cannot inspect the active Local Workspace bridge",
         },
-        "production_ready": False,
         "required_docs": doc_records,
         "docs_sha256": docs_sha,
         "workflow_dirty_paths": workflow_dirty,

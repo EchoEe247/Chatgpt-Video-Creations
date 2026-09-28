@@ -26,7 +26,7 @@ Audit basis: `Chatgpt-Video-Creations-Audit-2026-09-28.md`, audited commit `071f
    - The production template now uses consistent required=true defaults.
 
 5. **Bridge compatibility binding and dispatch revalidation**
-   - Repository-native bootstrap explicitly reports bridge compatibility as unevaluated and `production_ready=false`.
+   - Repository-native bootstrap explicitly reports bridge compatibility as unevaluated; final binding rejects that unevaluated result.
    - Final production binding requires evaluated compatible Local Workspace bootstrap evidence.
    - `workflowctl bind --bootstrap-result <json>` persists the evaluated bridge version/profile evidence.
    - `productionctl render-spec` and `productionctl rendering` require a current bootstrap result and fail if the active bridge/profile changed.
