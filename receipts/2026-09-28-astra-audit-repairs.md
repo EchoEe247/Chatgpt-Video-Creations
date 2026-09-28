@@ -72,3 +72,15 @@ Astra independently re-reviewed commit `6b4b11c` and identified four remaining i
 
 GitHub-hosted CI success must not be claimed while Actions execution is blocked by the separate account billing/spending-limit condition. Local test results and live runtime smokes are reported separately.
 Current canonical workflow after follow-up: **2026.09.28.12**.
+
+### Follow-up validation evidence
+
+- Full local pytest suite: **187/187 passed** in 77.24 s.
+- Test collection: **187 tests collected**.
+- Production-v2 template validation: **PASS**.
+- Markdown local-link audit: **30 files, 0 broken local links**.
+- RIDGELINE current master SHA-256 verified directly: `348de54393756c5d7e28b9c9fb64383242e56fa76ea336cc92203de34ea99e56`.
+- Post-commit live bind → `render-spec` smoke: **PASS** using the running bridge directly, with no `--bootstrap-result` supplied to render dispatch.
+- Adversarial dispatch smoke against a live readiness endpoint reporting profile `core` instead of bound `core-production`: **blocked**, reporting both profile drift and tool-set hash drift.
+- Local Git state after push: clean and synchronized with `origin/main`.
+- GitHub combined commit status currently exposes no completed status contexts; do not claim a GitHub-hosted CI pass from that absence.
