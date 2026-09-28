@@ -50,8 +50,10 @@ New adversarial tests cover:
 
 ## Validation
 
-- Complete pytest suite: **185 passed**.
-- Test collection: **185 tests collected**.
+- Complete pytest suite after final audit repairs and adjacent cinematic-lane consistency fix: **186 passed**.
+- Test collection before the adjacent lane regression was added: **185 tests collected**; final suite contains **186** passing tests.
+- Live Local Workspace bridge-binding smoke: evaluated core-production bridge evidence bound successfully and `productionctl render-spec --bootstrap-result` passed.
+- The live smoke also exposed and fixed an adjacent stale schema mismatch: production manifests now accept the canonical `cinematic` lane used by workflow bootstrap.
 - Production v2 template validation: **PASS**.
 - Markdown local-link audit: **0 broken links**.
 - Python compilation of changed core/controller modules: **PASS**.

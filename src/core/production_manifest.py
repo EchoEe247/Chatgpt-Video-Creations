@@ -10,7 +10,7 @@ from src.core.studio_review import (
 )
 from src.core.final_screening import validate_final_screening
 
-LANES = {"animation", "business"}
+LANES = {"animation", "business", "cinematic"}
 STATUSES = {
     "PLANNED",
     "RENDERING",
@@ -47,7 +47,7 @@ def validate_production_v2(data: Mapping[str, Any]) -> list[str]:
 
     lane = data.get("lane")
     if lane not in LANES:
-        errors.append("lane must be animation or business")
+        errors.append("lane must be animation, business, or cinematic")
 
     status = data.get("status")
     if status not in STATUSES:

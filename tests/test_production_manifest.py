@@ -70,6 +70,14 @@ class ProductionManifestTests(unittest.TestCase):
             errors,
         )
 
+    def test_cinematic_lane_is_valid_for_standalone_films(self):
+        data = copy.deepcopy(TEMPLATE)
+        data["production_id"] = "cinematic-test"
+        data["lane"] = "cinematic"
+        data["source"]["show"] = "standalone-film"
+        errors = validate_production_v2(data)
+        self.assertFalse(any("lane must be" in error for error in errors))
+
     def test_business_source_requires_release_provenance(self):
         data = copy.deepcopy(TEMPLATE)
         data["production_id"] = "business-test"
