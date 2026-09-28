@@ -128,6 +128,15 @@ def _load_contract(repo: Path) -> dict[str, Any]:
         value = compat.get(key)
         if not isinstance(value, list) or not value or not all(isinstance(x, str) and x for x in value):
             raise ValueError(f"bridge_compatibility.{key} must be a non-empty string list")
+    lane_briefs = data.get("lane_briefs")
+    if lane_briefs is not None:
+        if not isinstance(lane_briefs, Mapping):
+            raise ValueError("lane_briefs must be an object when present")
+        for lane, value in lane_briefs.items():
+            if lane not in {"cinematic", "animation", "business"}:
+                raise ValueError(f"lane_briefs contains unknown lane {lane}")
+            if not isinstance(value, str) or not value:
+                raise ValueError(f"lane_briefs.{lane} must be a non-empty path")
     return data
 
 
@@ -173,6 +182,18 @@ def bootstrap(
 
     manifest_sha = _sha256_file(contract_path)
     docs = _selected_docs(contract, selected_lane)
+    lane_brief_rel = str((contract.get("lane_briefs") or {}).get(selected_lane) or "").strip()
+    lane_brief_record = None
+    if lane_brief_rel:
+        lane_brief_path = repo / lane_brief_rel
+        lane_brief_exists = lane_brief_path.is_file()
+        lane_brief_record = {
+            "path": lane_brief_rel,
+            "exists": lane_brief_exists,
+            "sha256": _sha256_file(lane_brief_path) if lane_brief_exists else None,
+        }
+        if not lane_brief_exists:
+            blockers.append(f"lane_brief_missing:{lane_brief_rel}")
     doc_records: list[dict[str, Any]] = []
     for relative in docs:
         path = repo / relative
@@ -222,6 +243,8 @@ def bootstrap(
             raw = raw.split(" -> ", 1)[1]
         dirty_paths.append(raw.strip())
     workflow_paths = {"workflow/CURRENT.json", *docs}
+    if lane_brief_rel:
+        workflow_paths.add(lane_brief_rel)
     workflow_dirty = sorted(path for path in dirty_paths if path in workflow_paths)
     if workflow_dirty:
         blockers.extend(f"workflow_file_dirty:{path}" for path in workflow_dirty)
@@ -271,6 +294,7 @@ def bootstrap(
             "compatible": False,
             "reason": "repository-native bootstrap cannot inspect the active Local Workspace bridge",
         },
+        "lane_brief": lane_brief_record,
         "required_docs": doc_records,
         "docs_sha256": docs_sha,
         "workflow_dirty_paths": workflow_dirty,
@@ -279,7 +303,8 @@ def bootstrap(
         "receipt": receipt,
         "receipt_sha256": receipt_sha,
         "directive": (
-            "Read the returned required_docs before planning serious video work. "
+            "Read lane_brief first when present for the compact current operating picture; "
+            "required_docs remain the canonical policy sources to consult as the task requires. "
             "Bind receipt_sha256 plus the receipt fields into the production manifest. "
             "Do not render when ready=false unless discovery_mode was explicitly chosen."
         ),

@@ -1,10 +1,10 @@
 {
   "schema_version": 2,
   "production_id": "velocity-recreation",
-  "lane": "animation",
+  "lane": "cinematic",
   "status": "VERIFICATION_REQUIRED",
   "source": {
-    "title": "VELOCITY \u2014 A Highway Study / Recreation",
+    "title": "VELOCITY — A Highway Study / Recreation",
     "director_brief": "source/director-brief.json"
   },
   "render": {

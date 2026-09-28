@@ -49,7 +49,7 @@
       "status": "PENDING"
     }
   },
-  "lane": "animation",
+  "lane": "cinematic",
   "production_id": "ridgeline",
   "render": {
     "command": [
@@ -63,7 +63,7 @@
     "scene_plan": "source/execution-plan.json"
   },
   "review": {
-    "assistant": "PASS_WITH_REVIEW_NOTES",
+    "assistant": "PENDING",
     "user": "PENDING"
   },
   "schema_version": 2,
@@ -72,7 +72,7 @@
     "season": "standalone",
     "show": "ridgeline"
   },
-  "status": "FINAL_CANDIDATE",
+  "status": "REFINEMENT_REQUIRED",
   "workflow": {
     "creative_qa_required": true,
     "escalation_reason": null,

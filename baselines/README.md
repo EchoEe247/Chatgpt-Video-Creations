@@ -2,7 +2,7 @@
 
 This directory is the durable registry for **formal known-good project states**.
 
-It is intentionally stricter than `docs/CAPABILITY_BASELINES.md`.
+It is intentionally stricter than `docs/CAPABILITY_BASELINES.md`. Current user quality judgments such as **respectful**, **medium-bad**, or **failed** belong in `productions/quality-status.json`, not here. A production may be respectful and worth continuing without being baseline-promoted.
 
 ## Capability baseline vs validated baseline
 

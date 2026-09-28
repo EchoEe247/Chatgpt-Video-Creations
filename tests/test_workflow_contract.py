@@ -1,5 +1,7 @@
 import copy
 import json
+import threading
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 from src.core import workflow_contract
 
@@ -149,3 +151,76 @@ def test_render_dispatch_revalidates_running_bridge_profile(tmp_path, monkeypatc
         require_active_bridge=True,
     )
     assert still_stale["ok"] is False
+
+def test_query_live_bridge_status_reads_running_endpoint(monkeypatch):
+    payload = {
+        "ok": True,
+        "ready": True,
+        "service": "hermes-mcp-bridge",
+        "version": "0.10.0",
+        "tool_profile": "core-production",
+        "tool_names_sha256": "tools-hash",
+        "source_commit": "bridge-commit",
+        "capability_contract": {"capabilities": ["bridge-compat-contract-v1"]},
+    }
+
+    class Handler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            body = json.dumps(payload).encode("utf-8")
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+
+        def log_message(self, *args):
+            pass
+
+    server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    try:
+        monkeypatch.setenv(
+            "HERMES_MCP_READYZ_URL",
+            f"http://127.0.0.1:{server.server_address[1]}/readyz",
+        )
+        live = workflow_contract.query_live_bridge_status()
+        assert live["tool_profile"] == "core-production"
+        requirements = {
+            "minimum_version": "0.10.0",
+            "required_capabilities": ["bridge-compat-contract-v1"],
+        }
+        bound = {
+            "required_profile": "core-production",
+            "actual_version": "0.10.0",
+            "tool_names_sha256": "tools-hash",
+            "source_commit": "bridge-commit",
+        }
+        assert workflow_contract.validate_live_bridge_status(
+            live, requirements=requirements, bound_compat=bound
+        ) == []
+
+        payload["tool_profile"] = "core"
+        changed = workflow_contract.query_live_bridge_status()
+        errors = workflow_contract.validate_live_bridge_status(
+            changed, requirements=requirements, bound_compat=bound
+        )
+        assert any("tool profile changed" in error for error in errors)
+    finally:
+        server.shutdown()
+        server.server_close()
+
+
+def test_bootstrap_surfaces_lane_brief(tmp_path, monkeypatch):
+    repo = _fixture_repo(tmp_path)
+    current_path = repo / "workflow" / "CURRENT.json"
+    current = json.loads(current_path.read_text())
+    current["lane_briefs"] = {"cinematic": "workflow/cinematic-brief.md"}
+    current_path.write_text(json.dumps(current))
+    (repo / "workflow" / "cinematic-brief.md").write_text("brief\n")
+    monkeypatch.setattr(workflow_contract, "_git", _fake_git)
+    boot = workflow_contract.bootstrap(
+        repo=repo, lane="cinematic", refresh_remote=False, allow_unverified_remote=True
+    )
+    assert boot["lane_brief"]["path"] == "workflow/cinematic-brief.md"
+    assert boot["lane_brief"]["exists"] is True

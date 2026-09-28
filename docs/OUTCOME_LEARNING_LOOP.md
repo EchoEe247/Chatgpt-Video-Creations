@@ -6,6 +6,8 @@ A clear negative outcome is equally important workflow evidence. A user-describe
 
 Neither signal is the same as final acceptance, assistant PASS, or a B-series baseline. Both are triggers to learn from the production path while the evidence is still fresh.
 
+The machine-readable source of current user quality status is `productions/quality-status.json`. When a later user judgment changes one of these statuses, update that registry first and keep explanatory prose consistent with it. Do not put respectful/medium-bad/failed work-in-progress status into `baselines/registry.json` unless the production separately earns formal baseline promotion.
+
 The purpose of this loop is to move quality out of one model's hidden reasoning and into a reusable process that Astra, GPT-5.6 Sol, Hermes, or another fresh agent can execute independently.
 
 ## Core rule

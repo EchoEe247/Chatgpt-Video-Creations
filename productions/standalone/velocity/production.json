@@ -1,7 +1,7 @@
 {
   "schema_version": 2,
   "production_id": "velocity",
-  "lane": "animation",
+  "lane": "cinematic",
   "status": "REFINEMENT_REQUIRED",
   "source": {
     "show": "velocity",
@@ -22,7 +22,8 @@
     "max_unintended_silence_seconds": 1.5,
     "silence_threshold_db": -55,
     "silence_min_duration_seconds": 0.5,
-    "intentional_silence_intervals": []
+    "intentional_silence_intervals": [],
+    "baseline_compare_fps": 2
   },
   "render": {
     "command": [
@@ -66,7 +67,7 @@
     }
   },
   "review": {
-    "assistant": "PASS_WITH_CINEMATIC_REFINEMENT_REQUIRED",
+    "assistant": "PENDING",
     "user": "PENDING"
   },
   "workflow": {

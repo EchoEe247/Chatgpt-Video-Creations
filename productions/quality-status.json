@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-09-28",
+  "baseline_policy": "User quality status is not baseline promotion. Respectful means worth preserving and continuing, not finished or release-ready.",
+  "productions": [
+    {
+      "production_id": "ridgeline",
+      "title": "RIDGELINE — A Descent",
+      "repo_path": "productions/standalone/ridgeline",
+      "candidate_sha256": "348de54393756c5d7e28b9c9fb64383242e56fa76ea336cc92203de34ea99e56",
+      "current": true,
+      "user_quality_status": "respectful",
+      "keep_working": true,
+      "potentially_releasable": true,
+      "baseline_promoted": false
+    },
+    {
+      "production_id": "velocity-recreation",
+      "title": "VELOCITY — A Highway Study",
+      "repo_path": "productions/standalone/velocity-recreation",
+      "candidate_sha256": "04b4deecfae582695a8f9c9d0eb4f5e358ce7faf171107950748e7199397f0ec",
+      "current": true,
+      "user_quality_status": "respectful",
+      "keep_working": true,
+      "potentially_releasable": true,
+      "baseline_promoted": false
+    },
+    {
+      "production_id": "lax-arrival",
+      "title": "LAX — Final Approach",
+      "repo_path": "productions/standalone/lax-arrival",
+      "candidate_sha256": "4c57890ea8dd2576a2d8fff7b9b17d6ce7ca418d88e117f2315d5586bc314d37",
+      "current": true,
+      "user_quality_status": "below_respectful_salvageable",
+      "keep_working": true,
+      "potentially_releasable": false,
+      "baseline_promoted": false,
+      "notes": "Airplane itself is not the main failure; environment completeness/realism, direction and landing mechanics, gear/wheel transition, aviation audio, and sustained visual quality need material improvement."
+    },
+    {
+      "production_id": "aetherfall-last-light",
+      "title": "AETHERFALL — THE LAST LIGHT",
+      "repo_path": null,
+      "candidate_sha256": null,
+      "current": true,
+      "user_quality_status": "medium_bad",
+      "keep_working": false,
+      "potentially_releasable": false,
+      "baseline_promoted": false,
+      "notes": "Environment was stronger than current LAX, but the Avatar-replication concept did not land; characters and audio needed improvement."
+    },
+    {
+      "production_id": "the-eighth-hour",
+      "title": "THE EIGHTH HOUR",
+      "repo_path": null,
+      "candidate_sha256": null,
+      "current": true,
+      "user_quality_status": "failed",
+      "keep_working": false,
+      "potentially_releasable": false,
+      "baseline_promoted": false
+    }
+  ]
+}
