@@ -216,6 +216,7 @@ def test_bootstrap_surfaces_lane_brief(tmp_path, monkeypatch):
     current_path = repo / "workflow" / "CURRENT.json"
     current = json.loads(current_path.read_text())
     current["lane_briefs"] = {"cinematic": "workflow/cinematic-brief.md"}
+    current["lane_fast_start"] = {"cinematic": ["bootstrap first"]}
     current_path.write_text(json.dumps(current))
     (repo / "workflow" / "cinematic-brief.md").write_text("brief\n")
     monkeypatch.setattr(workflow_contract, "_git", _fake_git)

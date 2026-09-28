@@ -15,14 +15,14 @@ Use the narrowest entry point that matches the task.
 - `python_shot_adapter.py`, `browser_shot_adapter.py`, `blender_termux_adapter.py`, `ffmpeg_shot_adapter.py` — common `{request}` frame-render contract used by `shotctl` across the major local renderer lanes.
 - `assemble-scenes.py` — assembles only the explicit ordered scenes listed in an assembly manifest. It rejects missing/duplicate inputs, output-as-input collisions, stream incompatibility, optional SHA mismatches, and duration mismatches before concat-copy and master decode verification.
 - `workflowctl.py` — workflow freshness/binding entry point. Repository-native bootstrap is discovery/CI only for bridge compatibility; final production binding consumes the evaluated Local Workspace bootstrap JSON via `--bootstrap-result`.
-- `validate-production-v2.py` — production package schema/gate validation.
+- `validate-production-v2.py` — production package schema/gate validation. Default mode applies runtime compatibility aliases; `--strict` validates committed JSON exactly as stored. Repository CI uses strict mode so committed data cannot rely on legacy normalization.
 - `validate-scene-plan.py` — scene timeline/review-point validation.
 - `validate-continuity.py` — episode continuity-state validation.
 - `validate-scene-alignment.py` — structural shared-geometry validation.
 - `validate-baselines.py` — B-series registry validation.
 - `validate-quality-status.py` — validates the machine-readable current user quality-state registry without conflating it with formal baselines.
 - `generate-lane-brief.py` — deterministically generates compact lane briefs from `workflow/CURRENT.json` plus current quality status; CI checks the checked-in cinematic brief for drift.
-- `validate-workflow-version-bump.py` — CI guard requiring a workflow-version bump whenever canonical workflow documents change.
+- `validate-workflow-version-bump.py` — CI guard requiring canonical workflow changes to increase the dot-separated workflow version monotonically; unavailable event bases emit an explicit warning and fall back to `HEAD^` when possible.
 - `validate-markdown.py` — tracked Markdown local-link and literal-escape hygiene checks.
 - `validate-repository.py` — consolidated repository contract validation, including all tracked v2 production manifests, templates, workflow docs, baselines, quality status, generated brief, Markdown and Python compilation.
 - `render-2d-geometry-candidate*.py` — preserved reproducible geometry baseline renderers.

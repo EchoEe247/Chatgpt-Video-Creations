@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "workflow_id": "chatgpt-video-production",
-  "workflow_version": "2026.09.28.13",
+  "workflow_version": "2026.09.28.14",
   "canonical_entrypoint": "AGENTS.md",
   "required_tool_profile": "core-production",
   "policy": {
@@ -84,5 +84,15 @@
   },
   "lane_briefs": {
     "cinematic": "workflow/cinematic-brief.md"
+  },
+  "lane_fast_start": {
+    "cinematic": [
+      "Run Local Workspace video_workflow_bootstrap for the cinematic lane before serious production work.",
+      "Treat the returned receipt and live bridge compatibility as execution controls; final bind and render dispatch recheck the running bridge.",
+      "Technical validity, reproducibility, tests and hashes prove process control, not cinematic quality.",
+      "Respectful means worth preserving/continuing, not finished, release-ready or baseline-promoted.",
+      "Prove moving previs, representative look-dev, semantic motion, environment completeness, audio/visual synchronization and a freely seekable review player before claiming readiness.",
+      "User quality judgment controls promotion. Failed/weak candidates are learning evidence, not quality baselines."
+    ]
   }
 }

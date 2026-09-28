@@ -137,6 +137,14 @@ def _load_contract(repo: Path) -> dict[str, Any]:
                 raise ValueError(f"lane_briefs contains unknown lane {lane}")
             if not isinstance(value, str) or not value:
                 raise ValueError(f"lane_briefs.{lane} must be a non-empty path")
+    fast_start = data.get("lane_fast_start")
+    if lane_briefs:
+        if not isinstance(fast_start, Mapping):
+            raise ValueError("lane_fast_start must be an object when lane_briefs are present")
+        for lane in lane_briefs:
+            items = fast_start.get(lane)
+            if not isinstance(items, list) or not items or not all(isinstance(x, str) and x.strip() for x in items):
+                raise ValueError(f"lane_fast_start.{lane} must be a non-empty string list for every generated lane brief")
     return data
 
 

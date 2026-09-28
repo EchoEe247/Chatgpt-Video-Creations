@@ -29,6 +29,8 @@ def validate(path: Path) -> list[str]:
             errors.append(f"{p}.title required")
         if item.get("user_quality_status") not in STATUSES:
             errors.append(f"{p}.user_quality_status invalid")
+        if item.get("lane") not in {"cinematic", "animation", "business"}:
+            errors.append(f"{p}.lane must be cinematic, animation, or business")
         for key in ("current","keep_working","potentially_releasable","baseline_promoted"):
             if not isinstance(item.get(key),bool):
                 errors.append(f"{p}.{key} must be boolean")

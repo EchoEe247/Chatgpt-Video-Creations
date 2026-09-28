@@ -10,17 +10,17 @@ permissions:
 
 concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   validate:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           fetch-depth: 0
-      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
         with:
           python-version: '3.12'
           cache: pip
@@ -32,10 +32,12 @@ jobs:
           python -m pip install --disable-pip-version-check -r requirements-test.txt
       - name: Validate repository contracts
         run: python scripts/validate-repository.py
-      - name: Require workflow version bump for canonical contract changes
+      - name: Require monotonic workflow version for canonical contract changes
         env:
           BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
         run: python scripts/validate-workflow-version-bump.py "$BASE_SHA" HEAD
+      - name: Lint Python for correctness errors
+        run: python -m ruff check --select E9,F63,F7,F82 scripts src tests
       - name: Run regression tests
         run: python -m pytest -q tests
       - name: Render current 2D geometry smoke candidate
@@ -44,7 +46,7 @@ jobs:
         run: python scripts/videoctl.py qa /tmp/geometry-candidate.mp4 --width 1280 --height 720 --fps 24 --duration 8 --video-codec h264 --pixel-format yuv420p --no-require-audio
       - name: Preserve failed render evidence
         if: failure()
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
           name: geometry-candidate-failure
           path: /tmp/geometry-candidate.mp4
@@ -55,8 +57,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
-      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: '24'
           cache: npm
@@ -75,3 +77,6 @@ jobs:
           node --check src/renderers/canvas_handdrawn/runtime/studio.js
           node --check src/renderers/canvas_handdrawn/runtime/cels.js
           node --check src/renderers/canvas_handdrawn/runtime/materials.js
+      - name: Render Canvas smoke frame
+        working-directory: src/renderers/canvas_handdrawn
+        run: node render.mjs ../../../examples/canvas-handdrawn/signal-seed.html --only 0 --out "$RUNNER_TEMP/canvas-smoke"

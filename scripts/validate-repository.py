@@ -5,7 +5,6 @@ from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
-from src.core.production_manifest import validate_production_v2
 from src.core.workflow_contract import bootstrap
 
 def tracked(pattern:str) -> list[Path]:
@@ -16,9 +15,10 @@ def main() -> int:
     errors=[]
     manifests=sorted(set(tracked("productions/**/production.json")+tracked("shows/**/production-v2.json")))
     for path in manifests:
-        data=json.loads(path.read_text(encoding="utf-8"))
-        for err in validate_production_v2(data):
-            errors.append(f"{path.relative_to(ROOT)}: {err}")
+        cmd=[sys.executable, "scripts/validate-production-v2.py", "--strict", str(path.relative_to(ROOT))]
+        result=subprocess.run(cmd,cwd=ROOT,text=True,capture_output=True)
+        if result.returncode:
+            errors.append("$ "+" ".join(cmd)+"\n"+result.stdout+result.stderr)
 
     for lane in ("cinematic","animation","business"):
         result=bootstrap(repo=ROOT,lane=lane,refresh_remote=False,allow_unverified_remote=True)
@@ -31,7 +31,7 @@ def main() -> int:
         [sys.executable,"scripts/validate-production.py","templates/business-release/production.json"],
         [sys.executable,"scripts/validate-scene-alignment.py","templates/set-anchors.json"],
         [sys.executable,"scripts/validate-continuity.py","templates/new-episode/status.json"],
-        [sys.executable,"scripts/validate-production-v2.py","templates/production-v2.json"],
+        [sys.executable,"scripts/validate-production-v2.py","--strict","templates/production-v2.json"],
         [sys.executable,"scripts/validate-scene-plan.py","templates/new-episode/scene-plan.json"],
         [sys.executable,"scripts/validate-baselines.py","baselines/registry.json"],
         [sys.executable,"scripts/validate-quality-status.py"],

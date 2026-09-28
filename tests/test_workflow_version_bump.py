@@ -9,7 +9,7 @@ assert spec.loader is not None
 spec.loader.exec_module(module)
 
 
-def _contract(version="1"):
+def _contract(version="2026.09.28.1"):
     return {
         "workflow_version": version,
         "core_docs": ["AGENTS.md", "docs/PRODUCTION_WORKFLOW.md"],
@@ -19,13 +19,13 @@ def _contract(version="1"):
 
 
 def test_canonical_doc_change_requires_version_bump():
-    required, relevant = module.requires_version_bump({"AGENTS.md"}, _contract("1"), _contract("1"))
+    required, relevant = module.requires_version_bump({"AGENTS.md"}, _contract("2026.09.28.1"), _contract("2026.09.28.1"))
     assert required is True
     assert relevant == ["AGENTS.md"]
 
 
 def test_version_bump_satisfies_contract_change():
-    required, relevant = module.requires_version_bump({"docs/QUALITY_FLOOR.md"}, _contract("1"), _contract("2"))
+    required, relevant = module.requires_version_bump({"docs/QUALITY_FLOOR.md"}, _contract("2026.09.28.1"), _contract("2026.09.28.2"))
     assert required is False
     assert relevant == ["docs/QUALITY_FLOOR.md"]
 
@@ -34,3 +34,30 @@ def test_noncanonical_readme_change_does_not_require_workflow_bump():
     required, relevant = module.requires_version_bump({"README.md"}, _contract("1"), _contract("1"))
     assert required is False
     assert relevant == []
+
+
+def test_version_downgrade_fails_for_canonical_change():
+    errors, relevant = module.evaluate_change(
+        {"workflow/CURRENT.json"}, _contract("2026.09.28.13"), _contract("2026.09.28.12")
+    )
+    assert errors
+    assert "downgraded" in errors[0]
+    assert relevant == ["workflow/CURRENT.json"]
+
+
+def test_version_must_increase_numerically_not_lexically():
+    errors, _ = module.evaluate_change(
+        {"AGENTS.md"}, _contract("2026.09.28.9"), _contract("2026.09.28.10")
+    )
+    assert errors == []
+
+
+def test_malformed_version_is_rejected():
+    try:
+        module.evaluate_change(
+            {"AGENTS.md"}, _contract("2026.09.28.13"), _contract("latest")
+        )
+    except ValueError as exc:
+        assert "dot-separated integers" in str(exc)
+    else:
+        raise AssertionError("malformed workflow version unexpectedly accepted")

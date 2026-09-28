@@ -72,7 +72,7 @@
     "season": "standalone",
     "show": "ridgeline"
   },
-  "status": "REFINEMENT_REQUIRED",
+  "status": "VERIFICATION_REQUIRED",
   "workflow": {
     "creative_qa_required": true,
     "escalation_reason": null,

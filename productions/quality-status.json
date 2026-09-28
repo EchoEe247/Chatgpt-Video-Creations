@@ -12,7 +12,8 @@
       "user_quality_status": "respectful",
       "keep_working": true,
       "potentially_releasable": true,
-      "baseline_promoted": false
+      "baseline_promoted": false,
+      "lane": "cinematic"
     },
     {
       "production_id": "velocity-recreation",
@@ -23,7 +24,8 @@
       "user_quality_status": "respectful",
       "keep_working": true,
       "potentially_releasable": true,
-      "baseline_promoted": false
+      "baseline_promoted": false,
+      "lane": "cinematic"
     },
     {
       "production_id": "lax-arrival",
@@ -35,7 +37,8 @@
       "keep_working": true,
       "potentially_releasable": false,
       "baseline_promoted": false,
-      "notes": "Airplane itself is not the main failure; environment completeness/realism, direction and landing mechanics, gear/wheel transition, aviation audio, and sustained visual quality need material improvement."
+      "notes": "Airplane itself is not the main failure; environment completeness/realism, direction and landing mechanics, gear/wheel transition, aviation audio, and sustained visual quality need material improvement.",
+      "lane": "cinematic"
     },
     {
       "production_id": "aetherfall-last-light",
@@ -47,7 +50,8 @@
       "keep_working": false,
       "potentially_releasable": false,
       "baseline_promoted": false,
-      "notes": "Environment was stronger than current LAX, but the Avatar-replication concept did not land; characters and audio needed improvement."
+      "notes": "Environment was stronger than current LAX, but the Avatar-replication concept did not land; characters and audio needed improvement.",
+      "lane": "cinematic"
     },
     {
       "production_id": "the-eighth-hour",
@@ -58,7 +62,8 @@
       "user_quality_status": "failed",
       "keep_working": false,
       "potentially_releasable": false,
-      "baseline_promoted": false
+      "baseline_promoted": false,
+      "lane": "cinematic"
     }
   ]
 }
