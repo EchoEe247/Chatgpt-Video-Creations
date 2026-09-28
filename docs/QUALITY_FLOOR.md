@@ -59,6 +59,17 @@ A `final + cinematic_3d` plan cannot be execution-ready unless:
 
 Notes cannot waive these checks. Marking previs or look-dev `not_required` does not satisfy a final cinematic-3D plan.
 
+## Semantic motion and environment completeness
+
+The structural checks above are necessary but not sufficient. Final cinematic 3D also has two manual fail-closed review requirements:
+
+- **semantic motion** — the subject's modeled forward axis, world-space travel vector, screen direction, camera motion, configuration changes, contact events and expected kinematics must agree. A car, aircraft or character that visibly reads as traveling backward or sliding incorrectly fails even when motion/freeze metrics report activity;
+- **environment completeness** — the spatial environment must look production-complete from the actual hero/wide/landing/action cameras. A declared environment asset, valid geometry and successful render do not pass if the world still reads as sparse blockout, missing expected airport/city/set structure, or unfinished background dressing.
+
+These are currently evidence-backed review requirements even where they are not represented by a single compiler field. Previs is the earliest gate for motion semantics; representative look-dev is the earliest gate for environment completeness; final candidate review rechecks both on the encoded film.
+
+Automated motion-density, freeze, decode, hash and asset-presence checks cannot certify either property.
+
 ## Asset proof
 
 `proof_artifact` is evidence that the high-impact noun is real and production-usable rather than an intention.
@@ -119,6 +130,8 @@ This does not mean every cinematic shot must be Blender. UI inserts, compositing
 - all-Python/Pillow rendering.
 
 The regression test must remain blocked for independent reasons. A future refactor that makes this fixture execution-ready is a workflow regression.
+
+Recent cinematic failures add two additional regression shapes that must remain visible in review even when technical QA is green: an incomplete spatial world presented as finished, and a moving hero whose direction/kinematics read incorrectly. See `docs/REFERENCE_SAMPLES.md`.
 
 ## Production-controller boundary
 

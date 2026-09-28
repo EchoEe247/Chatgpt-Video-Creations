@@ -78,7 +78,7 @@ The following ideas are established enough to treat as project rules:
 - long-form animation uses independently rendered scenes rather than one giant degraded render;
 - high-impact production assets use an explicit make-vs-source decision: **source nouns, author verbs**;
 - serious 3D work separates moving previs, representative look development, compositing proof, final rendering, and final-candidate QA instead of asking one render to prove all of them;
-- required previs/look-dev gates must be explicitly approved (or deliberately marked not required) before expensive execution is considered ready;
+- required previs/look-dev gates must be explicitly approved before expensive final cinematic execution is considered ready; `not_required` is only valid where the applicable quality floor genuinely permits it (for example a prototype or non-applicable lane);
 - Blender compositing strategy is intentional per shot: `beauty_only`, `multipass`, or `hybrid`, with multipass/hybrid justified by concrete finishing goals;
 - episode acceptance requires assistant QA and user review before canon advances;
 - one physical 2D set uses one shared geometry source;

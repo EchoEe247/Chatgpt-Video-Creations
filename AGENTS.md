@@ -40,6 +40,8 @@ For every new user-facing production, read `docs/QUALITY_FLOOR.md` before choosi
 
 For serious 3D/cinematic work, also read `docs/VISUAL_DEVELOPMENT.md`. Do not make the full render the first moving test of camera/blocking or the first serious test of materials/lighting. Resolve the director brief's previs/look-dev gates and Blender compositing strategy first.
 
+For moving subjects, previs must establish semantic kinematics: local forward axis, travel vector, screen direction, camera relation, configuration changes, and contact/ground behavior must agree. "Motion exists" is not enough. If an aircraft/car/person reads as moving backward or otherwise physically wrong, previs is not approved. For spatial scenes, look-dev must also prove that the environment reads as production-complete from the actual hero camera distances rather than as sparse/blockout geometry.
+
 For high-impact characters, vehicles, environments and similar production assets, use the director brief `asset_strategy` instead of silently deciding to scratch-build. The default shorthand is **source nouns, author verbs**. Read `docs/CHARACTER_PRODUCTION.md` for character-heavy work; Mixamo is a provider candidate for bipedal humanoid rigs/actions under current verified terms, but restricted raw payloads stay local and terms are rechecked at acquisition time.
 
 Before downloading or rebuilding common resources, query the durable asset control plane:
@@ -131,7 +133,7 @@ Project truth always outranks wording style.
 
 ## Existing production authority
 
-This repo already has accepted production capability baselines. Do not spend a new session proving that professional motion graphics, rigged 2D animation, stylized real-3D animation, or independent-scene long-form assembly are possible. That work has already been done.
+This repo already has accepted production capability baselines. Do not spend a new session proving that professional motion graphics, rigged 2D animation, stylized real-3D animation, or independent-scene long-form assembly are possible. That work has already been done. The stylized 3D baseline is a capability proof, not an accepted realistic/cinematic visual baseline; recent realistic/cinematic candidates were not promoted.
 
 At the same time, do not confuse those qualitative capability baselines with formal B-series validated baselines. A B-series baseline needs exact commit/artifact/conditions and evidence matching the claim. See `baselines/README.md`.
 
@@ -149,9 +151,9 @@ Read `docs/OPERATING_MODEL.md` before making a broad architectural or automation
 
 Do not formalize a coordinate, safe zone, scale, timing rule, camera preset, or other constraint merely because it would be convenient to have a number. Formalize what is understood and reusable. Leave unresolved visual/creative choices interactive until evidence is strong enough.
 
-## Outcome learning after a respectful result
+## Outcome learning after a decisive quality result
 
-When the user describes a result as respectful—broadly good with remaining work mainly in refinements/details—treat that as a workflow-learning trigger, not merely praise and not automatic final acceptance.
+Treat clear user quality feedback as a workflow-learning trigger, whether positive or negative. A respectful/good result teaches what should be repeated; a trash/failed, bad, medium-bad, unfinished or rejected result teaches which earlier gate failed. Neither signal is automatic final acceptance or baseline promotion.
 
 Read `docs/OUTCOME_LEARNING_LOOP.md`. Reconstruct which durable actions produced the result, which defects were found too late, and which state made takeover/recovery reliable. Move reusable relationships into the shared workflow and add earlier gates for avoidable late discoveries. Do not canonize one production's coordinates, thresholds, asset choices, or encoder settings just because they worked there.
 
@@ -233,6 +235,8 @@ After the season foundation is ready, production narrows to one episode at a tim
 **episode plan → validated scene plan → independent scene renders → deterministic QA → assistant visual/audio/continuity review → autonomous repair/re-QA loop → final user review → canon update → DONE ✅**
 
 The user is the final acceptance gate, not the normal debugging loop. Do not hand the user intermediate candidates containing defects that can be diagnosed and repaired through Local Workspace. Ask for an intermediate decision only when a genuinely subjective creative choice blocks progress or the autonomous repair budget is exhausted.
+
+If the user rejects a candidate after internal QA, that rejection supersedes the earlier assistant/technical PASS for acceptance and baseline purposes. Record the visible reason, keep the candidate as failure evidence when useful, and do not describe it later as accepted merely because deterministic checks were green.
 
 Do not start the next episode while the current one still needs refinement.
 

@@ -1,8 +1,10 @@
 # Outcome Learning Loop
 
-A production that reaches a user-described **respectful** result has crossed an important threshold: the result is broadly good enough that remaining issues are refinements, detail, polish, or taste rather than a foundational failure.
+A production that reaches a user-described **respectful** result has crossed an important positive threshold: the result is broadly good enough that remaining issues are refinements, detail, polish, or taste rather than a foundational failure.
 
-That signal is **not** the same as final acceptance, assistant PASS, or a B-series baseline. It is a trigger to learn from the production path while the evidence is still fresh.
+A clear negative outcome is equally important workflow evidence. A user-described **trash/failed**, **bad**, **medium-bad**, or **unfinished** result triggers failure learning: preserve what failed, identify which earlier gate should have caught it, and prevent technical completion from being mistaken for production quality.
+
+Neither signal is the same as final acceptance, assistant PASS, or a B-series baseline. Both are triggers to learn from the production path while the evidence is still fresh.
 
 The purpose of this loop is to move quality out of one model's hidden reasoning and into a reusable process that Astra, GPT-5.6 Sol, Hermes, or another fresh agent can execute independently.
 
@@ -10,7 +12,7 @@ The purpose of this loop is to move quality out of one model's hidden reasoning 
 
 **Do not learn only from the final artifact. Learn from the sequence that produced it.**
 
-For each respectful outcome, separate:
+For each decisive outcome, separate:
 
 1. actions that materially improved the result;
 2. defects that were caught at the right time;
@@ -18,11 +20,17 @@ For each respectful outcome, separate:
 4. state/evidence that made a cross-session takeover reliable;
 5. one-off production details that should *not* become universal rules.
 
+For rejected/weak outcomes also record:
+
+6. the earliest stage where the visible failure was already observable;
+7. which green metric/gate failed to represent the actual defect;
+8. whether the correct response is repair, rebuild of a stage, or abandonment of the candidate as a baseline.
+
 A stronger model rescuing a weaker or interrupted run is useful recovery evidence. It is not proof that the workflow itself is strong. The workflow is stronger only when a fresh agent can make the same class of good decisions without depending on that rescue.
 
-## Respectful-result learning contract
+## Outcome-learning contract
 
-After a respectful result:
+After a respectful or clearly rejected result:
 
 1. Preserve the exact candidate, hashes, QA, plan, source and repair history.
 2. Reconstruct the production path from durable evidence, not private reasoning.
@@ -34,6 +42,21 @@ After a respectful result:
 8. Promote only the reusable relationship. Do not canonize accidental coordinates, one film's thresholds, or renderer quirks.
 
 Use `templates/outcome-learning.json` for a compact record when a production warrants one.
+
+## 2026-09-28 user-evaluated cinematic failures
+
+Three recent outputs must not be treated as accepted cinematic baselines:
+
+- **Severance-style show candidate — user: trash / failed.** The preserved audit found a regression to scratch proxy humans/environments, skipped meaningful visual development, a primitive final-render path, and weak audio. This is the primary rejected-regression example behind the strict final quality floor.
+- **Alien/Avatar concept candidate — user: medium-bad.** Keep it as a non-promoted result. Technical completion did not establish an impressive cinematic bar.
+- **LAX landing candidate — user: medium-bad, currently closer to bad.** Two concrete foundational defects were identified: the airport/environment reads unfinished, and the aircraft motion/orientation can read as if the plane is moving backward. The production is paused rather than promoted.
+
+The LAX result adds two durable rules:
+
+1. **Motion amount is not motion semantics.** Previs must prove the hero's forward axis, travel vector, screen direction, camera relation and contact phases agree before the expensive render.
+2. **Environment asset presence is not environment completion.** Look-dev must prove the actual world density, landmarks/background structure, material integration and depth from representative final cameras.
+
+These failures also show that an internal technical/assistant green state is not a substitute for user-facing quality. A later user rejection remains the authoritative acceptance outcome.
 
 ## Independent reproducibility standard
 
@@ -130,7 +153,7 @@ For cinematic/local productions, prefer this sequence when applicable:
 12. **Candidate-bound creative/experience QA** — every authored point, timed text, all cuts, representative motion clips, audio/A-V checks where the modality genuinely exists.
 13. **Stage-local repair** — identify whether the defect belongs to source geometry, animation, lighting, audio mix, assembly, grading, or encoding before changing upstream work.
 14. **Final user review** — user sees the strongest internally reviewed candidate, not an avoidable debugging draft.
-15. **Outcome learning** — if the result crosses the respectful-quality floor, extract process lessons and add them to the shared workflow.
+15. **Outcome learning** — after a decisive user quality outcome, extract the repeatable success relationships or the earlier gate that should have prevented the failure, then add that learning to the shared workflow.
 
 ## Representative-preview rule
 
@@ -200,10 +223,10 @@ The reusable learning is the relationship: test representative risk conditions, 
 
 ## Promotion rule
 
-A respectful result can justify a workflow lesson immediately. It does not automatically justify a formal visual baseline.
+A decisive positive or negative result can justify a workflow lesson immediately. A negative result never justifies baseline promotion; a positive result still does not automatically justify a formal visual baseline.
 
 Promote a baseline only under the normal baseline contract. Validate a workflow improvement when a fresh session or different agent successfully uses it on a later task without needing the original model's undocumented reasoning.
 
 The desired progression is:
 
-**good outcome → inspect the path → extract reusable relationship → encode it → fresh-agent replay → validate → operate**
+**decisive outcome → inspect the path → extract reusable success/failure relationship → encode it → fresh-agent replay → validate → operate**

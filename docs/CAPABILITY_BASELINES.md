@@ -161,9 +161,11 @@ See `docs/LONG_FORM_SCENE_ARCHITECTURE.md` and `docs/REFERENCE_SAMPLES.md`.
 
 ### Default interpretation
 
-When the request is for a **3D animation video**, use the accepted V2 baseline: real 3D geometry, perspective, articulated characters, lighting, camera motion, effects, and audio.
+When the request is for a **stylized 3D animation video**, use the historically accepted V2 capability baseline: real 3D geometry, perspective, articulated characters, lighting, camera motion, effects, and audio.
 
 Accepted reference: `programmatic_3d_scifi_scene_v2.mp4`.
+
+This baseline does **not** establish a realistic/cinematic quality floor. As of 2026-09-28 there is no accepted realistic/cinematic visual baseline: the recent Severance-style candidate was user-rejected as failed, and the Alien/Avatar and LAX candidates were rated medium-bad. Realistic/cinematic requests must therefore follow the stricter quality-floor, visual-development and candidate-review contracts rather than treating V2 stylized 3D as sufficient visual quality.
 
 ### Reference characteristics
 

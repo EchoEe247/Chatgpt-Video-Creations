@@ -317,10 +317,12 @@ last assistant review step. Generate a review page with
 play it from the start at normal speed through the end, and inspect the actual
 browser viewport. Revisit suspicious motion at 0.5x and at explicit timestamps.
 
+The user-facing/local review page must expose normal HTML5 playback controls and practical seeking/scrubbing. Rewind, jump-forward/back and timeline seeking must work before the page is handed off. An autoplay-only or effectively linear page that forces the entire film to replay before revisiting a moment is a review-delivery defect.
+
 Record the browser playback state (duration, ended event, decoded/dropped frames)
 and the visual observations from the viewport separately. Decode counters prove
 that playback happened; they do not prove that the movement, acting, composition,
-or cuts are good. A contact sheet does not substitute for continuous playback
+or cuts are good. They also do not prove semantic direction/kinematics or environment completeness. A contact sheet does not substitute for continuous playback
 when this browser is available. The browser connector does not establish audible
 sound, so audio listening must not be claimed from browser playback alone.
 
@@ -343,11 +345,11 @@ If a defect is found:
 
 Keep iterating internally while the next step is objectively diagnosable.
 
-## Outcome learning after a respectful-quality result
+## Outcome learning after a decisive quality result
 
-When the user says a production is broadly good and mainly needs refinement/detail, run the outcome-learning loop in `docs/OUTCOME_LEARNING_LOOP.md`. This is distinct from final acceptance and baseline promotion.
+When the user gives a clear positive or negative quality judgment, run the outcome-learning loop in `docs/OUTCOME_LEARNING_LOOP.md`. This is distinct from final acceptance and baseline promotion.
 
-Capture which actions materially improved the candidate, which failures were discovered too late, and what would let a fresh agent reproduce the same quality floor independently. Add earlier representative-preview, timeline, numerical-scene, or final-encode gates where the evidence supports them. Do not treat a stronger model finishing an interrupted run as sufficient proof that the workflow itself is reusable.
+Capture which actions materially improved the candidate, which failures were discovered too late, which earlier gate should have caught a rejected result, and what would let a fresh agent reproduce the good behavior or avoid the same failure independently. Add earlier representative-preview, timeline, numerical-scene, motion-semantics, environment-completeness, or final-encode gates where the evidence supports them. Do not treat a stronger model finishing an interrupted run as sufficient proof that the workflow itself is reusable.
 
 The later validation target is a fresh-session/different-agent replay using the repository contracts rather than the original chat or undocumented reasoning.
 

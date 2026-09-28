@@ -41,6 +41,8 @@ For user-facing work, the director brief first declares a fail-closed **quality 
 
 For serious 3D work, the director brief also records **previs → look-dev → compositing** gates so final rendering is not the first place camera/blocking, materials/lighting, or finishing strategy are tested. See [`docs/VISUAL_DEVELOPMENT.md`](docs/VISUAL_DEVELOPMENT.md).
 
+Previs and final review must also prove **motion semantics**, not merely that pixels move: a vehicle/character must travel in the intended physical direction, its local forward axis and screen motion must agree, and the camera must not create a backward-motion read. Look-dev/final review must prove **environment completeness at the intended camera distances**; a technically valid spatial scene that still reads as an unfinished blockout is not final-quality evidence.
+
 For high-impact assets, the director brief records a make-vs-source `asset_strategy`: **source nouns, author verbs**. Generic characters/vehicles/materials/actions are candidates for licensed reuse; acting, movement, staging, cinematography, lighting, effects, edit and storytelling remain under local production control. Character-heavy work follows [`docs/CHARACTER_PRODUCTION.md`](docs/CHARACTER_PRODUCTION.md), including the Mixamo bipedal-humanoid path and its restricted raw-file redistribution rule.
 
 See [`docs/RESOURCE_SOURCING.md`](docs/RESOURCE_SOURCING.md).
@@ -97,7 +99,7 @@ The repository now keeps these concepts separate.
 
 **Validated B-series baselines** are stronger regression/recovery checkpoints tied to an exact commit, exact artifact, conditions, validation scope, and known limitations.
 
-The older business, 3D, and long-form references remain capability baselines unless a formal registry entry says otherwise.
+The older business, stylized-3D, and long-form references remain capability baselines unless a formal registry entry says otherwise. The stylized 3D reference proves production capability only; it is not an accepted realistic/cinematic visual baseline. Recent realistic/cinematic Severance-style, Alien/Avatar, and LAX candidates were not promoted.
 
 The repository now has **B1**, a narrowly scoped validated 2D geometry/composition baseline with exact commit, artifacts, hashes, conditions, technical validation, visual validation, user acceptance, and a durable receipt. Do not generalize B1 beyond the behaviors named in `baselines/registry.json`.
 
@@ -138,7 +140,7 @@ See [`docs/SCENE_GEOMETRY.md`](docs/SCENE_GEOMETRY.md) and [`docs/VISUAL_QA_STAN
 - [`docs/VISION.md`](docs/VISION.md) — what this repository is for and why the two production lanes stay separate.
 - [`docs/OPERATING_MODEL.md`](docs/OPERATING_MODEL.md) — discovery → formalization → validation → baseline → operation, including agent autonomy gates.
 - [`docs/PRODUCTION_WORKFLOW.md`](docs/PRODUCTION_WORKFLOW.md) — shared build, render, review, repair, and acceptance flow.
-- [`docs/OUTCOME_LEARNING_LOOP.md`](docs/OUTCOME_LEARNING_LOOP.md) — converts respectful-quality outcomes into model-independent workflow lessons and fresh-agent replay requirements.
+- [`docs/OUTCOME_LEARNING_LOOP.md`](docs/OUTCOME_LEARNING_LOOP.md) — converts decisive positive or negative quality outcomes into model-independent workflow lessons and fresh-agent replay requirements.
 - [`docs/BUSINESS_RELEASE_MARKETING.md`](docs/BUSINESS_RELEASE_MARKETING.md) — version-grounded OSS/business marketing.
 - [`docs/ANIMATION_SHOW_WORKFLOW.md`](docs/ANIMATION_SHOW_WORKFLOW.md) — show, season, and episode lifecycle.
 - [`docs/CONTINUITY_SYSTEM.md`](docs/CONTINUITY_SYSTEM.md) — accepted canon and episode-to-episode state.
@@ -181,6 +183,8 @@ For serious work the standard is:
 **inspect → understand → make the precise change → test/render → diagnose failures → fix → retest → review → establish the next trusted state**
 
 Technical success is useful evidence, but the final rendered result is what gets accepted.
+
+Internal green QA never overrides a negative user review. If the user calls a candidate failed, bad, unfinished, or otherwise below the requested quality bar, preserve that outcome honestly, do not promote it as a baseline, and route the reusable defect into the workflow before the production is resumed.
 
 For episodic animation, the episode becomes `DONE ✅` only after both assistant QA and user acceptance pass.
 

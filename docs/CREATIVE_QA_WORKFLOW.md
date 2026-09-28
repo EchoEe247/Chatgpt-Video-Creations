@@ -59,6 +59,16 @@ This catches the failure mode exposed by the earlier Mercy Engine orbit shot: th
 
 The metric does **not** claim that more motion is better. It only finds shots whose intended motion may be visually too weak.
 
+It also does not establish **motion correctness**. A subject can produce a strong changed-pixel ratio while facing the wrong way, traveling backward, sliding, using the wrong contact point, or moving against the intended screen direction.
+
+### Semantic motion and world completeness
+
+For moving-subject cinematic work, normal-speed review must explicitly check whether the visible kinematics mean what the plan says they mean. Record direction/orientation/contact findings under the existing visible-motion and normal-speed-story criteria until/unless the schema gains dedicated fields.
+
+For spatial cinematic work, composition/focal-hierarchy review must also judge whether the environment reads as a finished world at the intended viewing scale. Asset presence, a successful Blender render, or a non-black frame is not evidence that the airport/city/interior/set is sufficiently built out.
+
+If the assistant's earlier QA says PASS but later user review identifies backward-looking motion, an unfinished environment, or another visible foundational failure, preserve the user outcome as rejection evidence and repair the upstream previs/look-dev/environment stage rather than defending the green metric.
+
 ### Camera-pattern repetition
 
 Camera descriptions from the execution plan are normalized into coarse families such as:
@@ -179,6 +189,8 @@ Automation may **not** certify:
 - whether a composition is beautiful;
 - whether acting feels believable;
 - whether motion has meaning;
+- whether subject orientation and travel direction are physically/semantically correct;
+- whether a spatial environment looks complete rather than like a blockout;
 - whether a camera move feels physical;
 - whether the story lands emotionally;
 - whether text is readable when no trustworthy layout metadata exists.

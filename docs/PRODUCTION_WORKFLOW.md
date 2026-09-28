@@ -38,7 +38,7 @@ If this is a new show, establish the show and season foundation before episode r
 
 ### One-off animation / scene
 
-Use the accepted 2D or 3D capability baseline directly, with normal scene planning and QA. A one-off scene does not need an artificial season framework.
+Use the accepted 2D or **stylized** 3D capability baseline directly when that matches the requested style, with normal scene planning and QA. A one-off scene does not need an artificial season framework. Do not use the stylized V2 3D baseline as permission to lower a realistic/cinematic request; no realistic/cinematic visual baseline is currently accepted.
 
 ## 2. Build the brief
 
@@ -190,6 +190,8 @@ Technical failures and assistant-detected visual/audio/continuity defects return
 
 For business, one-off, and episode work, the normal user-facing handoff happens after deterministic QA and assistant review pass. New v2 productions also require the Phase 6 creative-QA bundle: freeze/motion/camera/layout triage, phone-scale frames, and normal-speed review clips, followed by an evidence-backed assistant creative review. User acceptance is the final gate. Immediately before assistant PASS and user acceptance, verify that the candidate still exists, its SHA-256 still matches, and the technical/review/creative evidence is bound to that same candidate.
 
+User acceptance is authoritative for promotion. If the user rejects a candidate or describes it as bad/unfinished, do not retain an earlier assistant PASS as evidence that the production was successful. Preserve the exact rejected candidate and feedback when useful, route the defect to the correct upstream stage, and keep it out of accepted/canonical baselines.
+
 For episode work, technical, assistant, and user gates all have to pass before the episode becomes `DONE ✅` and continuity-out/canon is updated.
 
 A script completing successfully is not an acceptance state.
@@ -200,11 +202,11 @@ For work intended for reuse, publication, or future releases, keep the source sn
 
 Later sessions should be able to continue from the accepted production state instead of reconstructing it from chat history.
 
-## 11.5. Learn from a respectful-quality result
+## 11.5. Learn from a decisive quality outcome
 
-When the user says the result is broadly good and remaining work is mainly refinement/detail, extract workflow learning before moving on. This is not automatic acceptance or baseline promotion.
+When the user gives a clear quality outcome, extract workflow learning before moving on. A broadly good/respectful result teaches what should be repeated; a bad, medium-bad, unfinished or rejected result teaches which earlier gate failed. Neither is automatic acceptance or baseline promotion.
 
-Use `docs/OUTCOME_LEARNING_LOOP.md` to distinguish the productive sequence from accidental one-off choices, move late-found defects into earlier gates, and record how a fresh agent could reproduce the same quality floor independently. Cross-model takeover is useful recovery evidence; it does not by itself prove that the workflow is model-independent.
+Use `docs/OUTCOME_LEARNING_LOOP.md` to distinguish the productive sequence from accidental one-off choices, move late-found defects into earlier gates, and record how a fresh agent could reproduce the same quality floor independently or avoid the same failure. Cross-model takeover is useful recovery evidence; it does not by itself prove that the workflow is model-independent.
 
 For cinematic work, explicitly consider whether representative risk previews, numerical scene checks, timeline bounds, and a short final-encode proof could have caught expensive defects before the full render/master.
 

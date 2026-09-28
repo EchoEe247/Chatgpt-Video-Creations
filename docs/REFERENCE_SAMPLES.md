@@ -104,7 +104,7 @@ But the result still looked like a development/debug prototype: primitive charac
 
 ---
 
-## F. Current 3D animation baseline — accepted
+## F. Stylized 3D capability baseline — historically accepted
 
 Reference file: `programmatic_3d_scifi_scene_v2.mp4`
 
@@ -176,6 +176,47 @@ Those are now hard rules in `docs/VISUAL_QA_STANDARDS.md` and the set-anchor tem
 
 ---
 
+## I. Severance-style cinematic candidate — rejected / failed
+
+User quality judgment: **trash / failed**.
+
+The production audit found that the candidate had regressed below the established workflow: scratch proxy humans and environments were used as finished content, meaningful moving previs/look-dev were skipped, the final picture path became primitive, and the audio treatment was thin.
+
+**Decision:** preserve as failure evidence only. It is not a cinematic baseline and should not be incrementally polished into one. The failure shape is encoded in the strict final-quality contract.
+
+**Reusable lesson:** a technically complete render can still be a foundational production failure when asset quality, visual development, environment work and finishing are below the promised cinematic target.
+
+---
+
+## J. Alien / Avatar concept candidate — not promoted
+
+User quality judgment: **medium-bad**.
+
+The candidate is useful only as evidence of what the current local workflow could assemble at that point. It did not reach an impressive enough cinematic bar to become a reference baseline.
+
+**Decision:** do not promote it. A future production may reuse validated workflow pieces, but not treat this candidate's visual result as the target.
+
+---
+
+## K. LAX landing candidate — paused, not promoted
+
+Production: `productions/standalone/lax-arrival`
+
+User quality judgment: **medium-bad, currently closer to bad**.
+
+The final technical package reached 120 seconds, 1280×720 H.264/AAC and passed decode/audio checks, but user review identified two foundational visual failures:
+
+- the LAX/airport environment reads unfinished;
+- the aircraft motion/orientation can read as if the plane is moving backward.
+
+The second defect is especially important because automated motion analysis can detect that pixels change without understanding whether the motion means the correct thing.
+
+**Decision:** production paused. Do not call this accepted and do not use it as a visual baseline. If resumed, rebuild the weak environment and re-prove aircraft kinematics in moving previs before another expensive final render.
+
+**Reusable lessons:** motion magnitude is not semantic motion; environment asset presence is not production completeness; internal green QA does not supersede the user's visual acceptance judgment.
+
+---
+
 ## Canonical interpretation
 
 | Requested type | Accepted reference / architecture | What it means |
@@ -185,4 +226,6 @@ Those are now hard rules in `docs/VISUAL_QA_STANDARDS.md` and the set-anchor tem
 | Long-form 2D | independent-scene architecture from the two-minute tests | render richer short scenes separately, QA/fix, then assemble |
 | 3D animation | `programmatic_3d_scifi_scene_v2.mp4` | stylized real-3D cel/low-poly animation |
 
-The baseline is the floor. Real productions should improve composition, acting, spatial anchoring, audio, pacing, and platform fit when the improvement is actually visible or useful.
+The baseline is the floor only for the style/capability it actually demonstrates. Real productions should improve composition, acting, spatial anchoring, audio, pacing, and platform fit when the improvement is actually visible or useful.
+
+There is currently **no accepted realistic/cinematic visual baseline**. The Severance-style, Alien/Avatar, and LAX candidates above are failure/non-promotion evidence, not realism targets.

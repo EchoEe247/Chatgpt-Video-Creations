@@ -20,12 +20,17 @@ A required previs is approved only after a reviewable artifact exists and the se
 - actor/vehicle blocking;
 - camera direction and shot scale;
 - screen direction/geography;
+- subject-local forward axis versus world-space travel direction;
+- whether screen motion, camera tracking and subject orientation create the intended forward-motion read;
+- phase-specific kinematics/contact behavior (for example aircraft descent → flare → touchdown → rollout);
 - cause/reaction spacing;
 - transitions and cuts;
 - obvious collisions/occlusion;
 - whether hero shots deserve their render budget.
 
 Do not spend final shading/render time fixing a problem that a gray-box moving previs would have exposed.
+
+Previs fails when the intended action reads physically wrong even if every object has animated transforms. In particular, a vehicle/aircraft that appears to travel backward, slide sideways without intent, reverse screen direction accidentally, or contact the ground incorrectly is a blocking defect.
 
 ## Look development
 
@@ -39,11 +44,15 @@ For serious 3D, representative frames should stress the conditions most likely t
 - contact shadows and grounding;
 - atmosphere/depth;
 - environment integration;
+- environment completeness and density from the actual hero/wide/action cameras;
+- expected landmark/background/ground structure where the location itself is part of the promise;
 - skin/cloth/paint/metal response as applicable;
 - final-scale detail and readability;
 - at least one intended delivery/grade context when finishing materially changes the image.
 
 A successful import is not look-dev approval. A character or car may be structurally correct yet still look synthetic because its materials, reflections, contact, lighting or environment integration are weak.
+
+Likewise, an environment asset/proof artifact is not look-dev approval if the resulting world still reads as unfinished. Representative frames must show enough authored/sourced structure, material variation, lighting integration and background depth to support the promised location at final viewing scale.
 
 ## Compositing strategy
 
@@ -119,7 +128,7 @@ The renderer adapter's normal preview contract still returns inspectable RGB fra
 
 ## Contract in the director brief
 
-Top-level `visual_development` records the previs and look-dev decisions/status/artifacts. A new serious brief begins unresolved; expensive execution is not ready until required gates are approved or explicitly marked not required.
+Top-level `visual_development` records the previs and look-dev decisions/status/artifacts. A new serious brief begins unresolved; expensive final cinematic execution is not ready until required gates are approved. `not_required` is valid only where the applicable quality floor permits it.
 
 Each shot may declare:
 
@@ -140,3 +149,5 @@ For legacy briefs, missing visual-development/compositing declarations are warni
 Previs validates movement/editing/spatial intent. Look-dev validates representative pixels. Compositing proof validates controllable finishing. Final candidate review validates the encoded film.
 
 Passing one stage never implies the later stage passes.
+
+The reviewer should be able to understand the important motion and the state of the world from the pixels alone, without consulting the director brief to reinterpret an ambiguous direction or excuse an obviously unfinished environment.

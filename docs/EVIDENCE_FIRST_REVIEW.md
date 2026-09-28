@@ -17,6 +17,9 @@ SECOND EARTH iteration 03 exposed a gap between a technically valid film and a c
 | Audio criteria could cite a contact sheet | PASS requires explicit listening/audiovisual modality and temporal evidence |
 | Story judgments repeated the plan | Require an observed event and intent_match for each exact review point |
 | A local repair was treated as film approval | Overall PASS requires a hash-bound completed full-film audiovisual review declaration |
+| Motion metrics showed activity while the hero could still read as moving backward | Review subject orientation, world-space travel, screen direction and contact semantics at normal speed; motion magnitude is not motion correctness |
+| Environment proof/assets existed while the final world could still look unfinished | Review environment completeness from actual hero/wide/action cameras; asset presence is not production completeness |
+| Review playback existed but was inconvenient to revisit | User-facing review pages must expose working seek/scrub/rewind controls before handoff |
 
 ## Review honestly
 
