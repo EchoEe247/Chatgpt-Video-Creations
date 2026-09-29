@@ -214,7 +214,7 @@ File: `aetherfall-last-light.mp4`
 
 User quality judgment: **medium-bad**.
 
-The environment was stronger than the current LAX environment, but the Avatar-replication concept itself did not land for the user, the characters needed to be better, and the audio needed improvement.
+In that user review, the environment was stronger than the then-current LAX candidate, but the Avatar-replication concept itself did not land for the user, the characters needed to be better, and the audio needed improvement.
 
 **Decision:** do not promote it. A future production may reuse validated workflow pieces, but not treat this candidate's concept, character quality or audio result as the target.
 
@@ -224,19 +224,26 @@ The environment was stronger than the current LAX environment, but the Avatar-re
 
 Production: `productions/standalone/lax-arrival`
 
-User quality judgment: **below respectful / currently closer to bad, but potentially salvageable**.
+Current preserved candidate: `final/lax-final-v11.mp4`
 
-The final technical package reached 120 seconds, 1280×720 H.264/AAC and passed decode/audio checks. The user did not identify the base airplane itself as the main failure; the larger problems are environment completion, believable landing mechanics/motion, audio matching and sustained visual quality:
+Candidate SHA-256: `8515f639e98453b2438c32ef038f186c439df2755c64aa5206a8c811e9aa840d`
 
-- the LAX/airport environment reads unfinished and is missing the density/detail needed to feel realistic;
-- aircraft direction/orientation can read as if the plane is moving backward;
-- the transition from flying to touchdown/ground roll needs more believable landing-gear and wheel mechanics;
-- aviation audio needs to track approach, flare, touchdown and rollout convincingly;
-- visual quality needs to remain impressive throughout, not merely technically valid.
+User quality judgment remains **below respectful / salvageable**. The user explicitly wants this work preserved and considers it worth resuming when they are actually looking for an airplane-flight, approach, landing or related flying video. That is a resume decision, **not** promotion to the repo's `respectful` quality status.
 
-**Decision:** production paused. It is not respectful yet, but the user considers it potentially worth working on if those stated issues are corrected. Do not use the current candidate as a visual baseline. If resumed, rebuild the weak environment and re-prove aircraft kinematics/landing mechanics in moving previs before another expensive final render.
+The production made real progress after the original rejection:
 
-**Reusable lessons:** motion magnitude is not semantic motion; environment asset presence is not production completeness; technical validity is not visual impressiveness; internal green QA does not supersede the user's visual acceptance judgment.
+- the imported aircraft's forward-axis/orientation error was diagnosed and corrected in the scene hierarchy;
+- the missing-terrain/blue-ground failure was diagnosed and replaced with continuous LA-basin and airport ground surfaces;
+- LAX-specific terminal/ramp/airfield structure was expanded;
+- native temporal sampling was raised from the earlier 2 fps salvage path to 6 fps / 720 genuine Blender frames for the later production path;
+- v11 rebuilt the externally criticized 22–65 s section with closer/moving cameras, stabilized close shots, procedural ground variation and held lighting continuity;
+- v11 is exactly 120 seconds, 1280×720, 24 fps / 2880 frames, AAC stereo and decode-clean.
+
+It is still not ready for promotion. The user continued to find motion insufficiently smooth, the early-ground artifact pass was not completed, the planned 95–104 s touchdown-mechanics rerender did not complete, and control-surface/gear physics, environment/material realism, lighting continuity and aviation-audio dynamics still need work.
+
+**Decision:** pause here. Do not spend more cycles unless the user requests this class of aviation video again. When resumed, continue from the saved v11 scene/candidate instead of restarting. The authoritative continuation order and exact unresolved defects are in [`LAX_FINAL_APPROACH_HANDOFF.md`](LAX_FINAL_APPROACH_HANDOFF.md).
+
+**Reusable lessons:** motion magnitude is not semantic motion; interpolation cannot replace adequate native temporal sampling; environment asset presence is not environment completion; final-camera review must catch ground overlap/z-fighting and horizon pop-in; flight-to-contact physics must be proven before final rendering; technical validity does not imply visual impressiveness.
 
 ---
 

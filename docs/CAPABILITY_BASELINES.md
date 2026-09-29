@@ -165,7 +165,7 @@ When the request is for a **stylized 3D animation video**, use the historically 
 
 Accepted reference: `programmatic_3d_scifi_scene_v2.mp4`.
 
-This baseline does **not** establish a realistic/cinematic quality floor. As of 2026-09-28 there is no accepted realistic/cinematic visual baseline. The latest **RIDGELINE — A Descent** and latest reviewed **VELOCITY — A Highway Study** recreation are user-described as respectful work worth continuing, but are not finished/promoted baselines. **LAX — Final Approach** is below respectful but potentially salvageable; **AETHERFALL — THE LAST LIGHT** is medium-bad; **THE EIGHTH HOUR** is trash/failed. Realistic/cinematic requests must therefore follow the stricter quality-floor, visual-development and candidate-review contracts rather than treating V2 stylized 3D as sufficient visual quality.
+This baseline does **not** establish a realistic/cinematic quality floor. As of 2026-09-28 there is no accepted realistic/cinematic visual baseline. The latest **RIDGELINE — A Descent** and latest reviewed **VELOCITY — A Highway Study** recreation are user-described as respectful work worth continuing, but are not finished/promoted baselines. **LAX — Final Approach** is paused on v11 below respectful but salvageable for future aviation requests; **AETHERFALL — THE LAST LIGHT** is medium-bad; **THE EIGHTH HOUR** is trash/failed. Realistic/cinematic requests must therefore follow the stricter quality-floor, visual-development and candidate-review contracts rather than treating V2 stylized 3D as sufficient visual quality.
 
 ### Reference characteristics
 

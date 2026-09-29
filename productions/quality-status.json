@@ -31,13 +31,13 @@
       "production_id": "lax-arrival",
       "title": "LAX — Final Approach",
       "repo_path": "productions/standalone/lax-arrival",
-      "candidate_sha256": "4c57890ea8dd2576a2d8fff7b9b17d6ce7ca418d88e117f2315d5586bc314d37",
+      "candidate_sha256": "8515f639e98453b2438c32ef038f186c439df2755c64aa5206a8c811e9aa840d",
       "current": true,
       "user_quality_status": "below_respectful_salvageable",
       "keep_working": true,
       "potentially_releasable": false,
       "baseline_promoted": false,
-      "notes": "Airplane itself is not the main failure; environment completeness/realism, direction and landing mechanics, gear/wheel transition, aviation audio, and sustained visual quality need material improvement.",
+      "notes": "Paused on v11. Worth resuming when the user is specifically asking for airplane flight, approach, landing, rollout, or closely related aviation work; do not continue it by default. Direction/orientation and major ground/environment failures were materially repaired, and v11 rebuilt 22-65s, but the current user quality state remains below respectful. Next work: review v11, raise native motion cadence beyond 6fps, repair early ground/z-fighting artifacts, finish touchdown/gear/control-surface physics, improve environment/lighting continuity and aviation audio. Resume handoff: docs/LAX_FINAL_APPROACH_HANDOFF.md.",
       "lane": "cinematic"
     },
     {

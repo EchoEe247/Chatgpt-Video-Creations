@@ -80,7 +80,7 @@ Current exact user-evaluated examples:
 
 - **RIDGELINE — A Descent** — latest mountain-bike candidate: **respectful**; keep and continue, but not finished.
 - **VELOCITY — A Highway Study** — latest reviewed `velocity-recreation` highway-driving candidate: **respectful**; keep and continue, but not finished.
-- **LAX — Final Approach** — below respectful but potentially salvageable after major environment, landing-mechanics, motion-direction, aviation-audio and visual-quality improvements.
+- **LAX — Final Approach** — paused v11 below respectful but salvageable. Preserve it and resume only for a relevant airplane flight/landing request; direction and major ground failures were materially repaired, while native smoothness, early-ground cleanup, touchdown/control-surface physics, environment/lighting polish and aviation audio remain. See `docs/LAX_FINAL_APPROACH_HANDOFF.md`.
 - **AETHERFALL — THE LAST LIGHT** — medium-bad; concept/character/audio result not promoted.
 - **THE EIGHTH HOUR** — trash/failed; failure evidence only.
 
