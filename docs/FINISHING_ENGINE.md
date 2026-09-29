@@ -244,6 +244,58 @@ The Phase 3 fixture proof generated all three arms successfully and reused the e
 
 Phase 3 provides the production-state binding and reusable benchmark machinery. It does not claim that the Phase 0 fixture establishes a cinematic-quality gain. The real longer cinematic A/B/C benchmark should use a representative shot, native cadence, the normal creative QA evidence path, and perceptual review.
 
+## Phase 4 representative benchmark result
+
+Phase 4 produced a representative 1280×720, native-24-fps cinematic Blender fixture with camera parallax, a moving Cryptomatte-protected subject, metallic surfaces, emissive practicals, foreground occlusion and meaningful depth.
+
+The first attempt reused SECOND EARTH's full physical-lab scene. That path was abandoned after a 720p Eevee smoke frame exceeded roughly three minutes on the Pixel/PRoot runtime. The useful lesson is renderer-specific: on this device, software Eevee is not automatically the fast lane.
+
+The replacement fixture uses Cycles CPU at one sample. It successfully rendered 36 consecutive native frames:
+
+- average render time: 9.97 seconds/frame;
+- range: 6.50–12.97 seconds/frame;
+- average multilayer EXR size: 7.99 MiB/frame;
+- 36-frame payload: 287.5 MiB;
+- peak reported process RSS: 482.5 MiB;
+- required beauty, depth, normal, emission, AO and object-Cryptomatte channels were present.
+
+The resulting full Render Bundle and pass-aware recipe validated with exact file hashes. This establishes that a representative native-cadence render is locally feasible.
+
+### Finishing-throughput blocker
+
+The normal-speed A/B/C review could **not** be completed within the local benchmark budget because multilayer-EXR readback/post became slower than rendering:
+
+- OpenImageIO CLI beauty extraction measured about 16.4 seconds for one 720p Cycles EXR;
+- the pass-aware PNG-only benchmark worker measured 16.92 seconds for its first frame and 15.51 seconds for its second;
+- a full A + C 18-frame review would therefore spend several additional minutes primarily decoding/post-processing EXRs, before review encoding and QA.
+
+This is now the active bottleneck. The next optimization target is not Blender render speed; it is pass-readback/cache throughput.
+
+The current route also reports continuous-video perception as UNAVAILABLE, so this phase does not claim direct model perception of normal-speed playback. Existing QA and sampled evidence remain valid, but they are not a substitute for claiming genuine continuous playback review.
+
+### Partial A/B/C evidence
+
+Two completed representative frames were compared:
+
+- conventional post B versus beauty A mean RGB delta: approximately 0.0107;
+- pass-aware C versus conventional B mean RGB delta: approximately 0.0403;
+- pass-aware C versus beauty A mean RGB delta: approximately 0.0314.
+
+This proves that pass-aware processing makes a materially different image, but pixel distance does not establish that the difference is better.
+
+### Default-policy decision
+
+No deterministic finishing processor is promoted to a production default from Phase 4.
+
+- `depth_atmosphere`: remains experimental/opt-in;
+- `emission_rebalance`: remains experimental/opt-in;
+- `selective_grade`: remains experimental/opt-in;
+- `display_transform`: remains a diagnostic MVP transform, not the cinematic color target.
+
+The reason is evidentiary, not conceptual: a full normal-speed B→C perceptual review has not yet been completed. The system must not turn an incomplete benchmark into a quality policy.
+
+The durable Phase 4 fixtures are `scripts/blender_phase4_cinematic_fixture.py`, `scripts/prepare_phase4_benchmark.py`, and the PNG-only `scripts/finishing_benchmark_worker.py`. The benchmark worker intentionally reuses the exact deterministic finishing math while avoiding unnecessary finished-EXR writes during review experiments.
+
 ## Next phase
 
-Phase 4 should run the representative cinematic A/B/C benchmark, inspect all three arms at normal speed, and use the evidence to decide which deterministic processors deserve production defaults. Model-backed/generative finishing remains deferred until that deterministic benchmark is complete.
+Optimize local pass ingestion before attempting the full normal-speed benchmark again. Prefer a one-decode-per-frame cache or Blender-side extraction into only the required beauty/depth/emission/mask data, then rerun the same A/B/C harness. Do not promote processor defaults or add model-backed finishing until B→C can be reviewed at normal speed under a practical local runtime.

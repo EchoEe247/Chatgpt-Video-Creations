@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "phase": "finishing-phase4",
+  "status": "PARTIAL_BLOCKED_BY_THROUGHPUT",
+  "repo_commit_before": "4917b9b18406ac2e0b0121b664ea2b012c3e7ba7",
+  "workflow_version": "2026.09.29.01",
+  "representative_fixture": {
+    "script": "scripts/blender_phase4_cinematic_fixture.py",
+    "resolution": [
+      1280,
+      720
+    ],
+    "fps": 24,
+    "rendered_frames": 36,
+    "engine": "CYCLES",
+    "samples": 1,
+    "average_render_seconds_per_frame": 9.9673,
+    "min_render_seconds": 6.4963,
+    "max_render_seconds": 12.9697,
+    "average_mib_per_frame": 7.986,
+    "total_mib": 287.499,
+    "peak_ru_maxrss_mib": 482.531,
+    "required_passes_present": [
+      "beauty",
+      "depth",
+      "normal",
+      "emission",
+      "ambient_occlusion",
+      "cryptomatte_object"
+    ]
+  },
+  "contract_validation": {
+    "full_bundle_sha256": "2bc65cb2ce66d364c53bff9a6143afea13d730239a632f211c6a0a7a6a607d8a",
+    "recipe_sha256": "35952126db336ed4a548b5bd3db505480ab994d8e98b50e0ae1027641af0fa05",
+    "exact_source_hash_validation": "PASS"
+  },
+  "throughput_blocker": {
+    "openimageio_cli_beauty_extract_seconds": 16.424,
+    "pass_aware_preview_seconds_frame1": 16.9199,
+    "pass_aware_preview_seconds_frame2": 15.5057,
+    "finding": "Multilayer EXR readback/post-processing is slower than the representative Blender render and prevents a practical full normal-speed A/B/C benchmark in the current local window."
+  },
+  "partial_ab_c_evidence": {
+    "frames": [
+      1,
+      2
+    ],
+    "a_to_b_mean_rgb_delta": [
+      0.010701,
+      0.0107
+    ],
+    "b_to_c_mean_rgb_delta": [
+      0.040309,
+      0.040316
+    ],
+    "a_to_c_mean_rgb_delta": [
+      0.03135,
+      0.031358
+    ],
+    "interpretation": "Pass-aware output is materially different; pixel distance does not establish quality direction."
+  },
+  "perception": {
+    "continuous_video_state": "UNAVAILABLE",
+    "claim": "No direct continuous-playback perceptual verdict was made."
+  },
+  "default_policy": {
+    "depth_atmosphere": "experimental_opt_in",
+    "emission_rebalance": "experimental_opt_in",
+    "selective_grade": "experimental_opt_in",
+    "display_transform": "diagnostic_only",
+    "reason": "No full normal-speed B-to-C perceptual review completed."
+  },
+  "next_action": "Optimize pass ingestion/cache throughput, then rerun the same native-cadence A/B/C benchmark before promoting defaults."
+}

@@ -133,17 +133,21 @@ def main() -> int:
     arm_c = out / "arm-c-pass-aware"
     arm_b.mkdir(parents=True, exist_ok=True)
 
+    benchmark_worker = ROOT / "scripts" / "finishing_benchmark_worker.py"
     for target, selected_recipe, label in (
         (arm_a, base_recipe_path, "arm A"),
         (arm_c, recipe_path, "arm C"),
     ):
         proc = run(
             [
-                sys.executable, "scripts/finishingctl.py", "apply",
-                str(bundle_path), str(selected_recipe), str(target),
-                "--root", str(bundle_root), "--timeout", str(args.timeout),
+                "proot-distro", "login", "hermes-ubuntu", "--",
+                "python3", str(benchmark_worker),
+                "--bundle", str(bundle_path),
+                "--recipe", str(selected_recipe),
+                "--bundle-root", str(bundle_root),
+                "--output-dir", str(target),
             ],
-            timeout=args.timeout + 60,
+            timeout=args.timeout,
         )
         require_ok(proc, label)
 
