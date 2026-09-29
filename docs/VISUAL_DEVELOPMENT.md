@@ -83,6 +83,8 @@ Common useful passes include:
 
 The exact pass list depends on renderer support and the shot. The director brief records the desired passes and the reason for them.
 
+For any `multipass`, `hybrid`, or explicitly finishing-enabled Blender shot, also read [`FINISHING_ENGINE.md`](FINISHING_ENGINE.md). It records the local Phase 0 feasibility evidence, pass-readback requirements, protection semantics, processor risk classes, native-cadence rule, restartability, and the boundary for the next Render Bundle implementation.
+
 ## Why multipass matters
 
 A pass-based shot can allow local finishing changes without rerendering expensive animation/geometry, for example:
@@ -118,7 +120,9 @@ The repository includes a bounded local proof for this capability:
 
     python scripts/rendererctl.py multipass-smoke
 
-It creates a tiny Eevee scene, enables the supported common pass flags, renders a multilayer EXR, and writes a JSON receipt under `.runtime/renderer-doctor/blender-multipass/`. Run it after meaningful Blender/runtime changes; it is a capability smoke, not a quality benchmark.
+It creates a tiny Eevee scene, enables the supported common pass flags, renders a multilayer EXR, and writes a JSON receipt under `.runtime/renderer-doctor/blender-multipass/`. Run it after meaningful Blender/runtime changes; it is a capability smoke, not a quality benchmark. Pass flags alone do not prove that a channel was written.
+
+For finishing-capability proof, use the animated 720p Phase 0 path documented in [`FINISHING_ENGINE.md`](FINISHING_ENGINE.md). That path independently reads the actual EXR channel inventory with OpenImageIO and verifies non-zero vector pixels.
 
 ## Compositor ownership
 

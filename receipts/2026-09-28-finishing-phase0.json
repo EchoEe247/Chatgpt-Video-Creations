@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "phase": "finishing-phase0",
+  "status": "PASS",
+  "repo_commit_before": "80f336b343756df3445abdcc57f9fd0552fee189",
+  "local_runtime": {
+    "blender": "4.0.2",
+    "distro": "hermes-ubuntu",
+    "readback_tools": [
+      "openexr",
+      "openimageio-tools"
+    ]
+  },
+  "fixture": {
+    "engine": "CYCLES",
+    "resolution": [
+      1280,
+      720
+    ],
+    "fps": 24,
+    "frames": 3,
+    "samples": 1
+  },
+  "readback": {
+    "channel_count": 49,
+    "required_groups_present": true,
+    "vector_channels": [
+      "ViewLayer.Vector.X",
+      "ViewLayer.Vector.Y",
+      "ViewLayer.Vector.Z",
+      "ViewLayer.Vector.W"
+    ],
+    "vector_min": [
+      -249.013916,
+      0,
+      -281.043823,
+      -0.000031
+    ],
+    "vector_max": [
+      0,
+      41.700897,
+      0.000061,
+      46.89489
+    ],
+    "vector_nonzero": true
+  },
+  "budget": {
+    "average_render_seconds_per_frame": 3.3767,
+    "average_mib_per_frame": 21.454,
+    "three_frame_total_bytes": 67487547,
+    "peak_ru_maxrss_mib": 750.434
+  },
+  "restartability": {
+    "second_run_skipped_all_existing_frames": true
+  },
+  "evidence": {
+    "runtime_dir": ".runtime/phase0-finishing/",
+    "render_receipt": ".runtime/phase0-finishing/render-receipt.json",
+    "analysis_report": ".runtime/phase0-finishing/phase0-report.json",
+    "renderer_script": "scripts/blender_phase0_fixture.py",
+    "analyzer": "scripts/finishing_phase0.py"
+  },
+  "limitations": [
+    "Fixture is intentionally simple and does not predict production-scene render cost.",
+    "Phase 0 proves pass production/readback and resource feasibility, not cinematic quality.",
+    "Real productions must measure representative frames/ranges before long multipass renders."
+  ]
+}

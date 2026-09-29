@@ -182,6 +182,7 @@ See [`docs/SCENE_GEOMETRY.md`](docs/SCENE_GEOMETRY.md) and [`docs/VISUAL_QA_STAN
 - [`docs/CHARACTER_PRODUCTION.md`](docs/CHARACTER_PRODUCTION.md) — character/rig/action sourcing ladder, Mixamo constraints, local performance authorship, and character QA.
 - [`docs/QUALITY_FLOOR.md`](docs/QUALITY_FLOOR.md) — final-vs-prototype classification, renderer/asset/development minimums, on-disk proof enforcement, and mandatory final studio/audio review.
 - [`docs/VISUAL_DEVELOPMENT.md`](docs/VISUAL_DEVELOPMENT.md) — moving previs, representative look-dev, Blender AOV/pass strategy, compositor proof, and pre-render gates.
+- [`docs/FINISHING_ENGINE.md`](docs/FINISHING_ENGINE.md) — conditional multipass/hybrid finishing path, measured local Phase 0 feasibility, pass readback, protection/risk rules, and the next Render Bundle boundary.
 - [`assets/`](assets/) — portable asset catalog, Core Commons manifest, license/provenance metadata, and machine-local install-state contract.
 - `scripts/assetctl.py` — validate/query the asset catalog and detect known local payloads before downloading or rebuilding resources.
 - [`docs/DIRECTOR_SPEC_WORKFLOW.md`](docs/DIRECTOR_SPEC_WORKFLOW.md) — model-independent directing contract: reference decomposition, story/visual/camera/audio grammar, shot events, and cross-model handoff.
