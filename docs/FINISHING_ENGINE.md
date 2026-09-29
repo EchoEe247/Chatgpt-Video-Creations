@@ -317,6 +317,29 @@ This is no longer blocked by engineering throughput. It is blocked only on trust
 
 The durable Phase 4 fixtures are `scripts/blender_phase4_cinematic_fixture.py`, `scripts/prepare_phase4_benchmark.py`, `scripts/finishing_benchmark_worker.py`, and the single-decode path in `scripts/finishing_worker.py`.
 
+## Phone review handoff
+
+Finishing comparisons must be practically reviewable on the phone before asking for a user quality judgment.
+
+Generate the synchronized B/C page:
+
+```bash
+python scripts/make_finishing_review.py \
+  path/to/arm-b.mp4 path/to/arm-c.mp4 path/to/review/index.html \
+  --title "Finishing review - B conventional vs C pass-aware" \
+  --fps 24
+```
+
+Serve the review directory with byte-range support:
+
+```bash
+python scripts/range_server.py --root path/to/review-directory --port 8878
+```
+
+The page preserves native HTML5 controls and adds a shared unlocked scrubber, synchronized playback, ±1-frame stepping, 0.5×/1× playback, B-only, C-only and split modes, current-time/frame diagnostics, and direct MP4 links. The range server returns HTTP 206 for valid Range requests so Android Chromium can seek, rewind and jump without linear replay.
+
+The page defaults to C-only on narrow displays so the image is large enough to inspect; B-only and Split remain one tap away.
+
 ## Next phase
 
-Use the optimized single-decode worker for production finishing, then run the same B→C review on a longer representative finished shot when trustworthy normal-speed visual review is available. Keep all deterministic processors opt-in until that review justifies promotion. Model-backed/generative finishing remains deferred.
+Use the phone B→C review to collect an explicit aesthetic judgment, then tune or reject individual deterministic processors from that evidence. After that, run the same review on a longer 3–5 second representative finished shot. Keep all deterministic processors opt-in until that review justifies promotion. Model-backed/generative finishing remains deferred.

@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "phase": "finishing-phone-review",
+  "status": "READY_FOR_USER_AESTHETIC_JUDGMENT",
+  "workflow_version": "2026.09.29.03",
+  "benchmark": {
+    "frames_per_arm": 36,
+    "resolution": [
+      1280,
+      720
+    ],
+    "fps": 24,
+    "duration_seconds": 1.5,
+    "benchmark_receipt_sha256": "7be5872924209fd345abac1605812babaed98fce6c38a37ceb2e2045e670e51c",
+    "creative_compare_sha256": "4d1369eaa4ec665bef9bdbf3caaefd6e83c4b4af73808b194447bbf7d7806c69",
+    "arm_b_sha256": "5fcb993080e5f8bc7e2e1f2255bd8079845e04685276341059a34fe8555a7db9",
+    "arm_c_sha256": "792b19cc2d1a47ea4f3e7ebb66bb4f463f4d3929362ac5cfd47863255338972c"
+  },
+  "review_page": {
+    "generator": "scripts/make_finishing_review.py",
+    "server": "scripts/range_server.py",
+    "runtime_page_sha256": "fa5bb5ee2cbbecd0028df8e0e6c985b2441d8d26ab5cf9d2f753bebaf1e03b37",
+    "local_url": "http://127.0.0.1:8878/",
+    "default_view": "C only",
+    "features": [
+      "native HTML5 video controls",
+      "shared unlocked scrubber",
+      "synchronized B/C playback",
+      "minus/plus one-frame stepping",
+      "0.5x and 1x playback",
+      "B-only, C-only and split modes",
+      "direct B and C MP4 links",
+      "current time/frame/drop diagnostics"
+    ]
+  },
+  "verification": {
+    "index_http_status": 200,
+    "range_http_status": 206,
+    "range_probe": "arm-c.mp4 bytes 1048576-1049599",
+    "range_content_length": 1024,
+    "accept_ranges": "bytes",
+    "b_video_frames": 36,
+    "c_video_frames": 36,
+    "b_duration_seconds": 1.5,
+    "c_duration_seconds": 1.5,
+    "b_fps": 24,
+    "c_fps": 24
+  },
+  "interpretation": "This handoff is for explicit user aesthetic judgment. No automatic quality preference between B and C is asserted."
+}
