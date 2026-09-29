@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "phase": "finishing-agx-ocio",
+  "status": "ENGINEERING_PASS_OPT_IN",
+  "workflow_version": "2026.09.29.05",
+  "runtime": {
+    "blender_version": "4.0.2",
+    "ocio_config_path": "/usr/share/blender/datafiles/colormanagement/config.ocio",
+    "ocio_config_sha256": "6a28581e9b567c42d752d8f2d7487d0c516238632e1597e277ecdfa84fb4d1b9",
+    "agx_lut_path": "/usr/share/blender/datafiles/colormanagement/luts/AgX_Base_sRGB.cube",
+    "agx_lut_sha256": "e707a36f3e90ee79bc342332febf91334c02ce3974cac700ece00ca9d4507491",
+    "display": "sRGB",
+    "view": "AgX",
+    "fromspace": "Linear Rec.709",
+    "looks": ""
+  },
+  "recipes": {
+    "c_unchanged": true,
+    "c2_unchanged": true,
+    "agx_c_canonical_sha256": "3e2ca06c1473a8c01cf8717fd52831ce52eda2d5d6999efde164c2321cf2fe37",
+    "agx_c2_canonical_sha256": "a9b78f5313cf71bcb74926e77fb3873a9d5758834aab2bc99752af40e4d5787c"
+  },
+  "same_exposure_comparison": {
+    "frames": 5,
+    "reference": "C diagnostic Reinhard",
+    "candidate": "C AgX",
+    "structural_match": true,
+    "ssim": 0.964786,
+    "mean_absolute_rgb_delta": 0.043585
+  },
+  "determinism": {
+    "replay_frame_sha256": "0bbea0a500df22e518537ea3ec67b26260e08ad36b4c115f18bee3cbbbafb6a1",
+    "replay_hash_identical": true
+  },
+  "production_smoke": {
+    "finishingctl_apply": "PASS",
+    "operation_seconds": 0.647,
+    "receipt_verified": true,
+    "recipe_sha256": "3e2ca06c1473a8c01cf8717fd52831ce52eda2d5d6999efde164c2321cf2fe37"
+  },
+  "policy": {
+    "agx_status": "opt_in",
+    "reinhard_status": "diagnostic_legacy",
+    "promotion_requires": "explicit longer-shot aesthetic review",
+    "generative_finishing": "deferred"
+  }
+}

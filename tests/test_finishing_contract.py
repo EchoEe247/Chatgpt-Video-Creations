@@ -252,3 +252,27 @@ def test_finishing_receipt_rejects_contract_drift(tmp_path):
     errors=validate_finishing_receipt(receipt,bundle,recipe)
     assert "receipt.bundle_sha256 does not match bundle" in errors
     assert "receipt.recipe_sha256 does not match recipe" in errors
+
+def test_agx_display_contract_requires_authoritative_binding():
+    recipe=valid_recipe()
+    op=recipe["operations"][-1]
+    op["processor"]="agx_display_transform"
+    op["params"]={
+        "exposure_stops":0.25,
+        "display":"sRGB",
+        "view":"AgX",
+        "fromspace":"Linear Rec.709",
+        "looks":"",
+        "config_path":"/usr/share/blender/datafiles/colormanagement/config.ocio",
+        "config_sha256":"1"*64,
+        "lut_path":"/usr/share/blender/datafiles/colormanagement/luts/AgX_Base_sRGB.cube",
+        "lut_sha256":"2"*64,
+    }
+    assert validate_finishing_recipe(recipe)==[]
+    op["params"]["view"]="Standard"
+    errors=validate_finishing_recipe(recipe)
+    assert any("params.view must be AgX" in x for x in errors)
+    op["params"]["view"]="AgX"
+    op["params"]["config_sha256"]="bad"
+    errors=validate_finishing_recipe(recipe)
+    assert any("params.config_sha256" in x for x in errors)

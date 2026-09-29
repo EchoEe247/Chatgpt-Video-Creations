@@ -10,6 +10,35 @@ ROOT=Path(__file__).resolve().parents[1]
 
 from src.core.finishing_contract import canonical_json_sha256, sha256_file
 
+BLENDER_OCIO_CONFIG="/usr/share/blender/datafiles/colormanagement/config.ocio"
+BLENDER_OCIO_CONFIG_SHA256="6a28581e9b567c42d752d8f2d7487d0c516238632e1597e277ecdfa84fb4d1b9"
+BLENDER_AGX_SRGB_LUT="/usr/share/blender/datafiles/colormanagement/luts/AgX_Base_sRGB.cube"
+BLENDER_AGX_SRGB_LUT_SHA256="e707a36f3e90ee79bc342332febf91334c02ce3974cac700ece00ca9d4507491"
+
+
+def make_agx_recipe(recipe: dict, *, recipe_id: str, recipe_version: int) -> dict:
+    agx=json.loads(json.dumps(recipe))
+    agx["recipe_id"]=recipe_id
+    agx["recipe_version"]=recipe_version
+    displays=[op for op in agx["operations"] if op.get("processor")=="display_transform"]
+    if len(displays)!=1:
+        raise ValueError("AgX recipe requires exactly one diagnostic display_transform")
+    op=displays[0]
+    exposure=float(op.get("params",{}).get("exposure_stops",0.0))
+    op["processor"]="agx_display_transform"
+    op["params"]={
+        "exposure_stops":exposure,
+        "display":"sRGB",
+        "view":"AgX",
+        "fromspace":"Linear Rec.709",
+        "looks":"",
+        "config_path":BLENDER_OCIO_CONFIG,
+        "config_sha256":BLENDER_OCIO_CONFIG_SHA256,
+        "lut_path":BLENDER_AGX_SRGB_LUT,
+        "lut_sha256":BLENDER_AGX_SRGB_LUT_SHA256,
+    }
+    return agx
+
 
 def make_c2_recipe(recipe: dict) -> dict:
     c2=json.loads(json.dumps(recipe))
@@ -184,14 +213,26 @@ def main() -> int:
     c2_path=out/"recipe-c2.json"
     c2_path.write_text(json.dumps(c2,indent=2)+"\n")
 
+    agx_c=make_agx_recipe(recipe,recipe_id="phase4-cinematic-agx-c",recipe_version=2)
+    agx_c_path=out/"recipe-agx-c.json"
+    agx_c_path.write_text(json.dumps(agx_c,indent=2)+"\n")
+
+    agx_c2=make_agx_recipe(c2,recipe_id="phase4-cinematic-agx-c2",recipe_version=3)
+    agx_c2_path=out/"recipe-agx-c2.json"
+    agx_c2_path.write_text(json.dumps(agx_c2,indent=2)+"\n")
+
     print(json.dumps({
         "render_bundle":str(bundle_path),
         "recipe":str(recipe_path),
         "recipe_c2":str(c2_path),
+        "recipe_agx_c":str(agx_c_path),
+        "recipe_agx_c2":str(agx_c2_path),
         "execution_plan":str(plan_path),
         "bundle_sha256":canonical_json_sha256(bundle),
         "recipe_sha256":canonical_json_sha256(recipe),
         "recipe_c2_sha256":canonical_json_sha256(c2),
+        "recipe_agx_c_sha256":canonical_json_sha256(agx_c),
+        "recipe_agx_c2_sha256":canonical_json_sha256(agx_c2),
         "frames":len(frame_rows),
     },indent=2))
     return 0

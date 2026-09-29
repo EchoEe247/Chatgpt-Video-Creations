@@ -372,6 +372,45 @@ C2 finishing completed for all 72 frames. The encoded validation master is exact
 
 This proves the current deterministic finishing architecture is stable across a longer continuously moving shot. It does **not** by itself promote C2 over C aesthetically; that remains a user/perceptual decision.
 
+## Authoritative AgX / OCIO display path
+
+The deterministic finisher now has an **opt-in** `agx_display_transform` processor. It does not approximate AgX in NumPy. It calls OpenImageIO's `ImageBufAlgo.ociodisplay()` against Blender's own installed OpenColorIO configuration:
+
+- config: `/usr/share/blender/datafiles/colormanagement/config.ocio`;
+- display: `sRGB`;
+- view: `AgX`;
+- source space: `Linear Rec.709`;
+- look: none by default.
+
+The recipe binds the exact runtime color assets:
+
+- OCIO config SHA-256: `6a28581e9b567c42d752d8f2d7487d0c516238632e1597e277ecdfa84fb4d1b9`;
+- `AgX_Base_sRGB.cube` SHA-256: `e707a36f3e90ee79bc342332febf91334c02ce3974cac700ece00ca9d4507491`.
+
+The worker refuses to apply AgX if either file is missing or its hash differs. This prevents silent color drift after Blender/runtime changes.
+
+`prepare_phase4_benchmark.py` now emits two additional opt-in variants without mutating the existing recipes:
+
+- `recipe-agx-c.json` — current C exposure with the diagnostic Reinhard transform replaced by Blender AgX;
+- `recipe-agx-c2.json` — C2 exposure with the same authoritative AgX replacement.
+
+C and C2 themselves remain unchanged.
+
+### AgX verification
+
+A five-frame same-exposure C-versus-C-AgX test from the 3-second validation source showed:
+
+- width/height/fps/duration match: PASS;
+- sampled SSIM: 0.964786;
+- mean absolute RGB delta across the five frames: 0.043585;
+- repeated AgX frame output: byte-identical SHA-256;
+- production `finishingctl apply` smoke: PASS;
+- production worker AgX operation time on the smoke frame: 0.647 seconds.
+
+The direct OCIO display transform itself completed on a representative 720p frame in about 0.33 seconds. Longer benchmark-worker timings were sensitive to transient device load, so they are not used as the color-path performance baseline.
+
+These measurements prove that the AgX path is real, structurally safe, deterministic, and usable in the production controller. They do **not** establish an aesthetic preference over C/C2.
+
 ## Next phase
 
-Keep C as the accepted baseline until the user explicitly prefers C2. Use the 3-second C2 validation as engineering evidence that the darker candidate is temporally stable. Once the C-versus-C2 aesthetic choice is settled, promote the selected deterministic recipe to the production preset and replace the diagnostic Reinhard display transform with the planned cinematic/AgX-aware color-management path. Model-backed/generative finishing remains deferred.
+Keep C and C2 unchanged while AgX remains opt-in. The next visual review should compare the selected C/C2 exposure against the corresponding AgX variant on a longer 3–5 second shot. If that review prefers AgX, promote `agx_display_transform` into the production preset and retire the diagnostic Reinhard transform. Model-backed/generative finishing remains deferred.

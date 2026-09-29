@@ -300,8 +300,30 @@ def validate_finishing_recipe(data: dict[str, Any]) -> list[str]:
             errors.append(f"{prefix}.masks must be a list of safe ids")
         elif len(masks) != len(set(masks)):
             errors.append(f"{prefix}.masks must not contain duplicates")
-        if not isinstance(op.get("params"), dict):
+        params = op.get("params")
+        if not isinstance(params, dict):
             errors.append(f"{prefix}.params must be an object")
+        elif processor == "agx_display_transform":
+            if risk != "P":
+                errors.append(f"{prefix} agx_display_transform must use risk class P")
+            if stage != "display_referred":
+                errors.append(f"{prefix} agx_display_transform must be display_referred")
+            if params.get("display") != "sRGB":
+                errors.append(f"{prefix}.params.display must be sRGB")
+            if params.get("view") != "AgX":
+                errors.append(f"{prefix}.params.view must be AgX")
+            if params.get("fromspace") != "Linear Rec.709":
+                errors.append(f"{prefix}.params.fromspace must be Linear Rec.709")
+            if not isinstance(params.get("looks", ""), str):
+                errors.append(f"{prefix}.params.looks must be a string")
+            for key in ("config_path", "lut_path"):
+                if not isinstance(params.get(key), str) or not params[key].startswith("/"):
+                    errors.append(f"{prefix}.params.{key} must be an absolute path")
+            for key in ("config_sha256", "lut_sha256"):
+                if not _sha(params.get(key)):
+                    errors.append(f"{prefix}.params.{key} must be a lowercase sha256")
+            if not _is_number(params.get("exposure_stops")):
+                errors.append(f"{prefix}.params.exposure_stops must be finite")
         if not isinstance(op.get("deterministic"), bool):
             errors.append(f"{prefix}.deterministic must be boolean")
         randomness = op.get("uses_randomness")

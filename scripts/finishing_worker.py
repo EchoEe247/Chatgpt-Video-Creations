@@ -127,6 +127,49 @@ def write_exr(path: Path, rgba: np.ndarray, color_space: str) -> None:
         raise RuntimeError("OpenImageIO EXR write failed: " + buf.geterror())
 
 
+def ocio_display_rgb(
+    rgb: np.ndarray,
+    *,
+    exposure_stops: float,
+    display: str,
+    view: str,
+    fromspace: str,
+    looks: str,
+    config_path: str,
+    config_sha256: str,
+    lut_path: str,
+    lut_sha256: str,
+) -> np.ndarray:
+    config=Path(config_path)
+    lut=Path(lut_path)
+    if not config.is_file() or sha256_file(config)!=config_sha256:
+        raise ValueError("OCIO config hash mismatch")
+    if not lut.is_file() or sha256_file(lut)!=lut_sha256:
+        raise ValueError("AgX LUT hash mismatch")
+    work=np.maximum(rgb.astype(np.float32)*np.float32(2.0**exposure_stops),0.0)
+    h,w,c=work.shape
+    if c!=3:
+        raise ValueError("AgX input must be RGB")
+    spec=oiio.ImageSpec(w,h,3,oiio.TypeDesc.TypeFloat)
+    spec.channelnames=("R","G","B")
+    buf=oiio.ImageBuf(spec)
+    roi=oiio.ROI(0,w,0,h,0,1,0,3)
+    if not buf.set_pixels(roi,np.ascontiguousarray(work)):
+        raise RuntimeError("OpenImageIO set_pixels failed for AgX")
+    out=oiio.ImageBufAlgo.ociodisplay(
+        buf,display,view,fromspace,looks,True,"","",str(config)
+    )
+    if out.has_error:
+        raise RuntimeError("OpenColorIO display transform failed: "+out.geterror())
+    pixels=out.get_pixels()
+    if pixels is None:
+        raise RuntimeError("OpenColorIO display transform returned no pixels")
+    arr=np.asarray(pixels,dtype=np.float32)
+    if arr.ndim==4:
+        arr=arr[0]
+    return np.clip(arr[...,:3],0.0,1.0)
+
+
 def write_png(path: Path, rgba: np.ndarray) -> None:
     arr = np.clip(rgba, 0.0, 1.0)
     h, w, c = arr.shape
@@ -171,6 +214,19 @@ def apply_operation(rgba, src, bundle, op, masks):
         if p.get("curve", "reinhard_srgb") != "reinhard_srgb":
             raise ValueError("display_transform curve must be reinhard_srgb")
         rgb[:] = reinhard_srgb_rgb(rgb, exposure_stops=float(p.get("exposure_stops", 0.0)))
+    elif processor == "agx_display_transform":
+        rgb[:] = ocio_display_rgb(
+            rgb,
+            exposure_stops=float(p.get("exposure_stops", 0.0)),
+            display=str(p.get("display", "sRGB")),
+            view=str(p.get("view", "AgX")),
+            fromspace=str(p.get("fromspace", "Linear Rec.709")),
+            looks=str(p.get("looks", "")),
+            config_path=str(p["config_path"]),
+            config_sha256=str(p["config_sha256"]),
+            lut_path=str(p["lut_path"]),
+            lut_sha256=str(p["lut_sha256"]),
+        )
     else:
         raise ValueError(f"unsupported deterministic processor: {processor}")
     return rgba
