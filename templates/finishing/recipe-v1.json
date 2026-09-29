@@ -1,0 +1,63 @@
+{
+  "schema_version": 1,
+  "kind": "finishing-recipe",
+  "recipe_id": "example-deterministic-finish",
+  "recipe_version": 1,
+  "operations": [
+    {
+      "id": "depth-atmosphere",
+      "processor": "depth_atmosphere",
+      "risk_class": "S",
+      "color_stage": "scene_linear",
+      "inputs": [
+        "beauty",
+        "depth"
+      ],
+      "masks": [],
+      "params": {
+        "density": 0.05
+      },
+      "deterministic": true,
+      "uses_randomness": false,
+      "seed": null
+    },
+    {
+      "id": "hero-grade",
+      "processor": "selective_grade",
+      "risk_class": "P",
+      "color_stage": "scene_linear",
+      "inputs": [
+        "beauty"
+      ],
+      "masks": [
+        "hero"
+      ],
+      "params": {
+        "exposure_stops": 0.15
+      },
+      "deterministic": true,
+      "uses_randomness": false,
+      "seed": null
+    },
+    {
+      "id": "grain",
+      "processor": "film_grain",
+      "risk_class": "P",
+      "color_stage": "display_referred",
+      "inputs": [
+        "beauty"
+      ],
+      "masks": [],
+      "params": {
+        "amount": 0.02
+      },
+      "deterministic": true,
+      "uses_randomness": true,
+      "seed": 1337
+    }
+  ],
+  "output": {
+    "lossless_format": "OPEN_EXR",
+    "delivery_color_stage": "display_referred"
+  }
+}

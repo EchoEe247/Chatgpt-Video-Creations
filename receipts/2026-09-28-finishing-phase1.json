@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "phase": "finishing-phase1",
+  "status": "PASS",
+  "repo_commit_before": "92a2b5193f1f6801f9af4b6fc1aed491c698ce46",
+  "workflow_version": "2026.09.28.17",
+  "contracts": {
+    "render_bundle_schema_version": 1,
+    "finishing_recipe_schema_version": 1,
+    "render_bundle_template": "templates/finishing/render-bundle-v1.json",
+    "finishing_recipe_template": "templates/finishing/recipe-v1.json",
+    "render_bundle_template_canonical_sha256": "a44f5a68e8ba302edfcc2b3fffc7066edf766b6fc928bf46e2aec04ffe6441a9",
+    "finishing_recipe_template_canonical_sha256": "13a7d2ef168d7c2ff8f9e3105e301fee1a794541192b338aaebc12a107e498e9"
+  },
+  "capabilities": [
+    "canonical pass-to-artifact channel mapping",
+    "exact contiguous frame coverage",
+    "per-frame path/byte/sha256/readback binding",
+    "approved kinematics metadata",
+    "geometry/appearance protection semantics",
+    "P/S/G processor risk-class policy",
+    "scene-linear before display-referred recipe ordering",
+    "deterministic randomness seed enforcement",
+    "Class G justification and verification requirements",
+    "bundle-recipe compatibility validation",
+    "optional referenced-file byte and sha256 verification",
+    "canonical JSON contract fingerprinting"
+  ],
+  "validation": {
+    "targeted_tests": "13 passed",
+    "full_tests": "210 passed in 76.75s",
+    "repository_validation": "PASS",
+    "workflow_version_monotonic": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "governance": {
+    "candidate_qa_semantics_changed": false,
+    "model_backed_finishing_added": false,
+    "existing_creative_compare_reused": true,
+    "next_phase": "deterministic finishing processor MVP"
+  }
+}

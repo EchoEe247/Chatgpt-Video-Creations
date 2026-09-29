@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "kind": "blender-render-bundle",
+  "production_id": "example-production",
+  "shot_id": "shot-01",
+  "source": {
+    "scene_path": "source/scene.blend",
+    "scene_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "execution_plan_sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+  },
+  "render": {
+    "engine": "CYCLES",
+    "width": 1280,
+    "height": 720,
+    "native_fps": 24,
+    "frame_start": 1,
+    "frame_end": 3,
+    "color_space": "scene_linear",
+    "view_transform": "AgX"
+  },
+  "pass_map": {
+    "beauty": [
+      "ViewLayer.Combined.R",
+      "ViewLayer.Combined.G",
+      "ViewLayer.Combined.B",
+      "ViewLayer.Combined.A"
+    ],
+    "depth": [
+      "ViewLayer.Depth.Z"
+    ],
+    "normal": [
+      "ViewLayer.Normal.X",
+      "ViewLayer.Normal.Y",
+      "ViewLayer.Normal.Z"
+    ],
+    "vector": [
+      "ViewLayer.Vector.X",
+      "ViewLayer.Vector.Y",
+      "ViewLayer.Vector.Z",
+      "ViewLayer.Vector.W"
+    ],
+    "emission": [
+      "ViewLayer.Emit.R",
+      "ViewLayer.Emit.G",
+      "ViewLayer.Emit.B"
+    ],
+    "cryptomatte_object": [
+      "ViewLayer.CryptoObject00.r",
+      "ViewLayer.CryptoObject00.g",
+      "ViewLayer.CryptoObject00.b",
+      "ViewLayer.CryptoObject00.a"
+    ]
+  },
+  "frames": [
+    {
+      "frame": 1,
+      "path": "frames/frame-0001.exr",
+      "sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+      "bytes": 1,
+      "readback_status": "verified"
+    },
+    {
+      "frame": 2,
+      "path": "frames/frame-0002.exr",
+      "sha256": "3333333333333333333333333333333333333333333333333333333333333333",
+      "bytes": 1,
+      "readback_status": "verified"
+    },
+    {
+      "frame": 3,
+      "path": "frames/frame-0003.exr",
+      "sha256": "4444444444444444444444444444444444444444444444444444444444444444",
+      "bytes": 1,
+      "readback_status": "verified"
+    }
+  ],
+  "protections": [
+    {
+      "id": "hero",
+      "type": "geometry_protected",
+      "source_pass": "cryptomatte_object",
+      "selector": "Hero"
+    }
+  ],
+  "approved_facts": {
+    "forward_axis": "+X",
+    "travel_vector": [
+      1,
+      0,
+      0
+    ],
+    "camera_binding_sha256": "5555555555555555555555555555555555555555555555555555555555555555"
+  },
+  "policy": {
+    "allowed_processor_classes": [
+      "P",
+      "S"
+    ],
+    "prohibited_transforms": [
+      "object_count_change",
+      "identity_change",
+      "unapproved_geometry_warp"
+    ]
+  },
+  "runtime": {
+    "blender_version": "4.0.2",
+    "readback_tool": "OpenImageIO oiiotool",
+    "platform": "hermes-ubuntu/Termux"
+  }
+}

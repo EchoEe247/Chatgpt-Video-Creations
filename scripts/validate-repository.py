@@ -35,6 +35,7 @@ def main() -> int:
         [sys.executable,"scripts/validate-scene-plan.py","templates/new-episode/scene-plan.json"],
         [sys.executable,"scripts/validate-baselines.py","baselines/registry.json"],
         [sys.executable,"scripts/validate-quality-status.py"],
+        [sys.executable,"scripts/finishingctl.py","validate-pair","templates/finishing/render-bundle-v1.json","templates/finishing/recipe-v1.json"],
         [sys.executable,"scripts/generate-lane-brief.py","--lane","cinematic","--check"],
         [sys.executable,"scripts/validate-markdown.py"],
     ]

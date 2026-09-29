@@ -111,6 +111,29 @@ Reuse existing `creativeqactl compare` / `build_iteration_compare` for before/af
 
 Finishing repair cycles participate in the existing autonomous repair budget unless the controller explicitly identifies a non-candidate diagnostic trial.
 
+## Phase 1 contract
+
+Phase 1 is now implemented as a repository-native contract layer.
+
+Use:
+
+```bash
+python scripts/finishingctl.py validate-bundle path/to/render-bundle.json
+python scripts/finishingctl.py validate-recipe path/to/recipe.json
+python scripts/finishingctl.py validate-pair path/to/render-bundle.json path/to/recipe.json
+python scripts/finishingctl.py validate-pair path/to/render-bundle.json path/to/recipe.json --verify-files
+```
+
+Templates live under `templates/finishing/`.
+
+The Render Bundle contract binds source scene/execution hashes, render dimensions/cadence/color state, canonical pass names to actual channels, exact frame paths/hashes/sizes/readback status, approved kinematics, protection semantics, allowed processor classes, and runtime metadata.
+
+The Finishing Recipe contract enforces ordered scene-linear → display-referred processing, canonical input passes, protection-mask references, processor risk classes, deterministic randomness seeds, and additional justification/verification for Class G operations.
+
+`validate-pair` checks the recipe against the exact bundle so a recipe cannot consume an absent pass/mask or use a processor class prohibited by the bundle policy. `--verify-files` additionally verifies referenced frame bytes and SHA-256 values.
+
+Canonical JSON fingerprints identify the bundle and recipe definitions. Actual frame SHA-256 values remain separate evidence; an encoded MP4 hash is not used as deterministic source-frame identity.
+
 ## Next phase
 
-With Phase 0 passed, Phase 1 may define the Render Bundle and Finishing Recipe contracts and extend the existing Blender/shotctl path. Do not add model-backed/generative finishing until deterministic contracts and QA are stable.
+Phase 2 may implement deterministic finishing processors behind this contract. Do not add model-backed/generative finishing until deterministic processing, receipts, and QA integration are stable.
