@@ -52,3 +52,24 @@ def test_png_delta_reports_descriptive_pixel_distance(tmp_path):
     delta=MOD.png_delta(pa,pb)
     expected=round(64/255,6)
     assert delta=={"mean":expected,"p95":expected,"max":expected}
+
+def test_encode_sequence_binds_exact_duration(monkeypatch,tmp_path):
+    captured={}
+    class Result:
+        returncode=0
+        stdout=""
+        stderr=""
+    def fake_run(argv,*,timeout=600):
+        captured["argv"]=argv
+        return Result()
+    monkeypatch.setattr(MOD,"run",fake_run)
+    MOD.encode_sequence(tmp_path/"frame-%04d.png",tmp_path/"out.mp4",24,18)
+    argv=captured["argv"]
+    idx=argv.index("-t")
+    assert float(argv[idx+1])==0.75
+
+
+def test_encode_sequence_rejects_empty_sequence(tmp_path):
+    import pytest
+    with pytest.raises(ValueError,match="frame_count"):
+        MOD.encode_sequence(tmp_path/"frame-%04d.png",tmp_path/"out.mp4",24,0)

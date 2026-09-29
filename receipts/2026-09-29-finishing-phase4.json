@@ -1,9 +1,10 @@
 {
   "schema_version": 1,
   "phase": "finishing-phase4",
-  "status": "PARTIAL_BLOCKED_BY_THROUGHPUT",
+  "status": "ENGINEERING_BENCHMARK_COMPLETE_QUALITY_PROMOTION_PENDING",
   "repo_commit_before": "4917b9b18406ac2e0b0121b664ea2b012c3e7ba7",
-  "workflow_version": "2026.09.29.01",
+  "optimization_commit_before": "73754ffbbd68e1eaca0773b9667a3c323bf8f31a",
+  "workflow_version": "2026.09.29.02",
   "representative_fixture": {
     "script": "scripts/blender_phase4_cinematic_fixture.py",
     "resolution": [
@@ -30,45 +31,83 @@
     ]
   },
   "contract_validation": {
-    "full_bundle_sha256": "2bc65cb2ce66d364c53bff9a6143afea13d730239a632f211c6a0a7a6a607d8a",
+    "full_36_frame_bundle_sha256": "2bc65cb2ce66d364c53bff9a6143afea13d730239a632f211c6a0a7a6a607d8a",
+    "benchmark_18_frame_bundle_sha256": "486fa0ca1b0203948ae2cd354aa14a68b8a1e3f24596278f3d641451914a1a7e",
     "recipe_sha256": "35952126db336ed4a548b5bd3db505480ab994d8e98b50e0ae1027641af0fa05",
     "exact_source_hash_validation": "PASS"
   },
-  "throughput_blocker": {
-    "openimageio_cli_beauty_extract_seconds": 16.424,
-    "pass_aware_preview_seconds_frame1": 16.9199,
-    "pass_aware_preview_seconds_frame2": 15.5057,
-    "finding": "Multilayer EXR readback/post-processing is slower than the representative Blender render and prevents a practical full normal-speed A/B/C benchmark in the current local window."
+  "pass_ingestion_optimization": {
+    "prior_oiiotool_beauty_seconds": 16.424,
+    "prior_pass_aware_seconds": [
+      16.9199,
+      15.5057
+    ],
+    "imageinput_full_26_channel_decode_seconds": 0.3359,
+    "optimized_arm_a_average_seconds_per_frame": 2.7322,
+    "optimized_arm_c_average_seconds_per_frame": 2.753,
+    "optimized_arm_c_min_seconds": 2.341,
+    "optimized_arm_c_max_seconds": 3.395,
+    "end_to_end_speedup_vs_prior_pass_aware_mean": 5.89,
+    "implementation": "One ImageInput.read_image() decode per EXR followed by in-memory channel slicing."
   },
-  "partial_ab_c_evidence": {
-    "frames": [
-      1,
-      2
+  "completed_abc_benchmark": {
+    "frames_per_arm": 18,
+    "resolution": [
+      1280,
+      720
     ],
-    "a_to_b_mean_rgb_delta": [
-      0.010701,
-      0.0107
-    ],
-    "b_to_c_mean_rgb_delta": [
-      0.040309,
-      0.040316
-    ],
-    "a_to_c_mean_rgb_delta": [
-      0.03135,
-      0.031358
-    ],
-    "interpretation": "Pass-aware output is materially different; pixel distance does not establish quality direction."
+    "fps": 24,
+    "duration_seconds": 0.75,
+    "runtime_seconds": 128.523,
+    "benchmark_receipt_sha256": "583e2538082233a253295046e37d8afe98aa0c39319901ca575b15d56a4be04d",
+    "triptych_sha256": "6a485fcebc0423b4956cf8dc2e9579788d8529b5cb3055b6c06f45f4733549b8",
+    "arm_a_sha256": "7c9888996e12bcc728bf7b8957b4fc312b127c4a236412079ed405a65bba6a04",
+    "arm_b_sha256": "128f0f235e7c15b81939037b3a4f2433786b06bacc867a36945824c6c83e0bb3",
+    "arm_c_sha256": "ba28a137da794d57107b72f7857eafbe7acd221ad8f049edfbed794b98a6b495",
+    "creative_compare_sha256": "1676ffc34b8ab21ad71a7e34cccf436c6563642801e05734057e36b2fb067c0e",
+    "b_to_c_visual_delta_mean": 0.05008,
+    "b_to_c_ssim": 0.942526,
+    "width_match": true,
+    "height_match": true,
+    "fps_delta": 0,
+    "duration_delta_seconds": 0,
+    "freeze_segments_b": 0,
+    "freeze_segments_c": 0,
+    "black_segments_b": 0,
+    "black_segments_c": 0
   },
   "perception": {
     "continuous_video_state": "UNAVAILABLE",
-    "claim": "No direct continuous-playback perceptual verdict was made."
+    "claim": "No direct continuous-playback aesthetic verdict was made. Sampled temporal and objective QA were used only for structural/defect evidence."
   },
   "default_policy": {
     "depth_atmosphere": "experimental_opt_in",
     "emission_rebalance": "experimental_opt_in",
     "selective_grade": "experimental_opt_in",
     "display_transform": "diagnostic_only",
-    "reason": "No full normal-speed B-to-C perceptual review completed."
+    "reason": "Engineering benchmark is complete, but trustworthy continuous-video or explicit user aesthetic review is still required before promotion."
   },
-  "next_action": "Optimize pass ingestion/cache throughput, then rerun the same native-cadence A/B/C benchmark before promoting defaults."
+  "next_action": "Use the optimized worker in production and obtain trustworthy normal-speed B-to-C aesthetic review on a longer representative shot before promoting any processor defaults.",
+  "production_worker_smoke": {
+    "bundle_frames": 5,
+    "finishingctl_apply": "PASS",
+    "guest_versions": "OpenImageIO 2.4.17.0 / NumPy 1.26.4",
+    "deterministic_operation_seconds": [
+      0.297,
+      0.257,
+      0.247,
+      0.247,
+      0.247
+    ],
+    "receipt_verified": true,
+    "regression_equivalence": {
+      "frames": [
+        1,
+        2
+      ],
+      "optimized_png_sha256_matches_preoptimization": true,
+      "frame_1_sha256": "387428cde490458c950b25f817f5835dc5b65d9c135ef16c9100f8751d2e093a",
+      "frame_2_sha256": "362c320864e30953422138e25644003103e148f0809ff28dae8c13ea80847a02"
+    }
+  }
 }

@@ -14,6 +14,7 @@ import math
 import struct
 import sys
 import time
+from dataclasses import dataclass
 from pathlib import Path
 
 import numpy as np
@@ -27,6 +28,33 @@ from src.core.finishing_math import (
     reinhard_srgb_rgb,
     selective_exposure_rgb,
 )
+
+
+@dataclass(frozen=True)
+class DecodedFrame:
+    channel_names: tuple[str, ...]
+    pixels: np.ndarray
+    attributes: dict[str, object]
+
+
+def read_frame(path: Path) -> DecodedFrame:
+    """Decode one multilayer EXR exactly once through ImageInput."""
+    source = oiio.ImageInput.open(str(path))
+    if source is None:
+        raise ValueError(f"could not open EXR: {path}")
+    try:
+        spec = source.spec()
+        pixels = source.read_image(oiio.FLOAT)
+        if pixels is None:
+            raise ValueError(f"could not decode EXR: {path}")
+        attrs = {attr.name: attr.value for attr in spec.extra_attribs}
+        names = tuple(spec.channelnames)
+    finally:
+        source.close()
+    arr = np.asarray(pixels, dtype=np.float32)
+    if arr.ndim == 4:
+        arr = arr[0]
+    return DecodedFrame(channel_names=names, pixels=arr, attributes=attrs)
 
 
 def sha256_file(path: Path) -> str:
@@ -43,39 +71,30 @@ def canonical_sha(value) -> str:
     ).hexdigest()
 
 
-def channels(src: oiio.ImageBuf, names: list[str]) -> np.ndarray:
-    all_names = list(src.spec().channelnames)
+def channels(src: DecodedFrame, names: list[str]) -> np.ndarray:
+    all_names = list(src.channel_names)
     missing = [name for name in names if name not in all_names]
     if missing:
         raise ValueError(f"missing EXR channels: {missing}")
-    order = tuple(all_names.index(name) for name in names)
-    selected = oiio.ImageBufAlgo.channels(src, order)
-    pixels = selected.get_pixels()
-    if pixels is None:
-        raise ValueError(f"could not read channels: {names}")
-    arr = np.asarray(pixels, dtype=np.float32)
-    if arr.ndim == 4:
-        arr = arr[0]
-    return arr
+    order = [all_names.index(name) for name in names]
+    return src.pixels[..., order]
 
 
 def cryptomatte_id(hex_hash: str) -> np.float32:
     return np.float32(struct.unpack("!f", struct.pack("!I", int(hex_hash, 16)))[0])
 
 
-def cryptomatte_mask(src: oiio.ImageBuf, channel_names: list[str], selector: str) -> np.ndarray:
-    spec = src.spec()
+def cryptomatte_mask(src: DecodedFrame, channel_names: list[str], selector: str) -> np.ndarray:
     manifest = None
     prefix = None
-    for attr in spec.extra_attribs:
-        if attr.name.endswith("/name") and attr.value == "ViewLayer.CryptoObject":
-            prefix = attr.name.rsplit("/", 1)[0]
+    for name, value in src.attributes.items():
+        if name.endswith("/name") and value == "ViewLayer.CryptoObject":
+            prefix = name.rsplit("/", 1)[0]
             break
     if prefix:
-        for attr in spec.extra_attribs:
-            if attr.name == prefix + "/manifest":
-                manifest = json.loads(attr.value)
-                break
+        raw_manifest = src.attributes.get(prefix + "/manifest")
+        if raw_manifest:
+            manifest = json.loads(raw_manifest)
     if not manifest or selector not in manifest:
         raise ValueError(f"cryptomatte selector not present: {selector}")
     target = cryptomatte_id(manifest[selector])
@@ -202,7 +221,7 @@ def main() -> int:
 
         if sha256_file(source_path) != row["sha256"]:
             raise ValueError(f"source frame sha mismatch: {row['path']}")
-        src = oiio.ImageBuf(str(source_path))
+        src = read_frame(source_path)
         beauty = channels(src, bundle["pass_map"]["beauty"])
         if beauty.shape[-1] == 3:
             alpha = np.ones((*beauty.shape[:2], 1), dtype=np.float32)

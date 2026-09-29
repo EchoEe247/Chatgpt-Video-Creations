@@ -261,41 +261,62 @@ The replacement fixture uses Cycles CPU at one sample. It successfully rendered 
 
 The resulting full Render Bundle and pass-aware recipe validated with exact file hashes. This establishes that a representative native-cadence render is locally feasible.
 
-### Finishing-throughput blocker
+### Pass-ingestion optimization
 
-The normal-speed A/B/C review could **not** be completed within the local benchmark budget because multilayer-EXR readback/post became slower than rendering:
+The initial Phase 4 blocker was OpenImageIO's `ImageBufAlgo.channels()` path on the Pixel/PRoot runtime. The original evidence was:
 
-- OpenImageIO CLI beauty extraction measured about 16.4 seconds for one 720p Cycles EXR;
-- the pass-aware PNG-only benchmark worker measured 16.92 seconds for its first frame and 15.51 seconds for its second;
-- a full A + C 18-frame review would therefore spend several additional minutes primarily decoding/post-processing EXRs, before review encoding and QA.
+- `oiiotool` beauty extraction: about 16.42 seconds for one 720p multilayer EXR;
+- pass-aware benchmark preview: 16.92 and 15.51 seconds for the first two frames.
 
-This is now the active bottleneck. The next optimization target is not Blender render speed; it is pass-readback/cache throughput.
+The worker now opens each EXR with `ImageInput`, calls `read_image()` exactly once, and slices beauty/depth/emission/Cryptomatte data from the resident NumPy array. No persistent sidecar cache is required for this workload.
 
-The current route also reports continuous-video perception as UNAVAILABLE, so this phase does not claim direct model perception of normal-speed playback. Existing QA and sampled evidence remain valid, but they are not a substitute for claiming genuine continuous playback review.
+Measured after the change:
 
-### Partial A/B/C evidence
+- one full 26-channel EXR decode: 0.336 seconds;
+- 18-frame beauty-baseline worker: 2.73 seconds/frame average;
+- 18-frame pass-aware worker: 2.75 seconds/frame average;
+- pass-aware frame range: 2.34–3.40 seconds/frame;
+- relative to the original two-frame pass-aware mean, end-to-end pass-aware throughput improved by about 5.9×.
 
-Two completed representative frames were compared:
+The representative 18-frame A/B/C benchmark completed in about 128.5 seconds including both finishing arms, conventional post, MP4 assembly, pixel-delta calculation, and the existing creative B→C compare.
 
-- conventional post B versus beauty A mean RGB delta: approximately 0.0107;
-- pass-aware C versus conventional B mean RGB delta: approximately 0.0403;
-- pass-aware C versus beauty A mean RGB delta: approximately 0.0314.
+A direct production-path smoke through `finishingctl.py apply` also passed on five frames. The optimized worker produced verified finished EXR/PNG receipts, and the first two optimized PNG outputs are byte-for-byte hash-identical to outputs generated before the readback optimization. The speed change therefore did not alter the deterministic finishing math.
 
-This proves that pass-aware processing makes a materially different image, but pixel distance does not establish that the difference is better.
+### Completed A/B/C evidence
 
-### Default-policy decision
+The decisive benchmark is now complete at native cadence:
 
-No deterministic finishing processor is promoted to a production default from Phase 4.
+- 18 frames per arm;
+- 1280×720;
+- 24 fps;
+- exactly 0.75 seconds for container, video, and silent audio on A, B, and C;
+- B→C width/height match: PASS;
+- B→C fps delta: 0;
+- B→C duration delta: 0;
+- B and C freeze detections: 0;
+- B and C black-frame detections: 0;
+- sampled B→C SSIM: 0.942526;
+- existing creative compare: the single authored shot is consistently changed, with mean visual delta about 0.05008.
+
+SSIM and pixel deltas are descriptive evidence only. They prove that the pass-aware arm is materially different from conventional post; they do not establish that it is aesthetically better.
+
+The benchmark harness also now binds review-media duration to `frame_count / fps`. This fixed an AAC-padding artifact that previously made A/B containers report 0.981 seconds even though their video streams contained the correct 18 frames.
+
+### Perception boundary and default-policy decision
+
+The current ChatGPT route reports continuous-video perception as UNAVAILABLE. Sampled temporal evidence, decode checks, motion analysis, and the existing creative compare can verify structure and obvious defects, but they are not equivalent to genuine normal-speed aesthetic viewing.
+
+No deterministic finishing processor is therefore promoted to a production default from Phase 4:
 
 - `depth_atmosphere`: remains experimental/opt-in;
 - `emission_rebalance`: remains experimental/opt-in;
 - `selective_grade`: remains experimental/opt-in;
-- `display_transform`: remains a diagnostic MVP transform, not the cinematic color target.
+- `display_transform`: remains a diagnostic MVP transform, not the final cinematic color target.
 
-The reason is evidentiary, not conceptual: a full normal-speed B→C perceptual review has not yet been completed. The system must not turn an incomplete benchmark into a quality policy.
+This is no longer blocked by engineering throughput. It is blocked only on trustworthy perceptual/user judgment about whether B or C is the stronger image.
 
-The durable Phase 4 fixtures are `scripts/blender_phase4_cinematic_fixture.py`, `scripts/prepare_phase4_benchmark.py`, and the PNG-only `scripts/finishing_benchmark_worker.py`. The benchmark worker intentionally reuses the exact deterministic finishing math while avoiding unnecessary finished-EXR writes during review experiments.
+The durable Phase 4 fixtures are `scripts/blender_phase4_cinematic_fixture.py`, `scripts/prepare_phase4_benchmark.py`, `scripts/finishing_benchmark_worker.py`, and the single-decode path in `scripts/finishing_worker.py`.
 
 ## Next phase
 
-Optimize local pass ingestion before attempting the full normal-speed benchmark again. Prefer a one-decode-per-frame cache or Blender-side extraction into only the required beauty/depth/emission/mask data, then rerun the same A/B/C harness. Do not promote processor defaults or add model-backed finishing until B→C can be reviewed at normal speed under a practical local runtime.
+Use the optimized single-decode worker for production finishing, then run the same B→C review on a longer representative finished shot when trustworthy normal-speed visual review is available. Keep all deterministic processors opt-in until that review justifies promotion. Model-backed/generative finishing remains deferred.

@@ -85,16 +85,19 @@ def png_delta(left: Path, right: Path) -> dict:
     }
 
 
-def encode_sequence(sequence: Path, output: Path, fps: float) -> None:
+def encode_sequence(sequence: Path, output: Path, fps: float, frame_count: int) -> None:
+    if frame_count <= 0:
+        raise ValueError("frame_count must be positive")
+    duration = frame_count / fps
     proc = run([
         "ffmpeg", "-y", "-v", "error",
         "-framerate", str(fps),
         "-i", str(sequence),
         "-f", "lavfi", "-i", "anullsrc=r=48000:cl=stereo",
-        "-shortest",
         "-c:v", "libx264", "-preset", "veryfast", "-crf", "18",
         "-pix_fmt", "yuv420p",
         "-c:a", "aac", "-b:a", "128k",
+        "-t", f"{duration:.9f}",
         str(output),
     ])
     require_ok(proc, f"encode {output.name}")
@@ -173,7 +176,7 @@ def main() -> int:
         ("C", arm_c),
     ):
         output = out / f"arm-{key.lower()}.mp4"
-        encode_sequence(directory / "frame-%04d.png", output, review_fps)
+        encode_sequence(directory / "frame-%04d.png", output, review_fps, len(frame_numbers))
         media[key] = {
             "path": output.name,
             "sha256": sha256_file(output),

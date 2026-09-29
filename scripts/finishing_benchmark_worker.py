@@ -10,12 +10,17 @@ import time
 from pathlib import Path
 
 import numpy as np
-import OpenImageIO as oiio
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
 
-from scripts.finishing_worker import channels, cryptomatte_mask, apply_operation, write_png
+from scripts.finishing_worker import (
+    apply_operation,
+    channels,
+    cryptomatte_mask,
+    read_frame,
+    write_png,
+)
 
 
 def sha256_file(path: Path) -> str:
@@ -46,7 +51,7 @@ def main() -> int:
         source=(root/row["path"]).resolve()
         target=out/f"frame-{frame:04d}.png"
         t0=time.monotonic()
-        src=oiio.ImageBuf(str(source))
+        src=read_frame(source)
         beauty=channels(src,bundle["pass_map"]["beauty"])
         if beauty.shape[-1]==3:
             rgba=np.concatenate((beauty,np.ones((*beauty.shape[:2],1),dtype=np.float32)),axis=-1)
