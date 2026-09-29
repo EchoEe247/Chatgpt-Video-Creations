@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "phase": "finishing-phase2",
+  "status": "PASS",
+  "repo_commit_before": "f4d6a59eed72ebf5f31f080c82b58edcf28c8a7c",
+  "workflow_version": "2026.09.28.18",
+  "runtime": {
+    "blender": "4.0.2",
+    "openimageio": "2.4.17.0",
+    "numpy": "1.26.4",
+    "guest": "hermes-ubuntu",
+    "dependencies": [
+      "openexr",
+      "openimageio-tools",
+      "python3-openimageio"
+    ]
+  },
+  "proof": {
+    "bundle_sha256": "8884410991cf4c3c581f1af9c27fa231c2a911c65092790dbf9cce277564cb55",
+    "recipe_sha256": "6f382c1f28236bf6fe8f6be61fce674fc57c846be2b6d2513dcd6714313ebdad",
+    "resolution": [
+      1280,
+      720
+    ],
+    "processors": [
+      "depth_atmosphere",
+      "emission_rebalance",
+      "selective_grade",
+      "display_transform"
+    ],
+    "process_seconds": [
+      0.3329,
+      0.3536,
+      0.3202
+    ],
+    "lossless_frame_sha256": [
+      "f70b40893add99943b146d16f679265d73da39ceda96c1a9506e334346d190e1",
+      "d7bbf9eb43b759fbd7bb9d0571ffdd4962fd96fca74b69b2e568fdb338fb120a",
+      "2837159cdea6cfdba823e5d6f1df5573a9895c0f57fb811d40b8f2d63fbe8a31"
+    ],
+    "independent_replay_lossless_hashes_equal": true,
+    "independent_replay_preview_hashes_equal": true,
+    "in_place_resume_skipped_all_frames": true,
+    "hero_cryptomatte_pixels_over_0_5": 84768,
+    "hero_cryptomatte_max_coverage": 1,
+    "middle_frame_mean_abs_rgb_delta_vs_display_baseline": 0.06163821369409561,
+    "comparison_mp4_sha256": "434b1dea83c6f837e97538e17712731a879a781477eb66aac17b33b1e8617da9"
+  },
+  "validation": {
+    "targeted_tests": "29 passed",
+    "full_tests": "217 passed in 86.20s",
+    "repository_validation": "PASS",
+    "workflow_version_monotonic": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "integration": {
+    "guarded_entrypoint": "scripts/finishingctl.py apply",
+    "worker": "scripts/finishing_worker.py",
+    "pure_math": "src/core/finishing_math.py",
+    "receipt_validation": "src/core/finishing_contract.py",
+    "shared_device_lock": true
+  },
+  "limitations": [
+    "This is a deterministic pass-aware architecture proof, not a cinematic-quality benchmark.",
+    "The current Reinhard-to-sRGB display transform is an MVP diagnostic/delivery transform, not the final Blender/OCIO AgX-quality color target.",
+    "No model-backed or generative finishing is enabled.",
+    "Production candidate-state and repair-budget binding remains Phase 3 work."
+  ]
+}

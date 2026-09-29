@@ -19,6 +19,7 @@ from pathlib import Path
 from src.core.media import sha256_file, validate_master
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
+GLOBAL_DEVICE_LOCK_ROOT = REPO_ROOT / ".runtime" / "device-lock"
 
 
 def resolve_source(spec_path, source):
@@ -210,7 +211,7 @@ def render(path, sid, stage, timeout=300):
     if stage == 'motion' and not review_valid(out, 'preview'):
         raise ValueError('ChatGPT must inspect and review this version of the preview first')
     root = (path.parent / spec.get('work_dir', 'shot-work')).resolve()
-    with device_lock(root):
+    with device_lock(GLOBAL_DEVICE_LOCK_ROOT):
         stage_dir = out / stage
         frame_dir = out / 'frames'
         stage_dir.mkdir(parents=True, exist_ok=True)

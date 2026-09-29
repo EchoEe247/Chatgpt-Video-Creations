@@ -134,6 +134,64 @@ The Finishing Recipe contract enforces ordered scene-linear → display-referred
 
 Canonical JSON fingerprints identify the bundle and recipe definitions. Actual frame SHA-256 values remain separate evidence; an encoded MP4 hash is not used as deterministic source-frame identity.
 
+## Phase 2 deterministic MVP
+
+Phase 2 is implemented as a guarded local processor path.
+
+Normal use:
+
+```bash
+python scripts/finishingctl.py doctor
+python scripts/finishingctl.py apply \
+  path/to/render-bundle.json \
+  path/to/recipe.json \
+  path/to/output-dir \
+  --root path/to/bundle-root
+```
+
+`apply` validates the exact bundle, recipe, referenced source-frame bytes and policy before dispatch. It uses the shared shot/finishing device lock, runs the worker inside `hermes-ubuntu`, then validates the returned receipt and every finished-frame/preview hash.
+
+The current deterministic processors are:
+
+- `depth_atmosphere` — scene-linear depth-controlled atmospheric separation;
+- `emission_rebalance` — scene-linear rebalance of the existing Emission contribution without inventing geometry;
+- `selective_grade` — scene-linear exposure adjustment through a declared protection mask; the Phase 2 proof resolves the `Hero` Cryptomatte selector from the actual EXR manifest;
+- `display_transform` — deterministic Reinhard + sRGB transfer used for the MVP review/delivery proof.
+
+The first three operations demonstrate pass-aware control. The current display transform is deliberately simple and is **not** the final cinematic color target or a replacement for Blender/OCIO AgX-quality color management.
+
+### Runtime dependency
+
+The current worker uses Ubuntu's OpenImageIO Python binding and NumPy. The verified runtime has:
+
+```bash
+apt-get install openexr openimageio-tools python3-openimageio
+```
+
+`finishingctl doctor` fails cleanly when the guest processing dependency is unavailable.
+
+### Deterministic-output rule
+
+Finished EXRs set stable `DateTime` and `Software` metadata. OpenEXR writers otherwise stamp wall-clock time, causing different file hashes even when pixels are identical.
+
+The Phase 2 proof rendered two independent output directories from the same exact bundle+recipe and obtained identical SHA-256 hashes for every lossless EXR and every PNG preview. A subsequent in-place run skipped all verified frames.
+
+The lossless artifact hash remains the authoritative finished-frame identity; the encoded comparison MP4 is review evidence, not the deterministic source identity.
+
+### Phase 2 measured proof
+
+The proof used the real animated Phase 0 multilayer EXRs at 1280×720.
+
+- validated Render Bundle fingerprint: `8884410991cf4c3c581f1af9c27fa231c2a911c65092790dbf9cce277564cb55`;
+- validated Recipe fingerprint: `6f382c1f28236bf6fe8f6be61fce674fc57c846be2b6d2513dcd6714313ebdad`;
+- finished-frame processing time in the final proof: 0.333 s, 0.354 s and 0.320 s;
+- Hero Cryptomatte middle-frame region: 84,768 pixels above 0.5 coverage, maximum coverage 1.0;
+- baseline-versus-finished middle-frame mean absolute RGB delta: approximately 0.0616;
+- independent replay: bit-identical lossless and preview hashes;
+- resume: verified existing outputs are skipped.
+
+This remains a capability/architecture proof, not a cinematic-quality benchmark.
+
 ## Next phase
 
-Phase 2 may implement deterministic finishing processors behind this contract. Do not add model-backed/generative finishing until deterministic processing, receipts, and QA integration are stable.
+Phase 3 should bind finishing outputs into production candidate state and existing QA/repair accounting, then build the three-arm cinematic benchmark: Blender beauty only vs conventional post grade vs pass-aware finishing. Model-backed/generative finishing remains deferred.

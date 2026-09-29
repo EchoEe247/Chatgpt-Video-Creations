@@ -345,3 +345,89 @@ def validate_recipe_against_bundle(recipe: dict[str, Any], bundle: dict[str, Any
         if risk in PROCESSOR_CLASSES and risk not in allowed:
             errors.append(f"operations[{i}] risk class {risk} is not allowed by bundle policy")
     return errors
+
+def validate_finishing_receipt(
+    receipt: dict[str, Any],
+    bundle: dict[str, Any],
+    recipe: dict[str, Any],
+) -> list[str]:
+    """Validate a deterministic-finisher receipt against exact input contracts."""
+    errors: list[str] = []
+    if receipt.get("schema_version") != 1:
+        errors.append("receipt.schema_version must be 1")
+    if receipt.get("kind") != "finishing-receipt":
+        errors.append("receipt.kind must be finishing-receipt")
+    expected_bundle = canonical_json_sha256(bundle)
+    expected_recipe = canonical_json_sha256(recipe)
+    if receipt.get("bundle_sha256") != expected_bundle:
+        errors.append("receipt.bundle_sha256 does not match bundle")
+    if receipt.get("recipe_sha256") != expected_recipe:
+        errors.append("receipt.recipe_sha256 does not match recipe")
+    rows = receipt.get("frames")
+    if not isinstance(rows, list) or not rows:
+        errors.append("receipt.frames must be a non-empty list")
+        return errors
+    expected_frames = {
+        int(row["frame"]): row
+        for row in bundle.get("frames", [])
+        if isinstance(row, dict) and isinstance(row.get("frame"), int)
+    }
+    seen: set[int] = set()
+    for i, row in enumerate(rows):
+        prefix = f"receipt.frames[{i}]"
+        if not isinstance(row, dict):
+            errors.append(f"{prefix} must be an object")
+            continue
+        frame = row.get("frame")
+        if frame not in expected_frames or frame in seen:
+            errors.append(f"{prefix}.frame is unknown or duplicated")
+            continue
+        seen.add(frame)
+        if row.get("source_sha256") != expected_frames[frame].get("sha256"):
+            errors.append(f"{prefix}.source_sha256 does not match bundle frame")
+        if not _safe_relative_path(row.get("path")):
+            errors.append(f"{prefix}.path must be a safe relative path")
+        if not _sha(row.get("sha256")):
+            errors.append(f"{prefix}.sha256 must be a lowercase sha256")
+        if not isinstance(row.get("bytes"), int) or isinstance(row.get("bytes"), bool) or row.get("bytes", 0) <= 0:
+            errors.append(f"{prefix}.bytes must be a positive integer")
+        if not _safe_relative_path(row.get("preview_path")):
+            errors.append(f"{prefix}.preview_path must be a safe relative path")
+        if not _sha(row.get("preview_sha256")):
+            errors.append(f"{prefix}.preview_sha256 must be a lowercase sha256")
+        if row.get("color_stage") not in COLOR_STAGES:
+            errors.append(f"{prefix}.color_stage is invalid")
+    if seen != set(expected_frames):
+        errors.append("receipt.frames must cover every bundle frame exactly")
+    return errors
+
+
+def verify_finishing_receipt_files(receipt: dict[str, Any], root: str | Path) -> list[str]:
+    """Verify lossless and preview artifacts bound by a finishing receipt."""
+    errors: list[str] = []
+    base = Path(root).resolve()
+    for i, row in enumerate(receipt.get("frames", []) if isinstance(receipt.get("frames"), list) else []):
+        if not isinstance(row, dict):
+            continue
+        for field, sha_field, bytes_field in (
+            ("path", "sha256", "bytes"),
+            ("preview_path", "preview_sha256", None),
+        ):
+            value = row.get(field)
+            if not _safe_relative_path(value):
+                continue
+            target = (base / value).resolve()
+            try:
+                target.relative_to(base)
+            except ValueError:
+                errors.append(f"receipt.frames[{i}].{field} escapes output root")
+                continue
+            if not target.is_file():
+                errors.append(f"receipt.frames[{i}] missing output: {value}")
+                continue
+            if bytes_field and target.stat().st_size != row.get(bytes_field):
+                errors.append(f"receipt.frames[{i}] byte size mismatch: {value}")
+            expected_sha = row.get(sha_field)
+            if _sha(expected_sha) and sha256_file(target) != expected_sha:
+                errors.append(f"receipt.frames[{i}] sha256 mismatch: {value}")
+    return errors

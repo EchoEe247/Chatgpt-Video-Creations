@@ -5,9 +5,11 @@ from pathlib import Path
 from src.core.finishing_contract import (
     canonical_json_sha256,
     validate_finishing_recipe,
+    validate_finishing_receipt,
     validate_recipe_against_bundle,
     validate_render_bundle,
     verify_render_bundle_files,
+    verify_finishing_receipt_files,
 )
 
 
@@ -210,3 +212,43 @@ def test_templates_are_structurally_valid():
     assert validate_render_bundle(bundle) == []
     assert validate_finishing_recipe(recipe) == []
     assert validate_recipe_against_bundle(recipe, bundle) == []
+
+def test_finishing_receipt_binds_bundle_recipe_and_files(tmp_path):
+    bundle=valid_bundle(tmp_path)
+    recipe=valid_recipe()
+    out=tmp_path/"finished"; out.mkdir()
+    rows=[]
+    for source in bundle["frames"]:
+        exr=out/f"frame-{source['frame']:04d}.exr"
+        png=out/f"frame-{source['frame']:04d}.png"
+        exr.write_bytes(b"finished-"+str(source["frame"]).encode())
+        png.write_bytes(b"preview-"+str(source["frame"]).encode())
+        rows.append({
+            "frame":source["frame"],
+            "source_sha256":source["sha256"],
+            "path":exr.name,
+            "sha256":_sha_bytes(exr.read_bytes()),
+            "bytes":exr.stat().st_size,
+            "preview_path":png.name,
+            "preview_sha256":_sha_bytes(png.read_bytes()),
+            "color_stage":"display_referred",
+            "skipped_existing":False,
+        })
+    receipt={
+        "schema_version":1,
+        "kind":"finishing-receipt",
+        "bundle_sha256":canonical_json_sha256(bundle),
+        "recipe_sha256":canonical_json_sha256(recipe),
+        "frames":rows,
+    }
+    assert validate_finishing_receipt(receipt,bundle,recipe)==[]
+    assert verify_finishing_receipt_files(receipt,out)==[]
+
+
+def test_finishing_receipt_rejects_contract_drift(tmp_path):
+    bundle=valid_bundle(tmp_path)
+    recipe=valid_recipe()
+    receipt={"schema_version":1,"kind":"finishing-receipt","bundle_sha256":"0"*64,"recipe_sha256":"1"*64,"frames":[]}
+    errors=validate_finishing_receipt(receipt,bundle,recipe)
+    assert "receipt.bundle_sha256 does not match bundle" in errors
+    assert "receipt.recipe_sha256 does not match recipe" in errors
