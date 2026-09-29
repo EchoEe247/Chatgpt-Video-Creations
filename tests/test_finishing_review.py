@@ -16,3 +16,14 @@ def test_finishing_review_escapes_title_and_sources():
     assert '&lt;review&gt;' in page
     assert 'b&amp;x.mp4' in page
     assert 'c&quot;x.mp4' in page
+
+def test_finishing_review_custom_labels():
+    page=build_page(
+        "c.mp4","c2.mp4",title="C vs C2",fps=24,
+        b_label="C current (+0.25 stop)",
+        c_label="C2 darker (+0.15 stop)",
+    )
+    assert "C current (+0.25 stop)" in page
+    assert "C2 darker (+0.15 stop)" in page
+    assert 'src="c.mp4"' in page
+    assert 'src="c2.mp4"' in page

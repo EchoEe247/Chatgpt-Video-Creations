@@ -25,7 +25,7 @@ def parse_args():
     p=argparse.ArgumentParser()
     p.add_argument("--output-dir",required=True)
     p.add_argument("--start",type=int,default=1)
-    p.add_argument("--end",type=int,default=48)
+    p.add_argument("--end",type=int,default=72)
     return p.parse_args(argv)
 
 
@@ -67,7 +67,7 @@ def build_scene():
     sc.render.image_settings.file_format="OPEN_EXR_MULTILAYER"
     sc.render.image_settings.color_depth="16"; sc.render.image_settings.exr_codec="ZIP"
     sc.render.film_transparent=False
-    sc.frame_start=1; sc.frame_end=48
+    sc.frame_start=1; sc.frame_end=72
 
     floor=mat("Floor",(0.018,0.028,0.045),metallic=.78,roughness=.2)
     wall=mat("Wall",(0.045,0.07,0.10),metallic=.45,roughness=.34)
@@ -93,6 +93,7 @@ def build_scene():
     hero=bpy.context.object; hero.name="Hero"; hero.scale=(.72,.72,.48); hero.data.materials.append(hero_mat)
     hero.keyframe_insert("location",frame=1)
     hero.location=(1.6,6.4,1.5); hero.keyframe_insert("location",frame=48)
+    hero.location=(0.6,9.0,1.35); hero.keyframe_insert("location",frame=72)
     if hero.animation_data and hero.animation_data.action:
         for fc in hero.animation_data.action.fcurves:
             for kp in fc.keyframe_points: kp.interpolation="BEZIER"
@@ -109,6 +110,8 @@ def build_scene():
     look(cam,(0,3.5,1.5)); cam.keyframe_insert("location",frame=1); cam.keyframe_insert("rotation_euler",frame=1); cam.data.keyframe_insert("lens",frame=1)
     cam.location=(3.0,-5.2,2.7); look(cam,(.5,5.5,1.4)); cam.data.lens=52
     cam.keyframe_insert("location",frame=48); cam.keyframe_insert("rotation_euler",frame=48); cam.data.keyframe_insert("lens",frame=48)
+    cam.location=(1.8,-2.4,2.45); look(cam,(.4,8.2,1.45)); cam.data.lens=55
+    cam.keyframe_insert("location",frame=72); cam.keyframe_insert("rotation_euler",frame=72); cam.data.keyframe_insert("lens",frame=72)
     if cam.animation_data and cam.animation_data.action:
         for fc in cam.animation_data.action.fcurves:
             for kp in fc.keyframe_points: kp.interpolation="BEZIER"
@@ -125,7 +128,7 @@ def build_scene():
 
 def main():
     a=parse_args(); out=Path(a.output_dir).resolve(); out.mkdir(parents=True,exist_ok=True)
-    if a.start<1 or a.end>48 or a.end<a.start: raise SystemExit("frame range must be within 1..48")
+    if a.start<1 or a.end>72 or a.end<a.start: raise SystemExit("frame range must be within 1..72")
     sc,enabled,unsupported=build_scene()
     prior_path=out/"render-receipt.json"; prior={}
     if prior_path.is_file():

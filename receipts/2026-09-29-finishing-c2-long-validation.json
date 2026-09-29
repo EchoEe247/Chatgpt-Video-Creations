@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "phase": "finishing-c2-long-validation",
+  "status": "ENGINEERING_PASS_USER_PREFERENCE_PENDING",
+  "workflow_version": "2026.09.29.04",
+  "c2_micro_tune": {
+    "baseline": "C",
+    "baseline_display_exposure_stops": 0.25,
+    "candidate": "C2",
+    "candidate_display_exposure_stops": 0.15,
+    "only_recipe_change": "display_transform.params.exposure_stops",
+    "c_vs_c2_ssim": 0.988294
+  },
+  "long_validation": {
+    "frames": 72,
+    "resolution": [
+      1280,
+      720
+    ],
+    "fps": 24,
+    "duration_seconds": 3,
+    "engine": "CYCLES",
+    "samples": 1,
+    "average_render_seconds": 6.5343,
+    "min_render_seconds": 4.2884,
+    "max_render_seconds": 10.3025,
+    "average_exr_mib": 7.798,
+    "total_exr_mib": 561.424,
+    "peak_rss_mib": 517.062,
+    "render_bundle_canonical_sha256": "0cf2f4d716494de0ad6da1a24e771a89399be66c2900e58720f60b1bdfc3c668",
+    "render_bundle_file_sha256": "c6f95a9a486620153d4f15ce0519669b2e563536f2f54142e72de69273f0ac01",
+    "c2_recipe_canonical_sha256": "91353fe93ff3672bec7f16dca949cecfd9d000b79af49b8b6ac8b7074a1abc4e",
+    "c2_recipe_file_sha256": "859d7b3d2414c50de063fad16d59c03585494b6dd83d3467b1d340a74ffdc5f9",
+    "c2_master_sha256": "90aacd3dfb1b5ed64cf354a97dd2cf63ea94e83384e916ad6adad99cbfb66182",
+    "exact_file_validation": "PASS",
+    "decode_check": "PASS",
+    "freeze_segment_count": 0,
+    "black_segment_count": 0
+  },
+  "policy": {
+    "c_status": "accepted_user_baseline",
+    "c2_status": "candidate_engineering_validated",
+    "promotion_requires": "explicit user/perceptual preference",
+    "generative_finishing": "deferred"
+  }
+}

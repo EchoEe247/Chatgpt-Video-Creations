@@ -340,6 +340,38 @@ The page preserves native HTML5 controls and adds a shared unlocked scrubber, sy
 
 The page defaults to C-only on narrow displays so the image is large enough to inspect; B-only and Split remain one tap away.
 
+## C2 micro-tune and 3-second validation
+
+User review established current C as usable and preferred over the darker conventional B arm, with a request to test a slightly darker version. C remains preserved as the accepted baseline.
+
+C2 is a separate recipe variant. It changes exactly one value:
+
+- final display exposure: `+0.25 → +0.15` stops.
+
+All depth-atmosphere, emission-rebalance and protected-subject selective-grade settings remain identical to C. Tests enforce that this is the only recipe-level change.
+
+The 1.5-second C-versus-C2 pair is structurally matched at 1280×720, 24 fps, 36 frames and 1.5 seconds. Their sampled SSIM is 0.988294, confirming that C2 is a deliberately small visual adjustment rather than a new look. The phone review generator now accepts custom arm labels so C/C2 comparisons are unambiguous.
+
+### Longer native-cadence validation
+
+The representative cinematic fixture was extended from 48 to 72 authored frames with continued hero travel and camera motion; no frame interpolation or clip stretching is used.
+
+The 72-frame / 3.0-second render completed locally with:
+
+- 1280×720 at native 24 fps;
+- Cycles CPU, one sample;
+- 72/72 multilayer EXR frames;
+- average render time: 6.53 seconds/frame;
+- render-time range: 4.29–10.30 seconds/frame;
+- average EXR size: 7.80 MiB/frame;
+- total EXR payload: 561.4 MiB;
+- peak reported process RSS: 517 MiB;
+- exact-file Render Bundle + C2 recipe validation: PASS.
+
+C2 finishing completed for all 72 frames. The encoded validation master is exactly 72 frames, 24 fps and 3.0 seconds. Strict decode passes, with zero detected freeze segments and zero black-frame segments.
+
+This proves the current deterministic finishing architecture is stable across a longer continuously moving shot. It does **not** by itself promote C2 over C aesthetically; that remains a user/perceptual decision.
+
 ## Next phase
 
-Use the phone B→C review to collect an explicit aesthetic judgment, then tune or reject individual deterministic processors from that evidence. After that, run the same review on a longer 3–5 second representative finished shot. Keep all deterministic processors opt-in until that review justifies promotion. Model-backed/generative finishing remains deferred.
+Keep C as the accepted baseline until the user explicitly prefers C2. Use the 3-second C2 validation as engineering evidence that the darker candidate is temporally stable. Once the C-versus-C2 aesthetic choice is settled, promote the selected deterministic recipe to the production preset and replace the diagnostic Reinhard display transform with the planned cinematic/AgX-aware color-management path. Model-backed/generative finishing remains deferred.

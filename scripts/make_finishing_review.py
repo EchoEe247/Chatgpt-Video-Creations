@@ -14,8 +14,10 @@ def relative_media(path: Path, output: Path) -> str:
         raise ValueError("review videos must live under the review page directory") from exc
 
 
-def build_page(b_src: str, c_src: str, *, title: str, fps: float) -> str:
+def build_page(b_src: str, c_src: str, *, title: str, fps: float, b_label: str = "B · Conventional post", c_label: str = "C · Pass-aware finishing") -> str:
     safe_title=html.escape(title)
+    safe_b_label=html.escape(b_label)
+    safe_c_label=html.escape(c_label)
     b=html.escape(b_src,quote=True)
     c=html.escape(c_src,quote=True)
     frame=1.0/fps
@@ -54,7 +56,7 @@ body.mode-c #cardB{{display:none}} body.mode-c .grid{{grid-template-columns:1fr}
 <body class="mode-c">
 <main>
 <h1>{safe_title}</h1>
-<p class="sub"><strong>B</strong> = conventional post · <strong>C</strong> = pass-aware finishing · {fps:g} fps</p>
+<p class="sub"><strong>{safe_b_label}</strong> · <strong>{safe_c_label}</strong> · {fps:g} fps</p>
 <div class="toolbar">
   <div class="controls">
     <button id="play">▶ Play synced</button>
@@ -73,8 +75,8 @@ body.mode-c #cardB{{display:none}} body.mode-c .grid{{grid-template-columns:1fr}
   </div>
 </div>
 <div class="grid">
-  <section class="card" id="cardB"><h2>B · Conventional post</h2><video id="b" src="{b}" controls playsinline preload="metadata"></video></section>
-  <section class="card" id="cardC"><h2>C · Pass-aware finishing</h2><video id="c" src="{c}" controls playsinline preload="metadata"></video></section>
+  <section class="card" id="cardB"><h2>{safe_b_label}</h2><video id="b" src="{b}" controls playsinline preload="metadata"></video></section>
+  <section class="card" id="cardC"><h2>{safe_c_label}</h2><video id="c" src="{c}" controls playsinline preload="metadata"></video></section>
 </div>
 <div class="links">
   <a class="btn" href="{b}" target="_blank">Open B MP4</a>
@@ -142,13 +144,15 @@ def main() -> None:
     ap.add_argument("output")
     ap.add_argument("--title",default="Finishing review · B vs C")
     ap.add_argument("--fps",type=float,default=24)
+    ap.add_argument("--b-label",default="B · Conventional post")
+    ap.add_argument("--c-label",default="C · Pass-aware finishing")
     args=ap.parse_args()
     b=Path(args.b_video).resolve(); c=Path(args.c_video).resolve(); out=Path(args.output).resolve()
     if args.fps<=0: raise SystemExit("--fps must be positive")
     for label,p in (("B",b),("C",c)):
         if not p.is_file(): raise SystemExit(f"missing {label} video: {p}")
     out.parent.mkdir(parents=True,exist_ok=True)
-    page=build_page(relative_media(b,out),relative_media(c,out),title=args.title,fps=args.fps)
+    page=build_page(relative_media(b,out),relative_media(c,out),title=args.title,fps=args.fps,b_label=args.b_label,c_label=args.c_label)
     out.write_text(page,encoding="utf-8")
     print(out)
 

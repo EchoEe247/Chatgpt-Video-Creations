@@ -11,6 +11,17 @@ ROOT=Path(__file__).resolve().parents[1]
 from src.core.finishing_contract import canonical_json_sha256, sha256_file
 
 
+def make_c2_recipe(recipe: dict) -> dict:
+    c2=json.loads(json.dumps(recipe))
+    c2["recipe_id"]="phase4-cinematic-deterministic-c2"
+    c2["recipe_version"]=2
+    displays=[op for op in c2["operations"] if op.get("processor")=="display_transform"]
+    if len(displays)!=1:
+        raise ValueError("C2 requires exactly one display_transform")
+    displays[0]["params"]["exposure_stops"]=0.15
+    return c2
+
+
 def main() -> int:
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument("render_dir")
@@ -94,12 +105,14 @@ def main() -> int:
         }],
         "approved_facts":{
             "forward_axis":"+Y",
-            "travel_vector":[3.3,4.4,0.25],
+            "travel_vector":[2.3,7.0,0.10],
             "camera_binding_sha256":canonical_json_sha256({
                 "start_location":[4.8,-8.5,3.3],
-                "end_location":[3.0,-5.2,2.7],
+                "mid_location":[3.0,-5.2,2.7],
+                "end_location":[1.8,-2.4,2.45],
                 "start_lens":46,
-                "end_lens":52,
+                "mid_lens":52,
+                "end_lens":55,
             }),
         },
         "policy":{
@@ -166,12 +179,19 @@ def main() -> int:
     }
     recipe_path=out/"recipe.json"
     recipe_path.write_text(json.dumps(recipe,indent=2)+"\n")
+
+    c2=make_c2_recipe(recipe)
+    c2_path=out/"recipe-c2.json"
+    c2_path.write_text(json.dumps(c2,indent=2)+"\n")
+
     print(json.dumps({
         "render_bundle":str(bundle_path),
         "recipe":str(recipe_path),
+        "recipe_c2":str(c2_path),
         "execution_plan":str(plan_path),
         "bundle_sha256":canonical_json_sha256(bundle),
         "recipe_sha256":canonical_json_sha256(recipe),
+        "recipe_c2_sha256":canonical_json_sha256(c2),
         "frames":len(frame_rows),
     },indent=2))
     return 0
