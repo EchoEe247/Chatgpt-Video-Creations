@@ -192,6 +192,58 @@ The proof used the real animated Phase 0 multilayer EXRs at 1280×720.
 
 This remains a capability/architecture proof, not a cinematic-quality benchmark.
 
+## Phase 3 production binding and benchmark harness
+
+Phase 3 is implemented in two deliberately separate pieces.
+
+### Candidate provenance binding
+
+`productionctl.py candidate` accepts an optional all-or-nothing finishing triplet:
+
+```bash
+python scripts/productionctl.py candidate production.json candidate.mp4 \
+  --finishing-bundle path/to/render-bundle.json \
+  --finishing-recipe path/to/recipe.json \
+  --finishing-receipt path/to/finishing-receipt.json
+```
+
+When supplied, the controller validates the Render Bundle, Finishing Recipe, exact bundle/recipe compatibility, source-frame hashes, Finishing Receipt, and finished output hashes before mutating production state.
+
+It then copies the small bundle/recipe/receipt evidence into the immutable iteration directory and records `artifacts.finishing_provenance` with the candidate SHA-256, canonical bundle and recipe fingerprints, copied file SHA-256 values, a canonical finished-frame manifest SHA-256, and an immutable provenance-file SHA-256.
+
+The finished-frame manifest records frame number plus source, lossless-finished, and preview hashes. Bulk EXR payloads remain outside Git and outside the production manifest.
+
+A new candidate clears prior finishing provenance exactly like other candidate-bound evidence. `repair-start` archives the prior iteration and increments the existing repair cycle; finishing-only repair does not get a parallel free retry budget.
+
+### Three-arm benchmark harness
+
+`scripts/finishing_benchmark.py` starts from one validated Render Bundle plus the full pass-aware recipe and constructs the three arms under identical source geometry:
+
+- A = Blender beauty plus only the recipe's shared display transform;
+- B = A plus a deterministic conventional FFmpeg curves/contrast/saturation/vignette treatment;
+- C = the full pass-aware finishing recipe.
+
+It encodes all three review arms at the same cadence, adds silent audio so the existing creative comparison path can run without special cases, creates an A/B/C triptych, and records per-frame A→B, B→C, and A→C pixel deltas.
+
+When `--execution-plan` is supplied, the benchmark also calls the existing `creativeqactl compare` path for B→C and records the resulting `iteration-compare.json` hash. That reuses the current shot-aware comparison machinery instead of introducing a second QA system.
+
+The receipt is descriptive only. It does not score or automatically choose a preferred arm. Cinematic quality still requires normal-speed perceptual review.
+
+Example:
+
+```bash
+python scripts/finishing_benchmark.py \
+  render-bundle.json pass-aware-recipe.json benchmark-output/ \
+  --root bundle-root/ \
+  --execution-plan execution-plan.json
+```
+
+The Phase 3 fixture proof generated all three arms successfully and reused the existing B→C creative compare. On that deliberately tiny fixture, the B→C comparison marked its only shot as changed; this proves the benchmark plumbing, not a quality preference.
+
+### Current boundary
+
+Phase 3 provides the production-state binding and reusable benchmark machinery. It does not claim that the Phase 0 fixture establishes a cinematic-quality gain. The real longer cinematic A/B/C benchmark should use a representative shot, native cadence, the normal creative QA evidence path, and perceptual review.
+
 ## Next phase
 
-Phase 3 should bind finishing outputs into production candidate state and existing QA/repair accounting, then build the three-arm cinematic benchmark: Blender beauty only vs conventional post grade vs pass-aware finishing. Model-backed/generative finishing remains deferred.
+Phase 4 should run the representative cinematic A/B/C benchmark, inspect all three arms at normal speed, and use the evidence to decide which deterministic processors deserve production defaults. Model-backed/generative finishing remains deferred until that deterministic benchmark is complete.

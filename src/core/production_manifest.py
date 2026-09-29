@@ -150,6 +150,31 @@ def validate_production_v2(data: Mapping[str, Any]) -> list[str]:
     elif candidate_sha is not None:
         errors.append("artifacts.candidate_sha256 requires artifacts.candidate_master")
 
+    finishing = artifacts.get("finishing_provenance")
+    if finishing is not None:
+        if not isinstance(finishing, Mapping):
+            errors.append("artifacts.finishing_provenance must be an object or null")
+        elif not candidate_path:
+            errors.append("artifacts.finishing_provenance requires artifacts.candidate_master")
+        else:
+            if finishing.get("candidate_sha256") != candidate_sha:
+                errors.append("artifacts.finishing_provenance.candidate_sha256 must match artifacts.candidate_sha256")
+            for key in ("bundle", "recipe", "receipt", "provenance"):
+                if not isinstance(finishing.get(key), str) or not finishing[key].strip():
+                    errors.append(f"artifacts.finishing_provenance.{key} must be a non-empty path")
+            for key in (
+                "bundle_sha256",
+                "bundle_file_sha256",
+                "recipe_sha256",
+                "recipe_file_sha256",
+                "receipt_sha256",
+                "finished_frame_manifest_sha256",
+                "provenance_sha256",
+            ):
+                value = finishing.get(key)
+                if not isinstance(value, str) or not SHA256_RE.fullmatch(value):
+                    errors.append(f"artifacts.finishing_provenance.{key} must be a lowercase SHA-256")
+
     runtime = normalized_runtime(data)
     workflow = runtime["workflow"]
     gates = runtime["gates"]

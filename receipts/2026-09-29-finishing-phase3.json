@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "phase": "finishing-phase3",
+  "status": "PASS",
+  "repo_commit_before": "5c9e093f46cd73912e88d14269aa0b56cfd574e8",
+  "workflow_version": "2026.09.28.19",
+  "production_binding": {
+    "candidate_finishing_triplet": "bundle + recipe + receipt are all-or-nothing",
+    "immutable_iteration_evidence": true,
+    "candidate_sha_bound": true,
+    "canonical_bundle_recipe_hashes": true,
+    "copied_file_hashes": true,
+    "finished_frame_manifest_hash": true,
+    "review_integrity_rechecks_provenance": true,
+    "repair_cycle_reused": true,
+    "separate_finishing_retry_budget": false
+  },
+  "benchmark_harness": {
+    "script": "scripts/finishing_benchmark.py",
+    "arms": {
+      "A": "beauty + shared display transform",
+      "B": "A + deterministic conventional FFmpeg post",
+      "C": "full pass-aware finishing recipe"
+    },
+    "phase0_fixture_proof": {
+      "benchmark_receipt_sha256": "30f2cd73a9fbe51acf868e8dd29aea039a7d0313ade2b6007f36de9b66bcb39e",
+      "triptych_sha256": "6cb321f5fbb6a5919be56517634c8227eb5c4f3e7c36b3d5f622594bd633374e",
+      "existing_creative_compare_sha256": "f5f2a551bf8f35d2cb20c49e2e49e3dac4740bebabf0046c06997fce22a9da6f",
+      "b_to_c_changed_shot_count": 1,
+      "quality_verdict": null,
+      "interpretation": "plumbing/capability proof only; no automatic quality ranking"
+    }
+  },
+  "validation": {
+    "targeted_tests": "13 passed",
+    "finishing_specific_tests": "5 passed",
+    "full_tests": "222 passed in 80.42s",
+    "repository_validation": "PASS",
+    "workflow_version_monotonic": "PASS",
+    "git_diff_check": "PASS"
+  },
+  "next_phase": "representative cinematic A/B/C benchmark at normal speed with full perceptual review"
+}

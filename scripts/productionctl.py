@@ -39,6 +39,15 @@ from src.core.creative_qa import validate_assistant_review, validate_report_evid
 from src.core.studio_review import ASSISTANT_ACCEPTED, promotion_diagnostics
 from src.core.workflow_contract import binding_status, query_live_bridge_status
 from src.core.director_execution import validate_execution_plan, validate_source_bindings
+from src.core.finishing_contract import (
+    canonical_json_sha256,
+    validate_finishing_receipt,
+    validate_finishing_recipe,
+    validate_recipe_against_bundle,
+    validate_render_bundle,
+    verify_finishing_receipt_files,
+    verify_render_bundle_files,
+)
 
 
 def _now() -> str:
@@ -133,8 +142,87 @@ def _verify_candidate_binding(manifest: Path, data: dict[str, Any]) -> tuple[Pat
     return candidate, actual
 
 
+
+def _verify_finishing_provenance_binding(
+    manifest: Path,
+    data: dict[str, Any],
+    candidate_sha256: str,
+) -> dict[str, Any] | None:
+    finishing = (data.get("artifacts") or {}).get("finishing_provenance")
+    if finishing is None:
+        return None
+    if not isinstance(finishing, dict):
+        raise ValueError("finishing provenance is invalid")
+    if finishing.get("candidate_sha256") != candidate_sha256:
+        raise ValueError("finishing provenance is not bound to the current candidate")
+
+    path_fields = {
+        "bundle": "bundle_file_sha256",
+        "recipe": "recipe_file_sha256",
+        "receipt": "receipt_sha256",
+        "provenance": "provenance_sha256",
+    }
+    resolved: dict[str, Path] = {}
+    for path_key, sha_key in path_fields.items():
+        target = _resolve(manifest, finishing.get(path_key))
+        if target is None or not target.is_file():
+            raise FileNotFoundError(f"finishing {path_key} evidence is missing")
+        if sha256_file(target) != finishing.get(sha_key):
+            raise ValueError(f"finishing {path_key} evidence hash mismatch")
+        resolved[path_key] = target
+
+    bundle = json.loads(resolved["bundle"].read_text(encoding="utf-8"))
+    recipe = json.loads(resolved["recipe"].read_text(encoding="utf-8"))
+    receipt = json.loads(resolved["receipt"].read_text(encoding="utf-8"))
+    if canonical_json_sha256(bundle) != finishing.get("bundle_sha256"):
+        raise ValueError("finishing bundle canonical hash mismatch")
+    if canonical_json_sha256(recipe) != finishing.get("recipe_sha256"):
+        raise ValueError("finishing recipe canonical hash mismatch")
+
+    errors = validate_render_bundle(bundle)
+    errors += validate_finishing_recipe(recipe)
+    if not errors:
+        errors += validate_recipe_against_bundle(recipe, bundle)
+        errors += validate_finishing_receipt(receipt, bundle, recipe)
+    if errors:
+        raise ValueError("finishing provenance contract is invalid: " + "; ".join(errors))
+
+    frame_manifest = [
+        {
+            "frame": row["frame"],
+            "source_sha256": row["source_sha256"],
+            "finished_sha256": row["sha256"],
+            "preview_sha256": row["preview_sha256"],
+        }
+        for row in sorted(receipt["frames"], key=lambda item: int(item["frame"]))
+    ]
+    frame_manifest_sha = canonical_json_sha256(frame_manifest)
+    if frame_manifest_sha != finishing.get("finished_frame_manifest_sha256"):
+        raise ValueError("finishing frame manifest hash mismatch")
+
+    provenance = json.loads(resolved["provenance"].read_text(encoding="utf-8"))
+    for key in (
+        "candidate_sha256",
+        "bundle_sha256",
+        "bundle_file_sha256",
+        "recipe_sha256",
+        "recipe_file_sha256",
+        "receipt_sha256",
+        "finished_frame_manifest_sha256",
+    ):
+        if provenance.get(key) != finishing.get(key):
+            raise ValueError(f"finishing provenance record mismatch: {key}")
+    return {
+        "bundle_sha256": finishing["bundle_sha256"],
+        "recipe_sha256": finishing["recipe_sha256"],
+        "receipt_sha256": finishing["receipt_sha256"],
+        "finished_frame_manifest_sha256": frame_manifest_sha,
+    }
+
+
 def _verify_review_evidence(manifest: Path, data: dict[str, Any]) -> dict[str, Any]:
     candidate, digest = _verify_candidate_binding(manifest, data)
+    _verify_finishing_provenance_binding(manifest, data, digest)
     artifacts = data.get("artifacts") or {}
 
     receipt_path = _resolve(manifest, artifacts.get("artifact_receipt"))
@@ -360,6 +448,104 @@ def _quality_floor_preflight(manifest: Path, data: dict[str, Any], *, require_fi
         "quality_floor":qf,
     }
 
+
+def _copy_small_immutable(source: Path, destination: Path) -> str:
+    source = source.expanduser().resolve()
+    if not source.is_file():
+        raise FileNotFoundError(f"finishing evidence is missing: {source}")
+    digest = sha256_file(source)
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    if destination.exists():
+        if sha256_file(destination) != digest:
+            raise ValueError(f"immutable finishing evidence already exists with different bytes: {destination}")
+        return digest
+    shutil.copy2(source, destination)
+    if sha256_file(destination) != digest:
+        raise IOError("finishing evidence copy hash mismatch")
+    return digest
+
+
+def _capture_finishing_provenance(
+    manifest: Path,
+    data: dict[str, Any],
+    bundle_path: Path,
+    recipe_path: Path,
+    receipt_path: Path,
+) -> dict[str, Any]:
+    bundle_path = bundle_path.expanduser().resolve()
+    recipe_path = recipe_path.expanduser().resolve()
+    receipt_path = receipt_path.expanduser().resolve()
+    bundle = json.loads(bundle_path.read_text(encoding="utf-8"))
+    recipe = json.loads(recipe_path.read_text(encoding="utf-8"))
+    receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+
+    errors = validate_render_bundle(bundle)
+    errors += validate_finishing_recipe(recipe)
+    if not errors:
+        errors += validate_recipe_against_bundle(recipe, bundle)
+        errors += verify_render_bundle_files(bundle, bundle_path.parent)
+        errors += validate_finishing_receipt(receipt, bundle, recipe)
+        errors += verify_finishing_receipt_files(receipt, receipt_path.parent)
+    if errors:
+        raise ValueError("invalid finishing provenance:\n- " + "\n- ".join(errors))
+
+    candidate_sha = data.get("artifacts", {}).get("candidate_sha256")
+    if not isinstance(candidate_sha, str):
+        raise ValueError("candidate must be recorded before finishing provenance")
+
+    iteration = _iteration_dir(manifest, data)
+    finish_dir = iteration / "finishing"
+    finish_dir.mkdir(parents=True, exist_ok=True)
+    bundle_dest = finish_dir / "render-bundle.json"
+    recipe_dest = finish_dir / "recipe.json"
+    receipt_dest = finish_dir / "finishing-receipt.json"
+    bundle_file_sha = _copy_small_immutable(bundle_path, bundle_dest)
+    recipe_file_sha = _copy_small_immutable(recipe_path, recipe_dest)
+    receipt_file_sha = _copy_small_immutable(receipt_path, receipt_dest)
+
+    frame_manifest = [
+        {
+            "frame": row["frame"],
+            "source_sha256": row["source_sha256"],
+            "finished_sha256": row["sha256"],
+            "preview_sha256": row["preview_sha256"],
+        }
+        for row in sorted(receipt["frames"], key=lambda item: int(item["frame"]))
+    ]
+    payload = {
+        "schema_version": 1,
+        "kind": "candidate-finishing-provenance",
+        "candidate_sha256": candidate_sha,
+        "bundle_sha256": canonical_json_sha256(bundle),
+        "bundle_file_sha256": bundle_file_sha,
+        "recipe_sha256": canonical_json_sha256(recipe),
+        "recipe_file_sha256": recipe_file_sha,
+        "receipt_sha256": receipt_file_sha,
+        "finished_frame_manifest_sha256": canonical_json_sha256(frame_manifest),
+        "frame_manifest": frame_manifest,
+    }
+    provenance_dest = finish_dir / "provenance.json"
+    encoded = json.dumps(payload, indent=2, sort_keys=True) + "\n"
+    if provenance_dest.exists() and provenance_dest.read_text(encoding="utf-8") != encoded:
+        raise ValueError("immutable finishing provenance already exists with different content")
+    provenance_dest.write_text(encoded, encoding="utf-8")
+    provenance_sha = sha256_file(provenance_dest)
+    return {
+        "candidate_sha256": candidate_sha,
+        "bundle": _relative(manifest, bundle_dest),
+        "bundle_sha256": payload["bundle_sha256"],
+        "bundle_file_sha256": bundle_file_sha,
+        "recipe": _relative(manifest, recipe_dest),
+        "recipe_sha256": payload["recipe_sha256"],
+        "recipe_file_sha256": recipe_file_sha,
+        "receipt": _relative(manifest, receipt_dest),
+        "receipt_sha256": receipt_file_sha,
+        "finished_frame_manifest_sha256": payload["finished_frame_manifest_sha256"],
+        "provenance": _relative(manifest, provenance_dest),
+        "provenance_sha256": provenance_sha,
+    }
+
+
 def _record_candidate(manifest: Path, data: dict[str, Any], source: Path) -> None:
     candidate, digest = _copy_candidate_immutable(manifest, data, source)
     artifacts = data.setdefault("artifacts", {})
@@ -371,6 +557,7 @@ def _record_candidate(manifest: Path, data: dict[str, Any], source: Path) -> Non
     artifacts["baseline_comparison"] = None
     artifacts["creative_qa"] = None
     artifacts["creative_review"] = None
+    artifacts["finishing_provenance"] = None
 
     data["gates"]["technical"] = {"status": PENDING, "evidence": None}
     data["gates"]["assistant"] = {"status": PENDING, "notes": None}
@@ -422,6 +609,7 @@ def _reset_for_next_render(data: dict[str, Any]) -> None:
     data["artifacts"]["baseline_comparison"] = None
     data["artifacts"]["creative_qa"] = None
     data["artifacts"]["creative_review"] = None
+    data["artifacts"]["finishing_provenance"] = None
     data["workflow"]["render_job"] = {
         "job_id": None,
         "state": "NONE",
@@ -611,7 +799,22 @@ def command_reconcile_render(args) -> int:
 
 def command_candidate(args) -> int:
     manifest, data = _load(args.manifest)
+    finishing_values = [
+        args.finishing_bundle,
+        args.finishing_recipe,
+        args.finishing_receipt,
+    ]
+    if any(finishing_values) and not all(finishing_values):
+        raise ValueError("--finishing-bundle, --finishing-recipe and --finishing-receipt must be provided together")
     _record_candidate(manifest, data, Path(args.path).expanduser().resolve())
+    if all(finishing_values):
+        data["artifacts"]["finishing_provenance"] = _capture_finishing_provenance(
+            manifest,
+            data,
+            Path(args.finishing_bundle),
+            Path(args.finishing_recipe),
+            Path(args.finishing_receipt),
+        )
     _write(manifest, data)
     _dump(status_summary(data))
     return 0
@@ -621,6 +824,7 @@ def command_prepare_review(args) -> int:
     manifest, data = _load(args.manifest)
     _quality_floor_preflight(manifest,data,require_final=True)
     candidate, digest = _verify_candidate_binding(manifest, data)
+    _verify_finishing_provenance_binding(manifest, data, digest)
     artifacts = data["artifacts"]
     delivery = data["delivery"]
 
@@ -971,6 +1175,9 @@ def build_parser() -> argparse.ArgumentParser:
     p = sub.add_parser("candidate", help="Copy a rendered candidate into the immutable iteration directory.")
     p.add_argument("manifest")
     p.add_argument("path")
+    p.add_argument("--finishing-bundle")
+    p.add_argument("--finishing-recipe")
+    p.add_argument("--finishing-receipt")
     p.set_defaults(func=command_candidate)
 
     return parser

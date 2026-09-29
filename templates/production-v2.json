@@ -77,7 +77,8 @@
     "baseline_comparison": null,
     "creative_qa": null,
     "creative_review": null,
-    "studio_review": null
+    "studio_review": null,
+    "finishing_provenance": null
   },
   "gates": {
     "technical": {
