@@ -46,7 +46,7 @@ jobs:
         run: python scripts/videoctl.py qa /tmp/geometry-candidate.mp4 --width 1280 --height 720 --fps 24 --duration 8 --video-codec h264 --pixel-format yuv420p --no-require-audio
       - name: Preserve failed render evidence
         if: failure()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: geometry-candidate-failure
           path: /tmp/geometry-candidate.mp4
