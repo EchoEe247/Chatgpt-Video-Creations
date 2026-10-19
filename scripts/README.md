@@ -1,5 +1,15 @@
 # Scripts
 
+### Reference-aware film production
+
+`referencectl.py` binds an uploaded video's exact creative crop and
+source-to-target shot map, and generates source-aligned diagnostic boards
+and encoded MP4 comparison evidence. Keep `productionctl` and
+`shotctl` as the established delivery/review authorities.
+`earshotctl.py` creates an optional native Earshot effects stem on the
+existing A/V timeline, without replacing Deepgram speech or original audio.
+
+
 Use the narrowest entry point that matches the task.
 
 - `directorctl.py` — validates director briefs and compiles hash-bound, agent-independent execution plans with renderer lanes, asset resolution, timing, review points, and explicit blockers.

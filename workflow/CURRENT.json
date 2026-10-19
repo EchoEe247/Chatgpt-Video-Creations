@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "workflow_id": "chatgpt-video-production",
-  "workflow_version": "2026.09.29.05",
+  "workflow_version": "2026.09.29.06",
   "canonical_entrypoint": "AGENTS.md",
   "required_tool_profile": "core-production",
   "policy": {
@@ -16,7 +16,9 @@
     "docs/LOCAL_WORKSPACE_VIDEO_WORKFLOW.md",
     "docs/RESOURCE_SOURCING.md",
     "docs/OUTCOME_LEARNING_LOOP.md",
-    "productions/quality-status.json"
+    "productions/quality-status.json",
+    "docs/REFERENCE_RECREATION.md",
+    "docs/AUDIO_PROVIDER_ROUTING.md"
   ],
   "lane_docs": {
     "cinematic": [
