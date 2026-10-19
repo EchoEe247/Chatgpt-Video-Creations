@@ -1,5 +1,18 @@
 # Production Workflow
 
+## Requested reference replications
+
+When the user supplies a video and asks to **replicate** it, follow
+[Reference recreation](REFERENCE_RECREATION.md) before choosing a shot
+renderer. Bind the verified creative-area crop, real source footage
+identity, exact source/target shot map, aspect ratio and target frame count
+with `referencectl`. Compare moving source and encoded candidate at each
+important beat and use the report to prioritize normal `shotctl`
+repair cycles. Its metrics are diagnostics—not a new PASS/DONE decision.
+Retain this workflow's source/review provenance and productionctl final
+acceptance unchanged.
+
+
 For this repository, the deliverable is the rendered video. Code, scripts, and successful commands are part of the process, but they are not the thing the viewer will see.
 
 The workflow therefore continues through actual MP4 review and repair instead of stopping when rendering technically succeeds.

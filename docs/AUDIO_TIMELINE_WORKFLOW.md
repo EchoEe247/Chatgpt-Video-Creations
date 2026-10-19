@@ -1,5 +1,17 @@
 # Audio Commons and Unified A/V Timeline
 
+## Preferred narration and optional sound bank
+
+Read [Audio provider routing](AUDIO_PROVIDER_ROUTING.md) before selecting
+narration/effect services. Deepgram remains the preferred narration provider
+while the user's authorized credits and runtime access work, with local
+neural narration reserved for a later explicit switch. Native Earshot v0.3
+can render appropriate designed effects into a separate stereo WAV stem
+through `scripts/earshotctl.py` against this same compiled A/V timeline
+and its exact event sample positions. It supplements, not replaces,
+existing Audio Commons, composed music, Foley, or mastering.
+
+
 Phase 4 makes sound and picture share one durable clock instead of being aligned by hand after the visuals are finished.
 
 ## Core rule

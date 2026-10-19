@@ -1,5 +1,25 @@
 # AGENTS.md
 
+## Uploaded-video replication and preferred audio providers
+
+For an **explicit request to replicate an uploaded video**, first read
+`docs/REFERENCE_RECREATION.md`. Inspect the entire moving source, lock
+the verified creative crop/shot intervals and target frame count using
+`scripts/referencectl.py lock`, and compare actual encoded candidates
+using `scripts/referencectl.py compare`. Feed its shot-level discrepancies
+into the existing `shotctl` repairs and `productionctl` creative/studio
+review. This reference alignment route is additional evidence, not a
+replacement for any established studio gate. Do not claim fidelity from
+numeric frame differences or forge visual/user approval.
+
+For audio read `docs/AUDIO_PROVIDER_ROUTING.md`. Deepgram remains the
+preferred narrator when speech is needed and authorized API access works;
+do not silently substitute local TTS. The optional native Earshot v0.3
+adapter creates real bank-rendered effects stems tied to the canonical A/V
+timeline. Existing music, audio commons, sourced Foley, mixing and
+listening QA remain authoritative.
+
+
 This file is the operating handoff for fresh ChatGPT or agent sessions working in this repository.
 
 ## Fresh-session video bootstrap is mandatory

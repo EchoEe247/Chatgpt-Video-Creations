@@ -1,5 +1,21 @@
 # Chatgpt-Video-Creations
 
+## Reference recreation and audio routing — native to this repo
+
+Use `python scripts/referencectl.py lock` and `compare` for verified
+crop/source-locked reference footage, per-shot time mapping and encoded
+candidate comparison. See [Reference recreation](docs/REFERENCE_RECREATION.md).
+These tools integrate with **this repository's existing**
+`shotctl`/`productionctl` lifecycle and do not constitute an independent
+film approval gate.
+
+The sound system retains its one-clock `src/core/av_timeline.py` pipeline:
+**Deepgram** is the preferred narration API when authorized and available;
+the optional `scripts/earshotctl.py` provides actual native Earshot v0.3
+sound-bank effects, without replacing existing score/Foley/Audio Commons.
+See [Audio provider routing](docs/AUDIO_PROVIDER_ROUTING.md).
+
+
 This repository is the production system I use for videos created through ChatGPT sessions. I do not want every video request to become another one-off experiment where the capability has to be rediscovered from scratch. Once a production method is actually understood and accepted, future work should build from it instead of guessing again.
 
 There are three main lanes, and I want them kept separate because they have different goals:
